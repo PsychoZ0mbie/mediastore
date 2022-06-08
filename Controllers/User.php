@@ -20,12 +20,12 @@
                             <td>
                                 <img src="'.$request[$i]['image'].'">
                             </td>
-                            <td>'.$request[$i]['firstname'].'</td>
-                            <td>'.$request[$i]['lastname'].'</td>
-                            <td>'.$request[$i]['email'].'</td>
-                            <td>'.$request[$i]['phone'].'</td>
-                            <td>'.$request[$i]['date'].'</td>
-                            <td>'.$request[$i]['role'].'</td>
+                            <td><strong>Nombre: </strong>'.$request[$i]['firstname'].'</td>
+                            <td><strong>Apellido: </strong>'.$request[$i]['lastname'].'</td>
+                            <td><strong>Correo: </strong>'.$request[$i]['email'].'</td>
+                            <td><strong>Teléfono: </strong>'.$request[$i]['phone'].'</td>
+                            <td><strong>Fecha de registro: </strong>'.$request[$i]['date'].'</td>
+                            <td><strong>Rol: </strong>'.$request[$i]['role'].'</td>
                             <td class="item-btn">
                                 <button class="btn btn-info" type="button" title="Ver" data-id="'.$request[$i]['idperson'].'" name="btnView"><i class="fas fa-eye"></i></button>
                                 <button class="btn btn-success" type="button" title="Editar" data-id="'.$request[$i]['idperson'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>
@@ -39,6 +39,24 @@
                 $arrResponse = array("status"=>false,"msg"=>"No hay datos");
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function getUser(){
+            if($_POST){
+                if(empty($_POST)){
+                    $arrResponse = array("status"=>false,"msg"=>"Error de datos");
+                }else{
+                    $idUser = intval($_POST['idUser']);
+                    $request = $this->model->selectUser($idUser);
+                    if(!empty($request)){
+                        $request['image'] = media()."/images/uploads/".$request['image'];
+                        $arrResponse = array("status"=>true,"data"=>$request);
+                    }else{
+                        $arrResponse = array("status"=>false,"msg"=>"Ha ocurrido un error, inténtelo de nuevo."); 
+                    }
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
             die();
         }
         public function setUser(){
@@ -59,7 +77,13 @@
                     $request_user = "";
                     $photo = "";
                     $photoProfile="";
-                    
+
+                    if($strPassword !=""){
+                        $strPassword =  hash("SHA256",$strPassword);
+                    }else{
+                        $password =bin2hex(random_bytes(4));
+                        $strPassword =  hash("SHA256",$password);
+                    }
                     
                     if($idUser == 0){
                         $option = 1;
@@ -71,55 +95,57 @@
                             $photoProfile = 'profile_'.bin2hex(random_bytes(6)).'.png';
                         }
 
-                        if($strPassword !=""){
-                            $strPassword =  hash("SHA256",$strPassword);
-                        }else{
-                            $password =bin2hex(random_bytes(4));
-                            $strPassword =  hash("SHA256",$password);
-                        }
                         
-                        $request_user = $this->model->insertUser($strName, 
-                                                                    $strLastName,
-                                                                    $photoProfile, 
-                                                                    $intPhone, 
-                                                                    $strEmail,
-                                                                    $strPassword, 
-                                                                    $intRolId);
+                        
+                        $request_user = $this->model->insertUser(
+                            $strName, 
+                            $strLastName,
+                            $photoProfile, 
+                            $intPhone, 
+                            $strEmail,
+                            $strPassword, 
+                            $intRolId
+                        );
                     }else{
                         $option = 2;
-                        $request = $this->model->selectUsuario($idUsuario);
+                        $request = $this->model->selectUser($idUser);
                         if($_FILES['txtImg']['name'] == ""){
-                            $foto_perfil = $request['picture'];
+                            $photoProfile = $request['image'];
                         }else{
-                            if($request['picture'] != "avatar.png"){
-                                deleteFile($request['picture']);
+                            if($request['image'] != "user.jpg"){
+                                deleteFile($request['image']);
                             }
-                            $foto = $_FILES['txtImg'];
-                            $foto_perfil = 'perfil_'.bin2hex(random_bytes(6)).'.gif';
+                            $photo = $_FILES['txtImg'];
+                            $photoProfile = 'profile_'.bin2hex(random_bytes(6)).'.png';
                         }
-                        $strPassword =  hash("SHA256",$_POST['txtPassword']);
-                        $request_user = $this->model->updateUsuario($idUsuario, 
-                                                                    $strNombre,
-                                                                    $strApellido,
-                                                                    $foto_perfil, 
-                                                                    $intTelefono, 
-                                                                    $strEmail,
-                                                                    $strPassword, 
-                                                                    $intTipoId);
-
+                        if($strPassword!=""){
+                            $strPassword =  hash("SHA256",$_POST['txtPassword']);
+                        }
+                        
+                        $request_user = $this->model->updateUser(
+                            $idUser, 
+                            $strName, 
+                            $strLastName,
+                            $photoProfile, 
+                            $intPhone, 
+                            $strEmail,
+                            $strPassword, 
+                            $intRolId
+                        );
                     }
 
                     if($request_user > 0 ){
                         if($photo!=""){
                             uploadImage($photo,$photoProfile);
                         }
+                        $data['nombreUsuario'] = $strName." ".$strLastName;
+                        $data['asunto']="Acceso a cuenta de usuario";
+                        $data['email_usuario'] = $strEmail;
+                        $data['email_remitente'] = EMAIL_REMITENTE;
+                        $data['password'] = $password;
+                        sendEmail($data,"email_bienvenida");
                         if($option == 1){
-                            $data['nombreUsuario'] = $strName." ".$strLastName;
-                            $data['asunto']="Acceso a cuenta de usuario";
-                            $data['email_usuario'] = $strEmail;
-                            $data['email_remitente'] = EMAIL_REMITENTE;
-                            $data['password'] = $password;
-                            sendEmail($data,"email_bienvenida");
+                            
                             $arrResponse = array('status' => true, 'msg' => 'Datos guardados. Se ha enviado un correo al usuario con las credenciales.');
                         }else{
                             $arrResponse = array('status' => true, 'msg' => 'Datos Actualizados correctamente.');
@@ -146,6 +172,23 @@
                 $arrResponse = array("data"=>"");
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function delUser(){
+            if($_POST){
+                if(empty($_POST['idUser'])){
+                    $arrResponse=array("status"=>false,"Error de datos");
+                }else{
+                    $id = intval($_POST['idUser']);
+                    $request = $this->model->deleteUser($id);
+                    if($request=="ok"){
+                        $arrResponse = array("status"=>true,"msg"=>"Se ha eliminado");
+                    }else{
+                        $arrResponse = array("status"=>false,"msg"=>"No se ha podido eliminar, inténtelo de nuevo.");
+                    }
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
             die();
         }
     }

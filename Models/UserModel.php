@@ -8,7 +8,7 @@
 		private $strAddress;
 		private $strEmail;
         private $intCountryId;
-		private $intDepartmentId;
+		private $intStateId;
 		private $intCityId;
 		private $intTypeId;
 		private $strIdentification;
@@ -29,6 +29,9 @@
 			$this->strPassword = $strPassword;
 			$this->intRolId = $intRolId;
             $this->strPicture = $strPicture;
+            $this->intCountryId = 99999;
+            $this->intStateId = 99999;
+            $this->intCityId = 99999;
 			//$this->intStatus = $status;
 			$return = 0;
 
@@ -38,16 +41,19 @@
 
 			if(empty($request))
 			{ 
-				$query_insert  = "INSERT INTO person(image,firstname,lastname,email,phone,password,roleid) 
-								  VALUES(?,?,?,?,?,?,?)";
+				$query_insert  = "INSERT INTO person(image,firstname,lastname,email,phone,countryid,stateid,cityid,password,roleid) 
+								  VALUES(?,?,?,?,?,?,?,?,?,?)";
 	        	$arrData = array(
                     $this->strPicture,
                     $this->strName,
                     $this->strLastName,
                     $this->strEmail,
                     $this->intPhone,
+                    $this->intCountryId,
+                    $this->intStateId,
+                    $this->intCityId,
                     $this->strPassword,
-                    $this->intRolId,
+                    $this->intRolId
         		);
 	        	$request_insert = $this->insert($query_insert,$arrData);
 	        	$return = $request_insert;
@@ -56,6 +62,59 @@
 			}
 	        return $return;
 		}
+        public function updateUser(int $idUser, string $strName,string $strLastName, string $strPicture, string $intPhone, string $strEmail, string $strPassword,int $intRolId){
+            $this->intIdUser = $idUser;
+			$this->strName = $strName;
+			$this->strLastName = $strLastName;
+			$this->intPhone = $intPhone;
+			$this->strEmail = $strEmail;
+			$this->strPassword = $strPassword;
+			$this->intRolId = $intRolId;
+            $this->strPicture = $strPicture;
+
+			$sql = "SELECT * FROM person WHERE email = '{$this->strEmail}' AND idperson != $this->intIdUser";
+			$request = $this->select_all($sql);
+
+			if(empty($request)){
+				if($this->strPassword  != ""){
+					$sql = "UPDATE person SET image=?, firstname=?, lastname=?,email=?, phone=?, password=?, roleid=? 
+							WHERE idperson = $this->intIdUser";
+					$arrData = array(
+                        $this->strPicture,
+                        $this->strName,
+                        $this->strLastName,
+                        $this->strEmail,
+                        $this->intPhone,
+                        $this->strPassword,
+                        $this->intRolId
+                    );
+				}else{
+					$sql = "UPDATE person SET image=?, firstname=?, lastname=?,email=?, phone=?, roleid=? 
+							WHERE idperson = $this->intIdUser";
+					$arrData = array(
+                        $this->strPicture,
+                        $this->strName,
+                        $this->strLastName,
+                        $this->strEmail,
+                        $this->intPhone,
+                        $this->intRolId
+                    );
+				}
+				$request = $this->update($sql,$arrData);
+			}else{
+				$request = "exist";
+			}
+			return $request;
+		
+		}
+        public function deleteUser($id){
+            $this->intIdUser = $id;
+            $sql = "DELETE FROM person WHERE idperson = $this->intIdUser;SET @autoid :=0; 
+			UPDATE person SET idperson = @autoid := (@autoid+1);
+			ALTER TABLE person Auto_Increment = 1";
+            $request = $this->delete($sql);
+            return $request;
+        }
         public function selectUsers(){
             $sql = "SELECT 
                     p.idperson,
@@ -78,6 +137,36 @@
                     $request[$i]['image'] = media()."/images/uploads/".$request[$i]['image'];
                 }
             }
+            return $request;
+        }
+        public function selectUser($id){
+            $this->intIdUser = $id;
+            $sql = "SELECT 
+                    p.idperson,
+                    p.image,
+                    p.firstname,
+                    p.lastname,
+                    p.email,
+                    p.phone,
+                    p.roleid,
+                    p.countryid,
+                    p.stateid,
+                    p.cityid,
+                    p.typeid,
+                    p.identification,
+                    DATE_FORMAT(p.date, '%d/%m/%Y') as date,
+                    r.idrole,
+                    r.name as role,
+                    c.id,
+                    s.id,
+                    t.id,
+                    c.name as country,
+                    s.name as state,
+                    t.name as city
+                    FROM person p
+                    INNER JOIN role r, countries c, states s,cities t 
+                    WHERE c.id = p.countryid AND p.stateid = s.id AND t.id = p.cityid AND r.idrole = p.roleid AND p.idperson = $this->intIdUser";
+            $request = $this->select($sql);
             return $request;
         }
         public function selectRoles(){

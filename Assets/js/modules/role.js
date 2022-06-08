@@ -272,10 +272,10 @@ export default class Role{
                     `;
                     btnAdd.setAttribute("disabled","");
                     request(url,formData,"post").then(function(objData){
-                        btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Agregar`;
+                        btnAdd.innerHTML=`Actualizar`;
                         btnAdd.removeAttribute("disabled");
                         if(objData.status){
-                            Swal.fire("Agregado",objData.msg,"success");
+                            Swal.fire("Actualizado",objData.msg,"success");
                             modalView.hide();
                             url = base_url+"/Role/getRoles";
                             request(url,"","get").then(function(objData){
