@@ -13,27 +13,6 @@ function uploadImg(img,location){
     }
 }
 
-function resolutionImg(height,width,picture){
-
-    let realHeight = picture.naturalHeight;
-    let realWidth = picture.naturalWidth;
-
-    height = Math.round(height * 300 * 0.393701);
-    width = Math.round(width * 300 * 0.393701);
-
-    let mpxCustom = Math.round((height*width)/1000000);
-    let mpx = Math.round((realHeight * realWidth)/1000000);
-    let data = "";
-
-    if(mpx >= mpxCustom){
-        data = true;
-    }else{
-        data = false;
-    }
-
-    return data;
-}
-
 function formatNum(num,mil){
     let numero = num;
     let format = mil;

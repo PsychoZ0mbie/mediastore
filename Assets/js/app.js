@@ -1,16 +1,93 @@
 'use strict';
-import Marqueteria from "./modules/marqueteriaClass.js";
-import MarqueteriaColores from "./modules/marqueteriaColoresClass.js";
-import Galeria from "./modules/galeriaClass.js";
-import Usuario from "./modules/usuarioClass.js";
-import Pedidos from "./modules/pedidosClass.js";
-import Mensaje from "./modules/mensajeClass.js";
+import Role from "./modules/role.js";
+import User from "./modules/user.js";
 
-let loading = document.querySelector("#divLoading");
+/*************************Roles Page*******************************/
+if(document.querySelector("#role")){
 
+    let search = document.querySelector("#search");
+    search.addEventListener('input',function() {
+    let elements = document.querySelectorAll(".item");
+    let value = search.value.toLowerCase();
+        for(let i = 0; i < elements.length; i++) {
+            let element = elements[i];
+            let strName = element.getAttribute("data-name").toLowerCase();
+            if(!strName.includes(value) ){
+                element.classList.add("d-none");
+            }else{
+                element.classList.remove("d-none");
+            }
+        }
+    })
+
+    let item = new Role();
+    let element = document.querySelector("#listItem");
+    let btnNew = document.querySelector("#btnNew");
+    btnNew.addEventListener("click",function(){
+        item.addItem();
+    });
+
+    window.addEventListener("DOMContentLoaded",function() {
+        item.showItems(element);
+    })
+
+    element.addEventListener("click",function(e) {
+        let element = e.target;
+        let id = element.getAttribute("data-id");
+        if(element.name == "btnDelete"){
+            item.deleteItem(id);
+        }else if(element.name == "btnPermit"){
+            item.permitItem(id);
+        }else if(element.name == "btnEdit"){
+            item.editItem(id);
+        }
+    });
+    
+}
 /*************************User Page*******************************/
+if(document.querySelector("#user")){
 
-if(document.querySelector("#usuarios")){
+    let search = document.querySelector("#search");
+    search.addEventListener('input',function() {
+    let elements = document.querySelectorAll(".item");
+    let value = search.value.toLowerCase();
+        for(let i = 0; i < elements.length; i++) {
+            let element = elements[i];
+            let strName = element.getAttribute("data-name").toLowerCase();
+            if(!strName.includes(value) ){
+                element.classList.add("d-none");
+            }else{
+                element.classList.remove("d-none");
+            }
+        }
+    })
+
+    let item = new User();
+    let element = document.querySelector("#listItem");
+    let btnNew = document.querySelector("#btnNew");
+    btnNew.addEventListener("click",function(){
+        item.addItem();
+    });
+
+    window.addEventListener("DOMContentLoaded",function() {
+        item.showItems(element);
+    })
+
+    element.addEventListener("click",function(e) {
+        let element = e.target;
+        let id = element.getAttribute("data-id");
+        if(element.name == "btnDelete"){
+            item.deleteItem(id);
+        }else if(element.name == "btnView"){
+            item.viewItem(id);
+        }else if(element.name == "btnEdit"){
+            item.editItem(id);
+        }
+    });
+    
+}
+
+/*if(document.querySelector("#usuarios")){
     let search = document.querySelector("#search");
     search.addEventListener('input',function() {
     let elements = document.querySelectorAll(".item");
@@ -117,9 +194,8 @@ if(document.querySelector("#usuarios")){
         let listProduct = document.querySelector("#listItem");
         listProduct.addEventListener("click",function(e) {
                 let element = e.target;
-                let id = element.getAttribute("data-id");
                 if(element.name == "btnDelete"){
-                    item.deleteItem(element,id);
+                    item.deleteItem(id);
                 }else if(element.name == "btnView"){
                     item.viewItem(id);
                 }else if(element.name == "btnEdit"){
@@ -127,7 +203,7 @@ if(document.querySelector("#usuarios")){
                 }
         });
     }
-}
+}*/
 
 /*************************Profile Page*******************************/
 if(document.querySelector("#perfil")){
