@@ -159,13 +159,12 @@
 
         return $mail->send();
     }
-    function getPermisos($idmodulo){
+    function getPermits($idmodulo){
         //dep($idmodulo);exit;
-        require_once("Models/PermisosModel.php");
-        $objPermisos = new PermisosModel();
-        $idrol = intval($_SESSION['userData']['idrole']);
-        $arrPermisos = $objPermisos->permisosModulo($idrol);
-        //dep($arrPermisos);exit;
+        require_once("Models/RoleModel.php");
+        $roleModel = new RoleModel();
+        $idrol = intval($_SESSION['userData']['roleid']);
+        $arrPermisos = $roleModel->permitsModule($idrol);
         $permisos = '';
         $permisosmod ='';
 
@@ -173,8 +172,8 @@
             $permisos = $arrPermisos;
             $permisosMod = isset($arrPermisos[$idmodulo]) ? $arrPermisos[$idmodulo] : "";
         }
-        $_SESSION['permisos'] = $permisos;
-        $_SESSION['permisosMod'] = $permisosMod;
+        $_SESSION['permit'] = $permisos;
+        $_SESSION['permitsModule'] = $permisosMod;
     }
 
     function uploadImage(array $data, string $name){

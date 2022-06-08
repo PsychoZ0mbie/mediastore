@@ -17,6 +17,11 @@
                 <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
                     <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden;">
                         <div class="simplebar-content" style="padding: 0px;">
+                            <?php
+                                if($_SESSION['permitsModule']['r']){
+
+                                
+                            ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="<?=base_url()?>/dashboard">
                                     <svg class="nav-icon">
@@ -25,6 +30,9 @@
                                     Dashboard<span class="badge badge-sm bg-info ms-auto"></span>
                                 </a>
                             </li>
+                            <?php
+                                }
+                            ?>
                             <li class="nav-group">
                                 <a class="nav-link nav-group-toggle" href="#">
                                     <svg class="nav-icon">
@@ -32,15 +40,25 @@
                                     </svg> Usuarios
                                 </a>
                                 <ul class="nav-group-items">
+                                    <?php
+                                        if($_SESSION['idUser'] == 1 && $_SESSION['permitsModule']['r']){
+                                    ?>
                                     <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/role"><span class="nav-icon"></span> Roles</a></li>
+                                    <?php
+                                        }
+                                        if($_SESSION['permitsModule']['r']){
+                                    ?>
                                     <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/user"><span class="nav-icon"></span> Usuarios</a></li>
+                                    <?php
+                                        }
+                                    ?>
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="typography.html">
+                                <a class="nav-link" href="<?=base_url()?>/logout">
                                     <svg class="nav-icon">
-                                        <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
-                                    </svg> Typography
+                                        <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
+                                    </svg> Salir
                                 </a>
                             </li>
                         </div>

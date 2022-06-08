@@ -125,7 +125,15 @@
                     </ul>
                 </div>
                 <div class="header-divider"></div>
+                <?php
+                    if($_SESSION['permitsModule']['w']){
+
+                    
+                ?>
                 <div class="container-fluid">
                     <button class="btn btn-primary" type="button" id="btnNew">Nuevo <i class="fas fa-plus"></i></button>
                 </div>
+                <?php
+                    }
+                ?>
             </header>

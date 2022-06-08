@@ -122,5 +122,25 @@
             $request = $this->delete($sql);
             return $request;
         }
+        public function permitsModule(int $idrol){
+            $this->intIdRole = $idrol;
+            $sql = "SELECT p.roleid,
+                            p.moduleid,
+                            m.name as module,
+                            p.r,
+                            p.w,
+                            p.u,
+                            p.d
+                    FROM permit p
+                    INNER JOIN module m
+                    ON p.moduleid = m.idmodule
+                    WHERE p.roleid = $this->intIdRole";
+            $request = $this->select_all($sql);
+            $arrPermisos = array();
+            for($i = 0; $i< count($request); $i++){
+                $arrPermisos[$request[$i]['moduleid']] = $request[$i];
+            }
+            return $arrPermisos;
+        }
     }
 ?>
