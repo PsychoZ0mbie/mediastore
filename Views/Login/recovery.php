@@ -19,48 +19,28 @@
                 <div class="col-lg-5">
                     <div class="card-group d-block d-md-flex row">
                         <div class="card col-md-12 p-4 mb-0">
-                            <div class="card-body" id="cardLogin">
-                                <h1>Iniciar sesión</h1>
-                                <p class="text-medium-emphasis">Accede a tu cuenta</p>
-                                <form id="formLogin">
-                                    <div class="input-group mb-3"><span class="input-group-text">
+                            <div class="card-body">
+                                <h1>Actualizar contraseña</h1>
+                                <p class="text-medium-emphasis">Actualiza tu contraseña</p>
+                                <form id="formRecovery">
+                                    <input type="hidden" id="idUser" name="idUser" value="<?= $data['idperson']; ?>" required >
+                                    <input type="hidden" id="txtEmail" name="txtEmail" value="<?= $data['email']; ?>" required >
+                                    <input type="hidden" id="txtToken" name="txtToken" value="<?= $data['token']; ?>" required >
+                                    <div class="input-group mb-4"><span class="input-group-text">
                                         <svg class="icon">
-                                            <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
+                                            <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
                                         </svg></span>
-                                        <input class="form-control" type="text" placeholder="Correo" id="txtEmail" name="txtEmail">
+                                        <input id="txtPassword" name="txtPassword" class="form-control" type="password" placeholder="Nueva contraseña" required >
                                     </div>
                                     <div class="input-group mb-4"><span class="input-group-text">
                                         <svg class="icon">
                                             <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
                                         </svg></span>
-                                        <input class="form-control" type="password" placeholder="Contraseña" id="txtPassword" name="txtPassword">
+                                        <input id="txtPasswordConfirm" name="txtPasswordConfirm" class="form-control" type="password" placeholder="Confirmar contraseña" required >
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-6 col-md-12 d-flex justify-content-center">
-                                            <button class="btn btn-primary px-4 w-100" type="submit" id="btnLogin">Iniciar sesión</button>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 text-end d-flex justify-content-center">
-                                            <button class="btn btn-link px-0" type="button" id="btnResetPass">¿Olvidaste la contraseña?</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="card-body d-none" id="cardReset">
-                                <h1>Recuperar contraseña</h1>
-                                <p class="text-medium-emphasis">recupera tu contraseña</p>
-                                <form id="formReset">
-                                    <div class="input-group mb-3"><span class="input-group-text">
-                                        <svg class="icon">
-                                            <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
-                                        </svg></span>
-                                        <input class="form-control" type="text" placeholder="Correo" id="txtEmailReset" name="txtEmailReset">
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-12 d-flex justify-content-center">
-                                            <button class="btn btn-primary px-4 w-100" type="submit" id="btnReset">Recuperar</button>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 text-end d-flex justify-content-center">
-                                            <button class="btn btn-link px-0" type="button" id="btnSession">Iniciar sesión</button>
+                                        <div class="col-lg-12 d-flex justify-content-center">
+                                            <button class="btn btn-primary px-4 w-100" type="submit" id="btnReset">Actualizar</button>
                                         </div>
                                     </div>
                                 </form>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Recuperar cuenta</title>
+	<title>Bienvenida</title>
 	<style type="text/css">
 		p{
 			font-family: arial;
@@ -90,17 +90,10 @@
 			</tr>
 			<tr>
 				<td>
-					<div class="x_sgwrap">
-						<p>Hola <?= $data['nombreUsuario']; ?></p>
-					</div>
-					<p>Solicitud de acceso para el usuario: <strong><?= $data['email_usuario']; ?></strong></p>
-					<p>Ha solicitado recuperar tu contraseña, accede al enlace de abajo para continuar</p>
-					<p class="x_text_white">
-					<a href="<?= $data['url_recovery']; ?>" target="_blank" class="x_button_link x_link_blue">Continuar</a>
-					</p>
-					<br>
-					<p>Si no funciona el botón, puedes copiar y pegar la siguiente dirección en tu navegador:</p>
-					<span><?= $data['url_recovery']; ?></span>
+                    <p>Haz actualizado tu contraseña, inicia sesión con tus credenciales:</p>
+                    <p>Usuario: <strong><?= $data['email_usuario'];?></strong></p>
+                    <p>Contraseña: <strong><?= $data['password'];?></strong></p>
+                    <a href="<?= BASE_URL;?>" target="_blank" class="x_button_link x_link_blue">Ir a la página</a>
 					<p class="x_title_gray"><a href="<?= WEB_EMPRESA; ?>" target="_blanck"><?= WEB_EMPRESA; ?></a></p>
 				</td>
 			</tr>

@@ -58,13 +58,13 @@
 					if(empty($arrData)){
 						$arrResponse = array('status' => false, 'msg' => 'El usuario no existe');
 					}else{
-						$idpersona = $arrData['id_person'];
-						$nombreUsuario = $arrData['first_name'].' '.$arrData['last_name'];
+						$idperson = $arrData['idperson'];
+						$name = $arrData['firstname'].' '.$arrData['lastname'];
 
 						$url_recovery = base_url().'/login/confirmUser/'.$strEmail.'/'.$token;
-						$requestUpdate = $this->model->setTokenUser($idpersona,$token);
+						$requestUpdate = $this->model->setTokenUser($idperson,$token);
 
-						$dataUsuario = array('nombreUsuario'=> $nombreUsuario, 'email_remitente' => EMAIL_REMITENTE, 'email_usuario'=>$strEmail, 'asunto' =>'Recuperar cuenta - '.NOMBRE_REMITENTE,'url_recovery' => $url_recovery);
+						$dataUsuario = array('nombreUsuario'=> $name, 'email_remitente' => EMAIL_REMITENTE, 'email_usuario'=>$strEmail, 'asunto' =>'Recuperar cuenta','url_recovery' => $url_recovery);
 
 
 						if($requestUpdate){
@@ -96,45 +96,49 @@
 				$strEmail = strClean($arrParams[0]);
 				$strToken = strClean($arrParams[1]);
 				
-				$arrResponse = $this->model->getUsuario($strEmail,$strToken);
+				$arrResponse = $this->model->getUser($strEmail,$strToken);
 
 				if(empty($arrResponse)){
 					header('Location: '.base_url());
 				}else{
 					
-					$data['page_tag'] = "Cambiar contraseña | DigitalBlog";
-					$data['page_title'] = "Cambiar contraseña | DigitalBlog";
+					$data['page_tag'] = "Recovery";
+					$data['page_title'] = "Recovery";
 					$data['email'] = $strEmail;
 					$data['token'] = $strToken;
-					$data['page_name'] = "cambiar_contraseña";
-					$data['id_person'] = $arrResponse['id_person'];
-					$data['page_functions'] = "functions_login.js";
-					$this->views->getView($this,"cambiar_password",$data);
+					$data['page_name'] = "recovery";
+					$data['idperson'] = $arrResponse['idperson'];
+					$this->views->getView($this,"recovery",$data);
 				}
 			}
 			die();
 		}
 		public function setPassword(){
-			if(empty($_POST['idUsuario']) || empty($_POST['txtEmailRecuperar']) || empty($_POST['txtPasswordRecuperar']) || empty($_POST['txtToken']) || empty($_POST['txtPasswordConfirmRecuperar'])){
+			if(empty($_POST['idUser']) || empty($_POST['txtEmail']) || empty($_POST['txtPassword']) || empty($_POST['txtToken']) || empty($_POST['txtPasswordConfirm'])){
 				$arrResponse = array('status' => false,'msg' => 'Error de datos');
 			}else{
-				$intIdpersona = intval($_POST['idUsuario']);
-				$strPassword = $_POST['txtPasswordRecuperar'];
-				$strEmail = strClean($_POST['txtEmailRecuperar']);
+				$idUser = intval($_POST['idUser']);
+				$strPassword = strClean($_POST['txtPassword']);
+				$strEmail = strClean($_POST['txtEmail']);
 				$strToken = strClean($_POST['txtToken']);
-				$strPasswordConfirm = $_POST['txtPasswordConfirmRecuperar'];
-
+				$strPasswordConfirm = strClean($_POST['txtPasswordConfirm']);
+				$password = $strPassword;
 				if($strPassword != $strPasswordConfirm){
 					$arrResponse = array('status' => false,'msg'=>'Las contraseñas no coinciden');
 				}else{
-					$arrResponseUser = $this->model->getUsuario($strEmail, $strToken);
+					$arrResponseUser = $this->model->getUser($strEmail, $strToken);
 					if(empty($arrResponseUser)){
 						$arrResponse = array('status' => false,'msg'=>'Error de datos.');
 					}else{
 						$strPassword = hash("SHA256",$strPassword);
-						$requestPass = $this->model->insertPassword($intIdpersona, $strPassword);
+						$requestPass = $this->model->insertPassword($idUser, $strPassword);
 
 						if($requestPass){
+                            $data['asunto']="Contraseña actualizada";
+                            $data['email_usuario'] = $strEmail;
+                            $data['email_remitente'] = EMAIL_REMITENTE;
+                            $data['password'] = $password;
+                            sendEmail($data,"email_actualizada");
 							$arrResponse = array('status' => true, 'msg' => 'Contraseña actualizada');
 						}else{
 							$arrResponse = array('status' => false, 'msg' => 'No es posible realizar el proceso, intente más tarde.');

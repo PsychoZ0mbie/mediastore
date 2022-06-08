@@ -60,7 +60,7 @@
             return $request;
         }
 
-        public function getUsuario(string $email, string $token){
+        public function getUser(string $email, string $token){
             $this->strEmail=$email;
             $this->strToken = $token;
             $sql ="SELECT idperson FROM person WHERE
@@ -69,8 +69,8 @@
             return $request;
         }
 
-        public function insertPassword(int $idpersona, string $pass){
-            $this->intIdUser = $idpersona;
+        public function insertPassword(int $idperson, string $pass){
+            $this->intIdUser = $idperson;
             $this->strPassword = $pass;
             $sql = "UPDATE person SET password = ?, token = ? WHERE idperson = $this->intIdUser";
             $arrData = array($this->strPassword,"");

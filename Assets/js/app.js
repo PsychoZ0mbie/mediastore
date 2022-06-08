@@ -9,6 +9,7 @@ if(document.querySelector("#dashboard")){
     }
 }
 /*************************Roles Page*******************************/
+
 if(document.querySelector("#role")){
 
     let search = document.querySelector("#search");
@@ -182,7 +183,18 @@ if(document.querySelector("#perfil")){
 if(document.querySelector("#login")){
 
     let formLogin = document.querySelector("#formLogin");
-    //let formResetPass = document.querySelector("#formResetPass");
+    let formReset = document.querySelector("#formReset");
+    let btnResetPass = document.querySelector("#btnResetPass");
+    let btnSession = document.querySelector("#btnSession");
+
+    btnResetPass.addEventListener("click",function(){
+        document.querySelector("#cardLogin").classList.add("d-none");
+        document.querySelector("#cardReset").classList.remove("d-none");
+    });
+    btnSession.addEventListener("click",function(){
+        document.querySelector("#cardLogin").classList.remove("d-none");
+        document.querySelector("#cardReset").classList.add("d-none");
+    });
 
     formLogin.addEventListener("submit",function(e){
         e.preventDefault();
@@ -213,14 +225,14 @@ if(document.querySelector("#login")){
                 }
             });
         }
-    })
+    });
         
-    /*formResetPass.addEventListener("submit",function(e){
+    formReset.addEventListener("submit",function(e){
         e.preventDefault();
-
+        let btnReset = document.querySelector("#btnReset");
         let strEmail = document.querySelector("#txtEmailReset").value;
         let url = base_url+'/Login/resetPass'; 
-        let formData = new FormData(formResetPass);
+        let formData = new FormData(formReset);
         if(strEmail == ""){
             swal("Por favor", "Escribe tu correo electrónico.","error");
             return false;
@@ -238,9 +250,14 @@ if(document.querySelector("#login")){
             Swal.fire("Error","El correo ingresado es inválido, solo permite los siguientes correos: "+html,"error");
             return false;
         }
-
-        divLoading.style.display = "flex";
+        btnReset.innerHTML=`
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Espera...
+        `;
+        btnReset.setAttribute("disabled","");
         request(url,formData,"post").then(function(objData){
+            btnReset.innerHTML=`Recuperar`;
+            btnReset.removeAttribute("disabled");
             if(objData.status){
                 Swal.fire({
                     title: "Recuperar cuenta",
@@ -256,19 +273,20 @@ if(document.querySelector("#login")){
             }else{
                 swal("Atención",objData.msg,"error");
             }
-            divLoading.style.display = "none";
         });
-    }); */
+    });
 }
-if(document.querySelector("#passwordChange")){
-        
-    let formCambiarPass = document.querySelector("#formCambiarPass");
+
+/*************************Recovery Page*******************************/
+if(document.querySelector("#recovery")){
+    let btnReset = document.querySelector("#btnReset");
+    let formCambiarPass = document.querySelector("#formRecovery");
     formCambiarPass.addEventListener("submit",function(e){
         e.preventDefault();
         
         let strPassword = document.querySelector("#txtPassword").value;
         let strPasswordConfirm = document.querySelector("#txtPasswordConfirm").value;
-        let idUsuario = document.querySelector("#idUsuario").value;
+        let idUser = document.querySelector("#idUser").value;
         let url = base_url+'/Login/setPassword'; 
         let formData = new FormData(formCambiarPass);
 
@@ -283,9 +301,14 @@ if(document.querySelector("#passwordChange")){
                 swal("Atención", "Las contraseñas no coinciden.", "error");
                 return false;
             }
-
-            divLoading.style.display = "flex";
+            btnReset.innerHTML=`
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Espera...
+            `;
+            btnReset.setAttribute("disabled","");
             request(url,formData,"post").then(function(objData){
+                btnReset.innerHTML=`Recuperar`;
+                btnReset.removeAttribute("disabled");
                 if(objData.status){
                     Swal.fire({
                         title: "Por favor, inicia sesión",
@@ -301,7 +324,6 @@ if(document.querySelector("#passwordChange")){
                 }else{
                     swal("Atención",objData.msg,"error");
                 }
-                divLoading.style.display = "none";
             });
         }
     });
