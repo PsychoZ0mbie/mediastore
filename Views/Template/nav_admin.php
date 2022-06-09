@@ -54,7 +54,19 @@
                                     ?>
                                 </ul>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-group">
+                                <a class="nav-link nav-group-toggle" href="#">
+                                    <svg class="nav-icon">
+                                        <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-inbox"></use>
+                                    </svg> Inventario
+                                </a>
+                                <ul class="nav-group-items">
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/category"><span class="nav-icon"></span> Categorias</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/category/subcategory"><span class="nav-icon"></span> Subcategorias</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/product"><span class="nav-icon"></span> Productos</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item mt-5">
                                 <a class="nav-link" href="<?=base_url()?>/logout">
                                     <svg class="nav-icon">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>

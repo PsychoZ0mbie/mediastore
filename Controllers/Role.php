@@ -12,7 +12,7 @@
         public function role(){
             if($_SESSION['idUser'] == 1){
                 $data['page_tag'] = "Role";
-                $data['page_title'] = "Role";
+                $data['page_title'] = "Roles";
                 $data['page_name'] = "role";
                 $this->views->getView($this,"role",$data);
             }else{

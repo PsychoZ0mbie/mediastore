@@ -13,7 +13,7 @@
         public function user(){
             if($_SESSION['permitsModule']['r']){
                 $data['page_tag'] = "User";
-                $data['page_title'] = "User";
+                $data['page_title'] = "Usuarios";
                 $data['page_name'] = "user";
                 $this->views->getView($this,"user",$data);
             }else{

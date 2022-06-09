@@ -276,7 +276,7 @@ export default class Role{
                         btnAdd.removeAttribute("disabled");
                         if(objData.status){
                             Swal.fire("Actualizado",objData.msg,"success");
-                            modalView.hide();
+                            //modalView.hide();
                             url = base_url+"/Role/getRoles";
                             request(url,"","get").then(function(objData){
                                 if(objData.status){

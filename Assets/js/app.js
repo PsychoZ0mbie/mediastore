@@ -1,6 +1,8 @@
 'use strict';
 import Role from "./modules/role.js";
 import User from "./modules/user.js";
+import Category from "./modules/category.js";
+import SubCategory from "./modules/subcategory.js";
 
 /*************************Dashboard Page*******************************/
 if(document.querySelector("#dashboard")){
@@ -9,7 +11,6 @@ if(document.querySelector("#dashboard")){
     }
 }
 /*************************Roles Page*******************************/
-
 if(document.querySelector("#role")){
 
     let search = document.querySelector("#search");
@@ -92,6 +93,92 @@ if(document.querySelector("#user")){
             item.deleteItem(id);
         }else if(element.name == "btnView"){
             item.viewItem(id);
+        }else if(element.name == "btnEdit"){
+            item.editItem(id);
+        }
+    });
+    
+}
+/*************************Category Page*******************************/
+if(document.querySelector("#category")){
+
+    let search = document.querySelector("#search");
+    search.addEventListener('input',function() {
+    let elements = document.querySelectorAll(".item");
+    let value = search.value.toLowerCase();
+        for(let i = 0; i < elements.length; i++) {
+
+            let element = elements[i];
+            let strName = element.getAttribute("data-name").toLowerCase();
+
+            if(!strName.includes(value) ){
+                element.classList.add("d-none");
+            }else{
+                element.classList.remove("d-none");
+            }
+        }
+    })
+
+    let item = new Category();
+    let element = document.querySelector("#listItem");
+    if(document.querySelector("#btnNew")){
+        let btnNew = document.querySelector("#btnNew");
+        btnNew.addEventListener("click",function(){
+            item.addItem();
+        });
+    }
+
+    window.addEventListener("DOMContentLoaded",function() {
+        item.showItems(element);
+    })
+
+    element.addEventListener("click",function(e) {
+        let element = e.target;
+        let id = element.getAttribute("data-id");
+        if(element.name == "btnDelete"){
+            item.deleteItem(id);
+        }else if(element.name == "btnEdit"){
+            item.editItem(id);
+        }
+    });
+    
+}
+/*************************SubCategory Page*******************************/
+if(document.querySelector("#subcategory")){
+
+    let search = document.querySelector("#search");
+    search.addEventListener('input',function() {
+    let elements = document.querySelectorAll(".item");
+    let value = search.value.toLowerCase();
+        for(let i = 0; i < elements.length; i++) {
+            let element = elements[i];
+            let strName = element.getAttribute("data-name").toLowerCase();
+            if(!strName.includes(value) ){
+                element.classList.add("d-none");
+            }else{
+                element.classList.remove("d-none");
+            }
+        }
+    })
+
+    let item = new SubCategory();
+    let element = document.querySelector("#listItem");
+    if(document.querySelector("#btnNew")){
+        let btnNew = document.querySelector("#btnNew");
+        btnNew.addEventListener("click",function(){
+            item.addItem();
+        });
+    }
+
+    window.addEventListener("DOMContentLoaded",function() {
+        item.showItems(element);
+    })
+
+    element.addEventListener("click",function(e) {
+        let element = e.target;
+        let id = element.getAttribute("data-id");
+        if(element.name == "btnDelete"){
+            item.deleteItem(id);
         }else if(element.name == "btnEdit"){
             item.editItem(id);
         }

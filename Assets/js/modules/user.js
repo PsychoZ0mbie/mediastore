@@ -145,7 +145,7 @@ export default class User{
                 btnAdd.removeAttribute("disabled");
                 if(objData.status){
                     Swal.fire("Agregado",objData.msg,"success");
-                    modalView.hide();
+                    //modalView.hide();
                     url = base_url+"/User/getUsers";
                     request(url,"","get").then(function(objData){
                         if(objData.status){
