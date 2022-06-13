@@ -8,6 +8,7 @@
         <meta name="author" content="">
         
         <title><?=$data['page_title']?></title>
+        <script src="<?= media();?>/js/plugins/tinymce/tinymce.min.js"></script>
         <!-- Font Awesome 5-->
         <link href="<?=media()?>/css/icons/font-awesome.min.css">
         <!-- AdminKit CSS file -->

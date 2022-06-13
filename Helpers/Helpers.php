@@ -159,6 +159,20 @@
 
         return $mail->send();
     }
+    function orderFiles($files){
+        $arrFiles = [];
+        for ($i=0; $i < count($files['name']) ; $i++) { 
+            $data = array("tmp_name"=>$files['tmp_name'][$i]);
+            $rename ='product_'.bin2hex(random_bytes(6)).'.png';
+            $arrFile = array(
+                "name"=>$files['name'][$i],
+                "rename"=>$rename,
+            );
+            uploadImage($data, $rename);
+            array_push($arrFiles,$arrFile);
+        }
+        return $arrFiles;
+    }
     function getPermits($idmodulo){
         //dep($idmodulo);exit;
         require_once("Models/RoleModel.php");

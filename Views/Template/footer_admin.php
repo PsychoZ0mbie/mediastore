@@ -6,10 +6,12 @@
         </div>
         
         <!-- Essential javascripts for application to work-->
+        
         <script src="<?= media(); ?>/js/bootstrap/popper.min.js?n=1"></script>
         <script src="<?= media(); ?>/js/bootstrap/bootstrap.min.js?n=1"></script>
         <script src="<?= media();?>/js/icons/fontawesome.js"></script>
         <script src="<?= media();?>/js/plugins/sweetalert.js"></script>
+        
         <!-- AdminKit JS file -->
         <script src="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
         <script src="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/simplebar/js/simplebar.min.js"></script>

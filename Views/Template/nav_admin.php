@@ -54,6 +54,9 @@
                                     ?>
                                 </ul>
                             </li>
+                            <?php 
+                                if($_SESSION['permitsModule']['r']){
+                            ?>
                             <li class="nav-group">
                                 <a class="nav-link nav-group-toggle" href="#">
                                     <svg class="nav-icon">
@@ -66,6 +69,9 @@
                                     <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/product"><span class="nav-icon"></span> Productos</a></li>
                                 </ul>
                             </li>
+                            <?php 
+                                }
+                            ?>
                             <li class="nav-item mt-5">
                                 <a class="nav-link" href="<?=base_url()?>/logout">
                                     <svg class="nav-icon">

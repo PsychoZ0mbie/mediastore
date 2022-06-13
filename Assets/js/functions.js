@@ -12,6 +12,30 @@ function uploadImg(img,location){
         document.querySelector(location).setAttribute("src",route);
     }
 }
+function uploadMultipleImg(img,parent){
+    let value = img.value;
+    let files = img.files;
+    for (let i = 0; i < files.length; i++) {
+        if(files[i].type != "image/png" && files[i].type != "image/jpg" && files[i].type != "image/jpeg" && files[i].type != "image/gif"){
+            Swal.fire("Error","Sólo se permite imágenes","error");
+            value ="";
+        }else{
+            let div = document.createElement("div");
+            div.classList.add("col-md-3","upload-image","mb-3");
+            div.setAttribute("data-name",files[i].name);
+            div.innerHTML = `
+                    <img>
+                    <div class="deleteImg" name="delete">x</div>
+            `
+            let objectUrl = window.URL || window.webkitURL;
+            let route = objectUrl.createObjectURL(files[i]);
+            div.children[0].setAttribute("src",route);
+            parent.appendChild(div);
+            
+        }   
+    }
+    document.querySelector("#formFile").reset();
+}
 
 function formatNum(num,mil){
     let numero = num;
@@ -26,7 +50,6 @@ function formatNum(num,mil){
     }
     return format;   
 }
-
 async function request(url,requestData,option){
     let data ="";
     option.toLowerCase();
@@ -49,7 +72,6 @@ async function request(url,requestData,option){
         console.log("Hubo un problema con la petición: "+error.message);
     }
 }
-
 function controlTag(e) {
     tecla = (document.all) ? e.keyCode : e.which;
     if (tecla==8) return true; 
@@ -58,7 +80,6 @@ function controlTag(e) {
     n = String.fromCharCode(tecla);
     return patron.test(n); 
 }
-
 function testText(txtString){
     var stringText = new RegExp(/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/);
     if(stringText.test(txtString)){
