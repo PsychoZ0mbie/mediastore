@@ -258,7 +258,7 @@
                     $arrFiles = $_SESSION['filesInfo'];
                     $arrNewFiles = orderFiles($_FILES['txtImg']);
                     for ($i=0; $i < count($arrNewFiles) ; $i++) { 
-                        array_push($arrFiles,$arrNewFiles[$i]);
+                        array_unshift($arrFiles,$arrNewFiles[$i]);
                     }
                     unset( $_SESSION['filesInfo']);
                     $_SESSION['files'] = $arrFiles;   
