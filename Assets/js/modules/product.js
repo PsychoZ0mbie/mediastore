@@ -267,7 +267,7 @@ export default class Product{
                 let html = "";
                 let discount =objData.data.discount;
                 let status = objData.data.status;
-                if(images[0]["name"]!=""){
+                if(images[0]!=""){
                     for (let i = 0; i < images.length; i++) {
                         html+=`
                             <div class="col-md-3 upload-image mb-3">
@@ -466,7 +466,7 @@ export default class Product{
                     break;
                 }
             }
-            if(images[0]['name']!=""){
+            if(images[0]!=""){
                 for (let i = 0; i < images.length; i++) {
                     let div = document.createElement("div");
                     div.classList.add("col-md-3","upload-image","mb-3");

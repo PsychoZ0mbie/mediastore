@@ -207,7 +207,7 @@
                     $request['image'][$i] = array("url"=>media()."/images/uploads/".$requestImg[$i]['name'],"name"=>$requestImg[$i]['name']);
                 }
             }else{
-                $request['image'][0] = array("url"=>media()."/images/uploads/image.png","name"=>"");
+                $request['image'][0] = "";
             }
             return $request;
         }

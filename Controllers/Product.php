@@ -94,12 +94,18 @@
                         if(!empty($request)){
                             $request['priceFormat'] = formatNum($request['price']);
                             $arrFiles = [];
-                            for ($i=0; $i < count($request['image']) ; $i++) { 
-                                $arr = array("name"=>$request['image'][$i]['name'],"rename"=>$request['image'][$i]['name']);
-                                array_push($arrFiles,$arr);
+                            //dep($request['image']);
+                            if($request['image'][0]==""){
+                                $arrFiles = [];
+                            }else{
+                                for ($i=0; $i < count($request['image']) ; $i++) { 
+                                    $arr = array("name"=>$request['image'][$i]['name'],"rename"=>$request['image'][$i]['name']);
+                                    array_push($arrFiles,$arr);
+                                }
                             }
                             $_SESSION['filesInfo'] = $arrFiles;
-                            //dep($arrFiles);   
+                            //dep($request['image']); 
+                            //dep($_SESSION['filesInfo']);   
                             $arrResponse = array("status"=>true,"data"=>$request);
                         }else{
                             $arrResponse = array("status"=>false,"msg"=>"No hay datos"); 
