@@ -68,10 +68,7 @@
             $request = $this->select_all($sql);
             $return = "";
             if(empty($request)){
-
-                $sql = "DELETE FROM category WHERE idcategory = $this->intIdCategory;SET @autoid :=0; 
-                UPDATE category SET idcategory = @autoid := (@autoid+1);
-                ALTER TABLE category Auto_Increment = 1";
+                $sql = "DELETE FROM category WHERE idcategory = $this->intIdCategory";
                 $return = $request = $this->delete($sql);
             }else{
                 $return="exist";
@@ -142,9 +139,7 @@
 		}
         public function deleteSubCategory($id){
             $this->intIdSubCategory = $id;
-            $sql = "DELETE FROM subcategory WHERE idsubcategory = $this->intIdSubCategory;SET @autoid :=0; 
-			UPDATE subcategory SET idsubcategory = @autoid := (@autoid+1);
-			ALTER TABLE subcategory Auto_Increment = 1";
+            $sql = "DELETE FROM subcategory WHERE idsubcategory = $this->intIdSubCategory";
             $request = $this->delete($sql);
             return $request;
         }

@@ -31,9 +31,15 @@
                     for ($i=0; $i < count($request); $i++) { 
 
                         $status="";
+                        $btnView = '<button class="btn btn-info m-1" type="button" title="Ver" data-id="'.$request[$i]['idproduct'].'" name="btnView"><i class="fas fa-eye"></i></button>';
                         $btnEdit="";
                         $btnDelete="";
-                        
+                        $price = formatNum($request[$i]['price']);
+                        if($request[$i]['discount']>0){
+                            $discount = '<span class="text-success">'.$request[$i]['discount'].'% OFF</span>';
+                        }else{
+                            $discount = '<span class="text-danger">Sin descuento</span>';
+                        }
                         if($_SESSION['permitsModule']['u']){
                             $btnEdit = '<button class="btn btn-success m-1" type="button" title="Editar" data-id="'.$request[$i]['idproduct'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
                         }
@@ -52,11 +58,14 @@
                                 </td>
                                 <td><strong>Referencia: </strong>'.$request[$i]['reference'].'</td>
                                 <td><strong>Nombre: </strong>'.$request[$i]['name'].'</td>
-                                <td><strong>Precio: </strong>'.$request[$i]['price'].'</td>
-                                <td><strong>Descuento: </strong>'.$request[$i]['discount'].'</td>
+                                <td><strong>Categoría: </strong>'.$request[$i]['category'].'</td>
+                                <td><strong>Subcategoría: </strong>'.$request[$i]['subcategory'].'</td>
+                                <td><strong>Precio: </strong>'.$price.'</td>
+                                <td><strong>Descuento: </strong>'.$discount.'</td>
+                                <td><strong>Cantidad: </strong>'.$request[$i]['stock'].'</td>
                                 <td><strong>Fecha de registro: </strong>'.$request[$i]['date'].'</td>
                                 <td><strong>Estado: </strong>'.$status.'</td>
-                                <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
+                                <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
                             </tr>
                         ';
                     }
@@ -74,17 +83,26 @@
         }
         public function getProduct(){
             if($_SESSION['permitsModule']['r']){
-
                 if($_POST){
+                    unset($_SESSION['filesInfo']);
                     if(empty($_POST)){
                         $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                     }else{
-                        $idCategory = intval($_POST['idCategory']);
-                        $request = $this->model->selectCategory($idCategory);
+                        $id = intval($_POST['idProduct']);
+                        $request = $this->model->selectProduct($id);
+                        //dep($request);exit;
                         if(!empty($request)){
+                            $request['priceFormat'] = formatNum($request['price']);
+                            $arrFiles = [];
+                            for ($i=0; $i < count($request['image']) ; $i++) { 
+                                $arr = array("name"=>$request['image'][$i]['name'],"rename"=>$request['image'][$i]['name']);
+                                array_push($arrFiles,$arr);
+                            }
+                            $_SESSION['filesInfo'] = $arrFiles;
+                            //dep($arrFiles);   
                             $arrResponse = array("status"=>true,"data"=>$request);
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"Ha ocurrido un error, inténtelo de nuevo."); 
+                            $arrResponse = array("status"=>false,"msg"=>"No hay datos"); 
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -96,6 +114,7 @@
             die();
         }
         public function setProduct(){
+            //dep($_POST);exit;
             if($_SESSION['permitsModule']['r']){
                 if($_POST){
                     if(empty($_POST['txtName']) || empty($_POST['statusList']) || empty($_POST['categoryList'])
@@ -115,26 +134,28 @@
                         $route = str_replace(" ","-",$strName);
                         $route = str_replace("?","",$route);
                         $route = strtolower(str_replace("¿","",$route));
-                        $photos = $_SESSION['files'];
-
+                        $photos;
+                        if(isset($_SESSION['files'])){
+                            $photos = $_SESSION['files'];
+                        }else if(isset($_SESSION['filesInfo'])){
+                            $photos = $_SESSION['filesInfo'];
+                        }
+                        //dep($photos);
                         if($idProduct == 0){
                             if($_SESSION['permitsModule']['w']){
                                 $option = 1;
                                 $request= $this->model->insertProduct($idCategory,$idSubcategory,$strReference,$strName,$strDescription,$intPrice,$intDiscount,$intStock,$intStatus,$route,$photos);
-                                
                             }
                         }else{
                             if($_SESSION['permitsModule']['u']){
                                 $option = 2;
-                                $request = $this->model->updateCategory(
-                                    $idCategory, 
-                                    $strName, 
-                                    $intStatus, 
-                                    $route
-                                );
+                                $requestImg = $this->model->deleteImages($idProduct);
+                                $request= $this->model->updateProduct($idProduct,$idCategory,$idSubcategory,$strReference,$strName,$strDescription,$intPrice,$intDiscount,$intStock,$intStatus,$route,$photos);
                             }
                         }
                         if($request > 0 ){
+                            unset($_SESSION['files']);
+                            unset($_SESSION['filesInfo']); 
                             if($option == 1){
                                 $arrResponse = array('status' => true, 'msg' => 'Datos guardados.');
                             }else{
@@ -154,20 +175,20 @@
             }
 			die();
 		}
-        
         public function delProduct(){
             if($_SESSION['permitsModule']['d']){
-
                 if($_POST){
-                    if(empty($_POST['idCategory'])){
+                    if(empty($_POST['idProduct'])){
                         $arrResponse=array("status"=>false,"msg"=>"Error de datos");
                     }else{
-                        $id = intval($_POST['idCategory']);
-                        $request = $this->model->deleteCategory($id);
+                        $id = intval($_POST['idProduct']);
+                        $request = $this->model->selectImages($id);
+                        for ($i=0; $i < count($request) ; $i++) { 
+                            deleteFile($request[$i]['name']);
+                        }
+                        $request = $this->model->deleteProduct($id);
                         if($request=="ok"){
                             $arrResponse = array("status"=>true,"msg"=>"Se ha eliminado");
-                        }else if($request =="exist"){
-                            $arrResponse = array("status"=>false,"msg"=>"La categoria tiene asignada al menos una subcategoria, no se puede eliminar.");
                         }else{
                             $arrResponse = array("status"=>false,"msg"=>"No se ha podido eliminar, inténtelo de nuevo.");
                         }
@@ -213,42 +234,142 @@
         }
         public function setImg(){
             $arrFiles;
-            if(isset($_SESSION['files'])){
-                $arrFiles = orderFiles($_FILES['txtImg']);
-                for ($i=0; $i < count($_SESSION['files']) ; $i++) { 
-                    array_push($arrFiles,$_SESSION['files'][$i]);
+            $id = intval($_POST['id']);
+            if($id == 0){
+                if(isset($_SESSION['files'])){
+                    $arrFilesInfo = $_SESSION['files'];
+                    $arrFiles = orderFiles($_FILES['txtImg']);
+                    for ($i=0; $i < count($arrFilesInfo) ; $i++) { 
+                        array_unshift($arrFiles,$arrFilesInfo[$i]);
+                    }
+                    $_SESSION['files'] = $arrFiles;
+                }else{
+                    $arrFiles = orderFiles($_FILES['txtImg']);
+                    $_SESSION['files'] = $arrFiles;
                 }
-                $_SESSION['files'] = $arrFiles;
             }else{
-                $_SESSION['files'] = orderFiles($_FILES['txtImg']);
+                if(isset($_SESSION['filesInfo']) && count($_SESSION['filesInfo'])>0){
+                    $arrFiles = $_SESSION['filesInfo'];
+                    $arrNewFiles = orderFiles($_FILES['txtImg']);
+                    for ($i=0; $i < count($arrNewFiles) ; $i++) { 
+                        array_push($arrFiles,$arrNewFiles[$i]);
+                    }
+                    unset( $_SESSION['filesInfo']);
+                    $_SESSION['files'] = $arrFiles;   
+                }else if(isset($_SESSION['files']) ){
+                    $arrFilesInfo = $_SESSION['files'];
+                    $arrFiles = orderFiles($_FILES['txtImg']);
+                    for ($i=0; $i < count($arrFilesInfo) ; $i++) { 
+                        array_unshift($arrFiles,$arrFilesInfo[$i]);
+                    }
+                    $_SESSION['files'] = $arrFiles;
+                }else{
+                    $arrFiles = orderFiles($_FILES['txtImg']);
+                    $_SESSION['files'] = $arrFiles;
+                }
+                
             }
+            $arrResponse= array("msg"=>"Imágen cargada");
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function delImg(){
-            $arrImg = json_decode($_POST['files'],true); //images sent from fetch
-            if(count($arrImg)>0){
-                $arrFiles = $_SESSION['files']; // images from session variable created
-                $arrNewFiles =[];
-                $flag = false;
-                for ($i=0; $i < count($arrFiles); $i++) { 
-                    for ($j=0; $j < count($arrImg) ; $j++) { 
-                        if($arrImg[$j] == $arrFiles[$i]['name']){
-                            array_push($arrNewFiles,$arrFiles[$i]); // push array into arrNewFils if is true
-                            $flag = false;
-                            break;
-                        }else{
-                            $flag = true;
+            $id = intval($_POST['id']);
+            $arrImg = json_decode($_POST['files'],true);
+            //dep($_POST);
+            $arrFiles = [];
+            if($id == 0){
+                if(count($arrImg)>0){
+                    $arrFiles = $_SESSION['files'];
+                    $arrNewFiles =[];
+                    $flag = false;
+                    for ($i=0; $i < count($arrFiles); $i++) { 
+                        for ($j=0; $j < count($arrImg) ; $j++) { 
+                            if($arrImg[$j] == $arrFiles[$i]['name']){
+                                array_push($arrNewFiles,$arrFiles[$i]); // push array into arrNewFils if is true
+                                $flag = false;
+                                break;
+                            }else{
+                                $flag = true;
+                            }
+                        }
+                        if($flag){
+                            deleteFile($arrFiles[$i]['rename']); // delete image if flag is true
                         }
                     }
-                    if($flag){
-                        deleteFile($arrFiles[$i]['rename']); // delete image if flag is true
-                    }
+                    $_SESSION['files'] = $arrNewFiles;
+                }else{
+                    $arrFiles = $_SESSION['files'];
+                    deleteFile($arrFiles[0]['rename']); 
+                    unset($_SESSION['files']); 
                 }
-                $_SESSION['files'] = $arrNewFiles;
             }else{
-                deleteFile($_SESSION['files'][0]['rename']);
-                unset($_SESSION['files']);  
+                if(count($arrImg)>0){
+                    if(isset($_SESSION['filesInfo']) && count($_SESSION['filesInfo'])>0){
+                        $arrFiles = $_SESSION['filesInfo'];
+                        $arrNewFiles =[];
+                        $flag = false;
+                        for ($i=0; $i < count($arrFiles); $i++) { 
+                            for ($j=0; $j < count($arrImg) ; $j++) { 
+                                if($arrImg[$j] == $arrFiles[$i]['name']){
+                                    array_push($arrNewFiles,$arrFiles[$i]); // push array into arrNewFils if is true
+                                    $flag = false;
+                                    break;
+                                }else{
+                                    $flag = true;
+                                }
+                            }
+                            if($flag){
+                                deleteFile($arrFiles[$i]['rename']); // delete image if flag is true
+                            }
+                        }
+                        unset($_SESSION['filesInfo']);
+                        $_SESSION['files'] = $arrNewFiles;
+
+                    }else{
+                        $arrFiles = $_SESSION['files'];
+                        $arrNewFiles =[];
+                        $flag = false;
+                        for ($i=0; $i < count($arrFiles); $i++) { 
+                            for ($j=0; $j < count($arrImg) ; $j++) { 
+                                if($arrImg[$j] == $arrFiles[$i]['name']){
+                                    array_push($arrNewFiles,$arrFiles[$i]); // push array into arrNewFils if is true
+                                    $flag = false;
+                                    break;
+                                }else{
+                                    $flag = true;
+                                }
+                            }
+                            if($flag){
+                                deleteFile($arrFiles[$i]['rename']); // delete image if flag is true
+                            }
+                        }
+                    }
+                    $_SESSION['files'] = $arrNewFiles;
+                }else{
+                    $arrFiles = [];
+                    if(isset($_SESSION['files'])){
+                        $arrFiles = $_SESSION['files'];
+                        unset($_SESSION['files']); 
+                    }else if(isset($_SESSION['filesInfo'])){
+                        $arrFiles = $_SESSION['filesInfo'];
+                        unset($_SESSION['filesInfo']); 
+                    }
+                    //dep($arrFiles);
+                    //dep($arrFiles[0]['rename']);
+                    $request = $this->model->selectImages($id);
+                    deleteFile($arrFiles[0]['rename']);
+                    if(count($request)>0){
+                        $this->model->deleteImages($id);
+                        /*for ($i=0; $i < count($request) ; $i++) { 
+                            deleteFile($request[$i]['name']);
+                        }*/
+                    }
+                    
+                }
             }
+            $arrResponse= array("msg"=>"Imágen eliminada");
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
     }

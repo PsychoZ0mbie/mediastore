@@ -31,7 +31,6 @@ function uploadMultipleImg(img,parent){
             let route = objectUrl.createObjectURL(files[i]);
             div.children[0].setAttribute("src",route);
             parent.appendChild(div);
-            
         }   
     }
     document.querySelector("#formFile").reset();
@@ -57,11 +56,13 @@ async function request(url,requestData,option){
         option = {
             cors: 'same-origin',
             method: 'post',
-            body:requestData
+            body:requestData,
+            cache: 'no-cache'
         }
     }else{
         option = {
             method: 'get',
+            cache: 'no-cache'
         }
     }
     try {

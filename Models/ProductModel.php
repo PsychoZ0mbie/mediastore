@@ -11,7 +11,6 @@
         private $intStock;
 		private $intStatus;
         private $strRoute;
-        private $arrPhotos;
 
         public function __construct(){
             parent::__construct();
@@ -29,7 +28,6 @@
             $this->intStock = $intStock;
 			$this->intStatus = $intStatus;
 			$this->strRoute = $route;
-            $this->arrPhotos = $photos;
 
 			$return = 0;
 			$sql = "SELECT * FROM product WHERE name = '$this->strName'";
@@ -51,9 +49,9 @@
                     $this->strRoute
         		);
 	        	$request_insert = $this->insert($query_insert,$arrData);
-                for ($i=0; $i < count($this->arrPhotos) ; $i++) { 
+                for ($i=0; $i < count($photos) ; $i++) { 
                     $sqlImg = "INSERT INTO productimage(productid,name) VALUES(?,?)";
-                    $arrImg = array($request_insert,$this->arrPhotos[$i]['rename']);
+                    $arrImg = array($request_insert,$photos[$i]['rename']);
                     $requestImg = $this->insert($sqlImg,$arrImg);
                 }
 	        	$return = $request_insert;
@@ -62,24 +60,43 @@
 			}
 	        return $return;
 		}
-        public function updateProduct(int $intIdCategory, string $strName,int $intStatus,string $strRoute){
-            $this->intIdCategory = $intIdCategory;
-            $this->strName = $strName;
+        public function updateProduct(int $idProduct,int $idCategory, int $idSubcategory,string $strReference, string $strName, string $strDescription, int $intPrice, int $intDiscount, int $intStock, int $intStatus, string $route, array $photos){
+            $this->intIdProduct = $idProduct;
+            $this->intIdCategory = $idCategory;
+            $this->intIdSubCategory = $idSubcategory;
+            $this->strReference = $strReference;
+			$this->strName = $strName;
+            $this->strDescription = $strDescription;
+            $this->intPrice = $intPrice;
+            $this->intDiscount = $intDiscount;
+            $this->intStock = $intStock;
 			$this->intStatus = $intStatus;
-			$this->strRoute = $strRoute;
+			$this->strRoute = $route;
 
-			$sql = "SELECT * FROM category WHERE name = '{$this->strName}' AND idcategory != $this->intIdCategory";
+			$sql = "SELECT * FROM product WHERE name = '{$this->strName}' AND idproduct != $this->intIdProduct";
 			$request = $this->select_all($sql);
 
 			if(empty($request)){
-
-                $sql = "UPDATE category SET name=?, status=?, route=? WHERE idcategory = $this->intIdCategory";
+                $sql = "UPDATE product SET categoryid=?, subcategoryid=?, reference=?, name=?,description=?, 
+                price=?,discount=?,stock=?,status=?, route=? WHERE idproduct = $this->intIdProduct";
                 $arrData = array(
+                    $this->intIdCategory,
+                    $this->intIdSubCategory,
+                    $this->strReference,
                     $this->strName,
+                    $this->strDescription,
+                    $this->intPrice,
+                    $this->intDiscount,
+                    $this->intStock,
                     $this->intStatus,
                     $this->strRoute
-                );
+        		);
 				$request = $this->update($sql,$arrData);
+                for ($i=0; $i < count($photos) ; $i++) { 
+                    $sqlImg = "INSERT INTO productimage(productid,name) VALUES(?,?)";
+                    $arrImg = array($this->intIdProduct,$photos[$i]['rename']);
+                    $requestImg = $this->insert($sqlImg,$arrImg);
+                }
 			}else{
 				$request = "exist";
 			}
@@ -87,20 +104,52 @@
 		
 		}
         public function deleteProduct($id){
-            $this->intIdCategory = $id;
-            $sql = "SELECT * FROM subcategory WHERE categoryid = $this->intIdCategory";
+            $this->intIdProduct = $id;
+            $sql = "DELETE FROM product WHERE idproduct = $this->intIdProduct;SET @autoid :=0; 
+            UPDATE productimage SET id = @autoid := (@autoid+1);
+            ALTER TABLE productimage Auto_Increment = 1;";
+            $request = $this->delete($sql);
+            return $request;
+        }
+        public function selectProducts(){
+            $sql = "SELECT 
+                p.idproduct,
+                p.categoryid,
+                p.subcategoryid,
+                p.reference,
+                p.name,
+                p.description,
+                p.price,
+                p.discount,
+                p.description,
+                p.stock,
+                p.status,
+                p.route,
+                c.idcategory,
+                c.name as category,
+                s.idsubcategory,
+                s.categoryid,
+                s.name as subcategory,
+                DATE_FORMAT(p.date, '%d/%m/%Y') as date
+            FROM product p
+            INNER JOIN category c, subcategory s
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory
+            ORDER BY p.idproduct DESC
+            ";
             $request = $this->select_all($sql);
-            $return = "";
-            if(empty($request)){
-
-                $sql = "DELETE FROM category WHERE idcategory = $this->intIdCategory;SET @autoid :=0; 
-                UPDATE category SET idcategory = @autoid := (@autoid+1);
-                ALTER TABLE category Auto_Increment = 1";
-                $return = $request = $this->delete($sql);
-            }else{
-                $return="exist";
+            if(count($request)> 0){
+                for ($i=0; $i < count($request); $i++) { 
+                    $idProduct = $request[$i]['idproduct'];
+                    $sqlImg = "SELECT * FROM productimage WHERE productid = $idProduct";
+                    $requestImg = $this->select_all($sqlImg);
+                    if(count($requestImg)>0){
+                        $request[$i]['image'] = media()."/images/uploads/".$requestImg[0]['name'];
+                    }else{
+                        $request[$i]['image'] = media()."/images/uploads/image.png";
+                    }
+                }
             }
-            return $return;
+            return $request;
         }
         public function selectCategories(){
             $sql = "SELECT * FROM category ORDER BY idcategory ASC";       
@@ -126,9 +175,52 @@
             return $request;
         }
         public function selectProduct($id){
-            $this->intIdCategory = $id;
-            $sql = "SELECT * FROM category WHERE idcategory = $this->intIdCategory";
+            $this->intIdProduct = $id;
+            $sql = "SELECT 
+                p.idproduct,
+                p.categoryid,
+                p.subcategoryid,
+                p.reference,
+                p.name,
+                p.description,
+                p.price,
+                p.discount,
+                p.description,
+                p.stock,
+                p.status,
+                p.route,
+                c.idcategory,
+                c.name as category,
+                s.idsubcategory,
+                s.categoryid,
+                s.name as subcategory,
+                DATE_FORMAT(p.date, '%d/%m/%Y') as date
+            FROM product p
+            INNER JOIN category c, subcategory s
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory 
+            AND p.idproduct = $this->intIdProduct";
             $request = $this->select($sql);
+            $sqlImg = "SELECT * FROM productimage WHERE productid = $this->intIdProduct";
+            $requestImg = $this->select_all($sqlImg);
+            if(count($requestImg)){
+                for ($i=0; $i < count($requestImg); $i++) { 
+                    $request['image'][$i] = array("url"=>media()."/images/uploads/".$requestImg[$i]['name'],"name"=>$requestImg[$i]['name']);
+                }
+            }else{
+                $request['image'][0] = array("url"=>media()."/images/uploads/image.png","name"=>"");
+            }
+            return $request;
+        }
+        public function selectImages($id){
+            $this->intIdProduct = $id;
+            $sql = "SELECT * FROM productimage WHERE productid=$this->intIdProduct";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function deleteImages($id){
+            $this->intIdProduct = $id;
+            $sql = "DELETE FROM productimage WHERE productid=$this->intIdProduct";
+            $request = $this->select_all($sql);
             return $request;
         }
     }

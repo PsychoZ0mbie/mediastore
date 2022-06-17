@@ -215,7 +215,7 @@ if(document.querySelector("#product")){
         btnNew.addEventListener("click",function(){
             item.addItem();
         });
-        tinymce.triggerSave();
+        /*tinymce.triggerSave();
         tinymce.init({
             relative_urls: 0,
             remove_script_host: 0,
@@ -231,7 +231,7 @@ if(document.querySelector("#product")){
             'alignright alignjustify | bullist numlist outdent indent | ' +
             'removeformat | help',
             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'   
-        });
+        });*/
     }
 
     window.addEventListener("DOMContentLoaded",function() {
