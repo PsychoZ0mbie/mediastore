@@ -1,0 +1,357 @@
+@import "variable";
+.main-carousel{
+    .carousel-item{
+        height: 100vh;
+        position: relative;
+        
+        img{
+            height: 100%;
+            width: 60%;
+            object-fit: cover;
+            position: absolute;
+            right:-9000px;
+            object-position: 0 100px;
+            mix-blend-mode: multiply;
+        }
+        .carousel-info{
+            position: absolute;
+            top:50%;
+            left: 20%;
+            transform: translate(-20%,-50%);
+            
+            h2{
+                position: relative;
+                left:-5000px;
+                margin-bottom: 20px;
+                font-size: 25px;
+                color:$azure;
+                font-style: oblique;
+            }
+            h3{
+                position: relative;
+                left:-5000px;
+                font-size: 40px;
+                color:$blueJeans;
+                font-weight: bold;
+            }
+            h4{
+                position: relative;
+                left:-5000px;
+                font-size: 50px;
+                color:$blueJeans;
+                margin-bottom: 20px;
+                font-weight: bold;
+            }
+            p{
+                position: relative;
+                left:-5000px;
+                color:$azure;
+                font-weight: bold;
+                font-size: 40px;
+                span{
+                    text-decoration: line-through;
+                    font-size: 30px;
+                    color:$blueJeans;
+                }
+            }
+            a{
+                position: relative;
+                left:-5000px;
+                font-size: 25px;
+            }
+        }
+    }
+    .carousel-item.active{
+        img{
+            right:0;
+            transition: 1s;
+        }
+        .carousel-info{
+            h2{
+                left: 0;
+                transition: 0.5s;
+            }
+            h3{
+                left: 0;
+                transition: 1s;
+            }
+            h4{
+                left: 0;
+                transition: 1.5s;
+            }
+            p{
+                left: 0;
+                transition: 1.5s;
+            }
+            a{
+                left: 0;
+                transition: 2s;
+            }
+        }
+    }
+    @keyframes carouselImg {
+        
+    }
+}
+.category{
+    height: 300px;
+    width: 100%;
+    padding: 30px;
+    position: relative;
+    .category-info{
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        color: $azure;
+        z-index: 1;
+    }
+    .category-btn{
+        position: absolute;
+        bottom: 30px;
+        left:30px;
+        color: transparent;
+        text-decoration: none;
+        font-weight: 500;
+        z-index: -1;
+        font-size: 20px;
+        &::after{
+            content: " ";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            height: 4px;
+            width: 0;
+            background-color: $azure;
+        }
+    }
+    img{
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        object-position: 100% 0;
+        mix-blend-mode: multiply;
+    }
+    &::after{
+        content: " ";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top:0;
+        right: 0;
+        transition: 0.3s;
+    }
+    &:hover{
+        &::after{
+            background-color: rgba(78, 164, 255, 0.767);
+            transition: 0.3s;
+        }
+        .category-info{
+            color: $cultured;
+        }
+        .category-btn{
+            color: $cultured;
+            z-index: 1;
+            &::after{
+                width: 100%;
+                transition: 0.3s;
+            }
+        }
+        
+    }
+}
+.more-category{
+    width: 100%;
+    height: 600px;
+    position: relative;
+    overflow: hidden;
+    color:$cultured;
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .more-category-info{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        background-color: transparent;
+        width: 100%;
+        height: 150px;
+        padding-left:20px;
+        padding:10px 0 0 20px;
+        div{
+            position: absolute;
+            z-index: -1;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background-color: rgba(32, 121, 255, 0.521);
+            transition: 0.3s;
+        }
+        a{
+            background-color: $azure;
+            text-decoration: none;
+            color:$cultured;
+        }
+    }
+    &::after{
+        content:" ";
+        position: absolute;
+        top:0;
+        left:0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(32, 121, 255, 0.4);
+        transition: 0.3s;
+    }
+    &:hover{
+        .more-category-info{
+            div{
+                bottom: 0;
+                transition: 0.3;
+            }
+        }
+        &::after{
+            background-color: transparent; 
+            transition: 0.3s;
+        }
+    }
+}
+.product-card{
+    width: 100%;
+    height: 500px;
+    padding: 10px;
+    .product-img{
+        height: 60%;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        img{
+            height: 100%;
+            width: 100%;
+            transition: 0.3s ease;
+        }
+        button{
+            background-color: $azure;
+            border-radius: 20px;
+            border: none;
+            position: absolute;
+            top:100%;
+            left:50%;
+            transform: translateX(-50%);
+            transition: 0.3s ease;
+            color:$cultured;
+            width: 55%;
+            &:hover{
+                background-color: $blueJeans;
+            }
+        }
+        p{
+            position: absolute;
+            top:5px;
+            right: 5px;
+            color: $azure;
+            background-color: $cultured;
+            padding: 2px 10px;
+            border: 2px solid $azure;
+            z-index: 1;
+            animation-name: discount;
+            animation-duration: 2s;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+            @keyframes discount {
+                0%{
+                    transform: scale(1);
+                }50%{
+                    transform: scale(1.15);
+                }100%{
+                    transform: scale(1);
+                }
+           }
+        }
+    }
+    .product-info{
+        padding:10px;
+        text-align: center;
+        a{
+            text-decoration: none;
+            h3{
+                font-size: 20px;
+                word-break: break-all;
+                color:#000;
+                transition: 0.3s ease;
+                &:hover{
+                    color:$azure;
+                    transition: 0.3s ease;
+                }
+            }
+            p{
+               color: $azure;
+               span{
+                margin-left:10px ;
+                font-size: 15px;
+                text-decoration: line-through;
+                color:$blueJeans;
+               }
+               
+            } 
+        }
+    }
+    .product-rate{
+        text-align: center;
+        font-size: 15px;
+        color: $azure;
+    }
+    .product-btns{
+        text-align: center;
+        padding: 10px;
+        i{
+            padding: 5px;
+            transition: 0.3s ease;
+            cursor: pointer;
+            &:hover{
+                color:$azure;
+                transition: 0.3s ease;
+            }
+        }
+    }
+    &:hover{
+        .product-img{
+            img{
+                transform: scale(1.1);
+                transition: 0.3s ease;
+            }
+            button{
+                top:80%;
+                left:50%; 
+                transition: 0.3s ease;
+            }
+        }
+        
+    }
+}
+.main-suscribe{
+    background-image: url("https://images.ole.com.ar/2021/01/22/LSpcCMae5_1256x620__1.jpg");
+    height: 500px;
+    width: 100%;
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    &::before{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top:0;
+        left:0;
+        background-color: rgba(0, 0, 0, 0.308);
+        content:" ";
+    }
+    form{
+        position: relative;
+        z-index: 1;
+    }
+}

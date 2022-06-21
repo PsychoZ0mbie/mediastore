@@ -1,0 +1,67 @@
+@media screen and (max-width: 1400px) {
+    .cart-panel-main{
+        width: 40%;
+    }
+
+}
+@media screen and (max-width: 768px){
+    
+    .nav-logo{
+        margin-right: 40px;
+    }
+    .nav-main{
+        margin-right: 40px;
+        ul{
+            
+            li{
+                margin-right:20px;
+            }
+        }
+    }
+}
+@media screen and (max-width: 576px){
+    .main-carousel{
+        .carousel-item{
+            .carousel-info{
+        
+                h2{
+                    font-size: 25px;
+                }
+                h3{
+                    font-size: 35px;
+                }
+                h4{
+                    font-size: 45px;
+                }
+                p{
+                    font-size: 35px;
+                    span{
+                        font-size: 25px;
+                    }
+                }
+                a{
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+    .cart-panel-main{
+        width: 80%;
+    }
+    .nav-icons{
+        ul{
+            li{
+                font-size: 15px;
+            }
+        }
+    }
+    .nav-logo{
+        font-size: 20px;
+    }
+    .nav-main{
+        display: none;
+    }
+    #btnToggleNav{
+        display: flex;
+    }
+}

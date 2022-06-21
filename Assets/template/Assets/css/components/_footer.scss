@@ -1,0 +1,39 @@
+@import "variable";
+footer{
+    position: relative;
+    width: 100%;
+    background-color: $cultured;
+    &::before{
+        content:" ";
+        background-color: $azure;
+        height: 5px;
+        width: 100%;
+        position: absolute;
+        top:0;
+        left:0;
+    }
+    &::after{
+        content:" ";
+        background-color: $azure;
+        height: 5px;
+        width: 100%;
+        position: absolute;
+        bottom:0;
+        left:0;
+    }
+    .footer-social{
+        a{
+            padding: 6px 12px;
+            border: 1px solid $blueJeans;
+            border-radius: 50%;
+            background-color: $blueJeans;
+            color:$cultured;
+            transition: 0.3s;
+            &:hover{
+                background-color: $cultured;
+                color:$blueJeans;
+                transition: 0.3s;
+            }
+        }
+    }
+}
