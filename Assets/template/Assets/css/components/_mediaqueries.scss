@@ -20,6 +20,12 @@
     }
 }
 @media screen and (max-width: 576px){
+    .product-data{
+        margin-top: 20px;
+        h1{
+            font-size: 30px;
+        }
+    }
     .main-carousel{
         .carousel-item{
             .carousel-info{
