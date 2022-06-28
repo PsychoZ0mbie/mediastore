@@ -8,38 +8,165 @@ header{
     position: fixed;
     z-index: 2;
 }
+
 .nav-custom{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
+    position: relative;
+}
+.nav-search-open{
+    display: block;
+    position: absolute;
+    z-index: 11;
+    height: 40px;
+    width: 0;
+    animation-name: searchOpen;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+    input{
+        height: 100%;
+        width: 100%;
+        
+    }
+    input:focus{
+        outline: $blueJeans;
+    }
+    #btnCloseSearch{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        height: 100%;
+        width: 50px;
+        background-color: $blueJeans;
+        color:$cultured;
+        top:0;
+        right:0;
+        font-size: 30px;
+        cursor: pointer;
+    }
+    @keyframes searchOpen {
+        0%{
+            width: 1%;
+            opacity: 0.5;
+        }25%{
+            width: 1%;
+            opacity: 1;
+        }50%{
+            width: 1%;
+            opacity: 0.5;
+        }100%{
+            opacity: 1;
+            width:70%;
+        }
+    }
+}
+.nav-search-close{
+    display: block;
+    position: absolute;
+    height: 40px;
+    width: 70%;
+    z-index: 11;
+    animation-name: searchClose;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+    input{
+        height: 100%;
+        width: 100%;
+    }
+    #btnCloseSearch{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        height: 100%;
+        width: 50px;
+        background-color: $blueJeans;
+        color:$cultured;
+        top:0;
+        right:0;
+        font-size: 30px;
+        cursor: pointer;
+    }
+    @keyframes searchClose {
+        0%{
+            opacity: 0.5;
+        }25%{
+            width: 1%;
+            opacity: 1;
+        }50%{
+            width: 1%;
+            opacity: 0.5;
+        }100%{
+            display: none;
+            opacity: 0;
+            width:0;
+        }
+    }
 }
 .nav-logo{
+    position: relative;
     margin-right: 200px;
     font-size: 25px;
+    left: 0;
+    transition: 0.2s 0.5s all ease;
     a{
         text-decoration: none;
         color: $cultured;
     }
 }
+.nav-logo.active{
+    left:-100%;
+    transition: 0.2s 0.5s all ease;
+}
 .nav-main{
+    position: relative;
     margin-right: 200px;
+    opacity: 1;
+    transition: 0.2s 0.5s all ease;
     ul{
         list-style:none;
         display: flex;
         justify-content: center;
         margin: 0;
         padding: 0;
+        
         li{
+            position: relative;
             margin-right:50px;
             a{
                 color: $cultured;
                 text-decoration: none;
             }
+            &::after{
+                content: " ";
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                height: 4px;
+                width: 0;
+                background-color: $cultured;
+                transition: 0.3s;
+            }
+            &:hover{
+                &::after{
+                    width: 100%;
+                    transition: 0.3s;
+                }
+            }
         }
     }
 }
+.nav-main.active{
+    opacity: 0;
+    transition: 0.2s 0.5s all ease;
+}
 .nav-icons{
+    position: relative;
+    right:0;
+    transition: 0.2s 0.5s all ease;
     ul{
         list-style:none;
         display: flex;
@@ -57,6 +184,10 @@ header{
             }
         }
     }
+}
+.nav-icons.active{
+    right: -100%;
+    transition: 0.2s 0.5s all ease;
 }
 .nav-icons-cart{
     position: relative;
@@ -203,19 +334,21 @@ header{
     .item-info{
         height: 120px;
         width: 150px;
-        color:$blueJeans;
+        
         margin: auto;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
         h3{
+            color:$blueJeans;
             font-size: 16px;
             word-break: break-all;
             text-align:  start;
             width: 100%;
         }
         p{
+            color:#000;
             font-size: 15px;
             margin: 0;
             word-break: break-all;

@@ -2,8 +2,76 @@
 @import "components/variable";
 @import "components/header";
 @import "components/footer";
-@import "components/home";
 @import "components/util";
 @import "components/mediaqueries";
 @import "components/buttons";
 @import "components/parts";
+@import "components/shop";
+@import "components/home";
+main{
+    padding-top: 60px;
+}
+.accordion-button{
+    padding: 10px;
+}
+.accordion-body{
+    padding: 5px 0 5px 5px;
+    a, a:hover, a:focus, a:active {
+        text-decoration: none;
+        color: inherit;
+      }
+}
+.accordion-button:not(.collapsed) {
+    color: #000;
+    background-color: #FFF;
+    box-shadow: none;
+}
+.accordion-button:focus {
+    border: none;
+    box-shadow: none;
+    color:$azure;
+}
+.list-group-item {
+    border: none;
+}
+.popup{
+    width: 300px;
+    height: 125px;
+    position: fixed;
+    right: -100%;
+    bottom:10px;
+    background-color: #fff;
+    border: 1px solid $azure;
+    padding: 10px;
+    z-index: 100;
+    transition:0.3s;
+    .popup-close{
+        position: absolute;
+        top:2px;
+        right: 5px;
+        cursor: pointer;
+    }
+    .popup-info{
+        display: flex;
+        height: 50px;
+        font-size: 15px;
+        overflow: hidden;
+        a{
+            text-decoration: none;
+            color:#000;
+            font-weight: bold;
+        }
+        p{
+            margin: 0;
+        }
+        img{
+            margin-right: 10px;
+            width: 50px;
+            height: 100%;
+        }
+    }
+}
+.popup.active{
+    right:10px;
+    transition:0.3s;
+}
