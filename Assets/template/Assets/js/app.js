@@ -20,7 +20,6 @@ btnCloseSearch.addEventListener("mousedown",function(){
         document.querySelector(".nav-search").classList.add("d-none");
     },800)
 });
-
 btnSearch.addEventListener("click",function(){
     document.querySelector(".nav-logo").classList.add("active");
     document.querySelector(".nav-main").classList.add("active");
@@ -29,7 +28,6 @@ btnSearch.addEventListener("click",function(){
     document.querySelector(".nav-search").classList.remove("d-none");
     document.querySelector(".nav-search").classList.add("nav-search-open");
 });
-
 btnBar.addEventListener("click",function(){
     document.querySelector(".nav-mobile-main").classList.toggle("active");
     document.querySelector(".nav-mobile").classList.toggle("active");
@@ -61,6 +59,9 @@ document.querySelector(".cart-panel").addEventListener("click",function(e){
     }
 });
 
+/***************************General Shop Events****************************** */
+
+//Quick view modal
 if(document.querySelectorAll(".product-btns .fa-eye")){
     let btns = document.querySelectorAll(".product-btns .fa-eye");
     for (let i = 0; i < btns.length; i++) {
@@ -72,7 +73,6 @@ if(document.querySelectorAll(".product-btns .fa-eye")){
             let modalItem = document.querySelector("#modalItem");
             let modal="";
             let info = document.querySelectorAll(".product-info a");
-            
             let url = document.querySelectorAll(".product-img img")[i].src;
             if(productCard.children[0].className =="product-discount"){
                 discount = `<p class="product-discount"><strong>${productCard.children[0].innerHTML}</strong></p>`
@@ -141,7 +141,7 @@ if(document.querySelectorAll(".product-btns .fa-eye")){
                                             <div class="decrement"><i class="fas fa-minus"></i></div>
                                             <input class="cant me-2 ms-2" type="number" min="1" max="99" value="1">
                                             <div class="increment"><i class="fas fa-plus"></i></div>
-                                            <div class="ms-3 product-btn"><i class="fas fa-shopping-cart me-2"></i> Add</div>
+                                            <button type="button" class="ms-3" id="viewProductAdd"><i class="fas fa-shopping-cart me-2"></i> Add</button>
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center mt-4">
@@ -165,7 +165,6 @@ if(document.querySelectorAll(".product-btns .fa-eye")){
             modalView.show();
             let productImages = document.querySelectorAll(".product-image-item");
             for (let i = 0; i < productImages.length; i++) {
-                //productImages[i].classList.remove("active");
                 let productImage = productImages[i];
                 productImage.addEventListener("click",function(e){
                     for (let j = 0; j < productImages.length; j++) {
@@ -185,6 +184,25 @@ if(document.querySelectorAll(".product-btns .fa-eye")){
             let decrement = document.querySelector(".decrement");
             let increment = document.querySelector(".increment");
             let cant = document.querySelector(".cant");
+            let viewProductAdd = document.querySelector("#viewProductAdd");
+            viewProductAdd.addEventListener("click",function(){
+                viewProductAdd.setAttribute("disabled",true);
+                viewProductAdd.innerHTML = `
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                `;
+                setTimeout(function(){
+                    viewProductAdd.innerHTML = `
+                    <i class="fas fa-check"></i> Added
+                `;
+                },500);
+                setTimeout(function(){
+                    viewProductAdd.removeAttribute("disabled");
+                    viewProductAdd.innerHTML = `
+                    <i class="fas fa-shopping-cart me-2"></i> Add
+                    `;
+                },1000);
+                
+            });
             cant.addEventListener("change",function(){
                 if(cant.value <= 1){
                     cant.value = 1;
@@ -239,30 +257,10 @@ if(document.querySelectorAll(".product-btns .fa-eye")){
             });*/
             
         });
-    }  
+    } 
 }
-if(document.querySelector(".featured")){
-    let featured = document.querySelector(".featured-container-items");
-    let left = document.querySelector(".featured-btn-left");
-    let right = document.querySelector(".featured-btn-right");
-    let filter = document.querySelector("#filter");
-    let filterOptions = document.querySelector(".filter-options");
-    let filterOverlay = document.querySelector(".filter-options-overlay");
-    left.addEventListener("click",function(){
-        featured.scrollBy(featured.offsetWidth,0);
-    });
-    right.addEventListener("click",function(){
-        featured.scrollBy(-featured.offsetWidth,0);
-    });
-    filterOverlay.addEventListener("click",function(){
-        filterOverlay.style.display="none";
-        filterOptions.classList.remove("active");
-    });
-    filter.addEventListener("click",function(){
-        filterOptions.classList.add("active");
-        document.querySelector(".filter-options-overlay").style.display="block";
-    });
-}
+
+//Add product card button
 if(document.querySelectorAll(".product-card-add")){
     let btnAddCart = document.querySelectorAll(".product-card-add");
     let popup = document.querySelector(".popup");
@@ -278,7 +276,7 @@ if(document.querySelectorAll(".product-card-add")){
                 popup.classList.remove("active");
                 setTimeout(function(){
                     popup.classList.add("active");
-                },200);
+                },100);
             }else{
                 popup.classList.add("active");
             }
@@ -303,4 +301,134 @@ if(document.querySelectorAll(".product-card-add")){
             });
         });
     }
+}
+
+/***************************Shop Page****************************** */
+if(document.querySelector("#shop")){
+    let featured = document.querySelector(".featured-container-items");
+    let left = document.querySelector(".featured-btn-left");
+    let right = document.querySelector(".featured-btn-right");
+    let filter = document.querySelector("#filter");
+    let filterOptions = document.querySelector(".filter-options");
+    let filterOverlay = document.querySelector(".filter-options-overlay");
+    left.addEventListener("click",function(){
+        featured.scrollBy(featured.offsetWidth,0);
+    });
+    right.addEventListener("click",function(){
+        featured.scrollBy(-featured.offsetWidth,0);
+    });
+    filterOverlay.addEventListener("click",function(){
+        filterOverlay.style.display="none";
+        filterOptions.classList.remove("active");
+    });
+    filter.addEventListener("click",function(){
+        filterOptions.classList.add("active");
+        document.querySelector(".filter-options-overlay").style.display="block";
+    });
+}
+/***************************Product Page****************************** */
+if(document.querySelector("#product")){
+    let decrement = document.querySelector(".decrement");
+    let increment = document.querySelector(".increment");
+    let cant = document.querySelector(".cant");
+    let viewProductAdd = document.querySelector("#viewProductAdd");
+    let productImages = document.querySelectorAll(".product-image-item");
+    for (let i = 0; i < productImages.length; i++) {
+        let productImage = productImages[i];
+        productImage.addEventListener("click",function(e){
+            for (let j = 0; j < productImages.length; j++) {
+                productImages[j].classList.remove("active");
+                
+            }
+            productImage.classList.add("active");
+            let image = productImage.children[0].src;
+            document.querySelector(".product-image img").src = image;
+        })
+    }
+    viewProductAdd.addEventListener("click",function(){
+        viewProductAdd.setAttribute("disabled",true);
+        viewProductAdd.innerHTML = `
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        `;
+        setTimeout(function(){
+            viewProductAdd.innerHTML = `
+            <i class="fas fa-check"></i> Added
+        `;
+        },500);
+        setTimeout(function(){
+            viewProductAdd.removeAttribute("disabled");
+            viewProductAdd.innerHTML = `
+            <i class="fas fa-shopping-cart me-2"></i> Add
+            `;
+        },1000);
+        
+    });
+    cant.addEventListener("change",function(){
+        if(cant.value <= 1){
+            cant.value = 1;
+        }else if(cant.value >= 99){
+            cant.value = 99;
+        }
+    })
+    decrement.addEventListener("click",function(){
+        if(cant.value<=1){
+            return cant.value=1;
+        }
+        cant.value--;
+    });
+    increment.addEventListener("click",function(){
+        if(cant.value>=99){
+            return cant.value=99;
+        }
+        cant.value++;
+    })
+    let btnPrev = document.querySelector(".slider-btn-left");
+    let btnNext = document.querySelector(".slider-btn-right");
+    let inner = document.querySelector(".product-image-inner");
+    btnPrev.addEventListener("click",function(){
+        inner.scrollBy(-100,0);
+    });
+    btnNext.addEventListener("click",function(){
+        inner.scrollBy(100,0);
+    });
+
+    let btnAnswer = document.querySelectorAll("#btnAnswer");
+    let answer = document.querySelectorAll(".comment-answer");
+    let stars = document.querySelectorAll(".review-rate button");
+    for (let i = 0; i < btnAnswer.length; i++) {
+        let btn = btnAnswer[i];
+        btn.addEventListener("click",function(){
+
+            answer[i].classList.toggle("active");
+            btn.classList.toggle("active");
+    
+            if(btn.classList.contains("active")){
+                answer[i].style.height=`auto`;
+                let height = `${answer[i].clientHeight}px`;
+                answer[i].style.height=`0px`;
+                setTimeout(function(){
+                    answer[i].style.height = height;
+                },0);
+                btn.innerHTML =`Hide answer <i class="fas fa-angle-up"></i>`;
+            }else{
+                answer[i].style.height=`0px`;
+                btn.innerHTML =`Show answer <i class="fas fa-angle-down"></i>`;
+            }
+            
+        });
+    }
+    for (let i = 0; i < stars.length; i++) {
+        let star = stars[i];
+        star.addEventListener("click",function(){
+            document.querySelector("#intRate").value = i+1;
+            for (let j = 0; j < stars.length; j++) {
+                if(j>i){
+                    stars[j].innerHTML =`<i class="far fa-star"></i>`;
+                }else{
+                    stars[j].innerHTML =`<i class="fas fa-star"></i>`;
+                }
+            }
+        })
+    }
+    
 }
