@@ -123,7 +123,7 @@ if(document.querySelectorAll(".product-btns .fa-eye")){
                                     </div>
                                 </div>
                                 <div class="col-md-6 product-data">
-                                    <h1><strong>${info[i].children[1].innerHTML}</strong></h1>
+                                    <h1><a href="product.html"><strong>${info[i].children[1].innerHTML}</strong></a></h1>
                                     <div class="product-rate text-start mb-3">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -135,13 +135,13 @@ if(document.querySelectorAll(".product-btns .fa-eye")){
                                     ${price}
                                     <p class="mb-3" id="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores illum quibusdam asperiores sed. Asperiores hic aliquam adipisci odit suscipit excepturi sit, nemo et velit ex, atque enim exercitationem facere corporis!</p>
                                     <p class="m-0">SKU: <strong>111-222-333</strong></p>
-                                    <p class="m-0">Category: ${info[i].children[0].innerHTML}</p>
+                                    <a href="shop.html" class="m-0">Category: ${info[i].children[0].innerHTML}</a>
                                     <div class="mt-4 mb-4 d-flex align-items-center">
                                         <div class="product-cant me-3">
                                             <div class="decrement"><i class="fas fa-minus"></i></div>
                                             <input class="cant me-2 ms-2" type="number" min="1" max="99" value="1">
                                             <div class="increment"><i class="fas fa-plus"></i></div>
-                                            <button type="button" class="ms-3" id="viewProductAdd"><i class="fas fa-shopping-cart me-2"></i> Add</button>
+                                            <button type="button" class="ms-3" id="viewProductAddModal"><i class="fas fa-shopping-cart me-2"></i> Add</button>
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center mt-4">
@@ -184,7 +184,7 @@ if(document.querySelectorAll(".product-btns .fa-eye")){
             let decrement = document.querySelector(".decrement");
             let increment = document.querySelector(".increment");
             let cant = document.querySelector(".cant");
-            let viewProductAdd = document.querySelector("#viewProductAdd");
+            let viewProductAdd = document.querySelector("#viewProductAddModal");
             viewProductAdd.addEventListener("click",function(){
                 viewProductAdd.setAttribute("disabled",true);
                 viewProductAdd.innerHTML = `
@@ -231,31 +231,6 @@ if(document.querySelectorAll(".product-btns .fa-eye")){
             btnNext.addEventListener("click",function(){
                 inner.scrollBy(100,0);
             })
-            /*let slider = document.querySelector(".product-image-slider");
-            let inner = document.querySelector(".product-image-inner");
-            let startx=0;
-            let press = false;
-            slider.addEventListener("mousedown",function(e){
-                startx = e.offsetX - inner.offsetLeft;
-                slider.style.cursor="grabbing";
-                press = true;
-            });
-            slider.addEventListener("mouseup",function(e){
-                slider.style.cursor="grab";
-            });
-            slider.addEventListener("mouseup",function(){
-                press = false;
-            })
-            slider.addEventListener("mouseover",function(e){
-                slider.style.cursor="grab";
-            });
-            slider.addEventListener("mousemove",function(e){
-                if(press){
-                    e.preventDefault();
-                    inner.style.left=`${e.offsetX-startx}px`;
-                }
-            });*/
-            
         });
     } 
 }
@@ -331,7 +306,7 @@ if(document.querySelector("#product")){
     let decrement = document.querySelector(".decrement");
     let increment = document.querySelector(".increment");
     let cant = document.querySelector(".cant");
-    let viewProductAdd = document.querySelector("#viewProductAdd");
+    let viewProductAdd = document.querySelector("#addProduct");
     let productImages = document.querySelectorAll(".product-image-item");
     for (let i = 0; i < productImages.length; i++) {
         let productImage = productImages[i];
@@ -385,6 +360,7 @@ if(document.querySelector("#product")){
     let btnPrev = document.querySelector(".slider-btn-left");
     let btnNext = document.querySelector(".slider-btn-right");
     let inner = document.querySelector(".product-image-inner");
+
     btnPrev.addEventListener("click",function(){
         inner.scrollBy(-100,0);
     });
@@ -429,6 +405,40 @@ if(document.querySelector("#product")){
                 }
             }
         })
+    }
+    
+}
+/***************************Cart Page****************************** */
+if(document.querySelector("#cart")){
+
+    let decrement = document.querySelectorAll(".decrement");
+    let increment = document.querySelectorAll(".increment");
+    let inputs = document.querySelectorAll(".cant");
+
+    for (let i = 0; i < inputs.length; i++) {
+        let input = inputs[i];
+        let minus = decrement[i];
+        let plus = increment[i];
+        input.addEventListener("change",function(){
+            if(input.value <= 1){
+                input.value = 1;
+            }else if(input.value >= 99){
+                input.value = 99;
+            }
+        })
+        minus.addEventListener("click",function(){
+            if(input.value<=1){
+                return input.value=1;
+            }
+            input.value--;
+        });
+        plus.addEventListener("click",function(){
+            if(input.value>=99){
+                return input.value=99;
+            }
+            input.value++;
+        })
+        
     }
     
 }

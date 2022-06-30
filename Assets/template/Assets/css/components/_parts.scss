@@ -2,6 +2,7 @@
 
 .product-cant{
     display: flex;
+    justify-content: center;
     align-items: center;
     height: 40px;
     i{
@@ -20,7 +21,7 @@
         border: 1px solid $blueJeans;
         height: 100%;
     }
-    #viewProductAdd{
+    button{
         background-color: $blueJeans;
         color:$cultured;
         text-align: center;
@@ -127,4 +128,16 @@
     i{
         font-size: 0.75rem;
     }
+}
+.btn-del{
+    position: absolute;
+    top:-10px;
+    left:0;
+    padding: 3px 10px;
+    color:$azure;
+    font-size: 12px;
+    background-color: #fff;
+    border: 1px solid $azure;
+    border-radius: 50%;
+    cursor: pointer;
 }

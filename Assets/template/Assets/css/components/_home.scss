@@ -478,9 +478,12 @@
         height: 100px;
         overflow: hidden;
     }
+    a{
+        text-decoration: none;
+        color:#000;
+    }
     h1{
         margin: 0;
-        color:#000;
         font-size: 28px;
     }
     .product-rate{

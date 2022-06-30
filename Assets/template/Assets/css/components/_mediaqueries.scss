@@ -1,8 +1,13 @@
 @media screen and (max-width: 1400px) {
+    .nav-logo{
+        margin-right: 40px;
+    }
+    .nav-main{
+        margin-right: 10px;
+    }
     .cart-panel-main{
         width: 40%;
     }
-
 }
 @media screen and (max-width: 768px){
     
@@ -18,8 +23,23 @@
             }
         }
     }
+    
 }
 @media screen and (max-width: 576px){
+    .table-cart{
+        thead{
+            display: none;
+        }
+        tbody{
+            tr{
+                td{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
+        }
+    }
     .product-data{
         margin-top: 20px;
         h1{
@@ -69,6 +89,7 @@
     }
     .nav-logo{
         font-size: 20px;
+        margin-right: 20px;
     }
     .nav-main{
         display: none;
