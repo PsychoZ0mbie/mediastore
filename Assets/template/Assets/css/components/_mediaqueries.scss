@@ -8,9 +8,34 @@
     .cart-panel-main{
         width: 40%;
     }
+    
+}
+@media screen and (max-width: 1280px){
+    #filter{
+        display: block;
+    }
+    .filter-options{
+        background-color: #fff;
+        position: fixed;
+        left:-100%;
+        width: 40%;
+        top:0;
+        z-index: 12;
+        height: 100vh;
+        transition: 0.3s;
+        overflow: hidden;
+        overflow-y: scroll;
+    }.filter-options.active{
+        left:0;
+    }
+    .shop-options{
+        justify-content: space-between;
+    }
 }
 @media screen and (max-width: 768px){
-    
+    .filter-options{
+        width: 80%;
+    }
     .nav-logo{
         margin-right: 40px;
     }
@@ -97,24 +122,5 @@
     #btnToggleNav{
         display: flex;
     }
-    #filter{
-        display: block !important;
-    }
-    .filter-options{
-        background-color: #fff;
-        position: fixed;
-        left:-100%;
-        width: 80%;
-        top:0;
-        z-index: 12;
-        height: 100vh;
-        transition: 0.3s;
-        overflow: hidden;
-        overflow-y: scroll;
-    }.filter-options.active{
-        left:0;
-    }
-    .shop-options{
-        justify-content: space-between;
-    }
+    
 }

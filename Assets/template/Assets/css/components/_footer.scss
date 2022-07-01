@@ -2,10 +2,10 @@
 footer{
     position: relative;
     width: 100%;
-    background-color: $cultured;
+    background-color: $third-color;
     &::before{
         content:" ";
-        background-color: $azure;
+        background-color: $first-color;
         height: 5px;
         width: 100%;
         position: absolute;
@@ -14,7 +14,7 @@ footer{
     }
     &::after{
         content:" ";
-        background-color: $azure;
+        background-color: $first-color;
         height: 5px;
         width: 100%;
         position: absolute;
@@ -24,14 +24,14 @@ footer{
     .footer-social{
         a{
             padding: 6px 12px;
-            border: 1px solid $blueJeans;
+            border: 1px solid $second-color;
             border-radius: 50%;
-            background-color: $blueJeans;
-            color:$cultured;
+            background-color: $second-color;
+            color:$third-color;
             transition: 0.3s;
             &:hover{
-                background-color: $cultured;
-                color:$blueJeans;
+                background-color: $third-color;
+                color:$second-color;
                 transition: 0.3s;
             }
         }

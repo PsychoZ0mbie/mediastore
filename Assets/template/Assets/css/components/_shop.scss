@@ -70,7 +70,7 @@
     }
     p{
         margin: 0;
-        color:$azure;
+        color:$first-color;
     }
 }
 .pagination{
@@ -83,11 +83,11 @@
     margin: 0 5px;
     cursor: pointer;
     padding: 5px 15px;
-    border: 1px solid $azure;
+    border: 1px solid $first-color;
     border-radius: 50%;
     &:hover{
-        background-color: $azure;
-        color:$cultured;
+        background-color: $first-color;
+        color:$third-color;
     }
 }
 .pagination-pag{
@@ -103,16 +103,16 @@
             cursor: pointer;
             margin: 0 5px;
             padding: 5px 15px;
-            border: 1px solid $azure;
+            border: 1px solid $first-color;
             border-radius: 50%;
             a{
                 text-decoration: none;
                 color:#000;
             }
             &:hover{
-                background-color: $azure;
+                background-color: $first-color;
                 a{
-                    color:$cultured;
+                    color:$third-color;
                 }
             }
         }

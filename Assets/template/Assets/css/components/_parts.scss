@@ -6,11 +6,11 @@
     align-items: center;
     height: 40px;
     i{
-        color: $cultured;
+        color: $third-color;
     }
     div{
         cursor: pointer;
-        background-color:$blueJeans;
+        background-color:$second-color;
         height: 100%;
         padding: 8px 16px;
     }
@@ -18,18 +18,18 @@
         padding: 0;
         text-align: center;
         font-weight: bold;
-        border: 1px solid $blueJeans;
+        border: 1px solid $second-color;
         height: 100%;
     }
     button{
-        background-color: $blueJeans;
-        color:$cultured;
+        background-color: $second-color;
+        color:$third-color;
         text-align: center;
         width: 125px;
         height: 100%;
         border: none;
         &:hover{
-            background-color: $azure;
+            background-color: $first-color;
         }
     }
 }
@@ -53,9 +53,9 @@
             color:#000;
         }
         &:hover{
-            background-color: $blueJeans;
+            background-color: $second-color;
             a{
-                color:$cultured;
+                color:$third-color;
             }
         }
     }
@@ -108,7 +108,7 @@
                 left: 20px;
                 height: 100%;
                 width: 5px;
-                background-color: $azure;
+                background-color: $first-color;
             }
             
         }
@@ -121,7 +121,7 @@
     button{
         background-color: unset;
         border: none;
-        color: $azure;
+        color: $first-color;
     }
 }
 .review-stars{
@@ -134,10 +134,10 @@
     top:-10px;
     left:0;
     padding: 3px 10px;
-    color:$azure;
+    color:$first-color;
     font-size: 12px;
     background-color: #fff;
-    border: 1px solid $azure;
+    border: 1px solid $first-color;
     border-radius: 50%;
     cursor: pointer;
 }

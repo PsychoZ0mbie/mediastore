@@ -24,34 +24,34 @@
                 left:-5000px;
                 margin-bottom: 20px;
                 font-size: 25px;
-                color:$azure;
+                color:$first-color;
                 font-style: oblique;
             }
             h3{
                 position: relative;
                 left:-5000px;
                 font-size: 40px;
-                color:$blueJeans;
+                color:$second-color;
                 font-weight: bold;
             }
             h4{
                 position: relative;
                 left:-5000px;
                 font-size: 50px;
-                color:$blueJeans;
+                color:$second-color;
                 margin-bottom: 20px;
                 font-weight: bold;
             }
             p{
                 position: relative;
                 left:-5000px;
-                color:$azure;
+                color:$first-color;
                 font-weight: bold;
                 font-size: 40px;
                 span{
                     text-decoration: line-through;
                     font-size: 30px;
-                    color:$blueJeans;
+                    color:$second-color;
                 }
             }
             a{
@@ -102,7 +102,7 @@
         position: absolute;
         top: 20px;
         left: 30px;
-        color: $azure;
+        color: $first-color;
         z-index: 1;
     }
     .category-btn{
@@ -121,7 +121,7 @@
             left: 0;
             height: 4px;
             width: 0;
-            background-color: $azure;
+            background-color: $first-color;
         }
     }
     img{
@@ -146,10 +146,10 @@
             transition: 0.3s;
         }
         .category-info{
-            color: $cultured;
+            color: $third-color;
         }
         .category-btn{
-            color: $cultured;
+            color: $third-color;
             z-index: 1;
             &::after{
                 width: 100%;
@@ -164,7 +164,7 @@
     height: 600px;
     position: relative;
     overflow: hidden;
-    color:$cultured;
+    color:$third-color;
     img{
         width: 100%;
         height: 100%;
@@ -191,9 +191,9 @@
             transition: 0.3s;
         }
         a{
-            background-color: $azure;
+            background-color: $first-color;
             text-decoration: none;
-            color:$cultured;
+            color:$third-color;
         }
     }
     &::after{
@@ -243,11 +243,11 @@
     position: absolute;
     top:5px;
     left: 5px;
-    color: $azure;
+    color: $first-color;
     font-weight: bold;
-    background-color: $cultured;
+    background-color: $third-color;
     padding: 2px 10px;
-    border: 2px solid $azure;
+    border: 2px solid $first-color;
     z-index: 1;
     animation-name: discount;
     animation-duration: 2s;
@@ -274,7 +274,7 @@
         transition: 0.3s ease;
     }
     button{
-        background-color: $azure;
+        background-color: $first-color;
         border-radius: 20px;
         border: none;
         position: absolute;
@@ -282,10 +282,10 @@
         left:50%;
         transform: translateX(-50%);
         transition: 0.3s ease;
-        color:$cultured;
+        color:$third-color;
         width: 55%;
         &:hover{
-            background-color: $blueJeans;
+            background-color: $second-color;
         }
     }
     
@@ -301,36 +301,38 @@
             color:#000;
             transition: 0.3s ease;
             &:hover{
-                color:$azure;
+                color:$first-color;
                 transition: 0.3s ease;
             }
         }
-        p{
-           color: $azure;
-           span{
-            margin-left:10px ;
-            font-size: 15px;
-            text-decoration: line-through;
-            color:$blueJeans;
-           }
-           
-        } 
+        
     }
+    p{
+        color: $first-color;
+        span{
+         margin-left:10px ;
+         font-size: 15px;
+         text-decoration: line-through;
+         font-weight: bold;
+         color:$second-color;
+        }
+    } 
 }
 .product-rate{
     text-align: center;
     font-size: 15px;
-    color: $azure;
+    color: $first-color;
 }
 .product-btns{
     text-align: center;
     padding: 10px;
+    display: flex;
+    justify-content: center;
     i{
-        padding: 5px;
         transition: 0.3s ease;
         cursor: pointer;
         &:hover{
-            color:$azure;
+            color:$first-color;
             transition: 0.3s ease;
         }
     }
@@ -373,10 +375,10 @@
         position: absolute;
         top:5px;
         left: 5px;
-        color: $azure;
-        background-color: $cultured;
+        color: $first-color;
+        background-color: $third-color;
         padding: 2px 10px;
-        border: 2px solid $azure;
+        border: 2px solid $first-color;
         z-index: 1;
         animation-name: discount;
         animation-duration: 2s;
@@ -413,9 +415,9 @@
     z-index: 2;
     cursor: pointer;
     i{
-        border: 1px solid $azure;
-        color:$azure;
-        background-color: $cultured;
+        border: 1px solid $first-color;
+        color:$first-color;
+        background-color: $third-color;
         padding: 3px 6px;
         border-radius: 50%;
     }
@@ -435,9 +437,9 @@
     z-index: 2;
     cursor: pointer;
     i{
-        border: 1px solid $azure;
-        color:$azure;
-        background-color: $cultured;
+        border: 1px solid $first-color;
+        color:$first-color;
+        background-color: $third-color;
         padding: 3px 6px;
         border-radius: 50%;
     }
@@ -471,7 +473,7 @@
     }
 
 }.product-image-item.active{
-    border: 3px solid $azure;
+    border: 3px solid $first-color;
 }
 .product-data{
     #description{
@@ -488,6 +490,6 @@
     }
     .product-rate{
         font-size: 15px;
-        color: $azure;
+        color: $first-color;
     }
 }

@@ -1,7 +1,4 @@
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl)
-})
+
 /***************************Nav Events****************************** */
 let btnBar = document.querySelector("#btnToggleNav");
 let btnCart = document.querySelector("#btnToggleCart");
@@ -62,28 +59,31 @@ document.querySelector(".cart-panel").addEventListener("click",function(e){
 /***************************General Shop Events****************************** */
 
 //Quick view modal
-if(document.querySelectorAll(".product-btns .fa-eye")){
-    let btns = document.querySelectorAll(".product-btns .fa-eye");
+if(document.querySelectorAll(".product-btns .quickView")){
+    let btns = document.querySelectorAll(".product-btns .quickView");
     for (let i = 0; i < btns.length; i++) {
         let btn = btns[i];
         btn.addEventListener("click",function(e){
+
             let productCard = e.target.parentElement.parentElement;
             let discount = "";
-            let price ="";
             let modalItem = document.querySelector("#modalItem");
             let modal="";
-            let info = document.querySelectorAll(".product-info a");
+            let category = document.querySelectorAll(".product-category")[i].innerHTML;
+            let title = document.querySelectorAll(".product-title")[i].innerHTML;
             let url = document.querySelectorAll(".product-img img")[i].src;
+            let price = document.querySelectorAll(".product-price")[i];
+
             if(productCard.children[0].className =="product-discount"){
-                discount = `<p class="product-discount"><strong>${productCard.children[0].innerHTML}</strong></p>`
+                discount = `<p class="product-discount">${productCard.children[0].innerHTML}</p>`
             }
-            if(info[i].children[2].children.length>1){
+            if(price.children.length>1){
                 price = `
-                <p class="m-0 text-decoration-line-through t-p">${info[i].children[2].children[1].innerHTML}</p>
-                <p class="fs-3"><strong>${info[i].children[2].children[0].innerHTML}</strong></p>`;
+                <p class="m-0 text-decoration-line-through t-p">${price.children[1].innerHTML}</p>
+                <p class="fs-3"><strong>${price.children[0].innerHTML}</strong></p>`;
             }else{
                 price = `
-                <p class="fs-3"><strong>${info[i].children[2].children[0].innerHTML}</strong></p>`;
+                <p class="fs-3"><strong>${price.children[0].innerHTML}</strong></p>`;
             }
             
             modal= `
@@ -123,7 +123,7 @@ if(document.querySelectorAll(".product-btns .fa-eye")){
                                     </div>
                                 </div>
                                 <div class="col-md-6 product-data">
-                                    <h1><a href="product.html"><strong>${info[i].children[1].innerHTML}</strong></a></h1>
+                                    <h1><a href="product.html"><strong>${title}</strong></a></h1>
                                     <div class="product-rate text-start mb-3">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -135,7 +135,7 @@ if(document.querySelectorAll(".product-btns .fa-eye")){
                                     ${price}
                                     <p class="mb-3" id="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores illum quibusdam asperiores sed. Asperiores hic aliquam adipisci odit suscipit excepturi sit, nemo et velit ex, atque enim exercitationem facere corporis!</p>
                                     <p class="m-0">SKU: <strong>111-222-333</strong></p>
-                                    <a href="shop.html" class="m-0">Category: ${info[i].children[0].innerHTML}</a>
+                                    <a href="shop.html" class="m-0">Category:<strong> ${category}</strong></a>
                                     <div class="mt-4 mb-4 d-flex align-items-center">
                                         <div class="product-cant me-3">
                                             <div class="decrement"><i class="fas fa-minus"></i></div>
@@ -151,7 +151,7 @@ if(document.querySelectorAll(".product-btns .fa-eye")){
                                             <li title="Linkedin"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
                                             <li title="Telegram"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
                                         </ul>
-                                        <div class="c-p"><i class="far fa-heart"></i> Add to whishlist</div>
+                                        <div class="c-p quickModal"><i class="far fa-heart product-addwishlistModal me-1"></i> <a class="c-d">Add to wishlist</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -231,8 +231,56 @@ if(document.querySelectorAll(".product-btns .fa-eye")){
             btnNext.addEventListener("click",function(){
                 inner.scrollBy(100,0);
             })
+            if(document.querySelector(".product-addwishlistModal")){
+                let btn = document.querySelector(".product-addwishlistModal");
+                btn.addEventListener("click",function(){
+                    btn.classList.toggle("active");
+                    if(btn.classList.contains("active")){
+                        btn.classList.replace("far","fas");
+                        btn.classList.add("text-danger");
+                        btn.parentElement.children[1].classList.replace("c-d","c-p");
+                        btn.parentElement.children[1].setAttribute("href","wishlist.html");
+                        btn.parentElement.children[1].innerHTML= `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                        setTimeout(function(){
+                            btn.parentElement.children[1].innerHTML="Check wishlist";
+                        },300);
+                    }else{
+                        btn.classList.replace("fas","far");
+                        btn.classList.remove("text-danger");
+                        btn.parentElement.children[1].classList.replace("c-p","c-d");
+                        btn.parentElement.children[1].removeAttribute("href");
+                        btn.parentElement.children[1].innerHTML= `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                        setTimeout(function(){
+                            btn.parentElement.children[1].innerHTML="Add to wishlist";
+                        },300);
+                    }
+                })
+            }
         });
     } 
+}
+//add wishlist product card
+if(document.querySelectorAll(".product-btns .addWishList")){
+    let btns = document.querySelectorAll(".product-btns .addWishList");
+    for (let i = 0; i < btns.length; i++) {
+        let btn = btns[i];
+        btn.addEventListener("click",function(){
+            btn.classList.toggle("active");
+            if(btn.classList.contains("active")){
+                btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                setTimeout(function(){
+                    btn.innerHTML = `<i class="fas fa-heart text-danger " title="Add to wishlist"></i>`
+                },300);
+                
+            }else{
+                btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                setTimeout(function(){
+                    btn.innerHTML = `<i class="far fa-heart" title="Add to wishlist"></i>`
+                },300);
+                
+            }
+        })
+    }
 }
 
 //Add product card button
@@ -406,6 +454,31 @@ if(document.querySelector("#product")){
             }
         })
     }
+    if(document.querySelector(".product-addwishlist")){
+        let btn = document.querySelector(".product-addwishlist");
+        btn.addEventListener("click",function(){
+            btn.classList.toggle("active");
+            if(btn.classList.contains("active")){
+                btn.classList.replace("far","fas");
+                btn.classList.add("text-danger");
+                btn.parentElement.children[1].classList.replace("c-d","c-p");
+                btn.parentElement.children[1].setAttribute("href","wishlist.html");
+                btn.parentElement.children[1].innerHTML= `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                setTimeout(function(){
+                    btn.parentElement.children[1].innerHTML="Check wishlist";
+                },300);
+            }else{
+                btn.classList.replace("fas","far");
+                btn.classList.remove("text-danger");
+                btn.parentElement.children[1].classList.replace("c-p","c-d");
+                btn.parentElement.children[1].removeAttribute("href");
+                btn.parentElement.children[1].innerHTML= `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                setTimeout(function(){
+                    btn.parentElement.children[1].innerHTML="Add to wishlist";
+                },300);
+            }
+        })
+    }
     
 }
 /***************************Cart Page****************************** */
@@ -441,4 +514,35 @@ if(document.querySelector("#cart")){
         
     }
     
+}
+/***************************Login Page****************************** */
+if(document.querySelector("#login")){
+    
+    let formLogin = document.querySelector("#formLogin");
+    let formReset = document.querySelector("#formReset");
+    let formSign = document.querySelector("#formSign");
+    let btnForgot = document.querySelector("#forgotBtn");
+    let btnLogin = document.querySelectorAll(".loginBtn");
+    let btnSign = document.querySelector("#signBtn");
+
+    btnForgot.addEventListener("click",function(){
+        formReset.classList.remove("d-none");
+        formLogin.classList.add("d-none");
+    });
+    btnSign.addEventListener("click",function(){
+        formSign.classList.remove("d-none");
+        formLogin.classList.add("d-none");
+    });
+    for (let i = 0; i < btnLogin.length; i++) {
+        let btn = btnLogin[i];
+        btn.addEventListener("click",function(){
+            if(i == 0){
+                formSign.classList.add("d-none");
+                formLogin.classList.remove("d-none");
+            }else{
+                formReset.classList.add("d-none");
+                formLogin.classList.remove("d-none");
+            }
+        })
+    }
 }

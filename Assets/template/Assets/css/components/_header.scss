@@ -3,18 +3,25 @@
 header{
     height: 60px;
     width: 100%;
-    background-color: $azure;
-    color:$cultured;
+    background-color: $first-color;
+    color:$third-color;
     position: fixed;
     z-index: 3;
 }
 
 .nav-custom{
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     height: 100%;
     position: relative;
+    padding: 0 20px;
+}
+.nav-search{
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
 }
 .nav-search-open{
     display: block;
@@ -31,7 +38,7 @@ header{
         
     }
     input:focus{
-        outline: $blueJeans;
+        outline: $second-color;
     }
     #btnCloseSearch{
         display: flex;
@@ -40,8 +47,8 @@ header{
         position: absolute;
         height: 100%;
         width: 50px;
-        background-color: $blueJeans;
-        color:$cultured;
+        background-color: $second-color;
+        color:$third-color;
         top:0;
         right:0;
         font-size: 30px;
@@ -59,7 +66,7 @@ header{
             opacity: 0.5;
         }100%{
             opacity: 1;
-            width:70%;
+            width:95%;
         }
     }
 }
@@ -83,8 +90,8 @@ header{
         position: absolute;
         height: 100%;
         width: 50px;
-        background-color: $blueJeans;
-        color:$cultured;
+        background-color: $second-color;
+        color:$third-color;
         top:0;
         right:0;
         font-size: 30px;
@@ -114,11 +121,11 @@ header{
     transition: 0.2s 0.5s all ease;
     a{
         text-decoration: none;
-        color: $cultured;
+        color: $third-color;
     }
 }
 .nav-logo.active{
-    left:-100%;
+    opacity: 0;
     transition: 0.2s 0.5s all ease;
 }
 .nav-main{
@@ -137,7 +144,7 @@ header{
             position: relative;
             margin-right:50px;
             a{
-                color: $cultured;
+                color: $third-color;
                 text-decoration: none;
             }
             &::after{
@@ -147,7 +154,7 @@ header{
                 left: 0;
                 height: 4px;
                 width: 0;
-                background-color: $cultured;
+                background-color: $third-color;
                 transition: 0.3s;
             }
             &:hover{
@@ -180,17 +187,17 @@ header{
             align-items: center;
             margin-right:20px;
             a{
-                color: $cultured;
+                color: $third-color;
                 text-decoration: none;
             }
         }
     }
 }
 .nav-icons.active{
-    right: -100%;
+    opacity: 0;
     transition: 0.2s 0.5s all ease;
 }
-.nav-icons-cart{
+.nav-icons-qty{
     position: relative;
     span{
         position: absolute;
@@ -218,7 +225,7 @@ header{
     right:-100%;
     height: 100vh;
     width: 80%;
-    background-color:$blueJeans;
+    background-color:$second-color;
     padding: 20px;
     z-index: 20;
     transition: all ease 0.3s;
@@ -226,7 +233,7 @@ header{
         font-size: 25px;
         a{
             text-decoration: none;
-            color: $cultured;
+            color: $third-color;
         }
     }
     ul{
@@ -238,12 +245,12 @@ header{
             margin:20px 0;
             transition: all ease 0.3s;
             &:hover{
-                background-color: $azure;
+                background-color: $first-color;
                 padding-left: 20px;
                 transition: all ease 0.3s;
             }
             a{
-                color: $cultured;
+                color: $third-color;
                 text-decoration: none;
             }
             
@@ -282,7 +289,7 @@ header{
 .cart-panel-title{
     font-size: 25px;
     text-decoration: none;
-    color: $blueJeans;
+    color: $second-color;
 }
 .cart-panel-main{
     position: fixed;
@@ -339,6 +346,6 @@ header{
     cursor: pointer;
 }
 #btnCloseCart{
-    color: $blueJeans;
+    color: $second-color;
     cursor: pointer;
 }

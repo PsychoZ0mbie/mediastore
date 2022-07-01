@@ -81,65 +81,96 @@
             </div>
         </div>
     </header>
-    <main>
-        <div class="cover">
-            <h1>CONTACT US</h1>
-        </div>
-        <div class="container mt-4 mb-4">
-            <div class="row contact">
-                <div class="col-md-6">
-                    <div class="row h-100">
-                        <div class="col-md-6 contact-info">
-                            <div class="contact-item">
-                                <i class="fas fa-map-marker-alt fs-1 mb-3 t-p"></i>
-                                <p class="fs-6 fw-bold m-0">Our location</p>
-                                <p class="fs-6">1234 Street Name, City, US</p>
+    <main id="cart">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 order-lg-1 order-md-5 order-sm-5">
+                    <form id="formOrden" name="formOrden" class="p-4">
+                        <h2>Billing details</h2>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="txtNombreOrden" class="form-label">First name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="txtNombreOrden" name="txtNombreOrden" required="">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 contact-info">
-                            <div class="contact-item">
-                                <i class="fas fa-phone fs-1 mb-3 t-p"></i>
-                                <p class="fs-6 fw-bold m-0">Our phone</p>
-                                <p class="fs-6">+1 123123123123</p>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="txtApellidoOrden" class="form-label">Last name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="txtApellidoOrden" name="txtApellidoOrden" required="">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 contact-info">
-                            <div class="contact-item">
-                                <i class="fas fa-envelope fs-1 mb-3 t-p"></i>
-                                <p class="fs-6 fw-bold m-0">Our email</p>
-                                <p class="fs-6">info@mediastore.com</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 contact-info">
-                            <div class="contact-item p-0">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d201877.7344402928!2d-122.3753904!3d37.7586346!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20EE.%20UU.!5e0!3m2!1ses!2sco!4v1656619489035!5m2!1ses!2sco" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 contact-form">
-                    <form action="">
-                        <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Your name">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Your email">
+                            <label for="txtEmailOrden" class="form-label">Email <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="txtEmailOrden" name="txtEmailOrden" required="">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                            <label for="listCountry" class="form-label">Country <span class="text-danger">*</span></label>
+                            <select class="form-select" id="listCountry" name="listCountry" aria-label="Default select example" required="">
+                                <option value="0">Select</option>
+                            </select>
                         </div>
-                        <div>
-                            <button type="submit" class="btn btnc-primary w-100 mb-2">Submit</button>
-                            <div class="d-flex justify-content-center">
-                                <a href="#" class="me-3 ms-3 text-dark fs-5"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#" class="me-3 ms-3 text-dark fs-5"><i class="fab fa-instagram"></i></a>
-                                <a href="#" class="me-3 ms-3 text-dark fs-5"><i class="fab fa-twitter"></i></i></a>
-                            </div>
+                        <div class="mb-3">
+                            <label for="listState" class="form-label">State <span class="text-danger">*</span></label>
+                            <select class="form-select" id="listState" name="listState" aria-label="Default select example" required="">
+                                <option value="0">Select</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="listCity" class="form-label">City <span class="text-danger">*</span></label>
+                            <select class="form-select" id="listCity" name="listCity" aria-label="Default select example" required="">
+                                <option value="0">Select</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="txtPostCode" class="form-label"> Postcode</label>
+                            <input type="text" class="form-control" id="txtPostCode" name="txtPostCode">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txtAddress" class="form-label"> Address<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="txtAddress" name="txtAddress" required="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txtPhone" class="form-label">Phone <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="txtPhone" name="txtPhone" required="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txtNote" class="form-label">Order notes</label>
+                            <textarea class="form-control" id="txtNote" name="txtNote" rows="5"></textarea>
                         </div>
                     </form>
+                </div>
+                <div class="col-lg-5 order-lg-5 mb-4">
+                    <div class="p-4">
+                        <h2>Your order</h2>
+                        <p class="fw-bold">Product</p>
+                        <div class="d-flex justify-content-between">
+                            <p>ASUS X550CA x 1</p>
+                            <p>$250.00</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p>Sony MDR-ZX310APB x 1</p>
+                            <p>$250.00</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p>Xiaomi redmi note 9 x 1</p>
+                            <p>$250.00</p>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 position-relative af-b-line">
+                            <p class="m-0 fw-bold">Subtotal</p>
+                            <p class="m-0">$250.00</p>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <p class="m-0">Coupon</p>
+                            <p class="m-0">15%</p>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 position-relative af-b-line">
+                            <p class="m-0 fw-bold fs-5">Total</p>
+                            <p class="m-0 fw-bold fs-5">$175.00</p>
+                        </div>
+                        <button type="button" class="w-100 btn btnc-primary">Place order</a>
+                    </div>
                 </div>
             </div>
         </div>

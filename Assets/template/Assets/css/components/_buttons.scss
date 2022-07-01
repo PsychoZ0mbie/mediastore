@@ -6,12 +6,12 @@
     text-decoration: none;
 }
 .btnc-primary{
-    background-color: $azure;
-    color:$cultured;
+    background-color: $first-color;
+    color:$third-color;
     transition: all ease 0.1s;
     &:hover{
         transition: all ease 0.1s;
-        background-color: $blueJeans;
-        color:$cultured;
+        background-color: $second-color;
+        color:$third-color;
     }
 }
