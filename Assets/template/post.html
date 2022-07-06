@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Store</title>
+
+    <!------------------------------------Frameworks--------------------------->
+    <link rel="stylesheet" href="/Assets/css/bootstrap/bootstrap.min.css">
+    <!------------------------------------Font Awesome 5--------------------------->
+    <link href="/Assets/css/icons/font-awesome.min.css">
+    <!------------------------------------Styles--------------------------->
+    <link rel="stylesheet" href="/Assets/template/Assets/css/style.css">
+
+</head>
+<body>
+    <header>
+        <nav class="nav-custom">
+            <div class="nav-logo">
+                <a href="index.html"><strong>MEDIASTORE</strong></a>
+            </div>
+            <div class="nav-search d-none">
+                <input type="search" name="" id="txtSearch" placeholder="search something">
+                <div id="btnCloseSearch">X</div>
+            </div>
+            <div class="nav-main">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="nav-icons">
+                <ul>
+                    <li title="Search" class="c-p" id="btnSearch"><i class="fas fa-search"></i></li>
+                    <li title="Wishlist" ><a href="wishlist.html"><i class="fas fa-heart"></i></a></li>
+                    <li class="nav-icons-qty" title="My cart" id="btnToggleCart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>0</span>
+                    </li>
+                    <li title="My account"><a href="login.html"><i class="fas fa-user"></i></a></li>
+                    <li id="btnToggleNav"><i class="fas fa-bars"></i></li>
+                </ul>
+            </div>
+            <div class="nav-mobile">
+                <div class="container nav-mobile-main">
+                    <div class="nav-logo d-flex justify-content-between align-items m-0">
+                        <strong>MEDIASTORE</strong>
+                        <div id="btnCloseNav">X</div>
+                    </div>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="cart-panel">
+            <div class="container cart-panel-main">
+                <div class="cart-panel-title d-flex justify-content-between align-items m-0">
+                    <strong>YOUR CART</strong>
+                    <div id="btnCloseCart">X</div>
+                </div>
+                <div class="cart-panel-items scroll-y">
+                    <div class="cart-panel-item">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdq0BfB70WI3UM5iFrRWAfPCcI_xfgJidpUbxk-iKTOYhOsfsmgYCRG9XGXgJfKp5e218&usqp=CAU" alt="">
+                        <div class="btn-del">X</div>
+                        <h3><a href="product.html"><strong>Xiaomi redmi note 9</strong></a></h3>
+                        <p>3 x $250.000 </p>
+                    </div>
+                </div>
+                <p class="t-p "><strong>Total: $750.000</strong></p>
+                <div>
+                    <a href="cart.html" class="btn w-100 btnc-primary mb-2">View Cart</a>
+                    <a href="checkout.html" class="btn w-100 btnc-primary">Checkout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <a class="text-decoration-none" href="#" id="scrollTop"><i class="fas fa-angle-up"></i></a>
+    <main class="addFilter">
+        <div class="container">
+            <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a class="text-decoration-none" href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-decoration-none" href="blog.html">Blog</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Lorem ipsu Tenetur esse ad lorem</li>
+                </ol>
+            </nav>
+            <div class="row">
+                <div class="col-lg-3">
+                    <aside class="filter-options p-2">
+                        <div class="accordion accordion-flush" id="accordionFlushCategories">
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="flush-categories">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseCategories" aria-expanded="false" aria-controls="flush-collapseCategories">
+                                  <strong class="fs-5">Blog Categories</strong>
+                                </button>
+                              </h2>
+                              <div id="flush-collapseCategories" class="accordion-collapse collapse show" aria-labelledby="flush-categories" data-bs-parent="#accordionFlushCategories">
+                                <div class="accordion-body">
+                                    <div class="accordion accordion-flush" id="accordionFlushCategorie">
+                                        <div class="accordion-item">
+                                          <h2 class="accordion-header" id="flush-categorie">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseCategorie" aria-expanded="false" aria-controls="flush-collapseCategorie">
+                                              <a href="#" class="text-decoration-none">Accesories</a>
+                                            </button>
+                                          </h2>
+                                          <div id="flush-collapseCategorie" class="accordion-collapse collapse show" aria-labelledby="flush-categorie" data-bs-parent="#accordionFlushCategorie">
+                                            <div class="accordion-body">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <a href="#">Headphones</a>
+                                                        <span class="badge bg-p rounded-pill">14</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <a href="#">Mouse</a>
+                                                        <span class="badge bg-p rounded-pill">20</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion accordion-flush" id="accordionFlushCategorie1">
+                                        <div class="accordion-item">
+                                          <h2 class="accordion-header" id="flush-categorie1">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseCategorie1" aria-expanded="false" aria-controls="flush-collapseCategorie1">
+                                              <a href="#" class="text-decoration-none">Computers</a>
+                                            </button>
+                                          </h2>
+                                          <div id="flush-collapseCategorie1" class="accordion-collapse collapse show" aria-labelledby="flush-categorie1" data-bs-parent="#accordionFlushCategorie1">
+                                            <div class="accordion-body">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <a href="#">Pc Gamer</a>
+                                                        <span class="badge bg-p rounded-pill">6</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <a href="#">Laptops</a>
+                                                        <span class="badge bg-p rounded-pill">10</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="featured">
+                            <div class="featured-info">
+                                <h2 class="fs-5"><strong>Recent posts</strong></h2>
+                                <div class="featured-btns">
+                                    <div class="p-2 featured-btn-left c-p"><i class="fas fa-angle-left"></i></div>
+                                    <div class="p-2 featured-btn-right c-p"><i class="fas fa-angle-right"></i></div>
+                                </div>
+                            </div>
+                            <div class="featured-container-items">
+                                <div class="featured-items">
+                                    <div class="featured-item">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <img src="data:image/jpeg;base64,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" alt="">
+                                            </div>
+                                            <div class="col-8 overflow-hidden">
+                                                <h3 style="height:50px"><a href="post.html">Lorem ipsu Tenetur esse ad rem, maxime, voluptatem et perspiciatis nemo, praesentium distinctio dignissimos id. Veritatis nulla repellendus rerum aut odio amet iure impedit.</a></h3>
+                                                <p>05/07/2022</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="featured-item">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <img src="https://hardzone.es/app/uploads-hardzone.es/2019/05/CORSAIR-VENGEANCE-5180-Gaming-PC.jpg" alt="">
+                                            </div>
+                                            <div class="col-8 overflow-hidden">
+                                                <h3 style="height:50px"><a href="post.html">Lorem ipsu Tenetur esse ad rem, maxime, voluptatem et perspiciatis nemo, praesentium distinctio dignissimos id. Veritatis nulla repellendus rerum aut odio amet iure impedit.</a></h3>
+                                                <p>05/07/2022</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="featured-item">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <img src="https://depor.com/resizer/1LcyReXDZPQcnH-w4WYX5yFpGZQ=/580x330/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/5F7F2ZKX6RHXHC2JC3THCA3ICQ.jpg" alt="">
+                                            </div>
+                                            <div class="col-8 overflow-hidden">
+                                                <h3 style="height:50px"><a href="post.html">Lorem ipsu Tenetur esse ad rem, maxime, voluptatem et perspiciatis nemo, praesentium distinctio dignissimos id. Veritatis nulla repellendus rerum aut odio amet iure impedit.</a></h3>
+                                                <p>05/07/2022</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="featured-items">
+                                    <div class="featured-item">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <img src="https://pyxis.nymag.com/v1/imgs/9d7/a2e/d3c1e85ae2db240d4c7b31b35a09067095-best-headphones-lede.2x.rsocial.w600.jpg" alt="">
+                                            </div>
+                                            <div class="col-8 overflow-hidden">
+                                                <h3 style="height:50px"><a href="post.html">Lorem ipsu Tenetur esse ad rem, maxime, voluptatem et perspiciatis nemo, praesentium distinctio dignissimos id. Veritatis nulla repellendus rerum aut odio amet iure impedit.</a></h3>
+                                                <p>05/07/2022</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="featured-item">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <img src="https://cdn.pocket-lint.com/r/s/x1920/assets/images/139149-laptops-news-buyer-s-guide-best-laptops-to-buy-image23-3y4ogcxpwl.jpg" alt="">
+                                            </div>
+                                            <div class="col-8 overflow-hidden">
+                                                <h3 style="height:50px"><a href="post.html">Lorem ipsu Tenetur esse ad rem, maxime, voluptatem et perspiciatis nemo, praesentium distinctio dignissimos id. Veritatis nulla repellendus rerum aut odio amet iure impedit.</a></h3>
+                                                <p>05/07/2022</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="featured-item">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <img src="https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/plp/laptops/img-0224/X-Pro-2022.png" alt="">
+                                            </div>
+                                            <div class="col-8 overflow-hidden">
+                                                <h3 style="height:50px"><a href="post.html">Lorem ipsu Tenetur esse ad rem, maxime, voluptatem et perspiciatis nemo, praesentium distinctio dignissimos id. Veritatis nulla repellendus rerum aut odio amet iure impedit.</a></h3>
+                                                <p>05/07/2022</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                    <div class="filter-options-overlay"></div>
+                </div>
+                <div class="col-lg-9 col-md-12">
+                    <div class="d-flex align-items-center justify-content-between shop-options">
+                        <div class="me-2 c-p" id="filter"><i class="fas fa-filter"></i>Filter</div>
+                    </div>
+                    <div class="post">
+                        <div class="post-cover">
+                            <img src="https://depor.com/resizer/1LcyReXDZPQcnH-w4WYX5yFpGZQ=/580x330/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/5F7F2ZKX6RHXHC2JC3THCA3ICQ.jpg" alt="">
+                        </div>
+                        <div class="post-content">
+                            <h1 class="fw-bold t-p">Lorem ipsu Tenetur esse ad lorem</h1>
+                            <div class="d-flex justify-content-between mb-3">
+                                <p class="m-0">05/07/2022</p>
+                                <a class="text-decoration-none t-p" href="#formComment">Comments (2)</a>
+                            </div>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi corrupti, dolorum tempore voluptatum praesentium eaque beatae iure perspiciatis, doloribus iusto officia, excepturi reiciendis magni eos delectus assumenda eum debitis in.
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. At recusandae praesentium soluta! Vel delectus dignissimos doloribus necessitatibus molestias corrupti excepturi numquam mollitia, libero rem perspiciatis impedit et ipsam, eius facere.
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam in, animi, itaque debitis odit quo dicta inventore molestiae architecto id laboriosam dolorem fugiat nemo exercitationem alias accusantium quis incidunt perspiciatis.
+                                <br>
+                                <br>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi corrupti, dolorum tempore voluptatum praesentium eaque beatae iure perspiciatis, doloribus iusto officia, excepturi reiciendis magni eos delectus assumenda eum debitis in.
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. At recusandae praesentium soluta! Vel delectus dignissimos doloribus necessitatibus molestias corrupti excepturi numquam mollitia, libero rem perspiciatis impedit et ipsam, eius facere.
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam in, animi, itaque debitis odit quo dicta inventore molestiae architecto id laboriosam dolorem fugiat nemo exercitationem alias accusantium quis incidunt perspiciatis.
+                            </p>
+                        </div>
+                        <ul class="comment-list">
+                            <li class="comment-block">
+                                <div class="comment-img">
+                                    <img src="https://t4.ftcdn.net/jpg/02/45/56/35/360_F_245563558_XH9Pe5LJI2kr7VQuzQKAjAbz9PAyejG1.jpg" alt="">
+                                    <p class="text-center fw-bold">29 June 2022</p>
+                                </div>
+                                <div class="comment-feedb">
+                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, deserunt tenetur voluptate quos eligendi sunt alias tempora dolores vitae a dolorum possimus inventore facere, ullam, pariatur repellat provident aliquid error. Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, officia nesciunt! Eius quam repellendus, voluptate beatae officia asperiores maiores vitae ea facilis sequi, at a ipsa sapiente ipsam in nulla?</p>
+                                    <div class="d-flex justify-content-between flex-wrap">
+                                        <h3>John Doe</h3>
+                                        <p class="m-0 t-p c-p btnAnswer">Show answer <i class="fas fa-angle-down"></i></p>
+                                    </div>
+                                </div>
+                                <div class="comment-answer">
+                                    <p class="m-0">Thanks! Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis perferendis quas optio expedita, Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam est animi nostrum aliquid. Cumque, praesentium impedit hic cupiditate ipsum corrupti laboriosam tempora. Similique esse excepturi dicta in qui beatae magni. quidem numquam minima animi adipisci nobis minus consectetur maxime, non eaque maiores molestias, doloribus suscipit aliquid temporibus. Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero eligendi sint itaque tenetur in a cum illum repellendus? Expedita, voluptates. Cum nostrum eum illo cumque vitae iusto eos, nobis libero. consectetur adipisicing elit. Quas ullam deserunt non voluptas quos quisquam? Fugit eveniet mollitia possimus dolorem odio aliquam. Corrupti eveniet beatae nam quasi mollitia soluta excepturi.</p>
+                                </div>
+                            </li>
+                            <li class="comment-block">
+                                <div class="comment-img">
+                                    <img src="data:image/jpeg;base64,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" alt="">
+                                    <p class="text-center fw-bold">20 June 2022</p>
+                                </div>
+                                <div class="comment-feedb">
+                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, deserunt tenetur voluptate quos eligendi sunt alias tempora dolores vitae a dolorum possimus inventore facere, ullam, pariatur repellat provident aliquid error. Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, officia nesciunt! Eius quam repellendus, voluptate beatae officia asperiores maiores vitae ea facilis sequi, at a ipsa sapiente ipsam in nulla?</p>
+                                    <div class="d-flex justify-content-between flex-wrap">
+                                        <h3>Jane Doe</h3>
+                                        <p class="m-0 t-p c-p btnAnswer">Show answer <i class="fas fa-angle-down"></i></p>
+                                    </div>
+                                </div>
+                                <div class="comment-answer">
+                                    <p class="m-0">Thanks! Lconsectetur adipisicing elit. Ullamoriosam tempora. Similique esse excepturi dicta in qui beatae magni. quidem numquam minima animi adipisci nobis minus consectetur maxime, non eaque maiores molestias, doloribus suscipit aliquid temporibus. Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero eligendi sint itaque tenetur in a cum illum repellendus? Expedita, voluptates. Cum nostrum eum illo cumque vitae iusto eos, nobis libero. consectetur adipisicing elit. Quas ullam deserunt non voluptas quos quisquam? Fugit eveniet mollitia possimus dolorem odio aliquam. Corrupti eveniet beatae nam quasi mollitia soluta excepturi.</p>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="d-flex justify-content-center mb-3">
+                            <form action="" id="formComment" class="w-100">
+                                <h3 class="mb-3 text-center">Add your comment</h3>
+                                <div class="mb-3">
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Your comment"></textarea>
+                                </div>
+                                <button type="submit" class="btn btnc-primary">Post comment</button>
+                            </form>
+                        </div>
+                        <div class="d-flex justify-content-between position-relative af-t-line mt-4 mb-4">
+                            <div class="mt-2"><i class="fas fa-share"></i> Share this post</div>
+                            <div class="mt-2">
+                                <a href="#" title="Share on facebook" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" title="Share on linkedin" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" title="Share on twitter" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-twitter"></i></i></a>
+                                <a href="#" title="Share on telegram" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-telegram-plane"></i></i></a>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <h3 class="t-p mb-3"><strong>RELATED POSTS</strong></h3>
+                            <div class="col-lg-4 col-md-6 mb-3">
+                                <div class="card">
+                                    <img src="https://larepublica.pe/resizer/2BLxB-vEnd2NkbBmiAbj5vTMeKQ=/480x282/top/smart/cloudfront-us-east-1.images.arcpublishing.com/gruporepublica/434MY7GBMFFSTDCJXTLKBMHRL4.jpg" style="height:200px;" alt="...">
+                                    <div class="card-body">
+                                      <a href="post.html" class="text-decoration-none text-dark"><h2 class="card-title fs-5">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h5></a>
+                                      <p class="card-text overflow-hidden" style="height:50px">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil, nisi. Voluptatum assumenda pariatur sit odio. Repudiandae, at ratione vel nemo voluptatum asperiores, tempora aliquam repellendus quidem atque mollitia provident est.</p>
+                                      <a href="post.html" class="btn btnc-primary">Read more</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 mb-3">
+                                <div class="card">
+                                    <img src="https://s1.eestatic.com/2021/12/03/actualidad/631948900_217191977_1024x576.jpg" style="height:200px;" alt="...">
+                                    <div class="card-body">
+                                      <a href="post.html" class="text-decoration-none text-dark"><h2 class="card-title fs-5">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h5></a>
+                                      <p class="card-text overflow-hidden" style="height:50px">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil, nisi. Voluptatum assumenda pariatur sit odio. Repudiandae, at ratione vel nemo voluptatum asperiores, tempora aliquam repellendus quidem atque mollitia provident est.</p>
+                                      <a href="post.html" class="btn btnc-primary">Read more</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 mb-3">
+                                <div class="card">
+                                    <img src="https://r3.whistleout.com.mx/public/images/articles/2019/08/huawei-p30.jpg" style="height:200px;" alt="...">
+                                    <div class="card-body">
+                                      <a href="post.html" class="text-decoration-none text-dark"><h2 class="card-title fs-5">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h5></a>
+                                      <p class="card-text overflow-hidden" style="height:50px">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil, nisi. Voluptatum assumenda pariatur sit odio. Repudiandae, at ratione vel nemo voluptatum asperiores, tempora aliquam repellendus quidem atque mollitia provident est.</p>
+                                      <a href="post.html" class="btn btnc-primary">Read more</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container p-5 ">
+            <div class="row mb-4">
+                <p class="fs-3">FOLLOW US</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></i></a>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-3 mb-3">
+                    <h4 class="fs-5">PAYMENT METHOD</h4>
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab tempora corporis dolorum debitis animi harum dolorem illum doloremque quaerat? Similique non facere quaerat cum ad nulla sapiente consectetur corrupti sint.</p>
+                    <div>
+                        <i class="fs-3 p-2 fab fa-cc-mastercard"></i>
+                        <i class="fs-3 p-2 fab fa-cc-discover"></i>
+                        <i class="fs-3 p-2 fab fa-cc-paypal"></i>
+                        <i class="fs-3 p-2 fab fa-cc-visa"></i>
+                        <i class="fs-3 p-2 fab fa-cc-amex"></i>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h4 class="fs-5">CONTACT INFO</h4>
+                    <div class="d-flex justify-content-between pe-2">
+                        <p class="m-0"><strong>Address</strong></p>
+                        <p>1234 Street Name, City, US</p>
+                    </div>
+                    <div class="d-flex justify-content-between pe-2">
+                        <p class="m-0"><strong>Phone</strong></p>
+                        <p>(123) 456-7890</p>
+                    </div>
+                    <div class="d-flex justify-content-between pe-2">
+                        <p class="m-0"><strong>Email</strong></p>
+                        <p>mail@example.com</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h4 class="fs-5">COMPANY</h4>
+                    <a href="about.html" class="text-decoration-none text-dark m-0 d-block">About us</a>
+                    <a href="contact.html" class="text-decoration-none text-dark m-0 d-block">Contact us</a>
+                    <a href="policies.html" class="text-decoration-none text-dark m-0 d-block">Policies</a>
+                </div>
+                <div class="col-md-3 text-decoration-none">
+                    <h4 class="fs-5">CATEGORIES</h4>
+                    <a href="shop.html" class="text-decoration-none text-dark m-0 d-block">Smartphones</a>
+                    <a href="shop.html" class="text-decoration-none text-dark m-0 d-block">Computers</a>
+                    <a href="shop.html" class="text-decoration-none text-dark m-0 d-block">Accesories</a>
+                </div>
+            </div>
+            <div class="row text-center">
+                <p class="mb-0">Copyright © 2022 Código Energizado</p>
+            </div>
+        </div>
+    </footer>
+    <!------------------------------------Plugins--------------------------->
+    <script src="/Assets/js/plugins/sweetalert.js"></script>
+    <!------------------------------------Framework--------------------------->
+    <script src="/Assets/js/bootstrap/popper.min.js"></script>
+    <script src="/Assets/js/bootstrap/bootstrap.min.js"></script>
+    <!------------------------------------Font Awesome 5--------------------------->
+    <script src="/Assets/js/icons/fontawesome.js"></script>
+    <!------------------------------------Functions--------------------------->
+    <script src="/Assets/js/functions.js"></script>
+    <script src="/Assets/template/Assets/js/app.js"></script>
+</body>
+</html>

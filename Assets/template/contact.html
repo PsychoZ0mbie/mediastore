@@ -15,21 +15,23 @@
 
 </head>
 <body>
+    <div id="modalPoup"></div>
     <header>
         <nav class="nav-custom">
             <div class="nav-logo">
                 <a href="index.html"><strong>MEDIASTORE</strong></a>
             </div>
             <div class="nav-search d-none">
-                <input type="search" name="" id="" placeholder="search something">
+                <input type="search" name="" id="txtSearch" placeholder="search something">
                 <div id="btnCloseSearch">X</div>
             </div>
             <div class="nav-main">
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="shop.html">Shop</a></li>
+                    <li><a href="blog.html">Blog</a></li>
                     <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li class="active"><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
             <div class="nav-icons">
@@ -53,6 +55,7 @@
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li><a href="shop.html">Shop</a></li>
+                        <li><a href="blog.html">Blog</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
@@ -81,11 +84,18 @@
             </div>
         </div>
     </header>
+    <a class="text-decoration-none" href="#" id="scrollTop"><i class="fas fa-angle-up"></i></a>
     <main>
         <div class="cover">
             <h1>CONTACT US</h1>
         </div>
         <div class="container mt-4 mb-4">
+            <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a class="text-decoration-none" href="index.html">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Contact</li>
+                </ol>
+            </nav>
             <div class="row contact">
                 <div class="col-md-6">
                     <div class="row h-100">
@@ -195,7 +205,7 @@
                 </div>
             </div>
             <div class="row text-center">
-                <p class="mb-0">Copyright © 2022 David Parrado</p>
+                <p class="mb-0">Copyright © 2022 Código Energizado</p>
             </div>
         </div>
     </footer>

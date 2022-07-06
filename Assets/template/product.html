@@ -16,19 +16,21 @@
 </head>
 <body>
     <div id="modalItem"></div>
+    <div id="modalPoup"></div>
     <header>
         <nav class="nav-custom">
             <div class="nav-logo">
                 <a href="index.html"><strong>MEDIASTORE</strong></a>
             </div>
             <div class="nav-search d-none">
-                <input type="search" name="" id="" placeholder="search something">
+                <input type="search" name="" id="txtSearch" placeholder="search something">
                 <div id="btnCloseSearch">X</div>
             </div>
             <div class="nav-main">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
+                    <li class="active"><a href="index.html">Home</a></li>
                     <li><a href="shop.html">Shop</a></li>
+                    <li><a href="blog.html">Blog</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
@@ -54,6 +56,7 @@
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li><a href="shop.html">Shop</a></li>
+                        <li><a href="blog.html">Blog</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
@@ -82,7 +85,9 @@
             </div>
         </div>
     </header>
+    <a class="text-decoration-none" href="#" id="scrollTop"><i class="fas fa-angle-up"></i></a>
     <main id="product">
+        
         <div class="popup">
             <div class="popup-close">X</div>
             <div class="popup-info">
@@ -98,6 +103,13 @@
             </div>
         </div>
         <div class="container mt-4 mb-4">
+            <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a class="text-decoration-none" href="shop.html">Shop</a></li>
+                  <li class="breadcrumb-item"><a class="text-decoration-none" href="product.html">Product</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">ASUS X550CA</li>
+                </ol>
+            </nav>
             <div class="row ps-2 pe-2 pb-4">
                 <div class="col-md-6">
                     <div class="product-image">
@@ -148,10 +160,10 @@
                     </div>
                     <div class="d-flex align-items-center mt-4">
                         <ul class="product-social">
-                            <li title="Facebook"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                            <li title="Twitter"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                            <li title="Linkedin"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                            <li title="Telegram"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
+                            <li title="Share on facebook"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                            <li title="Share on twitter"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li title="Share on linkedin"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                            <li title="Share on telegram"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
                         </ul>
                         <div class="c-p"><i class="far fa-heart product-addwishlist me-1"></i> <a class="c-d">Add to wishlist</a></div>
                     </div>
@@ -266,7 +278,7 @@
                                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, deserunt tenetur voluptate quos eligendi sunt alias tempora dolores vitae a dolorum possimus inventore facere, ullam, pariatur repellat provident aliquid error. Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, officia nesciunt! Eius quam repellendus, voluptate beatae officia asperiores maiores vitae ea facilis sequi, at a ipsa sapiente ipsam in nulla?</p>
                                 <div class="d-flex justify-content-between flex-wrap">
                                     <h3>John Doe</h3>
-                                    <p class="m-0 t-p c-p" id="btnAnswer">Show answer <i class="fas fa-angle-down"></i></p>
+                                    <p class="m-0 t-p c-p btnAnswer">Show answer <i class="fas fa-angle-down"></i></p>
                                 </div>
                             </div>
                             <div class="comment-answer">
@@ -289,7 +301,7 @@
                                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, deserunt tenetur voluptate quos eligendi sunt alias tempora dolores vitae a dolorum possimus inventore facere, ullam, pariatur repellat provident aliquid error. Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, officia nesciunt! Eius quam repellendus, voluptate beatae officia asperiores maiores vitae ea facilis sequi, at a ipsa sapiente ipsam in nulla?</p>
                                 <div class="d-flex justify-content-between flex-wrap">
                                     <h3>Jane Doe</h3>
-                                    <p class="m-0 t-p c-p" id="btnAnswer">Show answer <i class="fas fa-angle-down"></i></p>
+                                    <p class="m-0 t-p c-p btnAnswer">Show answer <i class="fas fa-angle-down"></i></p>
                                 </div>
                             </div>
                             <div class="comment-answer">
@@ -297,35 +309,23 @@
                             </div>
                         </li>
                     </ul>
-                    <div class="d-flex justify-content-center">
-                        <form action="" id="formReview">
+                    <div class="d-flex justify-content-center mb-3">
+                        <form action="" id="formReview" class="w-100">
                             <h3 class="mb-3 text-center">Add your review</h3>
                             <div class="d-flex justify-content-center">
                                 <input type="hidden" name="intRate" id="intRate" value="0">
                                 <div class="review-rate mb-3">
-                                    <button type="button" class="startBtn"><i class="far fa-star"></i></button>
-                                    <button type="button" class="startBtn"><i class="far fa-star"></i></button>
-                                    <button type="button" class="startBtn"><i class="far fa-star"></i></button>
-                                    <button type="button" class="startBtn"><i class="far fa-star"></i></button>
-                                    <button type="button" class="startBtn"><i class="far fa-star"></i></button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="name">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-                                    </div>
+                                    <button type="button" class="starBtn"><i class="far fa-star"></i></button>
+                                    <button type="button" class="starBtn"><i class="far fa-star"></i></button>
+                                    <button type="button" class="starBtn"><i class="far fa-star"></i></button>
+                                    <button type="button" class="starBtn"><i class="far fa-star"></i></button>
+                                    <button type="button" class="starBtn"><i class="far fa-star"></i></button>
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Your review"></textarea>
                             </div>
-                            <button type="submit" class="btn btnc-primary w-25">Submit</button>
+                            <button type="submit" class="btn btnc-primary">Post review</button>
                         </form>
                     </div>
                 </div>
@@ -496,7 +496,7 @@
                 </div>
             </div>
             <div class="row text-center">
-                <p class="mb-0">Copyright © 2022 David Parrado</p>
+                <p class="mb-0">Copyright © 2022 Código Energizado</p>
             </div>
         </div>
     </footer>

@@ -7,7 +7,7 @@ let btnCloseCart = document.querySelector("#btnCloseCart");
 let btnSearch = document.querySelector("#btnSearch");
 let btnCloseSearch = document.querySelector("#btnCloseSearch");
 
-btnCloseSearch.addEventListener("mousedown",function(){
+btnCloseSearch.addEventListener("click",function(){
     document.querySelector(".nav-search").classList.remove("nav-search-open");
     document.querySelector(".nav-search").classList.add("nav-search-close");
     document.querySelector(".nav-logo").classList.remove("active");
@@ -15,6 +15,7 @@ btnCloseSearch.addEventListener("mousedown",function(){
     document.querySelector(".nav-icons").classList.remove("active");
     setTimeout(function(){
         document.querySelector(".nav-search").classList.add("d-none");
+        document.querySelector("#txtSearch").value="";
     },800)
 });
 btnSearch.addEventListener("click",function(){
@@ -57,7 +58,14 @@ document.querySelector(".cart-panel").addEventListener("click",function(e){
 });
 
 /***************************General Shop Events****************************** */
-
+//Scroll top
+window.addEventListener("scroll",function(){
+    if(window.scrollY > 100){
+        document.querySelector("#scrollTop").style.display="flex";
+    }else{
+        document.querySelector("#scrollTop").style.display="none";
+    }
+});
 //Quick view modal
 if(document.querySelectorAll(".product-btns .quickView")){
     let btns = document.querySelectorAll(".product-btns .quickView");
@@ -282,7 +290,6 @@ if(document.querySelectorAll(".product-btns .addWishList")){
         })
     }
 }
-
 //Add product card button
 if(document.querySelectorAll(".product-card-add")){
     let btnAddCart = document.querySelectorAll(".product-card-add");
@@ -310,7 +317,7 @@ if(document.querySelectorAll(".product-card-add")){
             };
             runTime();
             let url = document.querySelectorAll(".product-img img")[i].src;
-            let title = document.querySelectorAll(".product-info a h3 strong")[i].innerHTML;
+            let title = document.querySelectorAll(".product-info a h3")[i].innerHTML;
 
             popup.children[1].children[0].src=url;
             popup.children[1].children[1].children[0].innerHTML=title;
@@ -325,9 +332,64 @@ if(document.querySelectorAll(".product-card-add")){
         });
     }
 }
-
-/***************************Shop Page****************************** */
-if(document.querySelector("#shop")){
+/***************************Popup suscribe********************************/
+window.addEventListener("DOMContentLoaded",function () {
+    if(document.querySelector("#modalPoup")){
+        setTimeout(function(){
+            let modal="";
+            let modalPopup = document.querySelector("#modalPoup");
+            let timer;
+            modal= `
+                    <div class="modal fade" id="modalSuscribe">
+                        <div class="modal-dialog modal-lg modal-dialog-centered ">
+                            <div class="modal-content">
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="container mb-3 p-4 pe-5 ps-5">
+                                    <form id="formModalSuscribe" class="mb-3">
+                                        <h2 class="t-p">MEDIASTORE</h2>
+                                        <h2 class="fs-5">Suscribe to our newsletter and get a 15% discount coupon</h2>
+                                        <p>Receive updates on new arrivals, special offers and our promotions</p>
+                                        <div class="mb-3">
+                                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Your email">
+                                        </div>
+                                        <button type="submit" class="btn btnc-primary">Suscribe</button>
+                                    </form>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="delPopup">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Don't show this popup again
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+            modalPopup.innerHTML = modal;
+            let modalView = new bootstrap.Modal(document.querySelector("#modalSuscribe"));
+            modalView.show();
+            document.querySelector("#modalSuscribe").addEventListener("hidden.bs.modal",function(){
+                if(document.querySelector("#delPopup").checked){
+                    window.clearTimeout(timer);
+                    modalView.hide();
+                    modalPopup.innerHTML = "";
+                }else{
+                    window.clearTimeout(timer);
+                    const runTime = function(){
+                        timer=setInterval(function(){
+                            modalView.show();
+                        },60000);
+                    }
+                    runTime();
+                }
+            });
+        },10000);
+    }
+});
+/***************************Filter****************************** */
+if(document.querySelector(".addFilter")){
     let featured = document.querySelector(".featured-container-items");
     let left = document.querySelector(".featured-btn-left");
     let right = document.querySelector(".featured-btn-right");
@@ -348,6 +410,34 @@ if(document.querySelector("#shop")){
         filterOptions.classList.add("active");
         document.querySelector(".filter-options-overlay").style.display="block";
     });
+}
+/***************************Comment****************************** */
+if(document.querySelector(".comment-list")){
+    let btnAnswer = document.querySelectorAll(".btnAnswer");
+    let answer = document.querySelectorAll(".comment-answer");
+    let stars = document.querySelectorAll(".review-rate button");
+    for (let i = 0; i < btnAnswer.length; i++) {
+        let btn = btnAnswer[i];
+        btn.addEventListener("click",function(){
+
+            answer[i].classList.toggle("active");
+            btn.classList.toggle("active");
+    
+            if(btn.classList.contains("active")){
+                answer[i].style.height=`auto`;
+                let height = `${answer[i].clientHeight}px`;
+                answer[i].style.height=`0px`;
+                setTimeout(function(){
+                    answer[i].style.height = height;
+                },0);
+                btn.innerHTML =`Hide answer <i class="fas fa-angle-up"></i>`;
+            }else{
+                answer[i].style.height=`0px`;
+                btn.innerHTML =`Show answer <i class="fas fa-angle-down"></i>`;
+            }
+            
+        });
+    }
 }
 /***************************Product Page****************************** */
 if(document.querySelector("#product")){
@@ -416,31 +506,7 @@ if(document.querySelector("#product")){
         inner.scrollBy(100,0);
     });
 
-    let btnAnswer = document.querySelectorAll("#btnAnswer");
-    let answer = document.querySelectorAll(".comment-answer");
-    let stars = document.querySelectorAll(".review-rate button");
-    for (let i = 0; i < btnAnswer.length; i++) {
-        let btn = btnAnswer[i];
-        btn.addEventListener("click",function(){
-
-            answer[i].classList.toggle("active");
-            btn.classList.toggle("active");
-    
-            if(btn.classList.contains("active")){
-                answer[i].style.height=`auto`;
-                let height = `${answer[i].clientHeight}px`;
-                answer[i].style.height=`0px`;
-                setTimeout(function(){
-                    answer[i].style.height = height;
-                },0);
-                btn.innerHTML =`Hide answer <i class="fas fa-angle-up"></i>`;
-            }else{
-                answer[i].style.height=`0px`;
-                btn.innerHTML =`Show answer <i class="fas fa-angle-down"></i>`;
-            }
-            
-        });
-    }
+    let stars = document.querySelectorAll(".starBtn")
     for (let i = 0; i < stars.length; i++) {
         let star = stars[i];
         star.addEventListener("click",function(){

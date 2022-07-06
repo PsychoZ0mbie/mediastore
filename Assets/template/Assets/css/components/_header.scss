@@ -8,7 +8,6 @@ header{
     position: fixed;
     z-index: 3;
 }
-
 .nav-custom{
     display: flex;
     justify-content: space-between;
@@ -162,6 +161,18 @@ header{
                     width: 100%;
                     transition: 0.3s;
                 }
+            }
+        }
+        li.active{
+            &::after{
+                content: " ";
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                height: 4px;
+                width: 100%;
+                background-color: $third-color;
+        
             }
         }
     }

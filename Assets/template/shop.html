@@ -16,19 +16,21 @@
 </head>
 <body>
     <div id="modalItem"></div>
+    <div id="modalPoup"></div>
     <header>
         <nav class="nav-custom">
             <div class="nav-logo">
                 <a href="index.html"><strong>MEDIASTORE</strong></a>
             </div>
             <div class="nav-search d-none">
-                <input type="search" name="" id="" placeholder="search something">
+                <input type="search" name="" id="txtSearch" placeholder="search something">
                 <div id="btnCloseSearch">X</div>
             </div>
             <div class="nav-main">
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="shop.html">Shop</a></li>
+                    <li class="active"><a href="shop.html">Shop</a></li>
+                    <li><a href="blog.html">Blog</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
@@ -54,6 +56,7 @@
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li><a href="shop.html">Shop</a></li>
+                        <li><a href="blog.html">Blog</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
@@ -82,7 +85,8 @@
             </div>
         </div>
     </header>
-    <main id="shop">
+    <a class="text-decoration-none" href="#" id="scrollTop"><i class="fas fa-angle-up"></i></a>
+    <main class="addFilter">
         <div class="popup">
             <div class="popup-close">X</div>
             <div class="popup-info">
@@ -98,6 +102,13 @@
             </div>
         </div>
         <div class="container mt-5 mb-3">
+            <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a class="text-decoration-none" href="shop.html">Shop</a></li>
+                  <li class="breadcrumb-item"><a class="text-decoration-none" href="shop.html">Computers</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Pc Gamer</li>
+                </ol>
+            </nav>
             <div class="row">
                 <div class="col-lg-3">
                     <aside class="filter-options p-2">
@@ -303,7 +314,7 @@
                 </div>
                 <div class="col-lg-9 col-md-12">
                     <div class="d-flex align-items-center justify-content-between shop-options">
-                        <div class="me-4 c-p" id="filter"><i class="fas fa-filter"></i>Filter</div>
+                        <div class="me-2 c-p" id="filter"><i class="fas fa-filter"></i>Filter</div>
                         <div class="d-flex align-items-center justify-content-center">
                             <label for="exampleFormControlInput1" class="form-label m-0 me-4">Sort by:</label>
                             <select class="form-select w-50" aria-label="Default select example">
@@ -619,7 +630,7 @@
                 </div>
             </div>
             <div class="row text-center">
-                <p class="mb-0">Copyright © 2022 David Parrado</p>
+                <p class="mb-0">Copyright © 2022 Código Energizado</p>
             </div>
         </div>
     </footer>
