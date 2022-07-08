@@ -98,7 +98,11 @@ export default class Product{
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="txtDescription" class="form-label">Description</label>
+                                <label for="txtShortDescription" class="form-label">Short description <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="txtShortDescription" name="txtShortDescription" placeholder="Max 140 characters" required></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtDescription" class="form-label">Description </label>
                                 <textarea class="form-control" id="txtDescription" name="txtDescription" rows="5"></textarea>
                             </div>
                             <div class="modal-footer">
@@ -185,12 +189,17 @@ export default class Product{
             let intPrice = document.querySelector("#txtPrice").value;
             let intStatus = document.querySelector("#statusList").value;
             let intStock = document.querySelector("#txtStock").value;
+            let strShortDescription = document.querySelector("#txtShortDescription").value;
             let intSubCategory = subcategoryList.value;
             let intCategory = categoryList.value;
             let images = document.querySelectorAll(".upload-image");
 
-            if(strName == "" || intStatus == "" || intCategory == 0 || intSubCategory==0 || intPrice=="" || intStock==""){
+            if(strName == "" || intStatus == "" || intCategory == 0 || intSubCategory==0 || intPrice=="" || intStock=="" || strShortDescription==""){
                 Swal.fire("Error","All fields marked with (*) are required","error");
+                return false;
+            }
+            if(strShortDescription.length >140){
+                Swal.fire("Error","Short description must be max 140 characters","error");
                 return false;
             }
             if(images.length < 1){
@@ -311,6 +320,7 @@ export default class Product{
                                         <tr><td><strong>Quantity: </strong>${objData.data.stock}</td></tr>
                                         <tr><td><strong>Date: </strong>${objData.data.date}</td></tr>
                                         <tr><td><strong>Status: </strong>${status}</td></tr>
+                                        <tr><td><strong>Short description: </strong>${objData.data.shortdescription}</td></tr>
                                     </tbody>
                                 </table>
                                 <div class="modal-footer">
@@ -420,6 +430,10 @@ export default class Product{
                                 </div>
                             </div>
                             <div class="mb-3">
+                                <label for="txtShortDescription" class="form-label">Short description <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="txtShortDescription" name="txtShortDescription" placeholder="Max 140 characters" required></input>
+                            </div>
+                            <div class="mb-3">
                                 <label for="txtDescription" class="form-label">Description</label>
                                 <textarea class="form-control" id="txtDescription" name="txtDescription" rows="5"></textarea>
                             </div>
@@ -457,6 +471,7 @@ export default class Product{
             document.querySelector("#txtDiscount").value = objData.data.discount;
             document.querySelector("#txtPrice").value = objData.data.price;
             document.querySelector("#txtStock").value = objData.data.stock;
+            document.querySelector("#txtShortDescription").value=objData.data.shortdescription; 
             document.querySelector("#txtDescription").value=objData.data.description; 
             //modal.classList.remove("d-none");
 

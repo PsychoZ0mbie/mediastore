@@ -68,6 +68,13 @@
                                 }
                             ?>
                             <li class="nav-item mt-5">
+                                <a class="nav-link" href="<?=base_url()?>/user/profile">
+                                    <svg class="nav-icon">
+                                        <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
+                                    </svg> Profile
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="<?=base_url()?>/logout">
                                     <svg class="nav-icon">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>

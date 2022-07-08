@@ -74,7 +74,7 @@
             $this->strPicture = $strPicture;
             $this->intStatus = $intStatus;
 
-			$sql = "SELECT * FROM person WHERE email = '{$this->strEmail}' AND idperson != $this->intIdUser";
+			$sql = "SELECT * FROM person WHERE email = '{$this->strEmail}' AND phone = '{$this->intPhone}' AND idperson != $this->intIdUser";
 			$request = $this->select_all($sql);
 
 			if(empty($request)){
@@ -177,6 +177,80 @@
         }
         public function selectRoles(){
             $sql = "SELECT * FROM role ORDER BY idrole ASC";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        /*************************Profile methods*******************************/
+        public function updateProfile(int $idUser, string $strName,string $strLastName, string $strPicture, string $intPhone,string $strAddress, 
+            int $intCountry, int $intState,int $intCity,string $strEmail, string $strPassword){
+            
+            $this->intIdUser = $idUser;
+			$this->strName = $strName;
+			$this->strLastName = $strLastName;
+			$this->intPhone = $intPhone;
+			$this->strEmail = $strEmail;
+			$this->strPassword = $strPassword;
+            $this->strPicture = $strPicture;
+            $this->strAddress = $strAddress;
+            $this->intCountryId = $intCountry;
+            $this->intStateId = $intState;
+            $this->intCityId = $intCity;
+
+			$sql = "SELECT * FROM person WHERE email = '{$this->strEmail}' AND phone = '{$this->intPhone}' AND idperson != $this->intIdUser";
+			$request = $this->select_all($sql);
+
+			if(empty($request)){
+				if($this->strPassword  != ""){
+					$sql = "UPDATE person SET image=?, firstname=?, lastname=?,email=?, phone=?, address=?, countryid=?, stateid=?, cityid=? password=? 
+							WHERE idperson = $this->intIdUser";
+					$arrData = array(
+                        $this->strPicture,
+                        $this->strName,
+                        $this->strLastName,
+                        $this->strEmail,
+                        $this->intPhone,
+                        $this->strAddress,
+                        $this->intCountryId,
+                        $this->intStateId,
+                        $this->intCityId,
+                        $this->strPassword
+                    );
+				}else{
+					$sql = "UPDATE person SET image=?, firstname=?, lastname=?,email=?, phone=?, address=?, countryid=?, stateid=?, cityid=? 
+							WHERE idperson = $this->intIdUser";
+					$arrData = array(
+                        $this->strPicture,
+                        $this->strName,
+                        $this->strLastName,
+                        $this->strEmail,
+                        $this->intPhone,
+                        $this->strAddress,
+                        $this->intCountryId,
+                        $this->intStateId,
+                        $this->intCityId
+                    );
+				}
+				$request = $this->update($sql,$arrData);
+                $_SESSION['userData'] = sessionUser($this->intIdUser);
+
+			}else{
+				$request = "exist";
+			}
+			return $request;
+		
+		}
+        public function selectCountries(){
+            $sql = "SELECT * FROM countries";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function selectStates($id){
+            $sql = "SELECT * FROM states WHERE country_id = $id";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function selectCities($id){
+            $sql = "SELECT * FROM cities WHERE state_id = $id";
             $request = $this->select_all($sql);
             return $request;
         }

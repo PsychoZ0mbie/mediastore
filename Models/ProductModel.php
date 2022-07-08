@@ -6,6 +6,7 @@
         private $strReference;
 		private $strName;
         private $strDescription;
+        private $strShortDescription;
         private $intPrice;
         private $intDiscount;
         private $intStock;
@@ -16,7 +17,7 @@
             parent::__construct();
         }
         /*************************Category methods*******************************/
-        public function insertProduct(int $idCategory, int $idSubcategory,string $strReference, string $strName, string $strDescription, int $intPrice, int $intDiscount, int $intStock, int $intStatus, string $route, array $photos){
+        public function insertProduct(int $idCategory, int $idSubcategory,string $strReference, string $strName, string $strShortDescription,string $strDescription, int $intPrice, int $intDiscount, int $intStock, int $intStatus, string $route, array $photos){
             
             $this->intIdCategory = $idCategory;
             $this->intIdSubCategory = $idSubcategory;
@@ -28,19 +29,25 @@
             $this->intStock = $intStock;
 			$this->intStatus = $intStatus;
 			$this->strRoute = $route;
+            $this->strShortDescription = $strShortDescription;
 
 			$return = 0;
-			$sql = "SELECT * FROM product WHERE name = '$this->strName'";
+            $reference="";
+            if($this->strReference!=""){
+                $reference = "OR reference = '$this->strReference'";
+            }
+			$sql = "SELECT * FROM product WHERE name = '$this->strName' $reference";
 			$request = $this->select_all($sql);
 
 			if(empty($request))
 			{ 
-				$query_insert  = "INSERT INTO product(categoryid,subcategoryid,reference,name,description,price,discount,stock,status,route) VALUES(?,?,?,?,?,?,?,?,?,?)";
+				$query_insert  = "INSERT INTO product(categoryid,subcategoryid,reference,name,shortdescription,description,price,discount,stock,status,route) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 	        	$arrData = array(
                     $this->intIdCategory,
                     $this->intIdSubCategory,
                     $this->strReference,
                     $this->strName,
+                    $this->strShortDescription,
                     $this->strDescription,
                     $this->intPrice,
                     $this->intDiscount,
@@ -60,7 +67,7 @@
 			}
 	        return $return;
 		}
-        public function updateProduct(int $idProduct,int $idCategory, int $idSubcategory,string $strReference, string $strName, string $strDescription, int $intPrice, int $intDiscount, int $intStock, int $intStatus, string $route, array $photos){
+        public function updateProduct(int $idProduct,int $idCategory, int $idSubcategory,string $strReference, string $strName, string $strShortDescription, string $strDescription, int $intPrice, int $intDiscount, int $intStock, int $intStatus, string $route, array $photos){
             $this->intIdProduct = $idProduct;
             $this->intIdCategory = $idCategory;
             $this->intIdSubCategory = $idSubcategory;
@@ -72,18 +79,25 @@
             $this->intStock = $intStock;
 			$this->intStatus = $intStatus;
 			$this->strRoute = $route;
+            $this->strShortDescription = $strShortDescription;
 
-			$sql = "SELECT * FROM product WHERE name = '{$this->strName}' AND idproduct != $this->intIdProduct";
+            $reference="";
+            if($this->strReference!=""){
+                $reference = "OR reference = '$this->strReference'";
+            }
+
+			$sql = "SELECT * FROM product WHERE name = '{$this->strName}' AND idproduct != $this->intIdProduct $reference";
 			$request = $this->select_all($sql);
 
 			if(empty($request)){
-                $sql = "UPDATE product SET categoryid=?, subcategoryid=?, reference=?, name=?,description=?, 
+                $sql = "UPDATE product SET categoryid=?, subcategoryid=?, reference=?, name=?, shortdescription=?,description=?, 
                 price=?,discount=?,stock=?,status=?, route=? WHERE idproduct = $this->intIdProduct";
                 $arrData = array(
                     $this->intIdCategory,
                     $this->intIdSubCategory,
                     $this->strReference,
                     $this->strName,
+                    $this->strShortDescription,
                     $this->strDescription,
                     $this->intPrice,
                     $this->intDiscount,
@@ -182,10 +196,10 @@
                 p.subcategoryid,
                 p.reference,
                 p.name,
+                p.shortdescription,
                 p.description,
                 p.price,
                 p.discount,
-                p.description,
                 p.stock,
                 p.status,
                 p.route,

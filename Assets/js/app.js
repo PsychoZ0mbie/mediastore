@@ -12,13 +12,10 @@ document.addEventListener('focusin', (e) => {
 });
 /*************************Dashboard Page*******************************/
 if(document.querySelector("#dashboard")){
-    if(document.querySelector("#btnNew")){
-        document.querySelector("#btnNew").classList.add("d-none");
-    }
 }
 /*************************Roles Page*******************************/
 if(document.querySelector("#role")){
-
+    document.querySelector("#btnNew").classList.remove("d-none");
     let search = document.querySelector("#search");
     search.addEventListener('input',function() {
     let elements = document.querySelectorAll(".item");
@@ -62,7 +59,7 @@ if(document.querySelector("#role")){
 }
 /*************************User Page*******************************/
 if(document.querySelector("#user")){
-
+    document.querySelector("#btnNew").classList.remove("d-none");
     let search = document.querySelector("#search");
     search.addEventListener('input',function() {
     let elements = document.querySelectorAll(".item");
@@ -70,7 +67,10 @@ if(document.querySelector("#user")){
         for(let i = 0; i < elements.length; i++) {
             let element = elements[i];
             let strName = element.getAttribute("data-name").toLowerCase();
-            if(!strName.includes(value) ){
+            let strLastName = element.getAttribute("data-lastname").toLowerCase();
+            let strEmail = element.getAttribute("data-email").toLowerCase();
+            let intPhone = element.getAttribute("data-phone").toLowerCase();
+            if(!strName.includes(value) && !strLastName.includes(value) && !strEmail.includes(value) && !intPhone.includes(value)){
                 element.classList.add("d-none");
             }else{
                 element.classList.remove("d-none");
@@ -107,7 +107,7 @@ if(document.querySelector("#user")){
 }
 /*************************Category Page*******************************/
 if(document.querySelector("#category")){
-
+    document.querySelector("#btnNew").classList.remove("d-none");
     let search = document.querySelector("#search");
     search.addEventListener('input',function() {
     let elements = document.querySelectorAll(".item");
@@ -151,7 +151,7 @@ if(document.querySelector("#category")){
 }
 /*************************SubCategory Page*******************************/
 if(document.querySelector("#subcategory")){
-
+    document.querySelector("#btnNew").classList.remove("d-none");
     let search = document.querySelector("#search");
     search.addEventListener('input',function() {
     let elements = document.querySelectorAll(".item");
@@ -159,7 +159,8 @@ if(document.querySelector("#subcategory")){
         for(let i = 0; i < elements.length; i++) {
             let element = elements[i];
             let strName = element.getAttribute("data-name").toLowerCase();
-            if(!strName.includes(value) ){
+            let strCategory = element.getAttribute("data-category").toLowerCase();
+            if(!strName.includes(value) && !strCategory.includes(value) ){
                 element.classList.add("d-none");
             }else{
                 element.classList.remove("d-none");
@@ -193,6 +194,7 @@ if(document.querySelector("#subcategory")){
 }
 /*************************Product Page*******************************/
 if(document.querySelector("#product")){
+    document.querySelector("#btnNew").classList.remove("d-none");
     let search = document.querySelector("#search");
     search.addEventListener('input',function() {
     let elements = document.querySelectorAll(".item");
@@ -200,7 +202,9 @@ if(document.querySelector("#product")){
         for(let i = 0; i < elements.length; i++) {
             let element = elements[i];
             let strName = element.getAttribute("data-name").toLowerCase();
-            if(!strName.includes(value) ){
+            let strCategory = element.getAttribute("data-category").toLowerCase();
+            let strSubcategory = element.getAttribute("data-subcategory").toLowerCase();
+            if(!strName.includes(value) && !strCategory.includes(value) && !strSubcategory.includes(value)){
                 element.classList.add("d-none");
             }else{
                 element.classList.remove("d-none");
@@ -252,80 +256,102 @@ if(document.querySelector("#product")){
     
 }
 /*************************Profile Page*******************************/
-if(document.querySelector("#perfil")){
-    let url = base_url+"/usuarios/getSelectDepartamentos";
-    let listDepartamento = document.querySelector("#listDepartamento");
-    let formPerfil = document.querySelector("#formPerfil");
-    request(url,"","get").then(function(objData){
-        listDepartamento.innerHTML = objData.department;
-        document.querySelector("#listCiudad").innerHTML = objData.city;
+if(document.querySelector("#profile")){
+
+    let img = document.querySelector("#txtImg");
+    let imgLocation = ".uploadImg img";
+    img.addEventListener("change",function(){
+        uploadImg(img,imgLocation);
     });
-    listDepartamento.addEventListener("change",function(){
-        let url = base_url+"/usuarios/getSelectCity/"+listDepartamento.value;
+
+    let intCountry = document.querySelector("#countryList");
+    let intState = document.querySelector("#stateList");
+    let intCity = document.querySelector("#cityList");
+    let formProfile = document.querySelector("#formProfile");
+
+    request(base_url+"/user/getSelectLocationInfo","","get").then(function(objData){
+        intCountry.innerHTML = objData.countries;
+        intState.innerHTML = objData.states;
+        intCity.innerHTML = objData.cities;
+    });
+
+    intCountry.addEventListener("change",function(){
+        let url = base_url+"/user/getSelectCountry/"+intCountry.value;
         request(url,"","get").then(function(objData){
-            document.querySelector("#listCiudad").innerHTML = objData.html;
+            intState.innerHTML = objData;
+        });
+    });
+    intState.addEventListener("change",function(){
+        let url = base_url+"/user/getSelectState/"+intState.value;
+        request(url,"","get").then(function(objData){
+            intCity.innerHTML = objData;
         });
     });
 
-    formPerfil.addEventListener("submit",function(e){
+    formProfile.addEventListener("submit",function(e){
         e.preventDefault();
-        let url = base_url+"/usuarios/putPerfil";
-        let strNombre = document.querySelector("#txtNombre").value;
-        let strApellido = document.querySelector("#txtApellido").value;
-        let strEmail = document.querySelector("#txtEmail").value;
-        let intTelefono = document.querySelector("#txtTelefono").value;
-        let intDepartamento = document.querySelector("#listDepartamento").value;
-        let intCiudad = document.querySelector("#listCiudad").value;
-        let intCedula = document.querySelector("#txtId").value;
-        let strPassword = document.querySelector("#txtPassword").value;
-        let strConfirmarPassword = document.querySelector("#txtPasswordConfirm").value;
 
-        if(strNombre =="" || strApellido =="" || strEmail =="" || intTelefono=="" || intDepartamento ==""
-        || intCiudad =="" || intCedula ==""){
-            Swal.fire("Error","todos los campos con (*) son obligatorios","error");
+        let url = base_url+"/user/updateProfile";
+        let strFirstName = document.querySelector("#txtFirstName").value;
+        let strLastName = document.querySelector("#txtLastName").value;
+        let strEmail = document.querySelector("#txtEmail").value;
+        let strPhone = document.querySelector("#txtPhone").value;
+        let intCountry = document.querySelector("#countryList").value;
+        let intState = document.querySelector("#stateList").value;
+        let intCity = document.querySelector("#cityList").value;
+        let strAddress = document.querySelector("#txtAddress");
+        let strPassword = document.querySelector("#txtPassword").value;
+        let strConfirmPassword = document.querySelector("#txtConfirmPassword").value;
+        let idUser = document.querySelector("#idUser").value;
+
+        if(strFirstName == "" || strLastName == "" || strEmail == "" || strPhone == "" || intCountry == "" || intState == ""
+        || intCity == "" || strAddress ==""){
+            Swal.fire("Error","All fields marked with (*) are required","error");
             return false;
         }
-        if(intTelefono.length < 10){
-            Swal.fire("Error","El número de teléfono debe tener 10 dígitos","error");
-            return false;
-        }
-        if(intCedula.length < 8 || intCedula.length > 10){
-            Swal.fire("Error","La cédula debe tener de 8 a 10 dígitos","error");
-            return false;
-        }
-        if(strPassword !=""){
+       if(strPassword!=""){
             if(strPassword.length < 8){
-                Swal.fire("Error","La contraseña debe tener mínimo 8 carácteres","error");
-                return false;
-            } 
-            if(strApellido != strConfirmarPassword){
-                Swal.fire("Error","Las contraseñas no coinciden","error");
+                Swal.fire("Error","The password must have at least 8 characters","error");
                 return false;
             }
-        }
+            if(strPassword != strConfirmPassword){
+                Swal.fire("Error","The passwords do not match","error");
+                return false;
+            }
+       }
         if(!fntEmailValidate(strEmail)){
             let html = `
             <br>
             <br>
-            <p>micorreo@hotmail.com</p>
-            <p>micorreo@outlook.com</p>
-            <p>micorreo@yahoo.com</p>
-            <p>micorreo@live.com</p>
-            <p>micorreo@gmail.com</p>
+            <p>youremail@hotmail.com</p>
+            <p>youremail@outlook.com</p>
+            <p>youremail@yahoo.com</p>
+            <p>youremail@live.com</p>
+            <p>youremail@gmail.com</p>
             `;
-            Swal.fire("Error","El correo ingresado es inválido, solo permite los siguientes correos: "+html,"error");
+            Swal.fire("Error","Email is invalid , valid emails are: "+html,"error");
+            return false;
+        }
+        if(strPhone.length < 9){
+            Swal.fire("Error","Phone number must have at least 9 digits","error");
             return false;
         }
 
-        
-
-        let formData = new FormData(formPerfil);
+        let formData = new FormData(formProfile);
+        let btnAdd = document.querySelector("#btnAdd");
+        btnAdd.innerHTML=`
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Wait...
+        `;
+        btnAdd.setAttribute("disabled","");
         request(url,formData,"post").then(function(objData){
             if(objData.status){
-                Swal.fire("Perfil",objData.msg,"success");
+                Swal.fire("Profile",objData.msg,"success");
             }else{
-                Swal.fire("Perfil",objData.msg,"error");
+                Swal.fire("Error",objData.msg,"error");
             }
+            btnAdd.innerHTML="Update";
+            btnAdd.removeAttribute("disabled");
         })
     })
 }

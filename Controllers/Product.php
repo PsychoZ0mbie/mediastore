@@ -52,9 +52,9 @@
                             $status='<span class="badge me-1 bg-danger">Inactive</span>';
                         }
                         $html.='
-                            <tr class="item" data-name="'.$request[$i]['name'].'">
+                            <tr class="item" data-name="'.$request[$i]['name'].'"  data-category="'.$request[$i]['category'].'" data-subcategory="'.$request[$i]['subcategory'].'">
                                 <td>
-                                    <img src="'.$request[$i]['image'].'">
+                                    <img src="'.$request[$i]['image'].'" class="rounded">
                                 </td>
                                 <td><strong>Reference: </strong>'.$request[$i]['reference'].'</td>
                                 <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
@@ -71,7 +71,7 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"No hay datos");
+                    $arrResponse = array("status"=>false,"msg"=>"No data");
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }else{
@@ -124,12 +124,13 @@
             if($_SESSION['permitsModule']['r']){
                 if($_POST){
                     if(empty($_POST['txtName']) || empty($_POST['statusList']) || empty($_POST['categoryList'])
-                    || empty($_POST['subcategoryList']) || empty($_POST['txtPrice']) || empty($_POST['txtStock'])){
+                    || empty($_POST['subcategoryList']) || empty($_POST['txtPrice']) || empty($_POST['txtStock']) || empty($_POST['txtShortDescription'])){
                         $arrResponse = array("status" => false, "msg" => 'Data error');
                     }else{ 
                         $idProduct = intval($_POST['idProduct']);
                         $strReference = strtoupper(strClean($_POST['txtReference']));
                         $strName = ucwords(strClean($_POST['txtName']));
+                        $strShortDescription = strClean($_POST['txtShortDescription']);
                         $idCategory = intval($_POST['categoryList']);
                         $idSubcategory = intval($_POST['subcategoryList']);
                         $intPrice = intval($_POST['txtPrice']);
@@ -153,13 +154,13 @@
                         if($idProduct == 0){
                             if($_SESSION['permitsModule']['w']){
                                 $option = 1;
-                                $request= $this->model->insertProduct($idCategory,$idSubcategory,$strReference,$strName,$strDescription,$intPrice,$intDiscount,$intStock,$intStatus,$route,$photos);
+                                $request= $this->model->insertProduct($idCategory,$idSubcategory,$strReference,$strName,$strShortDescription,$strDescription,$intPrice,$intDiscount,$intStock,$intStatus,$route,$photos);
                             }
                         }else{
                             if($_SESSION['permitsModule']['u']){
                                 $option = 2;
                                 $requestImg = $this->model->deleteImages($idProduct);
-                                $request= $this->model->updateProduct($idProduct,$idCategory,$idSubcategory,$strReference,$strName,$strDescription,$intPrice,$intDiscount,$intStock,$intStatus,$route,$photos);
+                                $request= $this->model->updateProduct($idProduct,$idCategory,$idSubcategory,$strReference,$strName,$strShortDescription,$strDescription,$intPrice,$intDiscount,$intStock,$intStatus,$route,$photos);
                             }
                         }
                         if($request > 0 ){
@@ -171,7 +172,7 @@
                                 $arrResponse = array('status' => true, 'msg' => 'Data updated.');
                             }
                         }else if($request == 'exist'){
-                            $arrResponse = array('status' => false, 'msg' => '¡Warning! The product already exists, try another name.');		
+                            $arrResponse = array('status' => false, 'msg' => '¡Warning! The product already exists, try another name and reference.');		
                         }else{
                             $arrResponse = array("status" => false, "msg" => 'It is not possible to store the data.');
                         }

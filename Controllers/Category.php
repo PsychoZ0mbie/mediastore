@@ -235,7 +235,7 @@
                             $status='<span class="badge me-1 bg-danger">Inactive</span>';
                         }
                         $html.='
-                            <tr class="item" data-name="'.$request[$i]['name'].'">
+                            <tr class="item" data-name="'.$request[$i]['name'].'" data-category="'.$request[$i]['category'].'">
                                 <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
                                 <td><strong>Category: </strong>'.$request[$i]['category'].'</td>
                                 <td><strong>Status: </strong>'.$status.'</td>

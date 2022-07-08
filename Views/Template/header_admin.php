@@ -63,7 +63,7 @@
                     
                 ?>
                 <div class="container-fluid">
-                    <button class="btn btn-primary" type="button" id="btnNew">Add <?= $data['page_name']?> <i class="fas fa-plus"></i></button>
+                    <button class="btn btn-primary d-none" type="button" id="btnNew">Add <?= $data['page_name']?> <i class="fas fa-plus"></i></button>
                 </div>
                 <?php
                     }
