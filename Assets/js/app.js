@@ -352,7 +352,7 @@ if(document.querySelector("#login")){
         let strPassword = document.querySelector('#txtPassword').value;
 
         if(strEmail == "" || strPassword ==""){
-            Swal.fire("Por favor", "Escribe usuario y contraseña.", "error");
+            Swal.fire("Error", "Please, fill the fields", "error");
             return false;
         }else{
             let url = base_url+'/Login/loginUser'; 
@@ -360,17 +360,17 @@ if(document.querySelector("#login")){
             let btnLogin = document.querySelector("#btnLogin");
             btnLogin.innerHTML=`
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Espera...
+                Wait...
             `;
             btnLogin.setAttribute("disabled","");
             request(url,formData,"post").then(function(objData){
-                btnLogin.innerHTML=`Iniciar sesión`;
+                btnLogin.innerHTML=`Login`;
                 btnLogin.removeAttribute("disabled");
                 if(objData.status){
                     window.location = base_url+'/dashboard';
                     //window.location.reload(false);
                 }else{
-                    Swal.fire("Atención", objData.msg, "error");
+                    Swal.fire("Error", objData.msg, "error");
                     document.querySelector('#txtPassword').value = "";
                 }
             });
@@ -384,33 +384,33 @@ if(document.querySelector("#login")){
         let url = base_url+'/Login/resetPass'; 
         let formData = new FormData(formReset);
         if(strEmail == ""){
-            swal("Por favor", "Escribe tu correo electrónico.","error");
+            Swal.fire("Error", "Please, fill the field", "error");
             return false;
         }
         if(!fntEmailValidate(strEmail)){
             let html = `
             <br>
             <br>
-            <p>micorreo@hotmail.com</p>
-            <p>micorreo@outlook.com</p>
-            <p>micorreo@yahoo.com</p>
-            <p>micorreo@live.com</p>
-            <p>micorreo@gmail.com</p>
+            <p>youremail@hotmail.com</p>
+            <p>youremail@outlook.com</p>
+            <p>youremail@yahoo.com</p>
+            <p>youremail@live.com</p>
+            <p>youremail@gmail.com</p>
             `;
-            Swal.fire("Error","El correo ingresado es inválido, solo permite los siguientes correos: "+html,"error");
+            Swal.fire("Error","Email is invalid , valid emails are: "+html,"error");
             return false;
         }
         btnReset.innerHTML=`
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Espera...
+            Wait...
         `;
         btnReset.setAttribute("disabled","");
         request(url,formData,"post").then(function(objData){
-            btnReset.innerHTML=`Recuperar`;
+            btnReset.innerHTML=`Reset my password`;
             btnReset.removeAttribute("disabled");
             if(objData.status){
                 Swal.fire({
-                    title: "Recuperar cuenta",
+                    title: "Reset my password",
                     text: objData.msg,
                     icon: "success",
                     confirmButtonText: 'Ok',
@@ -421,7 +421,7 @@ if(document.querySelector("#login")){
                     }
                 });
             }else{
-                swal("Atención",objData.msg,"error");
+                swal("Error",objData.msg,"error");
             }
         });
     });
@@ -440,27 +440,27 @@ if(document.querySelector("#recovery")){
         let formData = new FormData(formCambiarPass);
 
         if(strPassword == "" || strPasswordConfirm==""){
-            swal("Por favor", "Escribe la nueva contraseña.", "error");
+            swal("Error", "Put your new password.", "error");
             return false;
         }else{
             if(strPassword.length < 8){
-                swal("Atención", "La contraseña debe tener un mínimo de 8 carácteres.","info");
+                Swal.fire("Error","The password must have at least 8 characters","error");
                 return false;
             }if(strPassword != strPasswordConfirm){
-                swal("Atención", "Las contraseñas no coinciden.", "error");
+                swal("Error", "Passwords do not match.", "error");
                 return false;
             }
             btnReset.innerHTML=`
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Espera...
+            Wait...
             `;
             btnReset.setAttribute("disabled","");
             request(url,formData,"post").then(function(objData){
-                btnReset.innerHTML=`Recuperar`;
+                btnReset.innerHTML=`Reset my password`;
                 btnReset.removeAttribute("disabled");
                 if(objData.status){
                     Swal.fire({
-                        title: "Por favor, inicia sesión",
+                        title: "Please, login",
                         text: objData.msg,
                         icon: "success",
                         confirmButtonText: 'Ok',
@@ -471,7 +471,7 @@ if(document.querySelector("#recovery")){
                         }
                     });
                 }else{
-                    swal("Atención",objData.msg,"error");
+                    swal("Error",objData.msg,"error");
                 }
             });
         }

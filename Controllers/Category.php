@@ -189,7 +189,10 @@
                         $id = intval($_POST['idCategory']);
 
                         $request = $this->model->selectCategory($id);
-                        deleteFile($request['picture']);
+                        if($request['picture']!="category.jpg"){
+                            deleteFile($request['picture']);
+                        }
+                        
                         $request = $this->model->deleteCategory($id);
 
                         if($request=="ok"){

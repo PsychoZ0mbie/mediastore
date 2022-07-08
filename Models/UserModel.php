@@ -20,7 +20,7 @@
         public function __construct(){
             parent::__construct();
         }
-        public function insertUser(string $strName,string $strLastName, string $strPicture, string $intPhone, string $strEmail, string $strPassword,int $intRolId){
+        public function insertUser(string $strName,string $strLastName, string $strPicture, string $intPhone, string $strEmail, string $strPassword,int $intStatus,int $intRolId){
 
 			$this->strName = $strName;
 			$this->strLastName = $strLastName;
@@ -32,7 +32,7 @@
             $this->intCountryId = 99999;
             $this->intStateId = 99999;
             $this->intCityId = 99999;
-			//$this->intStatus = $status;
+			$this->intStatus = $intStatus;
 			$return = 0;
 
 			$sql = "SELECT * FROM person WHERE 
@@ -41,8 +41,8 @@
 
 			if(empty($request))
 			{ 
-				$query_insert  = "INSERT INTO person(image,firstname,lastname,email,phone,countryid,stateid,cityid,password,roleid) 
-								  VALUES(?,?,?,?,?,?,?,?,?,?)";
+				$query_insert  = "INSERT INTO person(image,firstname,lastname,email,phone,countryid,stateid,cityid,password,status,roleid) 
+								  VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 	        	$arrData = array(
                     $this->strPicture,
                     $this->strName,
@@ -53,6 +53,7 @@
                     $this->intStateId,
                     $this->intCityId,
                     $this->strPassword,
+                    $this->intStatus,
                     $this->intRolId
         		);
 	        	$request_insert = $this->insert($query_insert,$arrData);
@@ -62,7 +63,7 @@
 			}
 	        return $return;
 		}
-        public function updateUser(int $idUser, string $strName,string $strLastName, string $strPicture, string $intPhone, string $strEmail, string $strPassword,int $intRolId){
+        public function updateUser(int $idUser, string $strName,string $strLastName, string $strPicture, string $intPhone, string $strEmail, string $strPassword,int $intStatus,int $intRolId){
             $this->intIdUser = $idUser;
 			$this->strName = $strName;
 			$this->strLastName = $strLastName;
@@ -71,13 +72,14 @@
 			$this->strPassword = $strPassword;
 			$this->intRolId = $intRolId;
             $this->strPicture = $strPicture;
+            $this->intStatus = $intStatus;
 
 			$sql = "SELECT * FROM person WHERE email = '{$this->strEmail}' AND idperson != $this->intIdUser";
 			$request = $this->select_all($sql);
 
 			if(empty($request)){
 				if($this->strPassword  != ""){
-					$sql = "UPDATE person SET image=?, firstname=?, lastname=?,email=?, phone=?, password=?, roleid=? 
+					$sql = "UPDATE person SET image=?, firstname=?, lastname=?,email=?, phone=?, password=?, status=?,roleid=? 
 							WHERE idperson = $this->intIdUser";
 					$arrData = array(
                         $this->strPicture,
@@ -86,10 +88,11 @@
                         $this->strEmail,
                         $this->intPhone,
                         $this->strPassword,
+                        $this->intStatus,
                         $this->intRolId
                     );
 				}else{
-					$sql = "UPDATE person SET image=?, firstname=?, lastname=?,email=?, phone=?, roleid=? 
+					$sql = "UPDATE person SET image=?, firstname=?, lastname=?,email=?, phone=?, status=?,roleid=? 
 							WHERE idperson = $this->intIdUser";
 					$arrData = array(
                         $this->strPicture,
@@ -97,6 +100,7 @@
                         $this->strLastName,
                         $this->strEmail,
                         $this->intPhone,
+                        $this->intStatus,
                         $this->intRolId
                     );
 				}
@@ -125,6 +129,7 @@
                     p.phone,
                     p.roleid,
                     DATE_FORMAT(p.date, '%d/%m/%Y') as date,
+                    p.status,
                     r.idrole,
                     r.name as role
                     FROM person p
@@ -155,6 +160,7 @@
                     p.typeid,
                     p.identification,
                     DATE_FORMAT(p.date, '%d/%m/%Y') as date,
+                    p.status,
                     r.idrole,
                     r.name as role,
                     c.id,

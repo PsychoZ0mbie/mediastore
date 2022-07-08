@@ -20,6 +20,7 @@
                                 <th>Phone</th>
                                 <th>Date</th>
                                 <th>Role</th>
+                                <th>Status</th>
                                 <th>Options</th>
                             </tr>
                         </thead>

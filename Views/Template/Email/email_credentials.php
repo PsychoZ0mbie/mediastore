@@ -90,10 +90,15 @@
 			</tr>
 			<tr>
 				<td>
-                    <p>Haz actualizado tu contraseña, inicia sesión con tus credenciales:</p>
-                    <p>Usuario: <strong><?= $data['email_usuario'];?></strong></p>
-                    <p>Contraseña: <strong><?= $data['password'];?></strong></p>
-                    <a href="<?= BASE_URL;?>" target="_blank" class="x_button_link x_link_blue">Ir a la página</a>
+					<div class="x_sgwrap">
+						<p>Hello <?= $data['nombreUsuario']; ?></p>
+					</div>
+
+                    <p>Welcome to <?= NOMBRE_EMPRESA ?></p>
+                    <p>Access your account with your credentials. You will be able to update your data and password in your profile.</p>
+                    <p>User: <strong><?= $data['email_usuario'];?></strong></p>
+                    <p>Password: <strong><?= $data['password'];?></strong></p>
+                    <a href="<?= BASE_URL;?>" target="_blank" class="x_button_link x_link_blue">Go to website</a>
 					<p class="x_title_gray"><a href="<?= WEB_EMPRESA; ?>" target="_blanck"><?= WEB_EMPRESA; ?></a></p>
 				</td>
 			</tr>

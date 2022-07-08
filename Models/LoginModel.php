@@ -15,8 +15,8 @@
         public function loginUser(string $email, string $password){
 			$this->strEmail = $email;
 			$this->strPassword = $password;
-			$sql = "SELECT idperson,email FROM person WHERE 
-					email = '$this->strEmail' and 
+			$sql = "SELECT idperson,email,status FROM person WHERE 
+					email = '$this->strEmail' AND 
 					password = '$this->strPassword'";
 			$request = $this->select($sql);
 			return $request;
@@ -24,20 +24,8 @@
         
         public function sessionLogin(int $iduser){
             $this->intIdUser = $iduser;
-            //BUSCAR ROL
-            $sql = "SELECT  idperson,
-                            image,
-                            firstname,
-                            lastname,
-                            email,
-                            phone,
-                            address,
-                            countryid,
-                            stateid,
-                            cityid,
-                            roleid
-                    FROM person
-                    WHERE idperson = $this->intIdUser";
+
+            $sql = "SELECT  *  FROM person WHERE idperson = $this->intIdUser";
             $request = $this->select($sql);
             $_SESSION['userData'] = $request;
             return $request;

@@ -69,6 +69,13 @@ export default class User{
                                     </div>
                                 </div>
                             </div>
+                            <div class="mb-3">
+                                <label for="typeList" class="form-label">Status <span class="text-danger">*</span></label>
+                                <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
+                                    <option value="1">Active</option>
+                                    <option value="2">Inactive</option>
+                                </select>
+                            </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Add</button>
                                 <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
@@ -103,9 +110,10 @@ export default class User{
             let strPhone = document.querySelector("#txtPhone").value;
             let typeValue = document.querySelector("#typeList").value;
             let strPassword = document.querySelector("#txtPassword").value;
+            let statusList = document.querySelector("#statusList").value;
             let idUser = document.querySelector("#idUser").value;
 
-            if(strFirstName == "" || strLastName == "" || strEmail == "" || strPhone == "" || typeValue == ""){
+            if(strFirstName == "" || strLastName == "" || strEmail == "" || strPhone == "" || typeValue == "" || statusList == ""){
                 Swal.fire("Error","All fields marked with (*) are required","error");
                 return false;
             }
@@ -146,6 +154,7 @@ export default class User{
                 if(objData.status){
                     Swal.fire("Added",objData.msg,"success");
                     //modalView.hide();
+                    form.reset();
                     url = base_url+"/User/getUsers";
                     request(url,"","get").then(function(objData){
                         if(objData.status){
@@ -167,7 +176,7 @@ export default class User{
         formData.append("idUser",id);
         request(url,formData,"post").then(function(objData){
             if(objData.status){
-                let status = objData.status;
+                let status = objData.data.status;
                 if(status==1){
                     status='<span class="badge me-1 bg-success">Active</span>';
                 }else{
@@ -281,6 +290,13 @@ export default class User{
                                         </div>
                                     </div>
                                 </div>
+                                <div class="mb-3">
+                                    <label for="typeList" class="form-label">Status <span class="text-danger">*</span></label>
+                                    <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
+                                        <option value="1">Active</option>
+                                        <option value="2">Inactive</option>
+                                    </select>
+                                </div>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-primary" id="btnAdd">Update</button>
                                     <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
@@ -304,6 +320,14 @@ export default class User{
                     }
                 }
             });
+
+            let status = document.querySelectorAll("#statusList option");
+            for (let i = 0; i < status.length; i++) {
+                if(status[i].value == objData.data.status){
+                    status[i].setAttribute("selected",true);
+                }
+            }
+
             modalView.show();
 
             let img = document.querySelector("#txtImg");
@@ -398,7 +422,7 @@ export default class User{
                 formData.append("idUser",id);
                 request(url,formData,"post").then(function(objData){
                     if(objData.status){
-                        Swal.fire("Eliminado",objData.msg,"success");
+                        Swal.fire("Deleted",objData.msg,"success");
                         url = base_url+"/User/getUsers";
                         request(url,"","get").then(function(objData){
                             if(objData.status){

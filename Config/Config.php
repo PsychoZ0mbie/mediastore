@@ -33,9 +33,9 @@
 
 	//Datos envio de correo pruebas
 	const NOMBRE_REMITENTE= "MediaStore";
-	const EMAIL_REMITENTE = "pruebascodigoenergizado@hotmail.com";
+	const EMAIL_REMITENTE = "davidstiven1999@hotmail.com";
 	const EMAIL_COPIA = "davidstiven1999@hotmail.com";
-	const REMITENTE_PASSWORD = "Da.197023";
+	const REMITENTE_PASSWORD = "da197023";
 	
 	const NOMBRE_EMPRESA = "MediaStore";
 	const DIRECCION = "Colombia, Villavicencio/Meta, Cra 36 #15a-03 Barrio Nuevo Ricaurte";

@@ -38,6 +38,11 @@
                         if($_SESSION['permitsModule']['d'] && $request[$i]['roleid'] != 1 || $_SESSION['idUser'] == 1){
                             $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idperson'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                         }
+                        if($request[$i]['status']==1){
+                            $status='<span class="badge me-1 bg-success">Active</span>';
+                        }else{
+                            $status='<span class="badge me-1 bg-danger">Inactive</span>';
+                        }
                         if($request[$i]['idperson'] != 1){
                             $html.='
                                 <tr class="item" data-name="'.$request[$i]['firstname'].'" data-lastname="'.$request[$i]['lastname'].'" data-email="'.$request[$i]['email'].'">
@@ -50,6 +55,7 @@
                                     <td><strong>Phone: </strong>'.$request[$i]['phone'].'</td>
                                     <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
                                     <td><strong>Role: </strong>'.$request[$i]['role'].'</td>
+                                    <td><strong>Status: </strong>'.$status.'</td>
                                     <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
                                 </tr>
                             ';
@@ -94,7 +100,7 @@
         public function setUser(){
             if($_SESSION['permitsModule']['r']){
                 if($_POST){
-                    if(empty($_POST['txtFirstName']) || empty($_POST['txtLastName']) || empty($_POST['txtPhone']) || empty($_POST['typeList']) 
+                    if(empty($_POST['txtFirstName']) || empty($_POST['txtLastName']) || empty($_POST['txtPhone']) || empty($_POST['typeList'] ) || empty($_POST['statusList'] )
                     || empty($_POST['txtEmail'])){
                         $arrResponse = array("status" => false, "msg" => 'Data error');
                     }else{ 
@@ -105,42 +111,50 @@
                         $strEmail = strtolower(strClean($_POST['txtEmail']));
                         $strPassword = strClean($_POST['txtPassword']);
                         $intRolId = intval(strClean($_POST['typeList']));
+                        $intStatus = intval($_POST['statusList']);
                         $password =$strPassword;
                         $request_user = "";
                         $photo = "";
                         $photoProfile="";
     
-                        if($strPassword !=""){
-                            $strPassword =  hash("SHA256",$strPassword);
-                        }else{
-                            $password =bin2hex(random_bytes(4));
-                            $strPassword =  hash("SHA256",$password);
-                        }
+                        
                         
                         if($idUser == 0){
                             if($_SESSION['permitsModule']['w']){
 
                                 $option = 1;
+
                                 if($_FILES['txtImg']['name'] == ""){
                                     $photoProfile = "user.jpg";
                                 }else{
                                     $photo = $_FILES['txtImg'];
                                     $photoProfile = 'profile_'.bin2hex(random_bytes(6)).'.png';
                                 }
+
+                                if($strPassword !=""){
+                                    $strPassword =  hash("SHA256",$strPassword);
+                                }else{
+                                    $password =bin2hex(random_bytes(4));
+                                    $strPassword =  hash("SHA256",$password);
+                                }
+
                                 $request_user = $this->model->insertUser(
                                     $strName, 
                                     $strLastName,
                                     $photoProfile, 
                                     $intPhone, 
                                     $strEmail,
-                                    $strPassword, 
+                                    $strPassword,
+                                    $intStatus,
                                     $intRolId
                                 );
                             }
                         }else{
                             if($_SESSION['permitsModule']['u']){
+
                                 $option = 2;
                                 $request = $this->model->selectUser($idUser);
+
                                 if($_FILES['txtImg']['name'] == ""){
                                     $photoProfile = $request['image'];
                                 }else{
@@ -150,8 +164,9 @@
                                     $photo = $_FILES['txtImg'];
                                     $photoProfile = 'profile_'.bin2hex(random_bytes(6)).'.png';
                                 }
+
                                 if($strPassword!=""){
-                                    $strPassword =  hash("SHA256",$_POST['txtPassword']);
+                                    $strPassword =  hash("SHA256",$strPassword);
                                 }
                                 
                                 $request_user = $this->model->updateUser(
@@ -162,6 +177,7 @@
                                     $intPhone, 
                                     $strEmail,
                                     $strPassword, 
+                                    $intStatus,
                                     $intRolId
                                 );
                             }
@@ -171,17 +187,28 @@
                             if($photo!=""){
                                 uploadImage($photo,$photoProfile);
                             }
-                            $data['nombreUsuario'] = $strName." ".$strLastName;
-                            $data['asunto']="Acceso a cuenta de usuario";
-                            $data['email_usuario'] = $strEmail;
-                            $data['email_remitente'] = EMAIL_REMITENTE;
-                            $data['password'] = $password;
-                            sendEmail($data,"email_bienvenida");
+                            
                             if($option == 1){
-                                
+                                $data['nombreUsuario'] = $strName." ".$strLastName;
+                                $data['asunto']="Credentials";
+                                $data['email_usuario'] = $strEmail;
+                                $data['email_remitente'] = EMAIL_REMITENTE;
+                                $data['password'] = $password;
+                                sendEmail($data,"email_credentials");
                                 $arrResponse = array('status' => true, 'msg' => 'Data saved. An e-mail has been sent to the user with the credentials.');
                             }else{
-                                $arrResponse = array('status' => true, 'msg' => 'Data saved.');
+                                if($strPassword!=""){
+                                    $data['nombreUsuario'] = $strName." ".$strLastName;
+                                    $data['asunto']="Credentials";
+                                    $data['email_usuario'] = $strEmail;
+                                    $data['email_remitente'] = EMAIL_REMITENTE;
+                                    $data['password'] = $password;
+                                    sendEmail($data,"email_passwordUpdated");
+                                    $arrResponse = array('status' => true, 'msg' => 'Password has been updated, an email with the new password has been sent.');
+                                }else{
+                                    $arrResponse = array('status' => true, 'msg' => 'Data saved.');
+                                }
+                                
                             }
                         }else if($request_user == 'exist'){
                             $arrResponse = array('status' => false, 'msg' => '¡Warning! the email or phone number is already registered, try another one.');		
@@ -224,8 +251,10 @@
                     }else{
                         $id = intval($_POST['idUser']);
                         
-                        $request = $this->model->selectUser($idUser);
-                        deleteFile($request['image']);
+                        $request = $this->model->selectUser($id);
+                        if($request['image'] !="user.jpg"){
+                            deleteFile($request['image']);
+                        }
 
                         $request = $this->model->deleteUser($id);
                         if($request=="ok"){

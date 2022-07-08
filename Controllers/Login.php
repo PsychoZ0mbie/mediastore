@@ -31,18 +31,20 @@
 						$arrResponse = array('status'=>false, 'msg'=> 'User or password is incorrect.');
 					}else{
 						$arrData =$requestUser;
-						$_SESSION['idUser'] = $arrData['idperson'];
-						$_SESSION['login'] = true;
-
-						$arrData = $this->model->sessionLogin($_SESSION['idUser']);
-						sessionUser($_SESSION['idUser']);
-
-						$arrResponse = array('status'=>true, 'msg'=> 'Session started');
+						if($arrData['status']==1){
+							$_SESSION['idUser'] = $arrData['idperson'];
+							$_SESSION['login'] = true;
+	
+							$arrData = $this->model->sessionLogin($_SESSION['idUser']);
+							sessionUser($_SESSION['idUser']);
+							$arrResponse = array('status'=>true);
+						}else{
+							$arrResponse = array('status'=>false, 'msg'=> "User isn't active.");
+						}
 					}
 				}
 				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			}
-			
 			die();
 		}
 		public function resetPass(){
@@ -68,7 +70,7 @@
 
 						if($requestUpdate){
 							
-							$sendEmail = sendEmail($dataUsuario, 'email_cambioPassword');
+							$sendEmail = sendEmail($dataUsuario, 'email_resetPassword');
 
 							if($sendEmail){
 								$arrResponse = array('status' => true, 'msg' => 'An email has been sent to change the password');
@@ -133,11 +135,11 @@
 						$requestPass = $this->model->insertPassword($idUser, $strPassword);
 
 						if($requestPass){
-                            $data['asunto']="Contraseña actualizada";
+                            $data['asunto']="Password updated";
                             $data['email_usuario'] = $strEmail;
                             $data['email_remitente'] = EMAIL_REMITENTE;
                             $data['password'] = $password;
-                            sendEmail($data,"email_actualizada");
+                            sendEmail($data,"email_passwordUpdated");
 							$arrResponse = array('status' => true, 'msg' => 'Password updated');
 						}else{
 							$arrResponse = array('status' => false, 'msg' => 'The process cannot be performed, try again later.');

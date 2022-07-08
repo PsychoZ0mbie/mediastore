@@ -35,7 +35,7 @@ export default class Category{
                                 <label for="typeList" class="form-label">Status <span class="text-danger">*</span></label>
                                 <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
                                     <option value="1">Active</option>
-                                    <option value="2">iIactive</option>
+                                    <option value="2">Inactive</option>
                                 </select>
                             </div>
                             <div class="modal-footer">
