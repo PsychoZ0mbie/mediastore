@@ -14,7 +14,7 @@
         public function product(){
             if($_SESSION['permitsModule']['r']){
                 $data['page_tag'] = "Product";
-                $data['page_title'] = "Productos";
+                $data['page_title'] = "Products";
                 $data['page_name'] = "product";
                 $this->views->getView($this,"product",$data);
             }else{
@@ -31,40 +31,40 @@
                     for ($i=0; $i < count($request); $i++) { 
 
                         $status="";
-                        $btnView = '<button class="btn btn-info m-1" type="button" title="Ver" data-id="'.$request[$i]['idproduct'].'" name="btnView"><i class="fas fa-eye"></i></button>';
+                        $btnView = '<button class="btn btn-info m-1" type="button" title="Watch" data-id="'.$request[$i]['idproduct'].'" name="btnView"><i class="fas fa-eye"></i></button>';
                         $btnEdit="";
                         $btnDelete="";
                         $price = formatNum($request[$i]['price']);
                         if($request[$i]['discount']>0){
                             $discount = '<span class="text-success">'.$request[$i]['discount'].'% OFF</span>';
                         }else{
-                            $discount = '<span class="text-danger">Sin descuento</span>';
+                            $discount = '<span class="text-danger">No discount</span>';
                         }
                         if($_SESSION['permitsModule']['u']){
-                            $btnEdit = '<button class="btn btn-success m-1" type="button" title="Editar" data-id="'.$request[$i]['idproduct'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
+                            $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idproduct'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
                         }
                         if($_SESSION['permitsModule']['d']){
-                            $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Eliminar" data-id="'.$request[$i]['idproduct'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+                            $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idproduct'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                         }
                         if($request[$i]['status']==1){
-                            $status='<span class="badge me-1 bg-success">Activo</span>';
+                            $status='<span class="badge me-1 bg-success">Active</span>';
                         }else{
-                            $status='<span class="badge me-1 bg-danger">Inactivo</span>';
+                            $status='<span class="badge me-1 bg-danger">Inactive</span>';
                         }
                         $html.='
                             <tr class="item" data-name="'.$request[$i]['name'].'">
                                 <td>
                                     <img src="'.$request[$i]['image'].'">
                                 </td>
-                                <td><strong>Referencia: </strong>'.$request[$i]['reference'].'</td>
-                                <td><strong>Nombre: </strong>'.$request[$i]['name'].'</td>
-                                <td><strong>Categoría: </strong>'.$request[$i]['category'].'</td>
-                                <td><strong>Subcategoría: </strong>'.$request[$i]['subcategory'].'</td>
-                                <td><strong>Precio: </strong>'.$price.'</td>
-                                <td><strong>Descuento: </strong>'.$discount.'</td>
-                                <td><strong>Cantidad: </strong>'.$request[$i]['stock'].'</td>
-                                <td><strong>Fecha de registro: </strong>'.$request[$i]['date'].'</td>
-                                <td><strong>Estado: </strong>'.$status.'</td>
+                                <td><strong>Reference: </strong>'.$request[$i]['reference'].'</td>
+                                <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
+                                <td><strong>Category: </strong>'.$request[$i]['category'].'</td>
+                                <td><strong>Subcategory: </strong>'.$request[$i]['subcategory'].'</td>
+                                <td><strong>Price: </strong>'.$price.'</td>
+                                <td><strong>Discount: </strong>'.$discount.'</td>
+                                <td><strong>Quantity: </strong>'.$request[$i]['stock'].'</td>
+                                <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
+                                <td><strong>Status: </strong>'.$status.'</td>
                                 <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
                             </tr>
                         ';
@@ -86,7 +86,7 @@
                 if($_POST){
                     unset($_SESSION['filesInfo']);
                     if(empty($_POST)){
-                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
+                        $arrResponse = array("status"=>false,"msg"=>"Data error");
                     }else{
                         $id = intval($_POST['idProduct']);
                         $request = $this->model->selectProduct($id);
@@ -108,7 +108,7 @@
                             //dep($_SESSION['filesInfo']);   
                             $arrResponse = array("status"=>true,"data"=>$request);
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"No hay datos"); 
+                            $arrResponse = array("status"=>false,"msg"=>"No data"); 
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -125,7 +125,7 @@
                 if($_POST){
                     if(empty($_POST['txtName']) || empty($_POST['statusList']) || empty($_POST['categoryList'])
                     || empty($_POST['subcategoryList']) || empty($_POST['txtPrice']) || empty($_POST['txtStock'])){
-                        $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
+                        $arrResponse = array("status" => false, "msg" => 'Data error');
                     }else{ 
                         $idProduct = intval($_POST['idProduct']);
                         $strReference = strtoupper(strClean($_POST['txtReference']));
@@ -137,9 +137,12 @@
                         $intStock =  intval($_POST['txtStock']);
                         $intStatus = intval($_POST['statusList']);
                         $strDescription = strClean($_POST['txtDescription']);
+                        
                         $route = str_replace(" ","-",$strName);
                         $route = str_replace("?","",$route);
                         $route = strtolower(str_replace("¿","",$route));
+                        $route = clear_cadena($route);
+
                         $photos;
                         if(isset($_SESSION['files'])){
                             $photos = $_SESSION['files'];
@@ -163,14 +166,14 @@
                             unset($_SESSION['files']);
                             unset($_SESSION['filesInfo']); 
                             if($option == 1){
-                                $arrResponse = array('status' => true, 'msg' => 'Datos guardados.');
+                                $arrResponse = array('status' => true, 'msg' => 'Data saved.');
                             }else{
-                                $arrResponse = array('status' => true, 'msg' => 'Datos Actualizados correctamente.');
+                                $arrResponse = array('status' => true, 'msg' => 'Data updated.');
                             }
                         }else if($request == 'exist'){
-                            $arrResponse = array('status' => false, 'msg' => '¡Atención! el producto ya existe, ingrese otro.');		
+                            $arrResponse = array('status' => false, 'msg' => '¡Warning! The product already exists, try another name.');		
                         }else{
-                            $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
+                            $arrResponse = array("status" => false, "msg" => 'It is not possible to store the data.');
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -185,7 +188,7 @@
             if($_SESSION['permitsModule']['d']){
                 if($_POST){
                     if(empty($_POST['idProduct'])){
-                        $arrResponse=array("status"=>false,"msg"=>"Error de datos");
+                        $arrResponse=array("status"=>false,"msg"=>"Data error");
                     }else{
                         $id = intval($_POST['idProduct']);
                         $request = $this->model->selectImages($id);
@@ -194,9 +197,9 @@
                         }
                         $request = $this->model->deleteProduct($id);
                         if($request=="ok"){
-                            $arrResponse = array("status"=>true,"msg"=>"Se ha eliminado");
+                            $arrResponse = array("status"=>true,"msg"=>"It has been deleted");
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"No se ha podido eliminar, inténtelo de nuevo.");
+                            $arrResponse = array("status"=>false,"msg"=>"It has not been possible to delete, try again.");
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);

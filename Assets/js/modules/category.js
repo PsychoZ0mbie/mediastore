@@ -16,32 +16,31 @@ export default class Category{
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Nueva categoria</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel">New category</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form id="formItem" name="formItem" class="mb-4">
                             <input type="hidden" id="idCategory" name="idCategory">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="txtName" class="form-label">Nombre <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="txtName" name="txtName" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="typeList" class="form-label">Estado <span class="text-danger">*</span></label>
-                                        <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
-                                            <option value="1">Activo</option>
-                                            <option value="2">Inactivo</option>
-                                        </select>
-                                    </div>
-                                </div>
+                            <div class="mb-3 uploadImg">
+                                <img src="${base_url}/Assets/images/uploads/category.jpg">
+                                <label for="txtImg"><a class="btn btn-info text-white"><i class="fas fa-camera"></i></a></label>
+                                <input class="d-none" type="file" id="txtImg" name="txtImg" accept="image/*"> 
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtName" class="form-label">Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="txtName" name="txtName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="typeList" class="form-label">Status <span class="text-danger">*</span></label>
+                                <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
+                                    <option value="1">Active</option>
+                                    <option value="2">iIactive</option>
+                                </select>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Agregar</button>
-                                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Add</button>
+                                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
                             </div>
                         </form>
                     </div>
@@ -54,6 +53,12 @@ export default class Category{
         let modalView = new bootstrap.Modal(document.querySelector("#modalElement"));
         modalView.show();
 
+        let img = document.querySelector("#txtImg");
+        let imgLocation = ".uploadImg img";
+        img.addEventListener("change",function(){
+            uploadImg(img,imgLocation);
+        });
+
         let form = document.querySelector("#formItem");
         form.addEventListener("submit",function(e){
             e.preventDefault();
@@ -63,7 +68,7 @@ export default class Category{
             let idCategory = document.querySelector("#idCategory").value;
 
             if(strName == "" || intStatus == ""){
-                Swal.fire("Error","Todos los campos con (*) son obligatorios","error");
+                Swal.fire("Error","All fields marked with (*) are required","error");
                 return false;
             }
             
@@ -73,14 +78,14 @@ export default class Category{
             let element = document.querySelector("#listItem");
             btnAdd.innerHTML=`
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Espera...
+                Wait...
             `;
             btnAdd.setAttribute("disabled","");
             request(url,formData,"post").then(function(objData){
-                btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Agregar`;
+                btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Add`;
                 btnAdd.removeAttribute("disabled");
                 if(objData.status){
-                    Swal.fire("Agregado",objData.msg,"success");
+                    Swal.fire("Added",objData.msg,"success");
                     //modalView.hide();
                     url = base_url+"/Category/getCategories";
                     request(url,"","get").then(function(objData){
@@ -107,32 +112,31 @@ export default class Category{
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Actualizar categoría</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Update category</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form id="formItem" name="formItem" class="mb-4">
                                 <input type="hidden" id="idCategory" name="idCategory" value="${objData.data.idcategory}">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="txtName" class="form-label">Nombre <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="txtName" name="txtName" value="${objData.data.name}" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="typeList" class="form-label">Estado <span class="text-danger">*</span></label>
-                                            <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
-                                                <option value="1">Activo</option>
-                                                <option value="2">Inactivo</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                <div class="mb-3 uploadImg">
+                                    <img src="${objData.data.picture}">
+                                    <label for="txtImg"><a class="btn btn-info text-white"><i class="fas fa-camera"></i></a></label>
+                                    <input class="d-none" type="file" id="txtImg" name="txtImg" accept="image/*"> 
+                                </div>
+                                <div class="mb-3">
+                                    <label for="txtName" class="form-label">Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="txtName" name="txtName" value="${objData.data.name}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="typeList" class="form-label">Status <span class="text-danger">*</span></label>
+                                    <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
+                                        <option value="1">Active</option>
+                                        <option value="2">Inactive</option>
+                                    </select>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary" id="btnAdd">Actualizar</button>
-                                    <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary" id="btnAdd">Update</button>
+                                    <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </form>
                         </div>
@@ -151,6 +155,12 @@ export default class Category{
             }
             modalView.show();
 
+            let img = document.querySelector("#txtImg");
+            let imgLocation = ".uploadImg img";
+            img.addEventListener("change",function(){
+                uploadImg(img,imgLocation);
+            });
+
             let form = document.querySelector("#formItem");
             form.addEventListener("submit",function(e){
                 e.preventDefault();
@@ -160,7 +170,7 @@ export default class Category{
                 let idCategory = document.querySelector("#idCategory").value;
     
                 if(strName == "" || intStatus == ""){
-                    Swal.fire("Error","Todos los campos con (*) son obligatorios","error");
+                    Swal.fire("Error","All fields marked with (*) are required","error");
                     return false;
                 }
                 
@@ -170,14 +180,13 @@ export default class Category{
                 let element = document.querySelector("#listItem");
                 btnAdd.innerHTML=`
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Espera...
+                    Wait...
                 `;
                 btnAdd.setAttribute("disabled","");
                 request(url,formData,"post").then(function(objData){
-                    btnAdd.innerHTML=`Actualizar`;
                     btnAdd.removeAttribute("disabled");
                     if(objData.status){
-                        Swal.fire("Actualizado",objData.msg,"success");
+                        Swal.fire("Updated",objData.msg,"success");
                         modalView.hide();
                         url = base_url+"/Category/getCategories";
                         request(url,"","get").then(function(objData){
@@ -196,14 +205,14 @@ export default class Category{
     }
     deleteItem(id){
         Swal.fire({
-            title:"¿Está segur@ de eliminar?",
-            text:"Se eliminará para siempre",
+            title:"Are you sure to delete it?",
+            text:"It will delete for ever...",
             icon: 'warning',
             showCancelButton:true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText:"Sí, eliminar",
-            cancelButtonText:"No, cancelar"
+            confirmButtonText:"Yes, delete",
+            cancelButtonText:"No, cancel"
         }).then(function(result){
             if(result.isConfirmed){
                 let url = base_url+"/Category/delCategory"
@@ -212,7 +221,7 @@ export default class Category{
                 formData.append("idCategory",id);
                 request(url,formData,"post").then(function(objData){
                     if(objData.status){
-                        Swal.fire("Eliminado",objData.msg,"success");
+                        Swal.fire("Deleted",objData.msg,"success");
                         url = base_url+"/Category/getCategories";
                         request(url,"","get").then(function(objData){
                             if(objData.status){

@@ -5,17 +5,18 @@
 		private $strName;
 		private $intStatus;
         private $strRoute;
+        private $strPhoto;
 
         public function __construct(){
             parent::__construct();
         }
         /*************************Category methods*******************************/
-        public function insertCategory(string $strName, int $intStatus,string $strRoute){
+        public function insertCategory(string $photo,string $strName, int $intStatus,string $strRoute){
 
 			$this->strName = $strName;
 			$this->intStatus = $intStatus;
 			$this->strRoute = $strRoute;
-
+            $this->strPhoto = $photo;
 			$return = 0;
 
 			$sql = "SELECT * FROM category WHERE 
@@ -24,9 +25,10 @@
 
 			if(empty($request))
 			{ 
-				$query_insert  = "INSERT INTO category(name,status,route) 
-								  VALUES(?,?,?)";
+				$query_insert  = "INSERT INTO category(picture,name,status,route) 
+								  VALUES(?,?,?,?)";
 	        	$arrData = array(
+                    $this->strPhoto,
                     $this->strName,
                     $this->intStatus,
                     $this->strRoute
@@ -38,19 +40,21 @@
 			}
 	        return $return;
 		}
-        public function updateCategory(int $intIdCategory, string $strName,int $intStatus,string $strRoute){
+        public function updateCategory(int $intIdCategory,string $photo, string $strName,int $intStatus,string $strRoute){
             $this->intIdCategory = $intIdCategory;
             $this->strName = $strName;
 			$this->intStatus = $intStatus;
 			$this->strRoute = $strRoute;
+            $this->strPhoto = $photo;
 
 			$sql = "SELECT * FROM category WHERE name = '{$this->strName}' AND idcategory != $this->intIdCategory";
 			$request = $this->select_all($sql);
 
 			if(empty($request)){
 
-                $sql = "UPDATE category SET name=?, status=?, route=? WHERE idcategory = $this->intIdCategory";
+                $sql = "UPDATE category SET picture=?, name=?, status=?, route=? WHERE idcategory = $this->intIdCategory";
                 $arrData = array(
+                    $this->strPhoto,
                     $this->strName,
                     $this->intStatus,
                     $this->strRoute
@@ -69,7 +73,7 @@
             $return = "";
             if(empty($request)){
                 $sql = "DELETE FROM category WHERE idcategory = $this->intIdCategory";
-                $return = $request = $this->delete($sql);
+                $return = $this->delete($sql);
             }else{
                 $return="exist";
             }
@@ -139,9 +143,17 @@
 		}
         public function deleteSubCategory($id){
             $this->intIdSubCategory = $id;
-            $sql = "DELETE FROM subcategory WHERE idsubcategory = $this->intIdSubCategory";
-            $request = $this->delete($sql);
-            return $request;
+            $sql="SELECT * FROM product WHERE subcategoryid = $id";
+            $request = $this->select_all($sql);
+            $return="";
+            if(empty($request)){
+                $sql = "DELETE FROM subcategory WHERE idsubcategory = $this->intIdSubCategory";
+                $request = $this->delete($sql);
+                $return = $request;
+            }else{
+                $return ="exist";
+            }
+            return $return;
         }
         public function selectSubCategories(){
             $sql = "SELECT  

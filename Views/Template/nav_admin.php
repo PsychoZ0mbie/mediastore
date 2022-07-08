@@ -37,7 +37,7 @@
                                 <a class="nav-link nav-group-toggle" href="#">
                                     <svg class="nav-icon">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
-                                    </svg> Usuarios
+                                    </svg> Users
                                 </a>
                                 <ul class="nav-group-items">
                                     <?php
@@ -48,7 +48,7 @@
                                         }
                                         if($_SESSION['permitsModule']['r']){
                                     ?>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/user"><span class="nav-icon"></span> Usuarios</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/user"><span class="nav-icon"></span> Users</a></li>
                                     <?php
                                         }
                                     ?>
@@ -61,12 +61,12 @@
                                 <a class="nav-link nav-group-toggle" href="#">
                                     <svg class="nav-icon">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-inbox"></use>
-                                    </svg> Inventario
+                                    </svg> Inventory
                                 </a>
                                 <ul class="nav-group-items">
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/category"><span class="nav-icon"></span> Categorias</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/category/subcategory"><span class="nav-icon"></span> Subcategorias</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/product"><span class="nav-icon"></span> Productos</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/category"><span class="nav-icon"></span> Categories</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/category/subcategory"><span class="nav-icon"></span> Subcategories</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/product"><span class="nav-icon"></span> Products</a></li>
                                 </ul>
                             </li>
                             <?php 
@@ -76,7 +76,7 @@
                                 <a class="nav-link" href="<?=base_url()?>/logout">
                                     <svg class="nav-icon">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
-                                    </svg> Salir
+                                    </svg> Logout
                                 </a>
                             </li>
                         </div>

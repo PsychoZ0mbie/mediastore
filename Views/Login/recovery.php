@@ -20,8 +20,8 @@
                     <div class="card-group d-block d-md-flex row">
                         <div class="card col-md-12 p-4 mb-0">
                             <div class="card-body">
-                                <h1>Actualizar contraseña</h1>
-                                <p class="text-medium-emphasis">Actualiza tu contraseña</p>
+                                <h1>Reset my password</h1>
+                                <p class="text-medium-emphasis">Update your password</p>
                                 <form id="formRecovery">
                                     <input type="hidden" id="idUser" name="idUser" value="<?= $data['idperson']; ?>" required >
                                     <input type="hidden" id="txtEmail" name="txtEmail" value="<?= $data['email']; ?>" required >
@@ -30,17 +30,17 @@
                                         <svg class="icon">
                                             <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
                                         </svg></span>
-                                        <input id="txtPassword" name="txtPassword" class="form-control" type="password" placeholder="Nueva contraseña" required >
+                                        <input id="txtPassword" name="txtPassword" class="form-control" type="password" placeholder="New password" required >
                                     </div>
                                     <div class="input-group mb-4"><span class="input-group-text">
                                         <svg class="icon">
                                             <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
                                         </svg></span>
-                                        <input id="txtPasswordConfirm" name="txtPasswordConfirm" class="form-control" type="password" placeholder="Confirmar contraseña" required >
+                                        <input id="txtPasswordConfirm" name="txtPasswordConfirm" class="form-control" type="password" placeholder="Confirm password" required >
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12 d-flex justify-content-center">
-                                            <button class="btn btn-primary px-4 w-100" type="submit" id="btnReset">Actualizar</button>
+                                            <button class="btn btn-primary px-4 w-100" type="submit" id="btnReset">Reset</button>
                                         </div>
                                     </div>
                                 </form>

@@ -7,24 +7,24 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 mt-3">
-                        <input class="form-control" type="search" placeholder="buscar" aria-label="Search" id="search" name="search">
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" id="search" name="search">
                     </div>
                 </div>
                 <div class="scroll-y">
                     <table class="table text-center items align-middle">
                         <thead>
                             <tr>
-                                <th>Portada</th>
-                                <th>Referencia</th>
-                                <th>Nombre</th>
-                                <th>Categoría</th>
-                                <th>Subcategoría</th>
-                                <th>Precio</th>
-                                <th>Descuento</th>
-                                <th>Cantidad</th>
-                                <th>Fecha de registro</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
+                                <th>Cover</th>
+                                <th>Reference</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Subcategory</th>
+                                <th>Price</th>
+                                <th>Discount</th>
+                                <th>Quantity</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Options</th>
                             </tr>
                         </thead>
                         <tbody id="listItem">

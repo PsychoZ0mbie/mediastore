@@ -352,7 +352,7 @@ window.addEventListener("DOMContentLoaded",function () {
                                         <h2 class="fs-5">Suscribe to our newsletter and get a 15% discount coupon</h2>
                                         <p>Receive updates on new arrivals, special offers and our promotions</p>
                                         <div class="mb-3">
-                                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Your email">
+                                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Your email" required>
                                         </div>
                                         <button type="submit" class="btn btnc-primary">Suscribe</button>
                                     </form>

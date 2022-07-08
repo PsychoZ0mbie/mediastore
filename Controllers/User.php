@@ -13,7 +13,7 @@
         public function user(){
             if($_SESSION['permitsModule']['r']){
                 $data['page_tag'] = "User";
-                $data['page_title'] = "Usuarios";
+                $data['page_title'] = "Users";
                 $data['page_name'] = "user";
                 $this->views->getView($this,"user",$data);
             }else{
@@ -30,13 +30,13 @@
 
                         $btnEdit="";
                         $btnDelete="";
-                        $btnView = '<button class="btn btn-info m-1" type="button" title="Ver" data-id="'.$request[$i]['idperson'].'" name="btnView"><i class="fas fa-eye"></i></button>';
+                        $btnView = '<button class="btn btn-info m-1" type="button" title="Watch" data-id="'.$request[$i]['idperson'].'" name="btnView"><i class="fas fa-eye"></i></button>';
                         
                         if($_SESSION['permitsModule']['u'] && $request[$i]['roleid'] != 1 || $_SESSION['idUser'] == 1){
-                            $btnEdit = '<button class="btn btn-success m-1" type="button" title="Editar" data-id="'.$request[$i]['idperson'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
+                            $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idperson'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
                         }
                         if($_SESSION['permitsModule']['d'] && $request[$i]['roleid'] != 1 || $_SESSION['idUser'] == 1){
-                            $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Eliminar" data-id="'.$request[$i]['idperson'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+                            $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idperson'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                         }
                         if($request[$i]['idperson'] != 1){
                             $html.='
@@ -44,12 +44,12 @@
                                     <td>
                                         <img src="'.$request[$i]['image'].'">
                                     </td>
-                                    <td><strong>Nombre: </strong>'.$request[$i]['firstname'].'</td>
-                                    <td><strong>Apellido: </strong>'.$request[$i]['lastname'].'</td>
-                                    <td><strong>Correo: </strong>'.$request[$i]['email'].'</td>
-                                    <td><strong>Teléfono: </strong>'.$request[$i]['phone'].'</td>
-                                    <td><strong>Fecha de registro: </strong>'.$request[$i]['date'].'</td>
-                                    <td><strong>Rol: </strong>'.$request[$i]['role'].'</td>
+                                    <td><strong>First name: </strong>'.$request[$i]['firstname'].'</td>
+                                    <td><strong>Last name: </strong>'.$request[$i]['lastname'].'</td>
+                                    <td><strong>Email: </strong>'.$request[$i]['email'].'</td>
+                                    <td><strong>Phone: </strong>'.$request[$i]['phone'].'</td>
+                                    <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
+                                    <td><strong>Role: </strong>'.$request[$i]['role'].'</td>
                                     <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
                                 </tr>
                             ';
@@ -72,7 +72,7 @@
 
                 if($_POST){
                     if(empty($_POST)){
-                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
+                        $arrResponse = array("status"=>false,"msg"=>"Data error");
                     }else{
                         $idUser = intval($_POST['idUser']);
                         $request = $this->model->selectUser($idUser);
@@ -80,7 +80,7 @@
                             $request['image'] = media()."/images/uploads/".$request['image'];
                             $arrResponse = array("status"=>true,"data"=>$request);
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"Ha ocurrido un error, inténtelo de nuevo."); 
+                            $arrResponse = array("status"=>false,"msg"=>"Error, try again."); 
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -96,7 +96,7 @@
                 if($_POST){
                     if(empty($_POST['txtFirstName']) || empty($_POST['txtLastName']) || empty($_POST['txtPhone']) || empty($_POST['typeList']) 
                     || empty($_POST['txtEmail'])){
-                        $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
+                        $arrResponse = array("status" => false, "msg" => 'Data error');
                     }else{ 
                         $idUser = intval($_POST['idUser']);
                         $strName = ucwords(strClean($_POST['txtFirstName']));
@@ -179,14 +179,14 @@
                             sendEmail($data,"email_bienvenida");
                             if($option == 1){
                                 
-                                $arrResponse = array('status' => true, 'msg' => 'Datos guardados. Se ha enviado un correo al usuario con las credenciales.');
+                                $arrResponse = array('status' => true, 'msg' => 'Data saved. An e-mail has been sent to the user with the credentials.');
                             }else{
-                                $arrResponse = array('status' => true, 'msg' => 'Datos Actualizados correctamente.');
+                                $arrResponse = array('status' => true, 'msg' => 'Data saved.');
                             }
                         }else if($request_user == 'exist'){
-                            $arrResponse = array('status' => false, 'msg' => '¡Atención! el email ó el teléfono ya está registrado, ingrese otro.');		
+                            $arrResponse = array('status' => false, 'msg' => '¡Warning! the email or phone number is already registered, try another one.');		
                         }else{
-                            $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
+                            $arrResponse = array("status" => false, "msg" => 'It is not possible to store the data.');
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -220,14 +220,18 @@
 
                 if($_POST){
                     if(empty($_POST['idUser'])){
-                        $arrResponse=array("status"=>false,"Error de datos");
+                        $arrResponse=array("status"=>false,"Data error");
                     }else{
                         $id = intval($_POST['idUser']);
+                        
+                        $request = $this->model->selectUser($idUser);
+                        deleteFile($request['image']);
+
                         $request = $this->model->deleteUser($id);
                         if($request=="ok"){
-                            $arrResponse = array("status"=>true,"msg"=>"Se ha eliminado");
+                            $arrResponse = array("status"=>true,"msg"=>"It has been deleted");
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"No se ha podido eliminar, inténtelo de nuevo.");
+                            $arrResponse = array("status"=>false,"msg"=>"It has not been possible to delete, try again.");
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);

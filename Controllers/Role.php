@@ -24,7 +24,7 @@
             if($_SESSION['idUser'] == 1){
                 if($_POST){
                     if(empty($_POST['txtName'])){
-                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
+                        $arrResponse = array("status"=>false,"msg"=>"Data error");
                     }else{
     
                         $idRol = intval($_POST['idRol']);
@@ -38,14 +38,14 @@
                         }
                         if($request>0){
                             if($option==1){
-                                $arrResponse = array("status"=>true,"msg"=>"Nuevo rol agregado");
+                                $arrResponse = array("status"=>true,"msg"=>"Data saved");
                             }else{
-                                $arrResponse = array("status"=>true,"msg"=>"Rol actualizado");
+                                $arrResponse = array("status"=>true,"msg"=>"Data updated");
                             }
                         }else if ($request=="exist"){
-                            $arrResponse = array("status" =>false,"msg"=>"Ya existe, inténtelo con otro nombre"); 
+                            $arrResponse = array("status" =>false,"msg"=>"¡Warning! The role already exists, try another name."); 
                         }else{
-                            $arrResponse = array("status" =>false,"msg"=>"Error de datos"); 
+                            $arrResponse = array("status" =>false,"msg"=>"Data error"); 
                         }
     
                     }
@@ -67,9 +67,9 @@
                             <tr class="item" data-name="'.$request[$i]['name'].'">
                                 <td>'.$request[$i]['name'].'</td>
                                 <td class="item-btn">
-                                    <button class="btn btn-secondary" type="button" title="Permisos" data-id="'.$request[$i]['idrole'].'" name="btnPermit"><i class="fas fa-key"></i></button>
-                                    <button class="btn btn-success" type="button" title="Editar" data-id="'.$request[$i]['idrole'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>
-                                    <button class="btn btn-danger" type="button" title="Eliminar" data-id="'.$request[$i]['idrole'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button> 
+                                    <button class="btn btn-secondary" type="button" title="Permits" data-id="'.$request[$i]['idrole'].'" name="btnPermit"><i class="fas fa-key"></i></button>
+                                    <button class="btn btn-success" type="button" title="Edit" data-id="'.$request[$i]['idrole'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>
+                                    <button class="btn btn-danger" type="button" title="Delete" data-id="'.$request[$i]['idrole'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button> 
                                 </td>
                             </tr>
                         ';
@@ -87,17 +87,16 @@
         }
         public function getRole(){
             if($_SESSION['idUser'] == 1){
-
                 if($_POST){
                     if(empty($_POST['idRol'])){
-                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
+                        $arrResponse = array("status"=>false,"msg"=>"Data error");
                     }else{
                         $idRol = intval($_POST['idRol']);
                         $request = $this->model->selectRole($idRol);
                         if(!empty($request)){
                             $arrResponse = array("status"=>true,"data"=>$request);
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"No existe!");
+                            $arrResponse = array("status"=>false,"msg"=>"Data error");
                         }
     
                     }
@@ -113,14 +112,14 @@
             if($_SESSION['idUser'] == 1){
                 if($_POST){
                     if(empty($_POST['idRol'])){
-                        $arrResponse=array("status"=>false,"Error de datos");
+                        $arrResponse=array("status"=>false,"Data error");
                     }else{
                         $id = intval($_POST['idRol']);
                         $request = $this->model->deleteRole($id);
                         if($request=="ok"){
-                            $arrResponse = array("status"=>true,"msg"=>"Se ha eliminado");
+                            $arrResponse = array("status"=>true,"msg"=>"It has been deleted");
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"No se ha podido eliminar, inténtelo de nuevo.");
+                            $arrResponse = array("status"=>false,"msg"=>"It has not been possible to delete, try again.");
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -166,9 +165,9 @@
                         $request = $this->model->insertPermits($idRole,$idmodule,$r,$w,$u,$d);
                     }
                     if($request>0){
-                        $arrResponse = array("status"=>true,"msg"=>"Permisos actualizados");
+                        $arrResponse = array("status"=>true,"msg"=>"Permits updated");
                     }else{
-                        $arrResponse = array("status"=>false,"msg"=>"No se ha podido actualizar los permisos, inténtelo de nuevo");
+                        $arrResponse = array("status"=>false,"msg"=>"Could not update permissions, try again.");
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 }

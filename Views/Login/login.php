@@ -20,47 +20,47 @@
                     <div class="card-group d-block d-md-flex row">
                         <div class="card col-md-12 p-4 mb-0">
                             <div class="card-body" id="cardLogin">
-                                <h1>Iniciar sesión</h1>
-                                <p class="text-medium-emphasis">Accede a tu cuenta</p>
+                                <h1>Login</h1>
+                                <p class="text-medium-emphasis">Login to your account</p>
                                 <form id="formLogin">
                                     <div class="input-group mb-3"><span class="input-group-text">
                                         <svg class="icon">
                                             <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
                                         </svg></span>
-                                        <input class="form-control" type="text" placeholder="Correo" id="txtEmail" name="txtEmail">
+                                        <input class="form-control" type="text" placeholder="Your email" id="txtEmail" name="txtEmail">
                                     </div>
                                     <div class="input-group mb-4"><span class="input-group-text">
                                         <svg class="icon">
                                             <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
                                         </svg></span>
-                                        <input class="form-control" type="password" placeholder="Contraseña" id="txtPassword" name="txtPassword">
+                                        <input class="form-control" type="password" placeholder="Your password" id="txtPassword" name="txtPassword">
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-12 d-flex justify-content-center">
-                                            <button class="btn btn-primary px-4 w-100" type="submit" id="btnLogin">Iniciar sesión</button>
+                                            <button class="btn btn-primary px-4 w-100" type="submit" id="btnLogin">Login</button>
                                         </div>
                                         <div class="col-lg-6 col-md-12 text-end d-flex justify-content-center">
-                                            <button class="btn btn-link px-0" type="button" id="btnResetPass">¿Olvidaste la contraseña?</button>
+                                            <button class="btn btn-link px-0" type="button" id="btnResetPass">Forgot your password?</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="card-body d-none" id="cardReset">
-                                <h1>Recuperar contraseña</h1>
-                                <p class="text-medium-emphasis">recupera tu contraseña</p>
+                                <h1>Forgot my password</h1>
+                                <p class="text-medium-emphasis">We will send you an email with a link to reset your password</p>
                                 <form id="formReset">
                                     <div class="input-group mb-3"><span class="input-group-text">
                                         <svg class="icon">
                                             <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
                                         </svg></span>
-                                        <input class="form-control" type="text" placeholder="Correo" id="txtEmailReset" name="txtEmailReset">
+                                        <input class="form-control" type="text" placeholder="Your email" id="txtEmailReset" name="txtEmailReset">
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-12 d-flex justify-content-center">
-                                            <button class="btn btn-primary px-4 w-100" type="submit" id="btnReset">Recuperar</button>
+                                            <button class="btn btn-primary px-4 w-100" type="submit" id="btnReset">Reset my password</button>
                                         </div>
                                         <div class="col-lg-6 col-md-12 text-end d-flex justify-content-center">
-                                            <button class="btn btn-link px-0" type="button" id="btnSession">Iniciar sesión</button>
+                                            <button class="btn btn-link px-0" type="button" id="btnSession">Login</button>
                                         </div>
                                     </div>
                                 </form>

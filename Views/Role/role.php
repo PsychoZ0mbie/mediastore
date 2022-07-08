@@ -6,15 +6,15 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 mt-3">
-                        <input class="form-control" type="search" placeholder="buscar" aria-label="Search" id="search" name="search">
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" id="search" name="search">
                     </div>
                 </div>
                 <div class="scroll-y">
                     <table class="table text-center items align-middle">
                         <thead>
                             <tr>
-                                <th>Rol</th>
-                                <th>Acciones</th>
+                                <th>Role</th>
+                                <th>Options</th>
                             </tr>
                         </thead>
                         <tbody id="listItem">

@@ -31,10 +31,19 @@ header{
     animation-name: searchOpen;
     animation-duration: 0.8s;
     animation-fill-mode: forwards;
+    button{
+        width: 50px;
+        height: 100%;
+        background-color: $second-color;
+        color:$third-color;
+        &:hover{
+            background-color: $second-color;
+            color:$third-color;
+        }
+    }
     input{
         height: 100%;
         width: 100%;
-        
     }
     input:focus{
         outline: $second-color;
@@ -43,13 +52,10 @@ header{
         display: flex;
         justify-content: center;
         align-items: center;
-        position: absolute;
         height: 100%;
         width: 50px;
         background-color: $second-color;
         color:$third-color;
-        top:0;
-        right:0;
         font-size: 30px;
         cursor: pointer;
     }
@@ -78,6 +84,16 @@ header{
     animation-name: searchClose;
     animation-duration: 0.8s;
     animation-fill-mode: forwards;
+    button{
+        width: 50px;
+        height: 100%;
+        background-color: $second-color;
+        color:$third-color;
+        &:hover{
+            background-color: $second-color;
+            color:$third-color;
+        }
+    }
     input{
         height: 100%;
         width: 100%;

@@ -18,19 +18,19 @@ export default class Role{
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Nuevo rol</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel">New role</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form id="formItem" name="formItem" class="mb-4">
                             <input type="hidden" id="idRol" name="idRol" value="">
                             <div class="mb-3">
-                                <label for="txtName" class="form-label">Nombre</label>
+                                <label for="txtName" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="txtName" name="txtName">
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Agregar</button>
-                                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Add</button>
+                                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
                             </div>
                         </form>
                     </div>
@@ -50,7 +50,7 @@ export default class Role{
             let strName = document.querySelector("#txtName").value;
 
             if(strName ==""){
-                Swal.fire("Error","Los campos no pueden estar vacíos","error");
+                Swal.fire("Error","The fields can't be empty","error");
                 return false;
             }
             
@@ -60,14 +60,14 @@ export default class Role{
             let element = document.querySelector("#listItem");
             btnAdd.innerHTML=`
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Espera...
+                Wait...
             `;
             btnAdd.setAttribute("disabled","");
             request(url,formData,"post").then(function(objData){
-                btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Agregar`;
+                btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Add`;
                 btnAdd.removeAttribute("disabled");
                 if(objData.status){
-                    Swal.fire("Agregado",objData.msg,"success");
+                    Swal.fire("Add",objData.msg,"success");
                     modalView.hide();
                     url = base_url+"/Role/getRoles";
                     request(url,"","get").then(function(objData){
@@ -129,7 +129,7 @@ export default class Role{
                 <div class="modal-dialog modal-dialog-centered modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Permisos</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Permits</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -137,11 +137,11 @@ export default class Role{
                                 <table class="table text-center align-middle">
                                     <thead>
                                         <tr>
-                                            <th class="text-start">Módulo</th>
-                                            <th>Leer</th>
-                                            <th>Crear</th>
-                                            <th>Actualizar</th>
-                                            <th>Eliminar</th>
+                                            <th class="text-start">Module</th>
+                                            <th>Read</th>
+                                            <th>Create</th>
+                                            <th>Update</th>
+                                            <th>Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody id="modules">
@@ -150,8 +150,8 @@ export default class Role{
                                 </table>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" id="btnAdd">Guardar</button>
-                                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary" id="btnAdd">Save</button>
+                                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
@@ -192,7 +192,7 @@ export default class Role{
                 }
                 btnAdd.innerHTML=`
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        Espera...
+                        Wait...
                     `;
                 btnAdd.setAttribute("disabled","");
                 url = base_url+"/Role/setPermits";
@@ -200,13 +200,13 @@ export default class Role{
                 permits.append("permits",JSON.stringify(data));
                 permits.append("idRol",id);
                 request(url,permits,"post").then(function(objData){
-                    btnAdd.innerHTML=`Guardar`;
+                    btnAdd.innerHTML=`Save`;
                     btnAdd.removeAttribute("disabled");
                     if(objData.status){
                         modalView.hide();
-                        Swal.fire("Permisos",objData.msg,"success");
+                        Swal.fire("Permits",objData.msg,"success");
                     }else{
-                        Swal.fire("Permisos",objData.msg,"error");
+                        Swal.fire("Permits",objData.msg,"error");
                     }
                 });
             })
@@ -226,19 +226,19 @@ export default class Role{
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">Actualizar rol</h5>
+                                <h5 class="modal-title" id="staticBackdropLabel">Update role</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <form id="formItem" name="formItem" class="mb-4">
                                     <input type="hidden" id="idRol" name="idRol" value="${objData.data.idrole}">
                                     <div class="mb-3">
-                                        <label for="txtName" class="form-label">Nombre</label>
+                                        <label for="txtName" class="form-label">Name</label>
                                         <input type="text" class="form-control" id="txtName" name="txtName" value="${objData.data.name}">
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-info text-white" id="btnAdd">Actualizar</button>
-                                        <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="submit" class="btn btn-info text-white" id="btnAdd">Update</button>
+                                        <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
                                     </div>
                                 </form>
                             </div>
@@ -258,7 +258,7 @@ export default class Role{
                     let strName = document.querySelector("#txtName").value;
 
                     if(strName ==""){
-                        Swal.fire("Error","Los campos no pueden estar vacíos","error");
+                        Swal.fire("Error","The fields can't be empty","error");
                         return false;
                     }
 
@@ -268,15 +268,15 @@ export default class Role{
                     let btnAdd = document.querySelector("#btnAdd");
                     btnAdd.innerHTML=`
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        Espera...
+                        Wait...
                     `;
                     btnAdd.setAttribute("disabled","");
                     request(url,formData,"post").then(function(objData){
-                        btnAdd.innerHTML=`Actualizar`;
+                        btnAdd.innerHTML=`Update`;
                         btnAdd.removeAttribute("disabled");
                         if(objData.status){
-                            Swal.fire("Actualizado",objData.msg,"success");
-                            //modalView.hide();
+                            Swal.fire("Update",objData.msg,"success");
+                            modalView.hide();
                             url = base_url+"/Role/getRoles";
                             request(url,"","get").then(function(objData){
                                 if(objData.status){
@@ -297,14 +297,14 @@ export default class Role{
     }
     deleteItem(id){
         Swal.fire({
-            title:"¿Está segur@ de eliminar?",
-            text:"Se eliminará para siempre",
+            title:"Are you sure to delete it?",
+            text:"It will delete for ever",
             icon: 'warning',
             showCancelButton:true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText:"Sí, eliminar",
-            cancelButtonText:"No, cancelar"
+            confirmButtonText:"Yes, delete",
+            cancelButtonText:"No, cancel"
         }).then(function(result){
             if(result.isConfirmed){
                 let url = base_url+"/Role/delRole"
@@ -312,7 +312,7 @@ export default class Role{
                 let element = document.querySelector("#listItem");
                 formData.append("idRol",id);
                 request(url,formData,"post").then(function(objData){
-                    Swal.fire("Eliminado",objData.msg,"success");
+                    Swal.fire("Deleted",objData.msg,"success");
                     url = base_url+"/Role/getRoles";
                     request(url,"","get").then(function(objData){
                         if(objData.status){

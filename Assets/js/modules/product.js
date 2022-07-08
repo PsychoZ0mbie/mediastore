@@ -17,7 +17,7 @@ export default class Product{
             <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Nuevo producto</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel">New product</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -28,7 +28,7 @@ export default class Product{
                                         <label for="txtImg" class="text-primary text-center d-flex justify-content-center align-items-center">
                                             <div>
                                                 <i class="far fa-images fs-1"></i>
-                                                <p class="m-0">Subir imágen</p>
+                                                <p class="m-0">Upload image</p>
                                             </div>
                                         </label>
                                         <input class="d-none" type="file" id="txtImg" name="txtImg[]" multiple accept="image/*"> 
@@ -41,13 +41,13 @@ export default class Product{
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtReference" class="form-label">Referencia</label>
+                                        <label for="txtReference" class="form-label">Reference</label>
                                         <input type="text" class="form-control" id="txtReference" name="txtReference" placeholder="SKU">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtName" class="form-label">Nombre <span class="text-danger">*</span></label>
+                                        <label for="txtName" class="form-label">Name <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="txtName" name="txtName" required>
                                     </div>
                                 </div>
@@ -55,13 +55,13 @@ export default class Product{
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="categoryList" class="form-label">Categoría <span class="text-danger">*</span></label>
+                                        <label for="categoryList" class="form-label">Category <span class="text-danger">*</span></label>
                                         <select class="form-control" aria-label="Default select example" id="categoryList" name="categoryList" required></select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="subcategoryList" class="form-label">SubCategoría <span class="text-danger">*</span></label>
+                                        <label for="subcategoryList" class="form-label">Subcategory <span class="text-danger">*</span></label>
                                         <select class="form-control" aria-label="Default select example" id="subcategoryList" name="subcategoryList" required></select>
                                     </div>
                                 </div>
@@ -69,13 +69,13 @@ export default class Product{
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtDiscount" class="form-label">Descuento</label>
+                                        <label for="txtDiscount" class="form-label">Discount</label>
                                         <input type="number" class="form-control"  max="99" id="txtDiscount" name="txtDiscount">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtPrice" class="form-label">Precio <span class="text-danger">*</span></label>
+                                        <label for="txtPrice" class="form-label">Price <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" min ="1" id="txtPrice" name="txtPrice">
                                     </div>
                                 </div>
@@ -83,27 +83,27 @@ export default class Product{
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtStock" class="form-label">Cantidad <span class="text-danger">*</span></label>
+                                        <label for="txtStock" class="form-label">Quantity <span class="text-danger">*</span></label>
                                         <input type="number" value="1" min="0" class="form-control" id="txtStock" name="txtStock">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="statusList" class="form-label">Estado <span class="text-danger">*</span></label>
+                                        <label for="statusList" class="form-label">Status <span class="text-danger">*</span></label>
                                         <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
-                                            <option value="1">Activo</option>
-                                            <option value="2">Inactivo</option>
+                                            <option value="1">Active</option>
+                                            <option value="2">Inactive</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="txtDescription" class="form-label">Descripción</label>
+                                <label for="txtDescription" class="form-label">Description</label>
                                 <textarea class="form-control" id="txtDescription" name="txtDescription" rows="5"></textarea>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Agregar</button>
-                                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Add</button>
+                                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
                             </div>
                         </form>
                     </div>
@@ -131,8 +131,8 @@ export default class Product{
             }
         }
         request(base_url+"/Product/getSelectCategories","","get").then(function(objData){
-            categoryList.innerHTML = `<option value="0" selected>Seleccione categoría</option>`+objData.data;
-            subcategoryList.innerHTML = `<option value="0" selected>Seleccione subcategoría</option>`;
+            categoryList.innerHTML = `<option value="0" selected>Select category</option>`+objData.data;
+            subcategoryList.innerHTML = `<option value="0" selected>Select subcategory</option>`;
         });
         img.addEventListener("change",function(e){
             if(img.value!=""){
@@ -190,24 +190,24 @@ export default class Product{
             let images = document.querySelectorAll(".upload-image");
 
             if(strName == "" || intStatus == "" || intCategory == 0 || intSubCategory==0 || intPrice=="" || intStock==""){
-                Swal.fire("Error","Todos los campos con (*) son obligatorios","error");
+                Swal.fire("Error","All fields marked with (*) are required","error");
                 return false;
             }
             if(images.length < 1){
-                Swal.fire("Error","Debes subir al menos una imágen","error");
+                Swal.fire("Error","You must upload at least one image","error");
                 return false;
             }
             if(intPrice <= 0){
-                Swal.fire("Error","El precio no puede ser menor o igual a 0","error");
+                Swal.fire("Error","The price can´t be less or equal than 0 ","error");
                 return false;
             }
             if(intDiscount !=""){
                 if(intDiscount < 0){
-                    Swal.fire("Error","El descuento no puede ser menor a 0%","error");
+                    Swal.fire("Error","The discount can't be less than 0","error");
                     document.querySelector("#txtDiscount").value="";
                     return false;
-                }else if(intDiscount > 100){
-                    Swal.fire("Error","El descuento no puede ser mayor a 100%","error");
+                }else if(intDiscount > 90){
+                    Swal.fire("Error","The discount can't be more than 90%","error");
                     document.querySelector("#txtDiscount").value="";
                     return false;
                 }
@@ -217,10 +217,10 @@ export default class Product{
             let data = new FormData(form);
             let element = document.querySelector("#listItem");
             
-            if(flag ===true){
+            if(flag === true){
                 btnAdd.innerHTML=`
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Espera...
+                    Wait...
                 `;
                 btnAdd.setAttribute("disabled","");
                 request(base_url+"/Product/setProduct",data,"post").then(function(objData){
@@ -228,8 +228,8 @@ export default class Product{
                     form.reset();
                     formFile.reset();
                     if(objData.status){
-                        Swal.fire("Agregado",objData.msg,"success");
-                        //modalView.hide();
+                        Swal.fire("Added",objData.msg,"success");
+                        modalView.hide();
                         let divImg = document.querySelectorAll(".upload-image");
                         for (let i = 0; i < divImg.length; i++) {
                             divImg[i].remove();
@@ -251,7 +251,7 @@ export default class Product{
                     }
                 });
                 modalItem.innerHTML="";
-                btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Agregar`;
+                btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Add`;
                 btnAdd.removeAttribute("disabled");
                 flag = false;
             }
@@ -280,12 +280,12 @@ export default class Product{
                 if(discount>0){
                     discount = `<span class="text-success">${discount}% OFF</span>`
                 }else{
-                    discount = `<span class="text-danger">Sin descuento</span>`
+                    discount = `<span class="text-danger">No discount</span>`
                 }
                 if(status==1){
-                    status='<span class="badge me-1 bg-success">Activo</span>';
+                    status='<span class="badge me-1 bg-success">Active</span>';
                 }else{
-                    status='<span class="badge me-1 bg-danger">Inactivo</span>';
+                    status='<span class="badge me-1 bg-danger">Inactive</span>';
                 }
                 let modalItem = document.querySelector("#modalItem");
                 let modal= `
@@ -293,7 +293,7 @@ export default class Product{
                     <div class="modal-dialog modal-dialog-centered modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">Datos de producto</h5>
+                                <h5 class="modal-title" id="staticBackdropLabel">Product data</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -302,19 +302,19 @@ export default class Product{
                                         <tr>
                                             <td class="row scrolly">${html}</td>
                                         </tr>
-                                        <tr><td><strong>Referencia: </strong>${objData.data.reference}</td></tr>
-                                        <tr><td><strong>Nombre: </strong>${objData.data.name}</td></tr>
-                                        <tr><td><strong>Categoría: </strong>${objData.data.category}</td></tr>
-                                        <tr><td><strong>Subcategoría: </strong>${objData.data.subcategory}</td></tr>
-                                        <tr><td><strong>Precio: </strong>${objData.data.priceFormat}</td></tr>
-                                        <tr><td><strong>Descuento: </strong>${discount}</td></tr>
-                                        <tr><td><strong>Cantidad: </strong>${objData.data.stock}</td></tr>
-                                        <tr><td><strong>Fecha de registro: </strong>${objData.data.date}</td></tr>
-                                        <tr><td><strong>Estado: </strong>${status}</td></tr>
+                                        <tr><td><strong>Reference: </strong>${objData.data.reference}</td></tr>
+                                        <tr><td><strong>Name: </strong>${objData.data.name}</td></tr>
+                                        <tr><td><strong>Category: </strong>${objData.data.category}</td></tr>
+                                        <tr><td><strong>Subcategory: </strong>${objData.data.subcategory}</td></tr>
+                                        <tr><td><strong>Price: </strong>${objData.data.priceFormat}</td></tr>
+                                        <tr><td><strong>Discount: </strong>${discount}</td></tr>
+                                        <tr><td><strong>Quantity: </strong>${objData.data.stock}</td></tr>
+                                        <tr><td><strong>Date: </strong>${objData.data.date}</td></tr>
+                                        <tr><td><strong>Status: </strong>${status}</td></tr>
                                     </tbody>
                                 </table>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
@@ -339,7 +339,7 @@ export default class Product{
             <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Actualizar producto</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel">Update product</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -350,7 +350,7 @@ export default class Product{
                                         <label for="txtImg" class="text-primary text-center d-flex justify-content-center align-items-center">
                                             <div>
                                                 <i class="far fa-images fs-1"></i>
-                                                <p class="m-0">Subir imágen</p>
+                                                <p class="m-0">Upload image</p>
                                             </div>
                                         </label>
                                         <input class="d-none" type="file" id="txtImg" name="txtImg[]" multiple accept="image/*"> 
@@ -363,13 +363,13 @@ export default class Product{
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtReference" class="form-label">Referencia</label>
+                                        <label for="txtReference" class="form-label">Reference</label>
                                         <input type="text" class="form-control" id="txtReference" name="txtReference" placeholder="SKU">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtName" class="form-label">Nombre <span class="text-danger">*</span></label>
+                                        <label for="txtName" class="form-label">Name <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="txtName" name="txtName" required>
                                     </div>
                                 </div>
@@ -377,13 +377,13 @@ export default class Product{
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="categoryList" class="form-label">Categoría <span class="text-danger">*</span></label>
+                                        <label for="categoryList" class="form-label">Category <span class="text-danger">*</span></label>
                                         <select class="form-control" aria-label="Default select example" id="categoryList" name="categoryList" required></select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="subcategoryList" class="form-label">SubCategoría <span class="text-danger">*</span></label>
+                                        <label for="subcategoryList" class="form-label">SubCategory <span class="text-danger">*</span></label>
                                         <select class="form-control" aria-label="Default select example" id="subcategoryList" name="subcategoryList" required></select>
                                     </div>
                                 </div>
@@ -391,13 +391,13 @@ export default class Product{
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtDiscount" class="form-label">Descuento</label>
+                                        <label for="txtDiscount" class="form-label">Discount</label>
                                         <input type="number" class="form-control"  max="99" id="txtDiscount" name="txtDiscount">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtPrice" class="form-label">Precio <span class="text-danger">*</span></label>
+                                        <label for="txtPrice" class="form-label">Price <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" min ="1" id="txtPrice" name="txtPrice">
                                     </div>
                                 </div>
@@ -405,27 +405,27 @@ export default class Product{
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtStock" class="form-label">Cantidad <span class="text-danger">*</span></label>
+                                        <label for="txtStock" class="form-label">Quantity <span class="text-danger">*</span></label>
                                         <input type="number" value="1" min="0" class="form-control" id="txtStock" name="txtStock">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="statusList" class="form-label">Estado <span class="text-danger">*</span></label>
+                                        <label for="statusList" class="form-label">Status <span class="text-danger">*</span></label>
                                         <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
-                                            <option value="1">Activo</option>
-                                            <option value="2">Inactivo</option>
+                                            <option value="1">Active</option>
+                                            <option value="2">Inactive</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="txtDescription" class="form-label">Descripción</label>
+                                <label for="txtDescription" class="form-label">Description</label>
                                 <textarea class="form-control" id="txtDescription" name="txtDescription" rows="5"></textarea>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" id="btnAdd">Actualizar</button>
-                                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary" id="btnAdd">Update</button>
+                                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
                             </div>
                         </form>
                     </div>
@@ -480,7 +480,7 @@ export default class Product{
                 }
             }
             request(base_url+"/Product/getSelectCategories","","get").then(function(html){
-                document.querySelector("#categoryList").innerHTML = `<option value="0">Seleccione categoría</option>`+html.data;
+                document.querySelector("#categoryList").innerHTML = `<option value="0">Select category</option>`+html.data;
                 let categories = document.querySelectorAll("#categoryList option");
                 for (let i = 0; i < categories.length; i++) {
                     if(categories[i].value == objData.data.categoryid){
@@ -556,7 +556,6 @@ export default class Product{
             e.preventDefault();
             e.stopPropagation();
             
-            
             let strName = document.querySelector("#txtName").value;
             let intDiscount = document.querySelector("#txtDiscount").value;
             let intPrice = document.querySelector("#txtPrice").value;
@@ -567,24 +566,24 @@ export default class Product{
 
             
             if(strName == "" || intStatus == "" || intCategory == 0 || intSubCategory==0 || intPrice==""){
-                Swal.fire("Error","Todos los campos con (*) son obligatorios","error");
+                Swal.fire("Error","All fields marked with (*) are required","error");
                 return false;
             }
             if(images.length < 1){
-                Swal.fire("Error","Debes subir al menos una imágen","error");
+                Swal.fire("Error","You must upload one image","error");
                 return false;
             }
             if(intPrice <= 0){
-                Swal.fire("Error","El precio no puede ser menor o igual a 0","error");
+                Swal.fire("Error","The price can't be less or equal than 0","error");
                 return false;
             }
             if(intDiscount !=""){
                 if(intDiscount < 0){
-                    Swal.fire("Error","El descuento no puede ser menor a 0%","error");
+                    Swal.fire("Error","The discount can't be less than 0","error");
                     document.querySelector("#txtDiscount").value="";
                     return false;
-                }else if(intDiscount > 100){
-                    Swal.fire("Error","El descuento no puede ser mayor a 100%","error");
+                }else if(intDiscount > 90){
+                    Swal.fire("Error","The discount can't be more than 90%","error");
                     document.querySelector("#txtDiscount").value="";
                     return false;
                 }
@@ -594,7 +593,7 @@ export default class Product{
             let element = document.querySelector("#listItem");
             btnAdd.innerHTML=`
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Espera...
+                Wait...
                 `;
             btnAdd.setAttribute("disabled","");
             if(flag === true){
@@ -602,7 +601,7 @@ export default class Product{
                     form.reset();
                     formFile.reset();
                     if(objData.status){
-                        Swal.fire("Actualizado",objData.msg,"success");
+                        Swal.fire("Updated",objData.msg,"success");
                         modalView.hide();
                         let divImg = document.querySelectorAll(".upload-image");
                         for (let i = 0; i < divImg.length; i++) {
@@ -619,7 +618,7 @@ export default class Product{
                         Swal.fire("Error",objData.msg,"error");
                     }
                 });
-                btnAdd.innerHTML=`Actualizar`;
+                btnAdd.innerHTML=`Update`;
                 btnAdd.removeAttribute("disabled");
                 modalItem.innerHTML="";
                 flag = false;
@@ -630,14 +629,14 @@ export default class Product{
     }
     deleteItem(id){
         Swal.fire({
-            title:"¿Está segur@ de eliminar?",
-            text:"Se eliminará para siempre",
+            title:"Are you sure to delete it?",
+            text:"It will delete for ever...",
             icon: 'warning',
             showCancelButton:true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText:"Sí, eliminar",
-            cancelButtonText:"No, cancelar"
+            confirmButtonText:"Yes, delete",
+            cancelButtonText:"No, cancel"
         }).then(function(result){
             if(result.isConfirmed){
                 let formData = new FormData();
@@ -645,7 +644,7 @@ export default class Product{
                 formData.append("idProduct",id);
                 request(base_url+"/Product/delProduct",formData,"post").then(function(objData){
                     if(objData.status){
-                        Swal.fire("Eliminado",objData.msg,"success");
+                        Swal.fire("Deleted",objData.msg,"success");
                         request(base_url+"/Product/getProducts","","get").then(function(objData){
                             if(objData.status){
                                 element.innerHTML = objData.data;
