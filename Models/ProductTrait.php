@@ -1,5 +1,5 @@
 <?php
-    
+    require_once("Libraries/Core/Mysql.php");
     trait ProductTrait{
         private $con;
 

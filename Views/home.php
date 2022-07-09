@@ -20,28 +20,7 @@
         </div>
         <section>
             <div id="carouselExampleControls" class="carousel slide main-carousel" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img src="https://celularapagos.com/wp-content/uploads/2022/04/Huawei-Nova-Y60-Negro.png" alt="...">
-                    <div class="carousel-info">
-                        <h2>Smartphones</h2>
-                        <h3>GET THE Huawei nova Y60 </h3>
-                        <h4>With <strong class="t-p">30%</strong> discount!</h4>
-                        <p class="mb-3"><strong>$175.000</strong> <span>$250.000</span></p>
-                        <a href="#" class="btnc btnc-primary">Shop Now</a>
-                    </div>
-                  </div>
-                  <div class="carousel-item">
-                    <img src="https://www.notebookcheck.org/uploads/tx_nbc2/asusX550CA.jpg" alt="...">
-                    <div class="carousel-info">
-                        <h2>Smartphones</h2>
-                        <h3>GET THE ASUS X550CA </h3>
-                        <h4>With <strong class="t-p">30%</strong> discount!</h4>
-                        <p class="mb-3"><strong>$175.000</strong> <span>$250.000</span></p>
-                        <a href="#" class="btnc btnc-primary">Shop Now</a>
-                    </div>
-                  </div>
-                </div>
+                <div class="carousel-inner"></div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Previous</span>
@@ -55,7 +34,7 @@
         <section>
             <div class="container mt-5 mb-5">
                 <h3 class="t-p"><strong>CATEGORIES</strong></h3>
-                <div class="row">
+                <div class="row" id="categories1">
                     <div class="col-md-4">
                         <a href="shop.html" class="text-decoration-none">
                             <div class="category">
@@ -207,7 +186,7 @@
         </section>
         <section>
             <div class="container mt-4 mb-4">
-                <div class="row">
+                <div class="row" id="categories2">
                     <div class="col-md-4 mb-3">
                         <div class="more-category">
                             <img src="https://panamericana.vteximg.com.br/arquivos/ids/370523-600-690/table-lenovo-smart-tab-m8-8-gris-1-194632687668.jpg?v=637415828691400000" alt="">

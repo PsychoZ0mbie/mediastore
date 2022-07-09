@@ -442,15 +442,15 @@ if(document.querySelector(".comment-list")){
 /******************************************************************************Pages****************************** */
 /***************************Home Page****************************** */
 if(document.querySelector("#home")){
-    let carousel = document.querySelector(".carousel-inner");
     request(base_url+"/home/getProductSlider","","get").then(function(objData){
         let html="";
+        let carousel = document.querySelector(".carousel-inner");
         for (let i = 0; i < objData.length; i++) {
             let route = base_url+"/product/"+objData[i]['route'];
             if(i==0){
                 html+=`
                     <div class="carousel-item active">
-                        <img src="${objData[i]['url']}" alt="${objData[i]['image']}">
+                        <img src="${objData[i]['url']}" alt="${objData[i]['name']}">
                         <div class="carousel-info">
                             <h2>${objData[i]['category']}</h2>
                             <h3>GET THE ${objData[i]['name']} </h3>
@@ -463,7 +463,7 @@ if(document.querySelector("#home")){
             }else{0
                 html+=`
                     <div class="carousel-item">
-                        <img src="${objData[i]['url']}" alt="${objData[i]['image']}">
+                        <img src="${objData[i]['url']}" alt="${objData[i]['name']}">
                         <div class="carousel-info">
                             <h2>${objData[i]['category']}</h2>
                             <h3>GET THE ${objData[i]['name']} </h3>
@@ -476,6 +476,50 @@ if(document.querySelector("#home")){
             }
         }
         carousel.innerHTML = html;
+    });
+    request(base_url+"/home/getCategories1","","get").then(function(objData){
+        let categories1 = document.querySelector("#categories1");
+        let html="";
+        for (let i = 0; i < objData.length; i++) {
+            let route = base_url+"/shop/"+objData[i]['route'];
+            let url = base_url+"/Assets/images/uploads/"+objData[i]['picture'];
+            html+=`
+            <div class="col-md-4">
+                <a href="${route}" class="text-decoration-none">
+                    <div class="category">
+                        <img src="${url}" alt="${objData[i]['name']}">
+                        <div class="category-info">
+                            <h3><strong>${objData[i]['name']}</strong></h3>
+                        </div>
+                        <a href="${route}" class="category-btn"><strong>Shop now</strong></a>
+                    </div>
+                </a>
+            </div>
+            `;
+        }
+        categories1.innerHTML = html;
+    });
+    request(base_url+"/home/getCategories2","","get").then(function(objData){
+        let categories2 = document.querySelector("#categories2");
+        let html="";
+        for (let i = 0; i < objData.length; i++) {
+            let route = base_url+"/shop/"+objData[i]['route'];
+            let url = base_url+"/Assets/images/uploads/"+objData[i]['picture'];
+            html+=`
+            <div class="col-md-4 mb-3">
+                <div class="more-category">
+                    <img src="${url}" alt="${objData[i]['name']}">
+                    <div class="more-category-info">
+                        <a href="${route}"><h3><strong>${objData[i]['name']}</strong></h3></a>
+                        <p>Browse all our categories</p>
+                        <a href="shop.html" class="btn btn-primary">Shop by ${objData[i]['name']}</a>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+            `;
+        }
+        categories2.innerHTML = html;
     });
 
 }
