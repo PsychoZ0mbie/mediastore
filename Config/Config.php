@@ -19,7 +19,7 @@
 	//Otros
 	const KEYWORDS ="";
 	const MS = "$"; // Simbolo de moneda
-	const MD = " COP"; // Divisa
+	const MD = " US"; // Divisa
 	const DEC = ","; // Decimales;
 	const MIL = ".";//Millares;
 	const ENVIO =0;

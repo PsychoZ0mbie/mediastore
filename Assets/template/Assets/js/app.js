@@ -1,4 +1,4 @@
-
+'use strict'
 /***************************Nav Events****************************** */
 let btnBar = document.querySelector("#btnToggleNav");
 let btnCart = document.querySelector("#btnToggleCart");
@@ -438,6 +438,46 @@ if(document.querySelector(".comment-list")){
             
         });
     }
+}
+/******************************************************************************Pages****************************** */
+/***************************Home Page****************************** */
+if(document.querySelector("#home")){
+    let carousel = document.querySelector(".carousel-inner");
+    request(base_url+"/home/getProductSlider","","get").then(function(objData){
+        let html="";
+        for (let i = 0; i < objData.length; i++) {
+            let route = base_url+"/product/"+objData[i]['route'];
+            if(i==0){
+                html+=`
+                    <div class="carousel-item active">
+                        <img src="${objData[i]['url']}" alt="${objData[i]['image']}">
+                        <div class="carousel-info">
+                            <h2>${objData[i]['category']}</h2>
+                            <h3>GET THE ${objData[i]['name']} </h3>
+                            <h4>With <strong class="t-p">${objData[i]['discount']}%</strong> discount!</h4>
+                            <p class="mb-3"><strong>${objData[i]['priceDiscount']}</strong> <span>${objData[i]['price']}</span></p>
+                            <a href="${route}" class="btnc btnc-primary">Shop Now</a>
+                        </div>
+                    </div>
+                `;
+            }else{0
+                html+=`
+                    <div class="carousel-item">
+                        <img src="${objData[i]['url']}" alt="${objData[i]['image']}">
+                        <div class="carousel-info">
+                            <h2>${objData[i]['category']}</h2>
+                            <h3>GET THE ${objData[i]['name']} </h3>
+                            <h4>With <strong class="t-p">${objData[i]['discount']}%</strong> discount!</h4>
+                            <p class="mb-3"><strong>${objData[i]['priceDiscount']}</strong> <span>${objData[i]['price']}</span></p>
+                            <a href="${route}" class="btnc btnc-primary">Shop Now</a>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        carousel.innerHTML = html;
+    });
+
 }
 /***************************Product Page****************************** */
 if(document.querySelector("#product")){
