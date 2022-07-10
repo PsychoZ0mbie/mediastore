@@ -267,29 +267,11 @@ if(document.querySelectorAll(".product-btns .quickView")){
         });
     } 
 }
+
 //add wishlist product card
-if(document.querySelectorAll(".product-btns .addWishList")){
-    let btns = document.querySelectorAll(".product-btns .addWishList");
-    for (let i = 0; i < btns.length; i++) {
-        let btn = btns[i];
-        btn.addEventListener("click",function(){
-            btn.classList.toggle("active");
-            if(btn.classList.contains("active")){
-                btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
-                setTimeout(function(){
-                    btn.innerHTML = `<i class="fas fa-heart text-danger " title="Add to wishlist"></i>`
-                },300);
-                
-            }else{
-                btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
-                setTimeout(function(){
-                    btn.innerHTML = `<i class="far fa-heart" title="Add to wishlist"></i>`
-                },300);
-                
-            }
-        })
-    }
-}
+/*if(document.querySelectorAll(".product-btns .addWishList")){
+    
+}*/
 //Add product card button
 if(document.querySelectorAll(".product-card-add")){
     let btnAddCart = document.querySelectorAll(".product-card-add");
@@ -512,7 +494,7 @@ if(document.querySelector("#home")){
                     <div class="more-category-info">
                         <a href="${route}"><h3><strong>${objData[i]['name']}</strong></h3></a>
                         <p>Browse all our categories</p>
-                        <a href="shop.html" class="btn btn-primary">Shop by ${objData[i]['name']}</a>
+                        <a href="${route}" class="btn btn-primary">Shop by ${objData[i]['name']}</a>
                         <div></div>
                     </div>
                 </div>
@@ -521,7 +503,114 @@ if(document.querySelector("#home")){
         }
         categories2.innerHTML = html;
     });
-
+    request(base_url+"/home/getProducts","","get").then(function(objData){
+        let newProducts = document.querySelector("#newProducts");
+        let html="";
+        for (let i = 0; i < objData.length; i++) {
+            let routeP= base_url+"/shop/product/"+objData[i]['route'];
+            let routeC= base_url+"/shop/"+objData[i]['routec'];
+            let favorite="";
+            if(objData[i]['favorite']== 0){
+                favorite=`<div class="addWishList pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></div>`;
+            }else{
+                favorite=`<div class="addWishList pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></div>`;
+            }
+            if(objData[i]['discount']>0){
+                html+=`
+                <div class="col-md-3" data-id="${objData[i]['idproduct']}" data-n="${objData[i]['idproduct']}" data-c ="${objData[i]['categoryid']}" data-s ="${objData[i]['subcategoryid']}">
+                    <div class="product-card">
+                        <p class="product-discount">-${objData[i]['discount']}%</p>
+                        <div class="product-img">
+                            <img src="${objData[i]['url']}" alt="${objData[i]['image']}">
+                            <button type="button" class="btn btn-primary product-card-add">Add to cart</a>
+                        </div>
+                        <div class="product-info">
+                            <a class="m-0 product-category fw-bold" href="${routeC}">${objData[i]['category']}</a>
+                            <a href="${routeP}">
+                                <h3 class="product-title fw-bold">${objData[i]['name']}</h3>
+                                <p class="m-0 fs-5 product-price"><strong>${objData[i]['priceDiscount']}</strong><span>${objData[i]['price']}</span></p>
+                            </a>
+                        </div>
+                        <div class="product-rate">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="product-btns">
+                            ${favorite}
+                            <div class="quickView pe-2 ps-2"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }else{
+                html+=`
+                <div class="col-md-3" data-id="${objData[i]['idproduct']}" data-n="${objData[i]['idproduct']}" data-c ="${objData[i]['categoryid']}" data-s ="${objData[i]['subcategoryid']}">
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="${objData[i]['url']}" alt="${objData[i]['image']}">
+                            <button type="button" class="btn btn-primary product-card-add">Add to cart</a>
+                        </div>
+                        <div class="product-info">
+                            <a class="m-0 product-category fw-bold" href="${routeC}">${objData[i]['category']}</a>
+                            <a href="${routeP}">
+                                <h3 class="product-title fw-bold">${objData[i]['name']}</h3>
+                                <p class="m-0 fs-5 product-price"><strong>${objData[i]['price']}</strong></p>
+                            </a>
+                        </div>
+                        <div class="product-rate">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="product-btns">
+                            ${favorite}
+                            <div class="quickView pe-2 ps-2"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }
+            
+        }
+        newProducts.innerHTML = html;
+        let btns = document.querySelectorAll(".product-btns .addWishList");
+        for (let i = 0; i < btns.length; i++) {
+            let btn = btns[i];
+            btn.addEventListener("click",function(){
+                let idProduct = btn.parentElement.parentElement.parentElement.getAttribute("data-id");
+                let formData = new FormData();
+                formData.append("idProduct",idProduct);
+                btn.classList.toggle("active");
+                if(btn.classList.contains("active")){
+                    btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                    request(base_url+"/shop/addWishList",formData,"post").then(function(objData){
+                        if(objData.status){
+                            btn.innerHTML = `<i class="fas fa-heart text-danger " title="Add to wishlist"></i>`;
+                        }else{
+                            openLoginModal();
+                            btn.innerHTML = `<i class="far fa-heart" title="Add to wishlist"></i>`;
+                        }
+                    });
+                }else{
+                    btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                    request(base_url+"/shop/delWishList",formData,"post").then(function(objData){
+                        if(objData.status){
+                            btn.innerHTML = `<i class="far fa-heart" title="Add to wishlist"></i>`;
+                        }else{
+                            btn.innerHTML = `<i class="far fa-heart " title="Add to wishlist"></i>`;
+                            openLoginModal();
+                        }
+                    });
+                    
+                }
+            })
+        }
+    });
 }
 /***************************Product Page****************************** */
 if(document.querySelector("#product")){
@@ -695,4 +784,189 @@ if(document.querySelector("#login")){
             }
         })
     }
+}
+
+/***************************Essentials Functions****************************** */
+function openLoginModal(){
+    let modalItem = document.querySelector("#modalLogin");
+    let modal="";
+    modal= `
+    <div class="modal fade" id="modalElementLogin">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn-close p-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="login">
+                    <div class="container">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="login">
+                                <form id="formLogin" name="formLogin">
+                                    <h2 class="mb-4">Login</h2>
+                                    <div class="mb-3 d-flex">
+                                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-envelope"></i></div>
+                                        <input type="email" class="form-control" id="txtLoginEmail" name="txtEmail" placeholder="Email" required>
+                                    </div>
+                                    <div class="mb-3 d-flex">
+                                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-lock"></i></div>
+                                        <input type="password" class="form-control" id="txtLoginPassword" name="txtPassword" placeholder="Password" required></textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-end mb-3 t-p">
+                                        <div class="c-p" id="forgotBtn">Forgot password?</div>
+                                    </div>
+                                    <button type="submit" id="loginSubmit" class="btn btnc-primary w-100 mb-4" >Login</button>
+                                    <div class="d-flex justify-content-center mb-3 t-p" >
+                                        <div class="c-p" id="signBtn">Need an account?</div>
+                                    </div>
+                                </form>
+                                <form id="formSign" class="d-none">
+                                    <h2 class="mb-4">Sign up</h2>
+                                    <div class="mb-3 d-flex">
+                                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-user"></i></div>
+                                        <input type="text" class="form-control" id="txtSignName" placeholder="Name" required>
+                                    </div>
+                                    <div class="mb-3 d-flex">
+                                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-envelope"></i></div>
+                                        <input type="email" class="form-control" id="txtSignEmail" placeholder="Email" required>
+                                    </div>
+                                    <div class="mb-3 d-flex">
+                                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-lock"></i></div>
+                                        <input type="password" class="form-control" id="txtSignPassword" placeholder="Password" required></textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-end mb-3 t-p" >
+                                        <div class="c-p loginBtn">Already have an account? login</div>
+                                    </div>
+                                    <button type="submit" id="signSubmit" class="btn btnc-primary w-100 mb-4" >Sign up</button>
+                                </form>
+                                <form id="formReset" class="d-none">
+                                    <h2 class="mb-4">Forgot my password</h2>
+                                    <div class="mb-3 d-flex">
+                                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-envelope"></i></div>
+                                        <input type="email" class="form-control" id="txtEmailReset" name="txtEmailReset" placeholder="Email" required>
+                                    </div>
+                                    <p>We will send you an email with a link to reset your password</p>
+                                    <div class="d-flex justify-content-end mb-3 t-p" >
+                                        <div class="c-p loginBtn">Login</div>
+                                    </div>
+                                    <button type="submit" id="resetSubmit" class="btn btnc-primary w-100 mb-4" >Reset my password</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+    modalItem.innerHTML = modal;
+    let modalView = new bootstrap.Modal(document.querySelector("#modalElementLogin"));
+    modalView.show();
+
+    let formLogin = document.querySelector("#formLogin");
+    let formReset = document.querySelector("#formReset");
+    let formSign = document.querySelector("#formSign");
+    let btnForgot = document.querySelector("#forgotBtn");
+    let btnLogin = document.querySelectorAll(".loginBtn");
+    let btnSign = document.querySelector("#signBtn");
+
+    btnForgot.addEventListener("click",function(){
+        formReset.classList.remove("d-none");
+        formLogin.classList.add("d-none");
+    });
+    btnSign.addEventListener("click",function(){
+        formSign.classList.remove("d-none");
+        formLogin.classList.add("d-none");
+    });
+    for (let i = 0; i < btnLogin.length; i++) {
+        let btn = btnLogin[i];
+        btn.addEventListener("click",function(){
+            if(i == 0){
+                formSign.classList.add("d-none");
+                formLogin.classList.remove("d-none");
+            }else{
+                formReset.classList.add("d-none");
+                formLogin.classList.remove("d-none");
+            }
+        })
+    }
+
+    formLogin.addEventListener("submit",function(e){
+        e.preventDefault();
+        let strEmail = document.querySelector('#txtLoginEmail').value;
+        let strPassword = document.querySelector('#txtLoginPassword').value;
+        let loginBtn = document.querySelector("#loginSubmit");
+        if(strEmail == "" || strPassword ==""){
+            Swal.fire("Error", "Please, fill the fields", "error");
+            return false;
+        }else{
+
+            let url = base_url+'/Login/loginUser'; 
+            let formData = new FormData(formLogin);
+            loginBtn.innerHTML=`
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Wait...
+            `;
+            loginBtn.setAttribute("disabled","");
+            request(url,formData,"post").then(function(objData){
+                loginBtn.innerHTML=`Login`;
+                loginBtn.removeAttribute("disabled");
+                if(objData.status){
+                    window.location.reload(false);
+                    modalView.hide();
+                    modalItem.innerHTML = "";
+                }else{
+                    Swal.fire("Error", objData.msg, "error");
+                    document.querySelector('#txtPassword').value = "";
+                }
+            });
+        }
+    });
+    formReset.addEventListener("submit",function(e){
+        e.preventDefault();
+        let btnReset = document.querySelector("#resetSubmit");
+        let strEmail = document.querySelector("#txtEmailReset").value;
+        let url = base_url+'/Login/resetPass'; 
+        let formData = new FormData(formReset);
+        if(strEmail == ""){
+            Swal.fire("Error", "Please, fill the field", "error");
+            return false;
+        }
+        if(!fntEmailValidate(strEmail)){
+            let html = `
+            <br>
+            <br>
+            <p>youremail@hotmail.com</p>
+            <p>youremail@outlook.com</p>
+            <p>youremail@yahoo.com</p>
+            <p>youremail@live.com</p>
+            <p>youremail@gmail.com</p>
+            `;
+            Swal.fire("Error","Email is invalid , valid emails are: "+html,"error");
+            return false;
+        }
+        btnReset.innerHTML=`
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Wait...
+        `;
+        btnReset.setAttribute("disabled","");
+        request(url,formData,"post").then(function(objData){
+            btnReset.innerHTML=`Reset my password`;
+            btnReset.removeAttribute("disabled");
+            if(objData.status){
+                Swal.fire({
+                    title: "Reset my password",
+                    text: objData.msg,
+                    icon: "success",
+                    confirmButtonText: 'Ok',
+                    showCancelButton: true,
+                }).then(function(result){
+                    if(result.isConfirmed){
+                        window.location.reload(false);
+                    }
+                });
+            }else{
+                swal("Error",objData.msg,"error");
+            }
+        });
+    });
 }

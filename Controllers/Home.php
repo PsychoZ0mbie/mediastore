@@ -34,5 +34,14 @@
             echo json_encode($request,JSON_UNESCAPED_UNICODE);
             die();
         }
+        public function getProducts(){
+            $request = $this->getProductsT(4);
+            for ($i=0; $i < count($request); $i++) { 
+                $request[$i]['idproduct'] = openssl_encrypt($request[$i]['idproduct'],METHOD,KEY);
+            }
+            $arrResponse = array("data"=>$request);
+            echo json_encode($request,JSON_UNESCAPED_UNICODE);
+            die();
+        }
     }
 ?>

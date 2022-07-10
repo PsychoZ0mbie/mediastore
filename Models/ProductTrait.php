@@ -25,7 +25,7 @@
                 s.name as subcategory
             FROM product p
             INNER JOIN category c, subcategory s
-            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND p.discount != 0
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND p.discount != 0 AND p.status =1
             ORDER BY p.idproduct DESC LIMIT $cant
             ";
             $request = $this->con->select_all($sql);
@@ -44,6 +44,89 @@
                     }
                 }
             }
+            return $request;
+        }
+        public function getProductsT($cant){
+            if($cant !=""){
+                $cant = " LIMIT $cant";
+            }
+            $this->con=new Mysql();
+            $sql = "SELECT 
+                p.idproduct,
+                p.categoryid,
+                p.subcategoryid,
+                p.reference,
+                p.name,
+                p.description,
+                p.price,
+                p.discount,
+                p.description,
+                p.stock,
+                p.status,
+                p.route,
+                c.idcategory,
+                c.name as category,
+                c.route as routec,
+                s.idsubcategory,
+                s.categoryid,
+                s.name as subcategory
+            FROM product p
+            INNER JOIN category c, subcategory s
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory
+            ORDER BY p.idproduct DESC $cant
+            ";
+            $request = $this->con->select_all($sql);
+            if(count($request)> 0){
+                for ($i=0; $i < count($request); $i++) { 
+
+                    $request[$i]['priceDiscount'] =  formatNum($request[$i]['price']-($request[$i]['price']*($request[$i]['discount']*0.01)));
+                    $request[$i]['price'] = formatNum($request[$i]['price']);
+                    $request[$i]['favorite'] = 0;
+
+                    $idProduct = $request[$i]['idproduct'];
+
+                    if(isset($_SESSION['login'])){
+                        $idUser = $_SESSION['idUser'];
+                        $sqlFavorite = "SELECT * FROM wishlist WHERE productid = $idProduct AND personid = $idUser";
+                        $requestFavorite = $this->con->select($sqlFavorite);
+                        if(!empty($requestFavorite)){
+                            $request[$i]['favorite'] = $requestFavorite['status'];
+                        }
+                    }
+
+                    $sqlImg = "SELECT * FROM productimage WHERE productid = $idProduct";
+                    $requestImg =  $this->con->select_all($sqlImg);
+
+                    if(count($requestImg)>0){
+                        $request[$i]['url'] = media()."/images/uploads/".$requestImg[0]['name'];
+                        $request[$i]['image'] = $requestImg[0]['name'];
+                    }else{
+                        $request[$i]['image'] = media()."/images/uploads/image.png";
+                    }
+                }
+            }
+            //dep($request);exit;
+            return $request;
+        }
+        public function addWishListT($idProduct,$idUser){
+            $this->con = new Mysql();
+            $sql = "SELECT * FROM wishlist WHERE productid = $idProduct AND personid = $idUser";
+            $request = $this->con->select_all($sql);
+            $return ="";
+            if(empty($request)){
+                $sql = "INSERT INTO wishlist (productid,personid,status) VALUE(?,?,?)";
+                $array = array($idProduct,$idUser,1);
+                $request = $this->con->insert($sql,$array);
+                $return =$request;
+            }else{
+                $return ="exists";
+            }
+            return $return;
+        }
+        public function delWishListT($idProduct,$idUser){
+            $this->con = new Mysql();
+            $sql = "DELETE FROM wishlist WHERE productid=$idProduct AND personid = $idUser";
+            $request = $this->con->delete($sql);
             return $request;
         }
     }

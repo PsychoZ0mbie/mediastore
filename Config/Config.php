@@ -43,8 +43,8 @@
 	const WEB_EMPRESA = "https://buhosmarqueteriaygaleria.co";
 
 	//Encriptado
-	const KEY = "buhosmarqueteriaygaleria";
-	const ENCRIPTADO = "AES-128-ECB";
+	const KEY = "ecommerce";
+	const METHOD = "AES-128-ECB";
 
 	//mercadopago
 	const COMISION = 1.04;
