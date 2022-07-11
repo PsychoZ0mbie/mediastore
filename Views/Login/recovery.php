@@ -1,88 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?=$data['page_title']?></title>
-    <!-- Font Awesome 5-->
-    <link href="<?=media()?>/css/icons/font-awesome.min.css">
-    <!-- AdminKit CSS file -->
-    <link href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/css/style.css" rel="stylesheet">
-    <!-- My Styles -->
-    <link rel="stylesheet" href="<?=media()?>/css/style.css">
-</head>
-<body>
-    <div class="bg-light min-vh-100 d-flex flex-row align-items-center" id=<?=$data['page_name']?>>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <div class="card-group d-block d-md-flex row">
-                        <div class="card col-md-12 p-4 mb-0">
-                            <div class="card-body">
-                                <h1>Reset my password</h1>
-                                <p class="text-medium-emphasis">Update your password</p>
-                                <form id="formRecovery">
-                                    <input type="hidden" id="idUser" name="idUser" value="<?= $data['idperson']; ?>" required >
-                                    <input type="hidden" id="txtEmail" name="txtEmail" value="<?= $data['email']; ?>" required >
-                                    <input type="hidden" id="txtToken" name="txtToken" value="<?= $data['token']; ?>" required >
-                                    <div class="input-group mb-4"><span class="input-group-text">
-                                        <svg class="icon">
-                                            <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
-                                        </svg></span>
-                                        <input id="txtPassword" name="txtPassword" class="form-control" type="password" placeholder="New password" required >
-                                    </div>
-                                    <div class="input-group mb-4"><span class="input-group-text">
-                                        <svg class="icon">
-                                            <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
-                                        </svg></span>
-                                        <input id="txtPasswordConfirm" name="txtPasswordConfirm" class="form-control" type="password" placeholder="Confirm password" required >
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12 d-flex justify-content-center">
-                                            <button class="btn btn-primary px-4 w-100" type="submit" id="btnReset">Reset</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+<?php
+    headerPage($data);
+?>
+<div id="modalLogin"></div>
+<main>
+<div id="<?=$data['page_name']?>">
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="login">
+                <form id="formRecovery">
+                    <input type="hidden" id="idUser" name="idUser" value="<?= $data['idperson']; ?>" required >
+                    <input type="hidden" id="txtEmailRecovery" name="txtEmail" value="<?= $data['email']; ?>" required >
+                    <input type="hidden" id="txtToken" name="txtToken" value="<?= $data['token']; ?>" required >
+                    <h2 class="mb-4">Reset my password</h2>
+                    <div class="mb-3 d-flex">
+                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-lock"></i></div>
+                        <input id="txtPasswordRecovery" name="txtPassword" class="form-control" type="password" placeholder="New password" required >
                     </div>
-                </div>
+                    <div class="mb-3 d-flex">
+                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-lock"></i></div>
+                        <input id="txtPasswordConfirmRecovery" name="txtPasswordConfirm" class="form-control" type="password" placeholder="Confirm password" required >
+                    </div>
+                    <button type="submit" id="recoverySubmit" class="btn btnc-primary w-100 mb-4" >Reset my password</button>
+                </form>
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/prism.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/unescaped-markup/prism-unescaped-markup.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/normalize-whitespace/prism-normalize-whitespace.js"></script>
-    <!-- Essential javascripts for application to work-->
-    <script src="<?= media(); ?>/js/bootstrap/popper.min.js?n=1"></script>
-    <script src="<?= media(); ?>/js/bootstrap/bootstrap.min.js?n=1"></script>
-    <script src="<?= media();?>/js/icons/fontawesome.js"></script>
-    <script src="<?= media();?>/js/plugins/sweetalert.js"></script>
-    <!-- AdminKit JS file -->
-    <script src="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
-    <script src="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/simplebar/js/simplebar.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/prism.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/unescaped-markup/prism-unescaped-markup.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/normalize-whitespace/prism-normalize-whitespace.js"></script>
-
-    <script src="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/chart.js/js/chart.min.js"></script>
-    <script src="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/chartjs/js/coreui-chartjs.js"></script>
-    <script src="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/utils/js/coreui-utils.js"></script>
-    <script src="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/js/main.js"></script>
-
-    <!-- My scripts -->
-    <script>
-        const base_url = "<?= base_url(); ?>";
-        const MS = "<?=MS;?>";
-        const MD = "<?=MD?>";
-    </script>
-    
-    <script type="text/javascript" src="<?= media(); ?>/js/functions.js"></script>
-    <script type="module" src="<?= media(); ?>/js/app.js"></script>
-</body>
-</html>
+</div>
+</main>
+<?php
+    footerPage($data);
+?>

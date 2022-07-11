@@ -180,8 +180,7 @@
         $idrol = intval($_SESSION['userData']['roleid']);
         $arrPermisos = $roleModel->permitsModule($idrol);
         $permisos = '';
-        $permisosmod ='';
-
+        $permisosMod ='';
         if(count($arrPermisos)>0){
             $permisos = $arrPermisos;
             $permisosMod = isset($arrPermisos[$idmodulo]) ? $arrPermisos[$idmodulo] : "";

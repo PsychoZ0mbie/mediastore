@@ -1,9 +1,9 @@
 <?php
     headerPage($data);
 ?>
+    <div id="modalLogin"></div>
     <div id="modalItem"></div>
     <div id="modalPoup"></div>
-    <div id="modalLogin"></div>
     <main id="<?=$data['page_name']?>">
         <div class="popup">
             <div class="popup-close">X</div>

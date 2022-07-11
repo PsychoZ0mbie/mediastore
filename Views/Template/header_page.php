@@ -27,24 +27,39 @@
             </div>
             <div class="nav-main">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="shop.html">Shop</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li class="active"><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="<?=base_url()?>">Home</a></li>
+                    <li><a href="<?=base_url()?>/shop">Shop</a></li>
+                    <li><a href="<?=base_url()?>/blog">Blog</a></li>
+                    <li><a href="<?=base_url()?>/about">About</a></li>
+                    <li><a href="<?=base_url()?>/contact">Contact</a></li>
                 </ul>
             </div>
             <div class="nav-icons">
-                <ul>
+                <ul class="nav-icons-btns">
                     <li title="Search" class="c-p" id="btnSearch"><i class="fas fa-search"></i></li>
                     <li title="Wishlist" ><a href="wishlist.html"><i class="fas fa-heart"></i></a></li>
                     <li class="nav-icons-qty" title="My cart" id="btnToggleCart">
                         <i class="fas fa-shopping-cart"></i>
                         <span>0</span>
                     </li>
-                    <li title="My account"><a href="login.html"><i class="fas fa-user"></i></a></li>
+                    <?php
+                        if(isset($_SESSION['login'])){
+                    ?>
+                    <div class="dropdown">
+                        <button class="btn btnc-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user"></i>
+                        </button>
+                        <ul class="dropdown-menu t-p" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item  t-p" href="<?=base_url()?>/user/profile" target="__blank">Profile</a></li>
+                            <li id="logout"><a href="#" class="dropdown-item t-p">Logout</a></li>
+                        </ul>
+                    </div>
+                    <?php }else{ ?>
+                    <li id="myAccount" title="My account" class="c-p" ><i class="fas fa-user"></i></li> 
+                    <?php }?>
                     <li id="btnToggleNav"><i class="fas fa-bars"></i></li>
                 </ul>
+                
             </div>
             <div class="nav-mobile">
                 <div class="container nav-mobile-main">
@@ -53,11 +68,11 @@
                         <div id="btnCloseNav">X</div>
                     </div>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="shop.html">Shop</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="<?=base_url()?>">Home</a></li>
+                        <li><a href="<?=base_url()?>/shop">Shop</a></li>
+                        <li><a href="<?=base_url()?>/blog">Blog</a></li>
+                        <li><a href="<?=base_url()?>/about">About</a></li>
+                        <li><a href="<?=base_url()?>/contact">Contact</a></li>
                     </ul>
                 </div>
             </div>

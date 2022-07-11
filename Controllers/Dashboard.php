@@ -3,7 +3,7 @@
         public function __construct(){
             session_start();
             if(empty($_SESSION['login'])){
-                header("location: ".base_url()."/logout");
+                header("location: ".base_url());
                 die();
             }
             parent::__construct();
@@ -17,7 +17,7 @@
                 $data['page_name'] = "dashboard";
                 $this->views->getView($this,"dashboard",$data);
             }else{
-                header("location: ".base_url()."/logout");
+                header("location: ".base_url());
                 die();
             }
         }

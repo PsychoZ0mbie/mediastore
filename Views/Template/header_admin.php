@@ -58,7 +58,7 @@
                 </div>
                 <div class="header-divider"></div>
                 <?php
-                    if($_SESSION['permitsModule']['w']){
+                    if(isset($_SESSION['permitsModule']['w'])){
 
                     
                 ?>

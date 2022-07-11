@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Recuperar cuenta</title>
+	<title>Valid data</title>
 	<style type="text/css">
 		p{
 			font-family: arial;
@@ -91,9 +91,9 @@
 			<tr>
 				<td>
 					<div class="x_sgwrap">
-						<p>Hola <?= $data['nombreUsuario']; ?></p>
+						<p>Hello <?= $data['nombreUsuario']; ?></p>
 					</div>
-					<p>Por favor, introduce este código para continuar con tu registro: <strong><?= $data['codigo']; ?></strong></p>
+					<p>Please, enter this code to continue with your registration: <strong><?= $data['codigo']; ?></strong></p>
 					<p class="x_title_gray"><a href="<?= WEB_EMPRESA; ?>" target="_blanck"><?= WEB_EMPRESA; ?></a></p>
 				</td>
 			</tr>

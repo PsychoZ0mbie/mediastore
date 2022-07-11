@@ -201,7 +201,7 @@ header{
     position: relative;
     right:0;
     transition: 0.2s 0.5s all ease;
-    ul{
+    .nav-icons-btns{
         list-style:none;
         display: flex;
         justify-content: center;
@@ -216,6 +216,11 @@ header{
             a{
                 color: $third-color;
                 text-decoration: none;
+            }
+        }
+        div{
+            a{
+                color:#000;
             }
         }
     }

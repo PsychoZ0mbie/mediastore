@@ -57,6 +57,22 @@ document.querySelector(".cart-panel").addEventListener("click",function(e){
     }
 });
 
+if(document.querySelector("#logout")){
+    let logout = document.querySelector("#logout");
+    logout.addEventListener("click",function(e){
+        let url = base_url+"/logout";
+        request(url,"","get").then(function(objData){
+            window.location.reload(false);
+        });
+    });
+}
+if(document.querySelector("#myAccount")){
+    let myAccount = document.querySelector("#myAccount");
+    myAccount.addEventListener("click",function(e){
+        openLoginModal();
+    });
+}
+
 /***************************General Shop Events****************************** */
 //Scroll top
 window.addEventListener("scroll",function(){
@@ -367,7 +383,7 @@ window.addEventListener("DOMContentLoaded",function () {
                     runTime();
                 }
             });
-        },10000);
+        },30000);
     }
 });
 /***************************Filter****************************** */
@@ -521,7 +537,7 @@ if(document.querySelector("#home")){
                     <div class="product-card">
                         <p class="product-discount">-${objData[i]['discount']}%</p>
                         <div class="product-img">
-                            <img src="${objData[i]['url']}" alt="${objData[i]['image']}">
+                            <img src="${objData[i]['url']}" alt="${objData[i]['name']}">
                             <button type="button" class="btn btn-primary product-card-add">Add to cart</a>
                         </div>
                         <div class="product-info">
@@ -550,7 +566,7 @@ if(document.querySelector("#home")){
                 <div class="col-md-3" data-id="${objData[i]['idproduct']}" data-n="${objData[i]['idproduct']}" data-c ="${objData[i]['categoryid']}" data-s ="${objData[i]['subcategoryid']}">
                     <div class="product-card">
                         <div class="product-img">
-                            <img src="${objData[i]['url']}" alt="${objData[i]['image']}">
+                            <img src="${objData[i]['url']}" alt="${objData[i]['name']}">
                             <button type="button" class="btn btn-primary product-card-add">Add to cart</a>
                         </div>
                         <div class="product-info">
@@ -754,39 +770,49 @@ if(document.querySelector("#cart")){
     }
     
 }
-/***************************Login Page****************************** */
-if(document.querySelector("#login")){
+/***************************Recovery Page****************************** */
+if(document.querySelector("#recovery")){
     
-    let formLogin = document.querySelector("#formLogin");
-    let formReset = document.querySelector("#formReset");
-    let formSign = document.querySelector("#formSign");
-    let btnForgot = document.querySelector("#forgotBtn");
-    let btnLogin = document.querySelectorAll(".loginBtn");
-    let btnSign = document.querySelector("#signBtn");
+    let formReset = document.querySelector("#formRecovery");
+    let btnReset = document.querySelector("#recoverySubmit");
 
-    btnForgot.addEventListener("click",function(){
-        formReset.classList.remove("d-none");
-        formLogin.classList.add("d-none");
-    });
-    btnSign.addEventListener("click",function(){
-        formSign.classList.remove("d-none");
-        formLogin.classList.add("d-none");
-    });
-    for (let i = 0; i < btnLogin.length; i++) {
-        let btn = btnLogin[i];
-        btn.addEventListener("click",function(){
-            if(i == 0){
-                formSign.classList.add("d-none");
-                formLogin.classList.remove("d-none");
+    formReset.addEventListener("submit",function(e){
+        e.preventDefault();
+
+        let strPassword = document.querySelector("#txtPasswordRecovery").value;
+        let strConfirmPassword = document.querySelector("#txtPasswordConfirmRecovery").value;
+        let url = base_url+'/Login/setPassword'; 
+        let formData = new FormData(formReset);
+
+        if(strPassword.length < 8){
+            Swal.fire("Error","The password must have at least 8 characters","error");
+            return false;
+        }
+        if(strPassword != strConfirmPassword){
+            Swal.fire("Error","The passwords do not match","error");
+            return false;
+        }
+
+        btnReset.innerHTML=`
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Wait...
+        `;
+        btnReset.setAttribute("disabled","");
+        request(url,formData,"post").then(function(objData){
+            btnReset.innerHTML=`Reset my password`;
+            btnReset.removeAttribute("disabled");
+            if(objData.status){
+                window.location.href = base_url;
             }else{
-                formReset.classList.add("d-none");
-                formLogin.classList.remove("d-none");
+                swal("Error",objData.msg,"error");
             }
-        })
-    }
+        });
+    });
 }
 
+
 /***************************Essentials Functions****************************** */
+
 function openLoginModal(){
     let modalItem = document.querySelector("#modalLogin");
     let modal="";
@@ -823,20 +849,30 @@ function openLoginModal(){
                                     <h2 class="mb-4">Sign up</h2>
                                     <div class="mb-3 d-flex">
                                         <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-user"></i></div>
-                                        <input type="text" class="form-control" id="txtSignName" placeholder="Name" required>
+                                        <input type="text" class="form-control" id="txtSignName" name="txtSignName" placeholder="Name" required>
                                     </div>
                                     <div class="mb-3 d-flex">
                                         <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-envelope"></i></div>
-                                        <input type="email" class="form-control" id="txtSignEmail" placeholder="Email" required>
+                                        <input type="email" class="form-control" id="txtSignEmail" name="txtSignEmail" placeholder="Email" required>
                                     </div>
                                     <div class="mb-3 d-flex">
                                         <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-lock"></i></div>
-                                        <input type="password" class="form-control" id="txtSignPassword" placeholder="Password" required></textarea>
+                                        <input type="password" class="form-control" id="txtSignPassword" name="txtSignPassword" placeholder="Password" required></textarea>
                                     </div>
+                                    <p>By registering on our website, you agree to our <a href="#">privacy and use policies</a>.</p>
                                     <div class="d-flex justify-content-end mb-3 t-p" >
                                         <div class="c-p loginBtn">Already have an account? login</div>
                                     </div>
                                     <button type="submit" id="signSubmit" class="btn btnc-primary w-100 mb-4" >Sign up</button>
+                                </form>
+                                <form id="formConfirmSign" class="d-none">
+                                    <h2 class="mb-4">Validate data</h2>
+                                    <div class="mb-3 d-flex">
+                                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-lock-open"></i></div>
+                                        <input type="text" class="form-control" id="txtCode" name="txtCode" placeholder="Code" required>
+                                    </div>
+                                    <p>We have been sent you an email with a code to validate your data.</p>
+                                    <button type="submit" id="confimSignSubmit" class="btn btnc-primary w-100 mb-4" >Validate</button>
                                 </form>
                                 <form id="formReset" class="d-none">
                                     <h2 class="mb-4">Forgot my password</h2>
@@ -865,6 +901,7 @@ function openLoginModal(){
     let formLogin = document.querySelector("#formLogin");
     let formReset = document.querySelector("#formReset");
     let formSign = document.querySelector("#formSign");
+    let formConfirmSign = document.querySelector("#formConfirmSign");
     let btnForgot = document.querySelector("#forgotBtn");
     let btnLogin = document.querySelectorAll(".loginBtn");
     let btnSign = document.querySelector("#signBtn");
@@ -921,6 +958,79 @@ function openLoginModal(){
             });
         }
     });
+    formSign.addEventListener("submit",function(e){
+        e.preventDefault();
+
+        let strName = document.querySelector('#txtSignName').value;
+        let strEmail = document.querySelector('#txtSignEmail').value;
+        let strPassword = document.querySelector('#txtSignPassword').value;
+        let signBtn = document.querySelector("#signSubmit");
+
+        if(strEmail == "" || strPassword =="" || strName ==""){
+            Swal.fire("Error", "Please, fill the fields", "error");
+            return false;
+        }
+        if(strPassword.length < 8){
+            Swal.fire("Error","The password must have at least 8 characters","error");
+            return false;
+        }
+        let url = base_url+'/Shop/validCustomer'; 
+        let formData = new FormData(formSign);
+        signBtn.innerHTML=`
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Wait...
+        `;
+        signBtn.setAttribute("disabled","");
+        request(url,formData,"post").then(function(objData){
+            signBtn.innerHTML=`Sign up`;
+            signBtn.removeAttribute("disabled");
+            if(objData.status){
+                formSign.classList.add("d-none");
+                formConfirmSign.classList.remove("d-none");
+            }else{
+                Swal.fire("Error", objData.msg, "error");
+                document.querySelector('#txtPassword').value = "";
+            }
+        });
+    });
+    formConfirmSign.addEventListener("submit",function(e){
+        e.preventDefault();
+        let strCode = document.querySelector('#txtCode').value;
+        let strName = document.querySelector('#txtSignName').value;
+        let strEmail = document.querySelector('#txtSignEmail').value;
+        let strPassword = document.querySelector('#txtSignPassword').value;
+        let signBtn = document.querySelector("#confimSignSubmit");
+
+        if(strCode==""){
+            Swal.fire("Error", "Please, fill the fields", "error");
+            return false;
+        }else{
+
+            let url = base_url+'/Shop/setCustomer'; 
+            let formData = new FormData(formConfirmSign);
+            formData.append("txtSignName",strName);
+            formData.append("txtSignEmail",strEmail);
+            formData.append("txtSignPassword",strPassword);
+            signBtn.innerHTML=`
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Wait...
+            `;
+            signBtn.setAttribute("disabled","");
+            request(url,formData,"post").then(function(objData){
+                signBtn.innerHTML=`Validate`;
+                signBtn.removeAttribute("disabled");
+                if(objData.status){
+                    window.location.reload(false);
+                    modalView.hide();
+                    modalItem.innerHTML = "";
+                    
+                }else{
+                    Swal.fire("Error", objData.msg, "error");
+                    document.querySelector('#txtCode').value = "";
+                }
+            });
+        }
+    });
     formReset.addEventListener("submit",function(e){
         e.preventDefault();
         let btnReset = document.querySelector("#resetSubmit");
@@ -970,3 +1080,5 @@ function openLoginModal(){
         });
     });
 }
+
+

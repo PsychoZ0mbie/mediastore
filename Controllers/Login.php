@@ -6,7 +6,7 @@
 			session_start();
 			session_regenerate_id(true);
 			if(isset($_SESSION['login'])){
-				header('Location: '.base_url()."/dashboard");
+				header('Location: '.base_url()."/user/profile");
 				die();
 			}
 			parent::__construct();
@@ -104,7 +104,7 @@
 				}else{
 					
 					$data['page_tag'] = "Recovery";
-					$data['page_title'] = "Recovery";
+					$data['page_title'] = NOMBRE_EMPRESA."| Reset password" ;
 					$data['email'] = $strEmail;
 					$data['token'] = $strToken;
 					$data['page_name'] = "recovery";
