@@ -19,7 +19,96 @@
             $data['page_name'] = "home";
             $this->views->getView($this,"home",$data);
         }
-
+        public function addCart(){
+            //dep($_POST);exit;
+            //unset($_SESSION['arrCart']);exit;
+            if($_POST){ 
+                $id = intval(openssl_decrypt($_POST['idProduct'],METHOD,KEY));
+                $qty = intval($_POST['txtQty']);
+                $qtyCart = 0;
+                $arrCart = array();
+                $valiQty =true;
+                if(is_numeric($id)){
+                    $request = $this->getProductT($id);
+                    if(!empty($request)){
+                        $arrProduct = array(
+                            "idproduct"=> $request['idproduct'],
+                            "name" => $request['name'],
+                            "qty"=>$qty,
+                            "image"=>$request['image'][0]['url'],
+                            "url"=>base_url()."/shop/product/".$request['route'],
+                            "price" =>$request['price'],
+                            "discount" => $request['discount']
+                        );
+                        if(isset($_SESSION['arrCart'])){
+                            $arrCart = $_SESSION['arrCart'];
+                            $flag = true;
+                            for ($i=0; $i < count($arrCart) ; $i++) { 
+                                if($arrCart[$i]['idproduct'] == $arrProduct['idproduct']){
+                                    $arrCart[$i]['qty']+= $qty;
+                                    $flag =false;
+                                    break;
+                                }
+                            }
+                            if($flag){
+                                array_push($arrCart,$arrProduct);
+                            }
+                            $_SESSION['arrCart'] = $arrCart;
+                        }else{
+                            array_push($arrCart,$arrProduct);
+                            $_SESSION['arrCart'] = $arrCart;
+                        }
+                        foreach ($_SESSION['arrCart'] as $quantity) {
+                            $qtyCart += $quantity['qty'];
+                        }
+                        $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart);
+                    }else{
+                        $arrResponse = array("status"=>false,"msg"=>"The product doesn't exists");
+                    }
+                    
+                }else{
+                    $arrResponse = array("status"=>false,"msg"=>"Data error");
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+        public function currentCart(){
+            if(isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){
+                $arrCart = $_SESSION['arrCart'];
+                $html="";
+                for ($i=0; $i < count($arrCart); $i++) { 
+                    $price="";
+                    if($arrCart[$i]['discount']>0){
+                        $price = $arrCart[$i]['price']-($arrCart[$i]['price']*($arrCart[$i]['discount']*0.01));
+                        $price = formatNum($price).' <span class="text-decoration-line-through t-p">'.formatNum($arrCart[$i]['price']).'</span>';
+                    }else{
+                        $price = formatNum($arrCart[$i]['price']);
+                    }
+                    $html.='
+                    <div class="cart-panel-item" data-id="'.$arrCart[$i]['idproduct'].'">
+                        <img src="'.$arrCart[$i]['image'].'" alt="'.$arrCart[$i]['name'].'">
+                        <div class="btn-del">X</div>
+                        <h3><a href="'.$arrCart[$i]['url'].'"><strong>'.$arrCart[$i]['name'].'</strong></a></h3>
+                        <p>'.$arrCart[$i]['qty'].' x '.$price.' </p>
+                    </div>
+                    ';
+                }
+                $total =0;
+                foreach ($arrCart as $product) {
+                    if($product['discount']>0){
+                        $total += $product['qty']*($product['price']-($product['price']*($product['discount']*0.01)));
+                    }else{
+                        $total+=$product['qty']*$product['price'];
+                    }
+                }
+                $arrResponse = array("items"=>$html,"total"=>formatNum($total));
+            }else{
+                $arrResponse = array("items"=>"","total"=>formatNum(0));
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
         public function addWishList(){
             if($_POST){
                 if(isset($_SESSION['login'])){
@@ -29,7 +118,7 @@
                         if($request>0){
                             $arrResponse = array("status"=>true);
                         }else if("exists"){
-                            $arrResponse = array("status"=>false);
+                            $arrResponse = array("status"=>true);
                         }else{
                             $arrResponse = array("status"=>false);
                         }
@@ -59,6 +148,22 @@
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
             die();
+        }
+        public function getProduct(){
+            if($_POST){
+                $idProduct = openssl_decrypt($_POST['idProduct'],METHOD,KEY);
+                if(is_numeric($idProduct)){
+                    $request = $this->getProductT($idProduct);
+                    $request['priceDiscount']=formatNum($request['price']-($request['price']*($request['discount']*0.01)));
+                    $request['price'] = formatNum($request['price']);
+                    $arrResponse= array("status"=>true,"data"=>$request);
+                }else{
+                    $arrResponse= array("status"=>false);
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+            
         }
         public function validCustomer(){
             if($_POST){

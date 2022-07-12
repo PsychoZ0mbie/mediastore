@@ -113,9 +113,7 @@
 		}
         public function deleteUser($id){
             $this->intIdUser = $id;
-            $sql = "DELETE FROM person WHERE idperson = $this->intIdUser;SET @autoid :=0; 
-			UPDATE person SET idperson = @autoid := (@autoid+1);
-			ALTER TABLE person Auto_Increment = 1";
+            $sql = "DELETE FROM person WHERE idperson = $this->intIdUser";
             $request = $this->delete($sql);
             return $request;
         }

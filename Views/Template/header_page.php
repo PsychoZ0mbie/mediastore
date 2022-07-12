@@ -1,3 +1,20 @@
+<?php
+    //unset($_SESSION['arrCart']);exit;
+    $qtyCart = 0;
+    $total = 0;
+    $arrProducts = array();
+    if(isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){
+        $arrProducts = $_SESSION['arrCart'];
+        foreach ($arrProducts as $product) {
+            $qtyCart += $product['qty'];
+            if($product['discount']>0){
+                $total += $product['qty']*($product['price']-($product['price']*($product['discount']*0.01)));
+            }else{
+                $total+=$product['qty']*$product['price'];
+            }
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,7 +57,7 @@
                     <li title="Wishlist" ><a href="wishlist.html"><i class="fas fa-heart"></i></a></li>
                     <li class="nav-icons-qty" title="My cart" id="btnToggleCart">
                         <i class="fas fa-shopping-cart"></i>
-                        <span>0</span>
+                        <span id="qtyCart"><?=$qtyCart?></span>
                     </li>
                     <?php
                         if(isset($_SESSION['login'])){
@@ -84,14 +101,27 @@
                     <div id="btnCloseCart">X</div>
                 </div>
                 <div class="cart-panel-items scroll-y">
-                    <div class="cart-panel-item">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdq0BfB70WI3UM5iFrRWAfPCcI_xfgJidpUbxk-iKTOYhOsfsmgYCRG9XGXgJfKp5e218&usqp=CAU" alt="">
+                    <?php 
+                    if(isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){
+                        for ($i=0; $i <count($arrProducts) ; $i++) { 
+                            $price="";
+                            if($arrProducts[$i]['discount']>0){
+                                $price = $arrProducts[$i]['price']-($arrProducts[$i]['price']*($arrProducts[$i]['discount']*0.01));
+                                $price = formatNum($price).' <span class="text-decoration-line-through t-p">'.formatNum($arrProducts[$i]['price']).'</span>';
+                            }else{
+                                $price = formatNum($arrProducts[$i]['price']);
+                            }
+                    ?>
+                    <div class="cart-panel-item" data-id="<?=$arrProducts[$i]['idproduct']?>">
+                        <img src="<?=$arrProducts[$i]['image']?>" alt="<?=$arrProducts[$i]['name']?>">
                         <div class="btn-del">X</div>
-                        <h3><a href="product.html"><strong>Xiaomi redmi note 9</strong></a></h3>
-                        <p>3 x $250.000 </p>
+                        <h3><a href="<?=$arrProducts[$i]['url']?>"><strong><?=$arrProducts[$i]['name']?></strong></a></h3>
+                        <p><?=$arrProducts[$i]['qty']?> x <?=$price?> </p>
                     </div>
+                    <?php } }?>
+                    
                 </div>
-                <p class="t-p "><strong>Total: $750.000</strong></p>
+                <p class="t-p " id="total"><strong>Total: <?=formatNum($total)?></strong></p>
                 <div>
                     <a href="cart.html" class="btn w-100 btnc-primary mb-2">View Cart</a>
                     <a href="checkout.html" class="btn w-100 btnc-primary">Checkout</a>

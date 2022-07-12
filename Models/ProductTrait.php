@@ -2,7 +2,7 @@
     require_once("Libraries/Core/Mysql.php");
     trait ProductTrait{
         private $con;
-
+        private $intIdProduct;
         public function getProductsSlider($cant){
             $this->con=new Mysql();
             $sql = "SELECT 
@@ -106,6 +106,55 @@
                 }
             }
             //dep($request);exit;
+            return $request;
+        }
+        public function getProductT($idProduct){
+            $this->con=new Mysql();
+            $this->intIdProduct = $idProduct;
+            $sql = "SELECT 
+                p.idproduct,
+                p.categoryid,
+                p.subcategoryid,
+                p.reference,
+                p.name,
+                p.shortdescription,
+                p.description,
+                p.price,
+                p.discount,
+                p.stock,
+                p.status,
+                p.route,
+                c.idcategory,
+                c.name as category,
+                c.route as routec,
+                s.idsubcategory,
+                s.categoryid,
+                s.name as subcategory
+            FROM product p
+            INNER JOIN category c, subcategory s
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory 
+            AND p.idproduct = $this->intIdProduct";
+
+            $request = $this->con->select($sql);
+            $request['favorite'] = 0;
+
+            if(isset($_SESSION['login'])){
+                $idUser = $_SESSION['idUser'];
+                $sqlFavorite = "SELECT * FROM wishlist WHERE productid = $this->intIdProduct AND personid = $idUser";
+                $requestFavorite = $this->con->select($sqlFavorite);
+                if(!empty($requestFavorite)){
+                    $request['favorite'] = $requestFavorite['status'];
+                }
+            }
+
+            $sqlImg = "SELECT * FROM productimage WHERE productid = $this->intIdProduct";
+            $requestImg = $this->con->select_all($sqlImg);
+
+            if(count($requestImg)){
+                for ($i=0; $i < count($requestImg); $i++) { 
+                    $request['image'][$i] = array("url"=>media()."/images/uploads/".$requestImg[$i]['name'],"name"=>$requestImg[$i]['name']);
+                }
+            }
             return $request;
         }
         public function addWishListT($idProduct,$idUser){

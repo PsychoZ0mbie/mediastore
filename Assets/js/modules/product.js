@@ -210,6 +210,10 @@ export default class Product{
                 Swal.fire("Error","The price can´t be less or equal than 0 ","error");
                 return false;
             }
+            if(intStock <= 0){
+                Swal.fire("Error","The stock can´t be less or equal than 0 ","error");
+                return false;
+            }
             if(intDiscount !=""){
                 if(intDiscount < 0){
                     Swal.fire("Error","The discount can't be less than 0","error");
@@ -575,12 +579,13 @@ export default class Product{
             let intDiscount = document.querySelector("#txtDiscount").value;
             let intPrice = document.querySelector("#txtPrice").value;
             let intStatus = document.querySelector("#statusList").value;
+            let intStock = document.querySelector("#txtStock").value;
             let intSubCategory = subcategoryList.value;
             let intCategory = categoryList.value;
             let images = document.querySelectorAll(".upload-image");
 
             
-            if(strName == "" || intStatus == "" || intCategory == 0 || intSubCategory==0 || intPrice==""){
+            if(strName == "" || intStatus == "" || intCategory == 0 || intSubCategory==0 || intPrice=="" || intStock==""){
                 Swal.fire("Error","All fields marked with (*) are required","error");
                 return false;
             }
@@ -590,6 +595,10 @@ export default class Product{
             }
             if(intPrice <= 0){
                 Swal.fire("Error","The price can't be less or equal than 0","error");
+                return false;
+            }
+            if(intStock <= 0){
+                Swal.fire("Error","The stock can't be less or equal than 0","error");
                 return false;
             }
             if(intDiscount !=""){
@@ -618,6 +627,7 @@ export default class Product{
                     if(objData.status){
                         Swal.fire("Updated",objData.msg,"success");
                         modalView.hide();
+                        modalItem.innerHTML="";
                         let divImg = document.querySelectorAll(".upload-image");
                         for (let i = 0; i < divImg.length; i++) {
                             divImg[i].remove();
@@ -635,7 +645,6 @@ export default class Product{
                 });
                 btnAdd.innerHTML=`Update`;
                 btnAdd.removeAttribute("disabled");
-                modalItem.innerHTML="";
                 flag = false;
             }
             

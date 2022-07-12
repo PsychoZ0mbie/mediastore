@@ -33,6 +33,10 @@ btnBar.addEventListener("click",function(){
 btnCart.addEventListener("click",function(){
     document.querySelector(".cart-panel-main").classList.toggle("active");
     document.querySelector(".cart-panel").classList.toggle("active");
+    request(base_url+"/shop/currentCart","","get").then(function(objData){
+        document.querySelector(".cart-panel-items").innerHTML=objData.items;
+        document.querySelector("#total").innerHTML = `<strong>Total: ${objData.total}</strong>`;
+    });
 });
 btnClose.addEventListener("click",function(){
     document.querySelector(".nav-mobile-main").classList.remove("active");
@@ -89,205 +93,290 @@ if(document.querySelectorAll(".product-btns .quickView")){
         let btn = btns[i];
         btn.addEventListener("click",function(e){
 
-            let productCard = e.target.parentElement.parentElement;
-            let discount = "";
-            let modalItem = document.querySelector("#modalItem");
-            let modal="";
-            let category = document.querySelectorAll(".product-category")[i].innerHTML;
-            let title = document.querySelectorAll(".product-title")[i].innerHTML;
-            let url = document.querySelectorAll(".product-img img")[i].src;
-            let price = document.querySelectorAll(".product-price")[i];
+            let idProduct = btn.parentElement.parentElement.parentElement.getAttribute("data-id");
+            let formData = new FormData();
+            formData.append("idProduct",idProduct);
+            btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+            btn.setAttribute("disabled","disabled");
+            request(base_url+"/shop/getProduct",formData,"post").then(function(objData){
+                btn.removeAttribute("disabled");
+                btn.innerHTML = `<i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i>`;
+                if(objData.status){
 
-            if(productCard.children[0].className =="product-discount"){
-                discount = `<p class="product-discount">${productCard.children[0].innerHTML}</p>`
-            }
-            if(price.children.length>1){
-                price = `
-                <p class="m-0 text-decoration-line-through t-p">${price.children[1].innerHTML}</p>
-                <p class="fs-3"><strong>${price.children[0].innerHTML}</strong></p>`;
-            }else{
-                price = `
-                <p class="fs-3"><strong>${price.children[0].innerHTML}</strong></p>`;
-            }
-            
-            modal= `
-            <div class="modal fade" id="modalElement">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn-close p-2" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="container">
-                            <div class="row ps-2 pe-2 pb-4">
-                                <div class="col-md-6">
-                                    <div class="product-image">
-                                        ${discount}
-                                        <img src="${url}" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="product-image-slider">
-                                        <div class="slider-btn-left"><i class="fas fa-angle-left"></i></div>
-                                        <div class="product-image-inner">
-                                            <div class="product-image-item active">
-                                                <img src="${url}">
-                                            </div>
-                                            <div class="product-image-item">
-                                                <img src="${url}">
-                                            </div>
-                                            <div class="product-image-item">
-                                                <img src="${url}">
-                                            </div>
-                                            <div class="product-image-item">
-                                                <img src="${url}">
-                                            </div>
-                                            <div class="product-image-item">
-                                                <img src="${url}">
-                                            </div>
-                                        </div>
-                                        <div class="slider-btn-right"><i class="fas fa-angle-right"></i></div>
-                                    </div>
+                    let product = objData.data;
+                    let images = product['image'];
+                    let favorite = "";
+                    let imagesHtml="";
+                    let discount="";
+                    let price =`<p class="fs-3"><strong>${product['price']}</strong></p>`;
+                    let status="";
+                    let btns =`
+                    <div class="product-cant me-3">
+                        <div class="decrement"><i class="fas fa-minus"></i></div>
+                        <input class="cant me-2 ms-2" type="number" min="1" max="${product['stock']}" value="1">
+                        <div class="increment"><i class="fas fa-plus"></i></div>
+                        <button type="button" class="ms-3" id="viewProductAddModal"><i class="fas fa-shopping-cart me-2"></i> Add</button>
+                    </div>
+                    `;
+                    if(product['favorite']==1){
+                        favorite = `<button type="button" class="c-p quickModal btn"><i class="fas fa-heart product-addwishlistModal me-1 text-danger active"></i> <a href="${base_url+"/shop/wishlist"}"class="c-p">Check wishlist</a></button>`;
+                    }else{
+                        favorite = `<button type="button" class="c-p quickModal btn"><i class="far fa-heart product-addwishlistModal me-1"></i> <a class="c-d">Add to wishlist</a></button>`;
+                    }
+                    if(product['status']==1 && product['stock']>0){
+                        status =`<p class="text-secondary m-0">Stock: (${product['stock']}) units</p>`;
+                        if(product['discount']>0){
+                            discount = `<p class="product-discount">-${product['discount']}%</p>`;
+                            price = `
+                            <p class="m-0 text-decoration-line-through t-p">${product['price']}</p>
+                            <p class="fs-3"><strong>${product['priceDiscount']}</strong></p>`;
+                        }
+                    }else if(product['stock']==0 && product['status']==1){
+                        status =`<p class="text-danger fw-bold">Sold out.</p>`;
+                        btns="";  
+                        price= "";  
+                    }else{
+                        status =`<p class="text-danger fw-bold">Currently unavailable.</p>`;
+                        price= "";
+                        btns=""; 
+                    }
+
+                    for (let i = 0; i < images.length; i++) {
+                        if(i==0){
+                            imagesHtml+=`<div class="product-image-item active"><img src="${images[i]['url']}" alt="${images[i]['name']}"></div>`;
+                        }else{
+                            imagesHtml+=`<div class="product-image-item"><img src="${images[i]['url']}" alt="${images[i]['name']}"></div>`;
+                        }
+                    }
+                    let modalItem = document.querySelector("#modalItem");
+                    let modal="";
+                    modal= `
+                    <div class="modal fade" id="modalElement">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn-close p-2" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="col-md-6 product-data">
-                                    <h1><a href="product.html"><strong>${title}</strong></a></h1>
-                                    <div class="product-rate text-start mb-3">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        (6 reviews)
-                                    </div>
-                                    ${price}
-                                    <p class="mb-3" id="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores illum quibusdam asperiores sed. Asperiores hic aliquam adipisci odit suscipit excepturi sit, nemo et velit ex, atque enim exercitationem facere corporis!</p>
-                                    <p class="m-0">SKU: <strong>111-222-333</strong></p>
-                                    <a href="shop.html" class="m-0">Category:<strong> ${category}</strong></a>
-                                    <div class="mt-4 mb-4 d-flex align-items-center">
-                                        <div class="product-cant me-3">
-                                            <div class="decrement"><i class="fas fa-minus"></i></div>
-                                            <input class="cant me-2 ms-2" type="number" min="1" max="99" value="1">
-                                            <div class="increment"><i class="fas fa-plus"></i></div>
-                                            <button type="button" class="ms-3" id="viewProductAddModal"><i class="fas fa-shopping-cart me-2"></i> Add</button>
+                                <div class="container">
+                                    <div class="row ps-2 pe-2 pb-4">
+                                        <div class="col-md-6">
+                                            <div class="product-image">
+                                                ${discount}
+                                                <img src="${images[0]['url']}" class="d-block w-100" alt="${images[0]['name']}">
+                                            </div>
+                                            <div class="product-image-slider">
+                                                <div class="slider-btn-left"><i class="fas fa-angle-left"></i></div>
+                                                <div class="product-image-inner">
+                                                    ${imagesHtml}
+                                                </div>
+                                                <div class="slider-btn-right"><i class="fas fa-angle-right"></i></div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="d-flex align-items-center mt-4">
-                                        <ul class="product-social">
-                                            <li title="Facebook"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li title="Twitter"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li title="Linkedin"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                            <li title="Telegram"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
-                                        </ul>
-                                        <div class="c-p quickModal"><i class="far fa-heart product-addwishlistModal me-1"></i> <a class="c-d">Add to wishlist</a></div>
+                                        <div class="col-md-6 product-data">
+                                            <h1><a href="${base_url+"/shop/product/"+product['route']}"><strong>${product['name']}</strong></a></h1>
+                                            <a href="${base_url+"/shop/product/"+product['route']}" class="product-rate text-start mb-3">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                (6 reviews)
+                                            </a>
+                                            ${status}
+                                            ${price}
+                                            <p class="mb-3" id="description">${product['shortdescription']}</p>
+                                            <p class="m-0">SKU: <strong>${product['reference']}</strong></p>
+                                            <a href="${base_url+"/shop/"+product['routec']}" class="m-0">Category:<strong> ${product['category']}</strong></a>
+                                            <div class="mt-4 mb-4 d-flex align-items-center">
+                                                ${btns}
+                                            </div>
+                                            <div class="d-flex align-items-center mt-4">
+                                                <ul class="product-social">
+                                                    <li title="Facebook"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                                    <li title="Twitter"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                                    <li title="Linkedin"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                                    <li title="Telegram"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
+                                                </ul>
+                                                ${favorite}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            `;
-            modalItem.innerHTML = modal;
-            let modalView = new bootstrap.Modal(document.querySelector("#modalElement"));
-            modalView.show();
-            let productImages = document.querySelectorAll(".product-image-item");
-            for (let i = 0; i < productImages.length; i++) {
-                let productImage = productImages[i];
-                productImage.addEventListener("click",function(e){
-                    for (let j = 0; j < productImages.length; j++) {
-                        productImages[j].classList.remove("active");
-                        
-                    }
-                    productImage.classList.add("active");
-                    let image = productImage.children[0].src;
-                    document.querySelector(".product-image img").src = image;
-                })
-            }
-            
-            document.querySelector("#modalElement").addEventListener("hidden.bs.modal",function(){
-                document.querySelector("#modalItem").innerHTML="";
-            });
-
-            let decrement = document.querySelector(".decrement");
-            let increment = document.querySelector(".increment");
-            let cant = document.querySelector(".cant");
-            let viewProductAdd = document.querySelector("#viewProductAddModal");
-            viewProductAdd.addEventListener("click",function(){
-                viewProductAdd.setAttribute("disabled",true);
-                viewProductAdd.innerHTML = `
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                `;
-                setTimeout(function(){
-                    viewProductAdd.innerHTML = `
-                    <i class="fas fa-check"></i> Added
-                `;
-                },500);
-                setTimeout(function(){
-                    viewProductAdd.removeAttribute("disabled");
-                    viewProductAdd.innerHTML = `
-                    <i class="fas fa-shopping-cart me-2"></i> Add
                     `;
-                },1000);
-                
-            });
-            cant.addEventListener("change",function(){
-                if(cant.value <= 1){
-                    cant.value = 1;
-                }else if(cant.value >= 99){
-                    cant.value = 99;
-                }
-            })
-            decrement.addEventListener("click",function(){
-                if(cant.value<=1){
-                    return cant.value=1;
-                }
-                cant.value--;
-            });
-            increment.addEventListener("click",function(){
-                if(cant.value>=99){
-                    return cant.value=99;
-                }
-                cant.value++;
-            })
-            let btnPrev = document.querySelector(".slider-btn-left");
-            let btnNext = document.querySelector(".slider-btn-right");
-            let inner = document.querySelector(".product-image-inner");
-            btnPrev.addEventListener("click",function(){
-                inner.scrollBy(-100,0);
-            })
-            btnNext.addEventListener("click",function(){
-                inner.scrollBy(100,0);
-            })
-            if(document.querySelector(".product-addwishlistModal")){
-                let btn = document.querySelector(".product-addwishlistModal");
-                btn.addEventListener("click",function(){
-                    btn.classList.toggle("active");
-                    if(btn.classList.contains("active")){
-                        btn.classList.replace("far","fas");
-                        btn.classList.add("text-danger");
-                        btn.parentElement.children[1].classList.replace("c-d","c-p");
-                        btn.parentElement.children[1].setAttribute("href","wishlist.html");
-                        btn.parentElement.children[1].innerHTML= `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
-                        setTimeout(function(){
-                            btn.parentElement.children[1].innerHTML="Check wishlist";
-                        },300);
-                    }else{
-                        btn.classList.replace("fas","far");
-                        btn.classList.remove("text-danger");
-                        btn.parentElement.children[1].classList.replace("c-p","c-d");
-                        btn.parentElement.children[1].removeAttribute("href");
-                        btn.parentElement.children[1].innerHTML= `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
-                        setTimeout(function(){
-                            btn.parentElement.children[1].innerHTML="Add to wishlist";
-                        },300);
+                    modalItem.innerHTML = modal;
+                    let modalView = new bootstrap.Modal(document.querySelector("#modalElement"));
+                    modalView.show();
+                    let productImages = document.querySelectorAll(".product-image-item");
+                    for (let i = 0; i < productImages.length; i++) {
+                        let productImage = productImages[i];
+                        productImage.addEventListener("click",function(e){
+                            for (let j = 0; j < productImages.length; j++) {
+                                productImages[j].classList.remove("active");
+                                
+                            }
+                            productImage.classList.add("active");
+                            let image = productImage.children[0].src;
+                            document.querySelector(".product-image img").src = image;
+                        })
                     }
-                })
-            }
+                    
+                    document.querySelector("#modalElement").addEventListener("hidden.bs.modal",function(){
+                        document.querySelector("#modalItem").innerHTML="";
+                    });
+        
+                    let decrement = document.querySelector(".decrement");
+                    let increment = document.querySelector(".increment");
+                    let cant = document.querySelector(".cant");
+                    
+                    if(document.querySelector("#viewProductAddModal")){
+                        let viewProductAdd = document.querySelector("#viewProductAddModal");
+                        viewProductAdd.addEventListener("click",function(){
+                            viewProductAdd.setAttribute("disabled",true);
+                            viewProductAdd.innerHTML = `
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            `;
+                            setTimeout(function(){
+                                viewProductAdd.innerHTML = `
+                                <i class="fas fa-check"></i> Added
+                            `;
+                            },500);
+                            setTimeout(function(){
+                                viewProductAdd.removeAttribute("disabled");
+                                viewProductAdd.innerHTML = `
+                                <i class="fas fa-shopping-cart me-2"></i> Add
+                                `;
+                            },1000);
+                            
+                        });
+                        cant.addEventListener("change",function(){
+                            if(cant.value <= 1){
+                                cant.value = 1;
+                            }else if(cant.value >= product['stock']){
+                                cant.value = product['stock'];
+                            }
+                        })
+                        decrement.addEventListener("click",function(){
+                            if(cant.value<=1){
+                                return cant.value=1;
+                            }
+                            cant.value--;
+                        });
+                        increment.addEventListener("click",function(){
+                            if(cant.value>=product['stock']){
+                                return cant.value=product['stock'];
+                            }
+                            cant.value++;
+                        });
+                    }
+                    
+                    let btnPrev = document.querySelector(".slider-btn-left");
+                    let btnNext = document.querySelector(".slider-btn-right");
+                    let inner = document.querySelector(".product-image-inner");
+                    btnPrev.addEventListener("click",function(){
+                        inner.scrollBy(-100,0);
+                    })
+                    btnNext.addEventListener("click",function(){
+                        inner.scrollBy(100,0);
+                    })
+                    if(document.querySelector(".product-addwishlistModal")){
+                        let btn = document.querySelector(".product-addwishlistModal");
+                        let formData = new FormData();
+                        formData.append("idProduct",idProduct);
+
+                        btn.addEventListener("click",function(){
+                            btn.classList.toggle("active");
+                            if(btn.classList.contains("active")){
+                                btn.parentElement.children[1].innerHTML= `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                                btn.setAttribute("disabled","disabled");
+                                request(base_url+"/shop/addWishList",formData,"post").then(function(objData){
+                                    btn.removeAttribute("disabled");
+                                    if(objData.status){
+                                        btn.classList.replace("far","fas");
+                                        btn.classList.add("text-danger");
+                                        btn.parentElement.children[1].classList.replace("c-d","c-p");
+                                        btn.parentElement.children[1].setAttribute("href",base_url+"/shop/wishlist");
+                                        btn.parentElement.children[1].innerHTML="Check wishlist";
+                                    }else{
+                                        openLoginModal();
+                                        btn.parentElement.children[1].innerHTML="Add to wishlist";
+                                        btn.classList.replace("fas","far");
+                                        btn.classList.remove("text-danger");
+                                        btn.parentElement.children[1].classList.replace("c-p","c-d");
+                                        btn.parentElement.children[1].removeAttribute("href");
+                                    }
+                                });
+                                
+                            }else{
+                                btn.parentElement.children[1].innerHTML= `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                                btn.setAttribute("disabled","disabled");
+                                request(base_url+"/shop/delWishList",formData,"post").then(function(objData){
+                                    btn.removeAttribute("disabled");
+                                    if(objData.status){
+                                        btn.classList.replace("fas","far");
+                                        btn.classList.remove("text-danger");
+                                        btn.parentElement.children[1].classList.replace("c-p","c-d");
+                                        btn.parentElement.children[1].removeAttribute("href");
+                                        btn.parentElement.children[1].innerHTML="Add to wishlist";
+                                    }else{
+                                        openLoginModal();
+                                        btn.parentElement.children[1].innerHTML="Add to wishlist";
+                                        btn.classList.replace("fas","far");
+                                        btn.classList.remove("text-danger");
+                                        btn.parentElement.children[1].classList.replace("c-p","c-d");
+                                        btn.parentElement.children[1].removeAttribute("href");
+                                    }
+                                });
+                            }
+                        })
+                    }
+                }
+            });
+            
         });
     } 
 }
-
 //add wishlist product card
-/*if(document.querySelectorAll(".product-btns .addWishList")){
-    
-}*/
+if(document.querySelectorAll(".product-btns .addWishList")){
+    let btns = document.querySelectorAll(".product-btns .addWishList");
+    for (let i = 0; i < btns.length; i++) {
+        let btn = btns[i];
+        btn.addEventListener("click",function(){
+            let idProduct = btn.parentElement.parentElement.parentElement.getAttribute("data-id");
+            let formData = new FormData();
+            formData.append("idProduct",idProduct);
+            btn.classList.toggle("active");
+            if(btn.classList.contains("active")){
+                btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                btn.setAttribute("disabled","disabled");
+                request(base_url+"/shop/addWishList",formData,"post").then(function(objData){
+                    btn.removeAttribute("disabled");
+                    if(objData.status){
+                        btn.innerHTML = `<i class="fas fa-heart text-danger " title="Add to wishlist"></i>`;
+                    }else{
+                        openLoginModal();
+                        btn.innerHTML = `<i class="far fa-heart" title="Add to wishlist"></i>`;
+                    }
+                });
+            }else{
+                btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                btn.setAttribute("disabled","disabled");
+                request(base_url+"/shop/delWishList",formData,"post").then(function(objData){
+                    btn.removeAttribute("disabled");
+                    if(objData.status){
+                        btn.innerHTML = `<i class="far fa-heart" title="Add to wishlist"></i>`;
+                    }else{
+                        btn.innerHTML = `<i class="far fa-heart " title="Add to wishlist"></i>`;
+                        openLoginModal();
+                    }
+                });
+                
+            }
+        })
+    }
+}
 //Add product card button
 if(document.querySelectorAll(".product-card-add")){
     let btnAddCart = document.querySelectorAll(".product-card-add");
@@ -296,9 +385,12 @@ if(document.querySelectorAll(".product-card-add")){
     let timer;
     
     for (let i = 0; i < btnAddCart.length; i++) {
-        
         let btnAdd = btnAddCart[i];
         btnAdd.addEventListener("click",function(e){
+            let idProduct = btnAdd.parentElement.parentElement.parentElement.getAttribute("data-id");
+            let formData = new FormData();
+            formData.append("idProduct",idProduct);
+            formData.append("txtQty",1);
             window.clearTimeout(timer);
             if(popup.classList.length>1){
                 popup.classList.remove("active");
@@ -314,18 +406,37 @@ if(document.querySelectorAll(".product-card-add")){
                 },6000);
             };
             runTime();
-            let url = document.querySelectorAll(".product-img img")[i].src;
-            let title = document.querySelectorAll(".product-info a h3")[i].innerHTML;
+            request(base_url+"/shop/addCart",formData,"post").then(function(objData){
+                if(objData.status){
+                    document.querySelector("#qtyCart").innerHTML=objData.qty;
+                    let url = document.querySelectorAll(".product-img img")[i].src;
+                    let title = document.querySelectorAll(".product-info a h3")[i].innerHTML;
 
-            popup.children[1].children[0].src=url;
-            popup.children[1].children[1].children[0].innerHTML=title;
+                    popup.children[1].children[0].src=url;
+                    popup.children[1].children[0].alt=title;
+                    popup.children[1].children[1].children[0].innerHTML=title;
+                    popup.children[1].children[1].children[1].innerHTML=objData.msg;
+                    popup.addEventListener("mouseover",function(){
+                        window.clearTimeout(timer);
+                        runTime();
+                    })
+                    popupClose.addEventListener("click",function(){
+                        popup.classList.remove("active");
+                    });
+                }else{
 
-            popup.addEventListener("mouseover",function(){
-                window.clearTimeout(timer);
-                runTime();
-            })
-            popupClose.addEventListener("click",function(){
-                popup.classList.remove("active");
+                    popup.children[1].children[0].src=base_url+"/Assets/images/uploads/warning.png";
+                    popup.children[1].children[0].alt="error";
+                    popup.children[1].children[1].children[0].innerHTML="";
+                    popup.children[1].children[1].children[1].innerHTML=objData.msg;
+                    popup.addEventListener("mouseover",function(){
+                        window.clearTimeout(timer);
+                        runTime();
+                    })
+                    popupClose.addEventListener("click",function(){
+                        popup.classList.remove("active");
+                    });
+                }
             });
         });
     }
@@ -439,195 +550,7 @@ if(document.querySelector(".comment-list")){
 }
 /******************************************************************************Pages****************************** */
 /***************************Home Page****************************** */
-if(document.querySelector("#home")){
-    request(base_url+"/home/getProductSlider","","get").then(function(objData){
-        let html="";
-        let carousel = document.querySelector(".carousel-inner");
-        for (let i = 0; i < objData.length; i++) {
-            let route = base_url+"/product/"+objData[i]['route'];
-            if(i==0){
-                html+=`
-                    <div class="carousel-item active">
-                        <img src="${objData[i]['url']}" alt="${objData[i]['name']}">
-                        <div class="carousel-info">
-                            <h2>${objData[i]['category']}</h2>
-                            <h3>GET THE ${objData[i]['name']} </h3>
-                            <h4>With <strong class="t-p">${objData[i]['discount']}%</strong> discount!</h4>
-                            <p class="mb-3"><strong>${objData[i]['priceDiscount']}</strong> <span>${objData[i]['price']}</span></p>
-                            <a href="${route}" class="btnc btnc-primary">Shop Now</a>
-                        </div>
-                    </div>
-                `;
-            }else{0
-                html+=`
-                    <div class="carousel-item">
-                        <img src="${objData[i]['url']}" alt="${objData[i]['name']}">
-                        <div class="carousel-info">
-                            <h2>${objData[i]['category']}</h2>
-                            <h3>GET THE ${objData[i]['name']} </h3>
-                            <h4>With <strong class="t-p">${objData[i]['discount']}%</strong> discount!</h4>
-                            <p class="mb-3"><strong>${objData[i]['priceDiscount']}</strong> <span>${objData[i]['price']}</span></p>
-                            <a href="${route}" class="btnc btnc-primary">Shop Now</a>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-        carousel.innerHTML = html;
-    });
-    request(base_url+"/home/getCategories1","","get").then(function(objData){
-        let categories1 = document.querySelector("#categories1");
-        let html="";
-        for (let i = 0; i < objData.length; i++) {
-            let route = base_url+"/shop/"+objData[i]['route'];
-            let url = base_url+"/Assets/images/uploads/"+objData[i]['picture'];
-            html+=`
-            <div class="col-md-4">
-                <a href="${route}" class="text-decoration-none">
-                    <div class="category">
-                        <img src="${url}" alt="${objData[i]['name']}">
-                        <div class="category-info">
-                            <h3><strong>${objData[i]['name']}</strong></h3>
-                        </div>
-                        <a href="${route}" class="category-btn"><strong>Shop now</strong></a>
-                    </div>
-                </a>
-            </div>
-            `;
-        }
-        categories1.innerHTML = html;
-    });
-    request(base_url+"/home/getCategories2","","get").then(function(objData){
-        let categories2 = document.querySelector("#categories2");
-        let html="";
-        for (let i = 0; i < objData.length; i++) {
-            let route = base_url+"/shop/"+objData[i]['route'];
-            let url = base_url+"/Assets/images/uploads/"+objData[i]['picture'];
-            html+=`
-            <div class="col-md-4 mb-3">
-                <div class="more-category">
-                    <img src="${url}" alt="${objData[i]['name']}">
-                    <div class="more-category-info">
-                        <a href="${route}"><h3><strong>${objData[i]['name']}</strong></h3></a>
-                        <p>Browse all our categories</p>
-                        <a href="${route}" class="btn btn-primary">Shop by ${objData[i]['name']}</a>
-                        <div></div>
-                    </div>
-                </div>
-            </div>
-            `;
-        }
-        categories2.innerHTML = html;
-    });
-    request(base_url+"/home/getProducts","","get").then(function(objData){
-        let newProducts = document.querySelector("#newProducts");
-        let html="";
-        for (let i = 0; i < objData.length; i++) {
-            let routeP= base_url+"/shop/product/"+objData[i]['route'];
-            let routeC= base_url+"/shop/"+objData[i]['routec'];
-            let favorite="";
-            if(objData[i]['favorite']== 0){
-                favorite=`<div class="addWishList pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></div>`;
-            }else{
-                favorite=`<div class="addWishList pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></div>`;
-            }
-            if(objData[i]['discount']>0){
-                html+=`
-                <div class="col-md-3" data-id="${objData[i]['idproduct']}" data-n="${objData[i]['idproduct']}" data-c ="${objData[i]['categoryid']}" data-s ="${objData[i]['subcategoryid']}">
-                    <div class="product-card">
-                        <p class="product-discount">-${objData[i]['discount']}%</p>
-                        <div class="product-img">
-                            <img src="${objData[i]['url']}" alt="${objData[i]['name']}">
-                            <button type="button" class="btn btn-primary product-card-add">Add to cart</a>
-                        </div>
-                        <div class="product-info">
-                            <a class="m-0 product-category fw-bold" href="${routeC}">${objData[i]['category']}</a>
-                            <a href="${routeP}">
-                                <h3 class="product-title fw-bold">${objData[i]['name']}</h3>
-                                <p class="m-0 fs-5 product-price"><strong>${objData[i]['priceDiscount']}</strong><span>${objData[i]['price']}</span></p>
-                            </a>
-                        </div>
-                        <div class="product-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="product-btns">
-                            ${favorite}
-                            <div class="quickView pe-2 ps-2"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></div>
-                        </div>
-                    </div>
-                </div>
-                `;
-            }else{
-                html+=`
-                <div class="col-md-3" data-id="${objData[i]['idproduct']}" data-n="${objData[i]['idproduct']}" data-c ="${objData[i]['categoryid']}" data-s ="${objData[i]['subcategoryid']}">
-                    <div class="product-card">
-                        <div class="product-img">
-                            <img src="${objData[i]['url']}" alt="${objData[i]['name']}">
-                            <button type="button" class="btn btn-primary product-card-add">Add to cart</a>
-                        </div>
-                        <div class="product-info">
-                            <a class="m-0 product-category fw-bold" href="${routeC}">${objData[i]['category']}</a>
-                            <a href="${routeP}">
-                                <h3 class="product-title fw-bold">${objData[i]['name']}</h3>
-                                <p class="m-0 fs-5 product-price"><strong>${objData[i]['price']}</strong></p>
-                            </a>
-                        </div>
-                        <div class="product-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="product-btns">
-                            ${favorite}
-                            <div class="quickView pe-2 ps-2"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></div>
-                        </div>
-                    </div>
-                </div>
-                `;
-            }
-            
-        }
-        newProducts.innerHTML = html;
-        let btns = document.querySelectorAll(".product-btns .addWishList");
-        for (let i = 0; i < btns.length; i++) {
-            let btn = btns[i];
-            btn.addEventListener("click",function(){
-                let idProduct = btn.parentElement.parentElement.parentElement.getAttribute("data-id");
-                let formData = new FormData();
-                formData.append("idProduct",idProduct);
-                btn.classList.toggle("active");
-                if(btn.classList.contains("active")){
-                    btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
-                    request(base_url+"/shop/addWishList",formData,"post").then(function(objData){
-                        if(objData.status){
-                            btn.innerHTML = `<i class="fas fa-heart text-danger " title="Add to wishlist"></i>`;
-                        }else{
-                            openLoginModal();
-                            btn.innerHTML = `<i class="far fa-heart" title="Add to wishlist"></i>`;
-                        }
-                    });
-                }else{
-                    btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
-                    request(base_url+"/shop/delWishList",formData,"post").then(function(objData){
-                        if(objData.status){
-                            btn.innerHTML = `<i class="far fa-heart" title="Add to wishlist"></i>`;
-                        }else{
-                            btn.innerHTML = `<i class="far fa-heart " title="Add to wishlist"></i>`;
-                            openLoginModal();
-                        }
-                    });
-                    
-                }
-            })
-        }
-    });
-}
+
 /***************************Product Page****************************** */
 if(document.querySelector("#product")){
     let decrement = document.querySelector(".decrement");

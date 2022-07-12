@@ -12,24 +12,22 @@
         public function home(){
             $data['page_tag'] = NOMBRE_EMPRESA;
             $data['page_title'] = NOMBRE_EMPRESA;
+            $data['slider'] = $this->getProductsSlider(4);
+            $data['category1'] = $this->getCategories1T("4,5,6");
+            $data['category2'] = $this->getCategories2T("7,8,9");
+            $data['products'] = $this->getProductsT(4);
             $data['page_name'] = "home";
             $this->views->getView($this,"home",$data);
         }
 
-        public function getProductSlider(){
-            $request = $this->getProductsSlider(4);
-            $arrResponse = array("data"=>$request);
-            echo json_encode($request,JSON_UNESCAPED_UNICODE);
-            die();
-        }
-        public function getCategories1(){
+        /*public function getCategories1(){
             $request = $this->getCategories1T("4,5,6");
             $arrResponse = array("data"=>$request);
             echo json_encode($request,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function getCategories2(){
-            $request = $this->getCategories2T("7,8,9");
+            $request = 
             $arrResponse = array("data"=>$request);
             echo json_encode($request,JSON_UNESCAPED_UNICODE);
             die();
@@ -42,6 +40,6 @@
             $arrResponse = array("data"=>$request);
             echo json_encode($request,JSON_UNESCAPED_UNICODE);
             die();
-        }
+        }*/
     }
 ?>
