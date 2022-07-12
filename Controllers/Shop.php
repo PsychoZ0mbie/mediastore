@@ -32,7 +32,7 @@
                     $request = $this->getProductT($id);
                     if(!empty($request)){
                         $arrProduct = array(
-                            "idproduct"=> $request['idproduct'],
+                            "idproduct"=>$_POST['idProduct'],
                             "name" => $request['name'],
                             "qty"=>$qty,
                             "image"=>$request['image'][0]['url'],
@@ -69,6 +69,38 @@
                 }else{
                     $arrResponse = array("status"=>false,"msg"=>"Data error");
                 }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+        public function delCart(){
+            if($_POST){
+                $id = $_POST['idProduct'];
+                $total=0;
+                $qtyCart=0;
+                $arrCart = $_SESSION['arrCart'];
+                for ($i=0; $i < count($arrCart) ; $i++) { 
+                    if($arrCart[$i]['idproduct'] == $id){
+                        unset($arrCart[$i]);
+                        break;
+                    } 
+                }
+                sort($arrCart);
+                $_SESSION['arrCart'] = $arrCart;
+                foreach ($_SESSION['arrCart'] as $product) {
+                    $qtyCart += $product['qty'];
+                    if($product['discount']>0){
+                        $total += $product['qty']*($product['price']-($product['price']*($product['discount']*0.01)));
+                    }else{
+                        $total+=$product['qty']*$product['price'];
+                    }
+                }
+                $arrResponse = array(
+                    "status"=>true,
+                    "msg"=>"It has been deleted.",
+                    "total"=>formatNum($total),
+                    "qty"=>$qtyCart
+                );
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
             die();

@@ -16,6 +16,7 @@
             $data['category1'] = $this->getCategories1T("4,5,6");
             $data['category2'] = $this->getCategories2T("7,8,9");
             $data['products'] = $this->getProductsT(4);
+            $data['popProducts'] = $this->getPopularProductsT(4);
             $data['page_name'] = "home";
             $this->views->getView($this,"home",$data);
         }
