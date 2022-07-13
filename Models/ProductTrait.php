@@ -138,11 +138,12 @@
                 AVG(r.rate) as rate
             FROM product p
             INNER JOIN category c, subcategory s, productrate r
-            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND r.productid=p.idproduct AND rate>= 4
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND r.productid=p.idproduct AND rate>= 4 
+            HAVING rate IS NOT NULL
             ORDER BY p.idproduct DESC $cant
             ";
             $request = $this->con->select_all($sql);
-            if(count($request)> 0){
+            if(count($request)){
                 for ($i=0; $i < count($request); $i++) { 
 
                     $request[$i]['priceDiscount'] =  formatNum($request[$i]['price']-($request[$i]['price']*($request[$i]['discount']*0.01)));
@@ -214,6 +215,10 @@
                 }
             }
 
+            $sqlRate = "SELECT AVG(rate) as rate, COUNT(rate) as total FROM productrate WHERE productid = $idProduct HAVING rate IS NOT NULL";
+            $requestRate =  $this->con->select_all($sqlRate);
+            $request['rate'] = $requestRate;
+
             $sqlImg = "SELECT * FROM productimage WHERE productid = $this->intIdProduct";
             $requestImg = $this->con->select_all($sqlImg);
 
@@ -222,6 +227,7 @@
                     $request['image'][$i] = array("url"=>media()."/images/uploads/".$requestImg[$i]['name'],"name"=>$requestImg[$i]['name']);
                 }
             }
+            //dep($request);exit;
             return $request;
         }
         public function addWishListT($idProduct,$idUser){

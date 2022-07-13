@@ -42,26 +42,53 @@
                         );
                         if(isset($_SESSION['arrCart'])){
                             $arrCart = $_SESSION['arrCart'];
+                            $currentQty = 0;
                             $flag = true;
                             for ($i=0; $i < count($arrCart) ; $i++) { 
                                 if($arrCart[$i]['idproduct'] == $arrProduct['idproduct']){
+                                    $currentQty = $arrCart[$i]['qty'];
                                     $arrCart[$i]['qty']+= $qty;
+                                    if($arrCart[$i]['qty'] > $request['stock']){
+                                        $arrCart[$i]['qty'] = $currentQty;
+                                        $arrResponse = array("status"=>false,"msg"=>"Not enough units");
+                                        $flag = false;
+                                        break;
+                                    }else{
+                                        $_SESSION['arrCart'] = $arrCart;
+                                        foreach ($_SESSION['arrCart'] as $quantity) {
+                                            $qtyCart += $quantity['qty'];
+                                        }
+                                        $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart);
+                                    }
                                     $flag =false;
                                     break;
                                 }
                             }
                             if($flag){
-                                array_push($arrCart,$arrProduct);
+                                if($qty > $request['stock']){
+                                    $arrResponse = array("status"=>false,"msg"=>"Not enough units");
+                                    $_SESSION['arrCart'] = $arrCart;
+                                }else{
+                                    array_push($arrCart,$arrProduct);
+                                    $_SESSION['arrCart'] = $arrCart;
+                                    foreach ($_SESSION['arrCart'] as $quantity) {
+                                        $qtyCart += $quantity['qty'];
+                                    }
+                                    $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart);
+                                }
                             }
-                            $_SESSION['arrCart'] = $arrCart;
                         }else{
-                            array_push($arrCart,$arrProduct);
-                            $_SESSION['arrCart'] = $arrCart;
+                            if($qty > $request['stock']){
+                                $arrResponse = array("status"=>false,"msg"=>"Not enough units");
+                            }else{
+                                array_push($arrCart,$arrProduct);
+                                $_SESSION['arrCart'] = $arrCart;
+                                foreach ($_SESSION['arrCart'] as $quantity) {
+                                    $qtyCart += $quantity['qty'];
+                                }
+                                $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart);
+                            } 
                         }
-                        foreach ($_SESSION['arrCart'] as $quantity) {
-                            $qtyCart += $quantity['qty'];
-                        }
-                        $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart);
                     }else{
                         $arrResponse = array("status"=>false,"msg"=>"The product doesn't exists");
                     }
@@ -186,6 +213,7 @@
                 $idProduct = openssl_decrypt($_POST['idProduct'],METHOD,KEY);
                 if(is_numeric($idProduct)){
                     $request = $this->getProductT($idProduct);
+                    $request['idproduct'] = $_POST['idProduct']; 
                     $request['priceDiscount']=formatNum($request['price']-($request['price']*($request['discount']*0.01)));
                     $request['price'] = formatNum($request['price']);
                     $arrResponse= array("status"=>true,"data"=>$request);

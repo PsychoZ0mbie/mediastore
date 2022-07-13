@@ -128,14 +128,29 @@ if(document.querySelectorAll(".product-btns .quickView")){
                     let discount="";
                     let price =`<p class="fs-3"><strong>${product['price']}</strong></p>`;
                     let status="";
+                    let rate="";
+                    let ratetotal = 0;
                     let btns =`
                     <div class="product-cant me-3">
                         <div class="decrement"><i class="fas fa-minus"></i></div>
                         <input class="cant me-2 ms-2" type="number" min="1" max="${product['stock']}" value="1">
                         <div class="increment"><i class="fas fa-plus"></i></div>
-                        <button type="button" class="ms-3" id="viewProductAddModal"><i class="fas fa-shopping-cart me-2"></i> Add</button>
+                        <button type="button" class="ms-3" data-id="${product['idproduct']}" id="viewProductAddModal"><i class="fas fa-shopping-cart me-2"></i> Add</button>
                     </div>
                     `;
+                    if(product['rate'].length>0){
+                        ratetotal = product['rate'][0]['total'];
+                    }
+                    for (let i = 0; i < 5; i++) {
+                        if( product['rate'].length>0 &&i >= product['rate'][0]['rate']){
+                            rate+=`<i class="far fa-star"></i>`;
+                        }else if(product['rate'].length == 0){
+                            rate+=`<i class="far fa-star"></i>`;
+                        }else{
+                            rate+=`<i class="fas fa-star"></i>`;
+                        }
+                    }
+
                     if(product['favorite']==1){
                         favorite = `<button type="button" class="c-p quickModal btn"><i class="fas fa-heart product-addwishlistModal me-1 text-danger active"></i> <a href="${base_url+"/shop/wishlist"}"class="c-p">Check wishlist</a></button>`;
                     }else{
@@ -193,12 +208,8 @@ if(document.querySelectorAll(".product-btns .quickView")){
                                         <div class="col-md-6 product-data">
                                             <h1><a href="${base_url+"/shop/product/"+product['route']}"><strong>${product['name']}</strong></a></h1>
                                             <a href="${base_url+"/shop/product/"+product['route']}" class="product-rate text-start mb-3">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                (6 reviews)
+                                                ${rate}
+                                                (${ratetotal} reviews)
                                             </a>
                                             ${status}
                                             ${price}
@@ -207,6 +218,9 @@ if(document.querySelectorAll(".product-btns .quickView")){
                                             <a href="${base_url+"/shop/"+product['routec']}" class="m-0">Category:<strong> ${product['category']}</strong></a>
                                             <div class="mt-4 mb-4 d-flex align-items-center">
                                                 ${btns}
+                                            </div>
+                                            <div class="alert alert-warning d-none" id="alert" role="alert">
+                                                Oops! Not enought stock, try with less or check your cart if you have added all our units before.
                                             </div>
                                             <div class="d-flex align-items-center mt-4">
                                                 <ul class="product-social">
@@ -252,21 +266,30 @@ if(document.querySelectorAll(".product-btns .quickView")){
                     if(document.querySelector("#viewProductAddModal")){
                         let viewProductAdd = document.querySelector("#viewProductAddModal");
                         viewProductAdd.addEventListener("click",function(){
+                            let formData = new FormData();
+                            let idProduct = viewProductAdd.getAttribute("data-id");
+                            formData.append("idProduct",idProduct);
+                            formData.append("txtQty",cant.value);
                             viewProductAdd.setAttribute("disabled",true);
                             viewProductAdd.innerHTML = `
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             `;
-                            setTimeout(function(){
-                                viewProductAdd.innerHTML = `
-                                <i class="fas fa-check"></i> Added
-                            `;
-                            },500);
-                            setTimeout(function(){
-                                viewProductAdd.removeAttribute("disabled");
-                                viewProductAdd.innerHTML = `
-                                <i class="fas fa-shopping-cart me-2"></i> Add
-                                `;
-                            },1000);
+                            request(base_url+"/shop/addCart",formData,"post").then(function(objData){
+                                
+                                if(objData.status){
+                                    viewProductAdd.innerHTML = `<i class="fas fa-check"></i> Added`;
+                                    setTimeout(function(){
+                                        viewProductAdd.removeAttribute("disabled");
+                                        viewProductAdd.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Add`;
+                                    },1000);
+                                    document.querySelector("#alert").classList.add("d-none");
+                                    document.querySelector("#qtyCart").innerHTML=objData.qty;
+                                }else{
+                                    viewProductAdd.removeAttribute("disabled");
+                                    viewProductAdd.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Add`;
+                                    document.querySelector("#alert").classList.remove("d-none");
+                                }
+                            });
                             
                         });
                         cant.addEventListener("change",function(){
@@ -425,10 +448,11 @@ if(document.querySelectorAll(".product-card-add")){
             };
             runTime();
             request(base_url+"/shop/addCart",formData,"post").then(function(objData){
+                let title = document.querySelectorAll(".product-info a h3")[i].innerHTML;
                 if(objData.status){
                     document.querySelector("#qtyCart").innerHTML=objData.qty;
                     let url = document.querySelectorAll(".product-img img")[i].src;
-                    let title = document.querySelectorAll(".product-info a h3")[i].innerHTML;
+                    
 
                     popup.children[1].children[0].src=url;
                     popup.children[1].children[0].alt=title;
@@ -445,12 +469,12 @@ if(document.querySelectorAll(".product-card-add")){
 
                     popup.children[1].children[0].src=base_url+"/Assets/images/uploads/warning.png";
                     popup.children[1].children[0].alt="error";
-                    popup.children[1].children[1].children[0].innerHTML="";
-                    popup.children[1].children[1].children[1].innerHTML=objData.msg;
+                    popup.children[1].children[1].children[0].innerHTML=title;
+                    popup.children[1].children[1].children[1].innerHTML=`<strong class="text-danger">${objData.msg}</strong>`;
                     popup.addEventListener("mouseover",function(){
                         window.clearTimeout(timer);
                         runTime();
-                    })
+                    });
                     popupClose.addEventListener("click",function(){
                         popup.classList.remove("active");
                     });

@@ -184,6 +184,7 @@
             </div>
         </section>
         <section>
+            <?php if(count($popProducts)){?>
             <div class="container">
                 <h3 class="t-p"><strong>TOP RATED</strong></h3>
                 <div class="row mt-5">
@@ -248,6 +249,7 @@
                 <?php  }?>
                 </div>
             </div>
+            <?php }?>
         </section>
     </main>
     <section>
