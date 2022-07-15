@@ -17,6 +17,10 @@
 main{
     padding-top: 60px;
 }
+.accordion-item {
+    background-color: #fff;
+    border: none;
+}
 .accordion-button{
     padding: 10px;
 }
@@ -24,7 +28,7 @@ main{
     padding: 5px 0 5px 5px;
     a, a:hover, a:focus, a:active {
         text-decoration: none;
-        color: inherit;
+        color: #000;
       }
 }
 .accordion-button:not(.collapsed) {
@@ -39,6 +43,18 @@ main{
 }
 .list-group-item {
     border: none;
+}
+.accordion-header{
+    position: relative;
+    a{
+        font-size: 16px;
+        padding: 10px;
+        position: absolute;
+        top:50%;
+        left:0;
+        transform: translateY(-50%);
+        z-index: 3;
+    }
 }
 .popup{
     width: 300px;

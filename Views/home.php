@@ -31,12 +31,13 @@
                 <?php
                     for ($i=0; $i < count($slider) ; $i++) { 
                         $route = base_url()."/shop/product/".$slider[$i]['route'];
+                        $routeC = base_url()."/shop/category/".$slider[$i]['routec'];
                         if($i == 0){
                 ?>
                 <div class="carousel-item active">
                     <img src="<?=$slider[$i]['url']?>" alt="<?=$slider[$i]['name']?>">
                     <div class="carousel-info">
-                        <h2><?=$slider[$i]['category']?></h2>
+                        <h2><a href="<?=$routeC?>" class="text-decoration-none t-p"><?=$slider[$i]['category']?></a></h2>
                         <h3>GET THE <?=$slider[$i]['name']?> </h3>
                         <h4>With <strong class="t-p"><?=$slider[$i]['discount']?>%</strong> discount!</h4>
                         <p class="mb-3"><strong><?=$slider[$i]['priceDiscount']?></strong> <span><?=$slider[$i]['price']?></span></p>
@@ -47,7 +48,7 @@
                 <div class="carousel-item">
                     <img src="<?=$slider[$i]['url']?>" alt="<?=$slider[$i]['name']?>">
                     <div class="carousel-info">
-                        <h2><?=$slider[$i]['category']?></h2>
+                        <h2><a href="<?=$routeC?>" class="text-decoration-none t-p"><?=$slider[$i]['category']?></a></h2>
                         <h3>GET THE <?=$slider[$i]['name']?> </h3>
                         <h4>With <strong class="t-p"><?=$slider[$i]['discount']?>%</strong> discount!</h4>
                         <p class="mb-3"><strong><?=$slider[$i]['priceDiscount']?></strong> <span><?=$slider[$i]['price']?></span></p>
@@ -72,7 +73,7 @@
                 <div class="row">
                     <?php 
                         for ($i=0; $i < count($categories1); $i++) { 
-                            $route = base_url()."/shop/".$categories1[$i]['route'];
+                            $route = base_url()."/shop/category/".$categories1[$i]['route'];
                             $url = media()."/images/uploads/".$categories1[$i]['picture'];
                         
                     ?>
@@ -100,8 +101,8 @@
                         $idProduct = openssl_encrypt($products[$i]['idproduct'],METHOD,KEY);
                         $favorite = '';
                         $routeP = base_url()."/shop/product/".$products[$i]['route'];
-                        $routeC = base_url()."/shop/".$products[$i]['routec'];
-                        $price ='<p class="m-0 fs-5 product-price"><strong>'.$products[$i]['price'].'</strong></p>';
+                        $routeC = base_url()."/shop/category/".$products[$i]['routec'];
+                        $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($products[$i]['price']).'</strong></p>';
                         $btnAdd ='<button type="button" class="btn btn-primary product-card-add">Add to cart</a>';
                         $discount="";
                         $rate="";
@@ -112,7 +113,7 @@
                         }
                         if($products[$i]['status'] == 1 && $products[$i]['stock']>0){
                             if($products[$i]['discount']>0){
-                                $price = '<p class="m-0 fs-5 product-price"><strong>'.$products[$i]['priceDiscount'].'</strong><span>'.$products[$i]['price'].'</span></p>';
+                                $price = '<p class="m-0 fs-5 product-price"><strong>'.formatNum($products[$i]['priceDiscount']).'</strong><span>'.formatNum($products[$i]['price']).'</span></p>';
                                 $discount ='<p class="product-discount">-'.$products[$i]['discount'].'%</p>';
                             }
                         }else if($products[$i]['status'] == 1 && $products[$i]['stock']==0){
@@ -123,9 +124,9 @@
                             $price="";
                         }
                         for ($j=0; $j < 5; $j++) { 
-                            if($products[$i]['rate'][0]['rate']!=null && $j >= $products[$i]['rate'][0]['rate']){
+                            if($products[$i]['rate']!=null && $j >= $products[$i]['rate']){
                                 $rate.='<i class="far me-1 fa-star"></i>';
-                            }else if($products[$i]['rate'][0]['rate']==null){
+                            }else if($products[$i]['rate']==null){
                                 $rate.='<i class="far me-1 fa-star"></i>';
                             }else{
                                 $rate.='<i class="fas me-1 fa-star"></i>';
@@ -164,7 +165,7 @@
                 <div class="row">
                     <?php 
                         for ($i=0; $i < count($categories2) ; $i++) { 
-                            $route = base_url()."/shop/".$categories2[$i]['route'];
+                            $route = base_url()."/shop/category/".$categories2[$i]['route'];
                             $url = media()."/images/uploads/".$categories2[$i]['picture'];
                             
                     ?>
@@ -193,8 +194,8 @@
                         $idProduct = openssl_encrypt($popProducts[$i]['idproduct'],METHOD,KEY);
                         $favorite = '';
                         $routeP = base_url()."/shop/product/".$popProducts[$i]['route'];
-                        $routeC = base_url()."/shop/".$popProducts[$i]['routec'];
-                        $price ='<p class="m-0 fs-5 product-price"><strong>'.$popProducts[$i]['price'].'</strong></p>';
+                        $routeC = base_url()."/shop/category/".$popProducts[$i]['routec'];
+                        $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($popProducts[$i]['price']).'</strong></p>';
                         $btnAdd ='<button type="button" class="btn btn-primary product-card-add">Add to cart</a>';
                         $discount="";
                         $rate="";
@@ -205,7 +206,7 @@
                         }
                         if($popProducts[$i]['status'] == 1 && $popProducts[$i]['stock']>0){
                             if($popProducts[$i]['discount']>0){
-                                $price = '<p class="m-0 fs-5 product-price"><strong>'.$popProducts[$i]['priceDiscount'].'</strong><span>'.$popProducts[$i]['price'].'</span></p>';
+                                $price = '<p class="m-0 fs-5 product-price"><strong>'.formatNum($popProducts[$i]['priceDiscount']).'</strong><span>'.formatNum($popProducts[$i]['price']).'</span></p>';
                                 $discount ='<p class="product-discount">-'.$popProducts[$i]['discount'].'%</p>';
                             }
                         }else if($popProducts[$i]['status'] == 1 && $popProducts[$i]['stock']==0){
@@ -216,7 +217,8 @@
                             $price="";
                         }
                         for ($j=0; $j < 5; $j++) { 
-                            if($j >= $popProducts[$i]['rate'][0]['rate']){
+                            if($j >= $popProducts[$i]['rate']){
+                                
                                 $rate.='<i class="far me-1 fa-star"></i>';
                             }else{
                                 $rate.='<i class="fas me-1 fa-star"></i>';

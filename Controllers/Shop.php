@@ -15,9 +15,122 @@
 
         public function shop(){
             $data['page_tag'] = NOMBRE_EMPRESA;
-            $data['page_title'] = NOMBRE_EMPRESA;
-            $data['page_name'] = "home";
-            $this->views->getView($this,"home",$data);
+            $data['page_title'] = NOMBRE_EMPRESA." | Shop";
+            $data['page_name'] = "shop";
+            $data['categories'] = $this->getCategoriesT();
+            $data['products'] = $this->getProductsT("");
+            $data['popProducts'] = $this->getPopularProductsT(9);
+            $this->views->getView($this,"shop",$data);
+        }
+        public function getProductSort($params){
+            $arrParams = explode(",",$params);
+            $category="";
+            $subcategory="";
+            $option =0;
+            $html="";
+            
+            if(is_numeric($arrParams[0])){  
+                $option = $arrParams[0];
+                $request = $this->getProductSortT($category,$subcategory,$option);
+            }else{
+                if(count($arrParams)==3){
+                    $category = strClean($arrParams[0]);
+                    $subcategory = strClean($arrParams[1]);
+                    $option = $arrParams[2];
+                    //dep($arrParams);exit;
+                    $request = $this->getProductSortT($category,$subcategory,$option);
+                }else{
+                    $category = strClean($arrParams[0]);
+                    $option = $arrParams[1];
+                    $request = $this->getProductSortT($category,$subcategory,$option);
+                }
+            }
+            for ($i=0; $i < count($request) ; $i++) { 
+                $idProduct = openssl_encrypt($request[$i]['idproduct'],METHOD,KEY);
+                $favorite = '';
+                $routeP = base_url()."/shop/product/".$request[$i]['route'];
+                $routeC = base_url()."/shop/category/".$request[$i]['routec'];
+                $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($request[$i]['price']).'</strong></p>';
+                $btnAdd ='<button type="button" class="btn btn-primary product-card-add">Add to cart</a>';
+                $discount="";
+                $rate="";
+                if($request[$i]['favorite']== 0){
+                    $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
+                }else{
+                    $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
+                }
+                if($request[$i]['status'] == 1 && $request[$i]['stock']>0){
+                    if($request[$i]['discount']>0){
+                        $price = '<p class="m-0 fs-5 product-price"><strong>'.formatNum($request[$i]['priceDiscount']).'</strong><span>'.formatNum($request[$i]['price']).'</span></p>';
+                        $discount ='<p class="product-discount">-'.$request[$i]['discount'].'%</p>';
+                    }
+                }else if($request[$i]['status'] == 1 && $request[$i]['stock']==0){
+                    $btnAdd="";
+                    $price='<p class="m-0 fs-5 product-price text-danger">Sold out</p>';
+                }else{
+                    $btnAdd ="";
+                    $price="";
+                }
+                for ($j=0; $j < 5; $j++) { 
+                    if($request[$i]['rate']!=null && $j >= $request[$i]['rate']){
+                        $rate.='<i class="far me-1 fa-star"></i>';
+                    }else if($request[$i]['rate']==null){
+                        $rate.='<i class="far me-1 fa-star"></i>';
+                    }else{
+                        $rate.='<i class="fas me-1 fa-star"></i>';
+                    }
+                }
+                $html .='
+                <div class="col-lg-4 col-md-6 product-item" data-id="'.$idProduct.'" data-price="'.$request[$i]['price'].'" data-rate="'.$request[$i]['rate'].'">
+                    <div class="product-card">
+                        '.$discount.'
+                        <div class="product-img">
+                            <img src="'.$request[$i]['url'].'" alt="'.$request[$i]['name'].'">
+                            '.$btnAdd.'
+                        </div>
+                        <div class="product-info">
+                            <a class="m-0 product-category fw-bold" href="'.$routeC.'">'.$request[$i]['category'].'</a>
+                            <a href="'.$routeP.'">
+                                <h3 class="product-title fw-bold">'.$request[$i]['name'].'</h3>
+                                '.$price.'
+                            </a>
+                        </div>
+                        <div class="product-rate">
+                        '.$rate.'
+                        </div>
+                        <div class="product-btns">
+                        '.$favorite.'
+                            <button type="button" class="btn quickView pe-2 ps-2"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></button>
+                        </div>
+                    </div>
+                </div>
+                ';
+            }
+            echo json_encode($html,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function category($params){
+            $arrParams = explode(",",$params);
+            $category="";
+            $subcategory="";
+
+            if(count($arrParams)>1){
+                $category = strClean($arrParams[0]);
+                $subcategory = strClean($arrParams[1]);
+            }else{
+                $category = strClean($arrParams[0]);
+            }
+            
+            $data['page_tag'] = NOMBRE_EMPRESA;
+            $data['page_title'] = NOMBRE_EMPRESA." | Shop";
+            $data['page_name'] = "shop";
+            $data['categories'] = $this->getCategoriesT();
+            $data['routec'] = $category;
+            $data['routes'] = $subcategory;
+            $data['total'] = $this->getTotalProductsT($category,$subcategory);
+            $data['products'] = $this->getProductsCategoryT($category,$subcategory);
+            $data['popProducts'] = $this->getPopularProductsT(9);
+            $this->views->getView($this,"category",$data);
         }
         public function addCart(){
             //dep($_POST);exit;

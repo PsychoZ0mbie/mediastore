@@ -104,387 +104,57 @@ window.addEventListener("scroll",function(){
         document.querySelector("#scrollTop").style.display="none";
     }
 });
-//Quick view modal
-if(document.querySelectorAll(".product-btns .quickView")){
-    let btns = document.querySelectorAll(".product-btns .quickView");
-    for (let i = 0; i < btns.length; i++) {
-        let btn = btns[i];
-        btn.addEventListener("click",function(e){
 
-            let idProduct = btn.parentElement.parentElement.parentElement.getAttribute("data-id");
-            let formData = new FormData();
-            formData.append("idProduct",idProduct);
-            btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
-            btn.setAttribute("disabled","disabled");
-            request(base_url+"/shop/getProduct",formData,"post").then(function(objData){
-                btn.removeAttribute("disabled");
-                btn.innerHTML = `<i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i>`;
-                if(objData.status){
-
-                    let product = objData.data;
-                    let images = product['image'];
-                    let favorite = "";
-                    let imagesHtml="";
-                    let discount="";
-                    let price =`<p class="fs-3"><strong>${product['price']}</strong></p>`;
-                    let status="";
-                    let rate="";
-                    let ratetotal = 0;
-                    let btns =`
-                    <div class="product-cant me-3">
-                        <div class="decrement"><i class="fas fa-minus"></i></div>
-                        <input class="cant me-2 ms-2" type="number" min="1" max="${product['stock']}" value="1">
-                        <div class="increment"><i class="fas fa-plus"></i></div>
-                        <button type="button" class="ms-3" data-id="${product['idproduct']}" id="viewProductAddModal"><i class="fas fa-shopping-cart me-2"></i> Add</button>
-                    </div>
-                    `;
-                    if(product['rate'].length>0){
-                        ratetotal = product['rate'][0]['total'];
-                    }
-                    for (let i = 0; i < 5; i++) {
-                        if( product['rate'].length>0 &&i >= product['rate'][0]['rate']){
-                            rate+=`<i class="far fa-star"></i>`;
-                        }else if(product['rate'].length == 0){
-                            rate+=`<i class="far fa-star"></i>`;
-                        }else{
-                            rate+=`<i class="fas fa-star"></i>`;
-                        }
-                    }
-
-                    if(product['favorite']==1){
-                        favorite = `<button type="button" class="c-p quickModal btn"><i class="fas fa-heart product-addwishlistModal me-1 text-danger active"></i> <a href="${base_url+"/shop/wishlist"}"class="c-p">Check wishlist</a></button>`;
-                    }else{
-                        favorite = `<button type="button" class="c-p quickModal btn"><i class="far fa-heart product-addwishlistModal me-1"></i> <a class="c-d">Add to wishlist</a></button>`;
-                    }
-                    if(product['status']==1 && product['stock']>0){
-                        status =`<p class="text-secondary m-0">Stock: (${product['stock']}) units</p>`;
-                        if(product['discount']>0){
-                            discount = `<p class="product-discount">-${product['discount']}%</p>`;
-                            price = `
-                            <p class="m-0 text-decoration-line-through t-p">${product['price']}</p>
-                            <p class="fs-3"><strong>${product['priceDiscount']}</strong></p>`;
-                        }
-                    }else if(product['stock']==0 && product['status']==1){
-                        status =`<p class="text-danger fw-bold">Sold out.</p>`;
-                        btns="";  
-                        price= "";  
-                    }else{
-                        status =`<p class="text-danger fw-bold">Currently unavailable.</p>`;
-                        price= "";
-                        btns=""; 
-                    }
-
-                    for (let i = 0; i < images.length; i++) {
-                        if(i==0){
-                            imagesHtml+=`<div class="product-image-item active"><img src="${images[i]['url']}" alt="${images[i]['name']}"></div>`;
-                        }else{
-                            imagesHtml+=`<div class="product-image-item"><img src="${images[i]['url']}" alt="${images[i]['name']}"></div>`;
-                        }
-                    }
-                    let modalItem = document.querySelector("#modalItem");
-                    let modal="";
-                    modal= `
-                    <div class="modal fade" id="modalElement">
-                        <div class="modal-dialog modal-lg modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="d-flex justify-content-end">
-                                    <button type="button" class="btn-close p-2" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="container">
-                                    <div class="row ps-2 pe-2 pb-4">
-                                        <div class="col-md-6">
-                                            <div class="product-image">
-                                                ${discount}
-                                                <img src="${images[0]['url']}" class="d-block w-100" alt="${images[0]['name']}">
-                                            </div>
-                                            <div class="product-image-slider">
-                                                <div class="slider-btn-left"><i class="fas fa-angle-left"></i></div>
-                                                <div class="product-image-inner">
-                                                    ${imagesHtml}
-                                                </div>
-                                                <div class="slider-btn-right"><i class="fas fa-angle-right"></i></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 product-data">
-                                            <h1><a href="${base_url+"/shop/product/"+product['route']}"><strong>${product['name']}</strong></a></h1>
-                                            <a href="${base_url+"/shop/product/"+product['route']}" class="product-rate text-start mb-3">
-                                                ${rate}
-                                                (${ratetotal} reviews)
-                                            </a>
-                                            ${status}
-                                            ${price}
-                                            <p class="mb-3" id="description">${product['shortdescription']}</p>
-                                            <p class="m-0">SKU: <strong>${product['reference']}</strong></p>
-                                            <a href="${base_url+"/shop/"+product['routec']}" class="m-0">Category:<strong> ${product['category']}</strong></a>
-                                            <div class="mt-4 mb-4 d-flex align-items-center">
-                                                ${btns}
-                                            </div>
-                                            <div class="alert alert-warning d-none" id="alert" role="alert">
-                                                Oops! Not enought stock, try with less or check your cart if you have added all our units before.
-                                            </div>
-                                            <div class="d-flex align-items-center mt-4">
-                                                <ul class="product-social">
-                                                    <li title="Facebook"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                                    <li title="Twitter"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                                    <li title="Linkedin"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                                    <li title="Telegram"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
-                                                </ul>
-                                                ${favorite}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    `;
-                    modalItem.innerHTML = modal;
-                    let modalView = new bootstrap.Modal(document.querySelector("#modalElement"));
-                    modalView.show();
-                    let productImages = document.querySelectorAll(".product-image-item");
-                    for (let i = 0; i < productImages.length; i++) {
-                        let productImage = productImages[i];
-                        productImage.addEventListener("click",function(e){
-                            for (let j = 0; j < productImages.length; j++) {
-                                productImages[j].classList.remove("active");
-                                
-                            }
-                            productImage.classList.add("active");
-                            let image = productImage.children[0].src;
-                            document.querySelector(".product-image img").src = image;
-                        })
-                    }
-                    
-                    document.querySelector("#modalElement").addEventListener("hidden.bs.modal",function(){
-                        document.querySelector("#modalItem").innerHTML="";
-                    });
-        
-                    let decrement = document.querySelector(".decrement");
-                    let increment = document.querySelector(".increment");
-                    let cant = document.querySelector(".cant");
-                    
-                    if(document.querySelector("#viewProductAddModal")){
-                        let viewProductAdd = document.querySelector("#viewProductAddModal");
-                        viewProductAdd.addEventListener("click",function(){
-                            let formData = new FormData();
-                            let idProduct = viewProductAdd.getAttribute("data-id");
-                            formData.append("idProduct",idProduct);
-                            formData.append("txtQty",cant.value);
-                            viewProductAdd.setAttribute("disabled",true);
-                            viewProductAdd.innerHTML = `
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            `;
-                            request(base_url+"/shop/addCart",formData,"post").then(function(objData){
-                                
-                                if(objData.status){
-                                    viewProductAdd.innerHTML = `<i class="fas fa-check"></i> Added`;
-                                    setTimeout(function(){
-                                        viewProductAdd.removeAttribute("disabled");
-                                        viewProductAdd.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Add`;
-                                    },1000);
-                                    document.querySelector("#alert").classList.add("d-none");
-                                    document.querySelector("#qtyCart").innerHTML=objData.qty;
-                                }else{
-                                    viewProductAdd.removeAttribute("disabled");
-                                    viewProductAdd.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Add`;
-                                    document.querySelector("#alert").classList.remove("d-none");
-                                }
-                            });
-                            
-                        });
-                        cant.addEventListener("change",function(){
-                            if(cant.value <= 1){
-                                cant.value = 1;
-                            }else if(cant.value >= product['stock']){
-                                cant.value = product['stock'];
-                            }
-                        })
-                        decrement.addEventListener("click",function(){
-                            if(cant.value<=1){
-                                return cant.value=1;
-                            }
-                            cant.value--;
-                        });
-                        increment.addEventListener("click",function(){
-                            if(cant.value>=product['stock']){
-                                return cant.value=product['stock'];
-                            }
-                            cant.value++;
-                        });
-                    }
-                    
-                    let btnPrev = document.querySelector(".slider-btn-left");
-                    let btnNext = document.querySelector(".slider-btn-right");
-                    let inner = document.querySelector(".product-image-inner");
-                    btnPrev.addEventListener("click",function(){
-                        inner.scrollBy(-100,0);
-                    })
-                    btnNext.addEventListener("click",function(){
-                        inner.scrollBy(100,0);
-                    })
-                    if(document.querySelector(".product-addwishlistModal")){
-                        let btn = document.querySelector(".product-addwishlistModal");
-                        let formData = new FormData();
-                        formData.append("idProduct",idProduct);
-
-                        btn.addEventListener("click",function(){
-                            btn.classList.toggle("active");
-                            if(btn.classList.contains("active")){
-                                btn.parentElement.children[1].innerHTML= `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
-                                btn.setAttribute("disabled","disabled");
-                                request(base_url+"/shop/addWishList",formData,"post").then(function(objData){
-                                    btn.removeAttribute("disabled");
-                                    if(objData.status){
-                                        btn.classList.replace("far","fas");
-                                        btn.classList.add("text-danger");
-                                        btn.parentElement.children[1].classList.replace("c-d","c-p");
-                                        btn.parentElement.children[1].setAttribute("href",base_url+"/shop/wishlist");
-                                        btn.parentElement.children[1].innerHTML="Check wishlist";
-                                    }else{
-                                        openLoginModal();
-                                        btn.parentElement.children[1].innerHTML="Add to wishlist";
-                                        btn.classList.replace("fas","far");
-                                        btn.classList.remove("text-danger");
-                                        btn.parentElement.children[1].classList.replace("c-p","c-d");
-                                        btn.parentElement.children[1].removeAttribute("href");
-                                    }
-                                });
-                                
-                            }else{
-                                btn.parentElement.children[1].innerHTML= `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
-                                btn.setAttribute("disabled","disabled");
-                                request(base_url+"/shop/delWishList",formData,"post").then(function(objData){
-                                    btn.removeAttribute("disabled");
-                                    if(objData.status){
-                                        btn.classList.replace("fas","far");
-                                        btn.classList.remove("text-danger");
-                                        btn.parentElement.children[1].classList.replace("c-p","c-d");
-                                        btn.parentElement.children[1].removeAttribute("href");
-                                        btn.parentElement.children[1].innerHTML="Add to wishlist";
-                                    }else{
-                                        openLoginModal();
-                                        btn.parentElement.children[1].innerHTML="Add to wishlist";
-                                        btn.classList.replace("fas","far");
-                                        btn.classList.remove("text-danger");
-                                        btn.parentElement.children[1].classList.replace("c-p","c-d");
-                                        btn.parentElement.children[1].removeAttribute("href");
-                                    }
-                                });
-                            }
-                        })
-                    }
-                }
-            });
-            
-        });
-    } 
-}
-
-if(document.querySelectorAll(".product-btns .addWishList")){
-    let btns = document.querySelectorAll(".product-btns .addWishList");
-    for (let i = 0; i < btns.length; i++) {
-        let btn = btns[i];
-        btn.addEventListener("click",function(){
-            let idProduct = btn.parentElement.parentElement.parentElement.getAttribute("data-id");
-            let formData = new FormData();
-            formData.append("idProduct",idProduct);
-            btn.classList.toggle("active");
-            if(btn.classList.contains("active")){
-                btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
-                btn.setAttribute("disabled","disabled");
-                request(base_url+"/shop/addWishList",formData,"post").then(function(objData){
-                    btn.removeAttribute("disabled");
-                    if(objData.status){
-                        btn.innerHTML = `<i class="fas fa-heart text-danger " title="Add to wishlist"></i>`;
-                    }else{
-                        openLoginModal();
-                        btn.innerHTML = `<i class="far fa-heart" title="Add to wishlist"></i>`;
-                    }
-                });
-            }else{
-                btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
-                btn.setAttribute("disabled","disabled");
-                request(base_url+"/shop/delWishList",formData,"post").then(function(objData){
-                    btn.removeAttribute("disabled");
-                    if(objData.status){
-                        btn.innerHTML = `<i class="far fa-heart" title="Add to wishlist"></i>`;
-                    }else{
-                        btn.innerHTML = `<i class="far fa-heart " title="Add to wishlist"></i>`;
-                        openLoginModal();
-                    }
-                });
-                
-            }
-        })
-    }
-}
-//Add product card button
-if(document.querySelectorAll(".product-card-add")){
-    let btnAddCart = document.querySelectorAll(".product-card-add");
-    let popup = document.querySelector(".popup");
-    let popupClose = document.querySelector(".popup-close"); 
-    let timer;
-    
-    for (let i = 0; i < btnAddCart.length; i++) {
-        let btnAdd = btnAddCart[i];
-        btnAdd.addEventListener("click",function(e){
-            let idProduct = btnAdd.parentElement.parentElement.parentElement.getAttribute("data-id");
-            let formData = new FormData();
-            formData.append("idProduct",idProduct);
-            formData.append("txtQty",1);
-            window.clearTimeout(timer);
-            if(popup.classList.length>1){
-                popup.classList.remove("active");
-                setTimeout(function(){
-                    popup.classList.add("active");
-                },100);
-            }else{
-                popup.classList.add("active");
-            }
-            const runTime = function(){
-                timer = window.setTimeout(function(){
-                    popup.classList.remove("active");
-                },6000);
-            };
-            runTime();
-            request(base_url+"/shop/addCart",formData,"post").then(function(objData){
-                let title = document.querySelectorAll(".product-info a h3")[i].innerHTML;
-                if(objData.status){
-                    document.querySelector("#qtyCart").innerHTML=objData.qty;
-                    let url = document.querySelectorAll(".product-img img")[i].src;
-                    
-
-                    popup.children[1].children[0].src=url;
-                    popup.children[1].children[0].alt=title;
-                    popup.children[1].children[1].children[0].innerHTML=title;
-                    popup.children[1].children[1].children[1].innerHTML=objData.msg;
-                    popup.addEventListener("mouseover",function(){
-                        window.clearTimeout(timer);
-                        runTime();
-                    })
-                    popupClose.addEventListener("click",function(){
-                        popup.classList.remove("active");
-                    });
+//filter select
+if(document.querySelector("#selectSort")){
+    let products = document.querySelectorAll(".product-item");
+    let filter = document.querySelectorAll(".filter-price input");
+    let filterInfo = document.querySelector("#filter-price-info");
+    let selectSort = document.querySelector("#selectSort");
+    for (let i = 0; i < filter.length; i++) {
+        let range = filter[i];
+        let min = filter[0];
+        let max = filter[1];
+        range.addEventListener("input",function(){
+            filterInfo.innerHTML=`Price: ${MS+min.value+" "+MD} - ${MS+max.value+" "+MD}`;
+            for (let j = 0; j < products.length; j++) {
+                let price = products[j].getAttribute("data-price");
+                if(price >= min.value && price <= max.value){
+                    products[j].classList.remove("d-none");
                 }else{
-
-                    popup.children[1].children[0].src=base_url+"/Assets/images/uploads/warning.png";
-                    popup.children[1].children[0].alt="error";
-                    popup.children[1].children[1].children[0].innerHTML=title;
-                    popup.children[1].children[1].children[1].innerHTML=`<strong class="text-danger">${objData.msg}</strong>`;
-                    popup.addEventListener("mouseover",function(){
-                        window.clearTimeout(timer);
-                        runTime();
-                    });
-                    popupClose.addEventListener("click",function(){
-                        popup.classList.remove("active");
-                    });
+                    products[j].classList.add("d-none");
+                    document.querySelector("#results").innerHTML =`Results: (${products.length-document.querySelectorAll(".product-item.d-none").length})`;
+                    document.querySelectorAll(".product-item.d-none").length
                 }
-            });
+            }
         });
     }
+    selectSort.addEventListener("change",function(){
+        let value = selectSort.value;
+        let url = window.location.href;
+        url = url.split("/");
+        let urlOption ="";
+        
+        if(url.length == 8){
+            urlOption = base_url+"/shop/getProductSort/"+url[6]+"/"+url[7]+"/"+value;
+        }else if(url.length == 7){
+            urlOption = base_url+"/shop/getProductSort/"+url[6]+"/"+value;
+        }else{
+            urlOption = base_url+"/shop/getProductSort/"+value;
+        }
+        request(urlOption,"","get").then(function(html){
+            document.querySelector("#productItems").innerHTML=html;
+            addProductCard();
+            quickModal();
+            addWishList();
+        });
+    });
 }
-/***************************Popup suscribe********************************/
-window.addEventListener("DOMContentLoaded",function () {
+window.addEventListener("load",function(){
+    addProductCard();
+    quickModal();
+    addWishList();
+    /***************************Popup suscribe********************************/
     if(document.querySelector("#modalPoup")){
         setTimeout(function(){
             let modal="";
@@ -539,6 +209,7 @@ window.addEventListener("DOMContentLoaded",function () {
         },30000);
     }
 });
+
 /***************************Filter****************************** */
 if(document.querySelector(".addFilter")){
     let featured = document.querySelector(".featured-container-items");
@@ -590,8 +261,6 @@ if(document.querySelector(".comment-list")){
         });
     }
 }
-/******************************************************************************Pages****************************** */
-/***************************Home Page****************************** */
 
 /***************************Product Page****************************** */
 if(document.querySelector("#product")){
@@ -777,7 +446,7 @@ if(document.querySelector("#recovery")){
 
 
 /***************************Essentials Functions****************************** */
-
+//login modal
 function openLoginModal(){
     let modalItem = document.querySelector("#modalLogin");
     let modal="";
@@ -1045,5 +714,388 @@ function openLoginModal(){
         });
     });
 }
-
-
+//Quick view modal
+function quickModal(){
+    if(document.querySelectorAll(".product-btns .quickView")){
+        let btns = document.querySelectorAll(".product-btns .quickView");
+        for (let i = 0; i < btns.length; i++) {
+            let btn = btns[i];
+            btn.addEventListener("click",function(e){
+    
+                let idProduct = btn.parentElement.parentElement.parentElement.getAttribute("data-id");
+                let formData = new FormData();
+                formData.append("idProduct",idProduct);
+                btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                btn.setAttribute("disabled","disabled");
+                request(base_url+"/shop/getProduct",formData,"post").then(function(objData){
+                    btn.removeAttribute("disabled");
+                    btn.innerHTML = `<i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i>`;
+                    if(objData.status){
+    
+                        let product = objData.data;
+                        let images = product['image'];
+                        let favorite = "";
+                        let imagesHtml="";
+                        let discount="";
+                        let price =`<p class="fs-3"><strong>${product['price']}</strong></p>`;
+                        let status="";
+                        let rate="";
+                        let ratetotal = 0;
+                        let btns =`
+                        <div class="product-cant me-3">
+                            <div class="decrement"><i class="fas fa-minus"></i></div>
+                            <input class="cant me-2 ms-2" type="number" min="1" max="${product['stock']}" value="1">
+                            <div class="increment"><i class="fas fa-plus"></i></div>
+                            <button type="button" class="ms-3" data-id="${product['idproduct']}" id="viewProductAddModal"><i class="fas fa-shopping-cart me-2"></i> Add</button>
+                        </div>
+                        `;
+                        if(product['rate'].length>0){
+                            ratetotal = product['rate'][0]['total'];
+                        }
+                        for (let i = 0; i < 5; i++) {
+                            if( product['rate'].length>0 &&i >= product['rate'][0]['rate']){
+                                rate+=`<i class="far fa-star"></i>`;
+                            }else if(product['rate'].length == 0){
+                                rate+=`<i class="far fa-star"></i>`;
+                            }else{
+                                rate+=`<i class="fas fa-star"></i>`;
+                            }
+                        }
+    
+                        if(product['favorite']==1){
+                            favorite = `<button type="button" class="c-p quickModal btn"><i class="fas fa-heart product-addwishlistModal me-1 text-danger active"></i> <a href="${base_url+"/shop/wishlist"}"class="c-p">Check wishlist</a></button>`;
+                        }else{
+                            favorite = `<button type="button" class="c-p quickModal btn"><i class="far fa-heart product-addwishlistModal me-1"></i> <a class="c-d">Add to wishlist</a></button>`;
+                        }
+                        if(product['status']==1 && product['stock']>0){
+                            status =`<p class="text-secondary m-0">Stock: (${product['stock']}) units</p>`;
+                            if(product['discount']>0){
+                                discount = `<p class="product-discount">-${product['discount']}%</p>`;
+                                price = `
+                                <p class="m-0 text-decoration-line-through t-p">${product['price']}</p>
+                                <p class="fs-3"><strong>${product['priceDiscount']}</strong></p>`;
+                            }
+                        }else if(product['stock']==0 && product['status']==1){
+                            status =`<p class="text-danger fw-bold">Sold out.</p>`;
+                            btns="";  
+                            price= "";  
+                        }else{
+                            status =`<p class="text-danger fw-bold">Currently unavailable.</p>`;
+                            price= "";
+                            btns=""; 
+                        }
+    
+                        for (let i = 0; i < images.length; i++) {
+                            if(i==0){
+                                imagesHtml+=`<div class="product-image-item active"><img src="${images[i]['url']}" alt="${images[i]['name']}"></div>`;
+                            }else{
+                                imagesHtml+=`<div class="product-image-item"><img src="${images[i]['url']}" alt="${images[i]['name']}"></div>`;
+                            }
+                        }
+                        let modalItem = document.querySelector("#modalItem");
+                        let modal="";
+                        modal= `
+                        <div class="modal fade" id="modalElement">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="d-flex justify-content-end">
+                                        <button type="button" class="btn-close p-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="container">
+                                        <div class="row ps-2 pe-2 pb-4">
+                                            <div class="col-md-6">
+                                                <div class="product-image">
+                                                    ${discount}
+                                                    <img src="${images[0]['url']}" class="d-block w-100" alt="${images[0]['name']}">
+                                                </div>
+                                                <div class="product-image-slider">
+                                                    <div class="slider-btn-left"><i class="fas fa-angle-left"></i></div>
+                                                    <div class="product-image-inner">
+                                                        ${imagesHtml}
+                                                    </div>
+                                                    <div class="slider-btn-right"><i class="fas fa-angle-right"></i></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 product-data">
+                                                <h1><a href="${base_url+"/shop/product/"+product['route']}"><strong>${product['name']}</strong></a></h1>
+                                                <a href="${base_url+"/shop/product/"+product['route']}" class="product-rate text-start mb-3">
+                                                    ${rate}
+                                                    (${ratetotal} reviews)
+                                                </a>
+                                                ${status}
+                                                ${price}
+                                                <p class="mb-3" id="description">${product['shortdescription']}</p>
+                                                <p class="m-0">SKU: <strong>${product['reference']}</strong></p>
+                                                <a href="${base_url+"/shop/"+product['routec']}" class="m-0">Category:<strong> ${product['category']}</strong></a>
+                                                <div class="mt-4 mb-4 d-flex align-items-center">
+                                                    ${btns}
+                                                </div>
+                                                <div class="alert alert-warning d-none" id="alert" role="alert">
+                                                    Oops! Not enought stock, try with less or check your cart if you have added all our units before.
+                                                </div>
+                                                <div class="d-flex align-items-center mt-4">
+                                                    <ul class="product-social">
+                                                        <li title="Facebook"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                                        <li title="Twitter"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                                        <li title="Linkedin"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                                        <li title="Telegram"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
+                                                    </ul>
+                                                    ${favorite}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                        modalItem.innerHTML = modal;
+                        let modalView = new bootstrap.Modal(document.querySelector("#modalElement"));
+                        modalView.show();
+                        let productImages = document.querySelectorAll(".product-image-item");
+                        for (let i = 0; i < productImages.length; i++) {
+                            let productImage = productImages[i];
+                            productImage.addEventListener("click",function(e){
+                                for (let j = 0; j < productImages.length; j++) {
+                                    productImages[j].classList.remove("active");
+                                    
+                                }
+                                productImage.classList.add("active");
+                                let image = productImage.children[0].src;
+                                document.querySelector(".product-image img").src = image;
+                            })
+                        }
+                        
+                        document.querySelector("#modalElement").addEventListener("hidden.bs.modal",function(){
+                            document.querySelector("#modalItem").innerHTML="";
+                        });
+            
+                        let decrement = document.querySelector(".decrement");
+                        let increment = document.querySelector(".increment");
+                        let cant = document.querySelector(".cant");
+                        
+                        if(document.querySelector("#viewProductAddModal")){
+                            let viewProductAdd = document.querySelector("#viewProductAddModal");
+                            viewProductAdd.addEventListener("click",function(){
+                                let formData = new FormData();
+                                let idProduct = viewProductAdd.getAttribute("data-id");
+                                formData.append("idProduct",idProduct);
+                                formData.append("txtQty",cant.value);
+                                viewProductAdd.setAttribute("disabled",true);
+                                viewProductAdd.innerHTML = `
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                `;
+                                request(base_url+"/shop/addCart",formData,"post").then(function(objData){
+                                    
+                                    if(objData.status){
+                                        viewProductAdd.innerHTML = `<i class="fas fa-check"></i> Added`;
+                                        setTimeout(function(){
+                                            viewProductAdd.removeAttribute("disabled");
+                                            viewProductAdd.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Add`;
+                                        },1000);
+                                        document.querySelector("#alert").classList.add("d-none");
+                                        document.querySelector("#qtyCart").innerHTML=objData.qty;
+                                    }else{
+                                        viewProductAdd.removeAttribute("disabled");
+                                        viewProductAdd.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Add`;
+                                        document.querySelector("#alert").classList.remove("d-none");
+                                    }
+                                });
+                                
+                            });
+                            cant.addEventListener("change",function(){
+                                if(cant.value <= 1){
+                                    cant.value = 1;
+                                }else if(cant.value >= product['stock']){
+                                    cant.value = product['stock'];
+                                }
+                            })
+                            decrement.addEventListener("click",function(){
+                                if(cant.value<=1){
+                                    return cant.value=1;
+                                }
+                                cant.value--;
+                            });
+                            increment.addEventListener("click",function(){
+                                if(cant.value>=product['stock']){
+                                    return cant.value=product['stock'];
+                                }
+                                cant.value++;
+                            });
+                        }
+                        
+                        let btnPrev = document.querySelector(".slider-btn-left");
+                        let btnNext = document.querySelector(".slider-btn-right");
+                        let inner = document.querySelector(".product-image-inner");
+                        btnPrev.addEventListener("click",function(){
+                            inner.scrollBy(-100,0);
+                        })
+                        btnNext.addEventListener("click",function(){
+                            inner.scrollBy(100,0);
+                        })
+                        if(document.querySelector(".product-addwishlistModal")){
+                            let btn = document.querySelector(".product-addwishlistModal");
+                            let formData = new FormData();
+                            formData.append("idProduct",idProduct);
+    
+                            btn.addEventListener("click",function(){
+                                btn.classList.toggle("active");
+                                if(btn.classList.contains("active")){
+                                    btn.parentElement.children[1].innerHTML= `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                                    btn.setAttribute("disabled","disabled");
+                                    request(base_url+"/shop/addWishList",formData,"post").then(function(objData){
+                                        btn.removeAttribute("disabled");
+                                        if(objData.status){
+                                            btn.classList.replace("far","fas");
+                                            btn.classList.add("text-danger");
+                                            btn.parentElement.children[1].classList.replace("c-d","c-p");
+                                            btn.parentElement.children[1].setAttribute("href",base_url+"/shop/wishlist");
+                                            btn.parentElement.children[1].innerHTML="Check wishlist";
+                                        }else{
+                                            openLoginModal();
+                                            btn.parentElement.children[1].innerHTML="Add to wishlist";
+                                            btn.classList.replace("fas","far");
+                                            btn.classList.remove("text-danger");
+                                            btn.parentElement.children[1].classList.replace("c-p","c-d");
+                                            btn.parentElement.children[1].removeAttribute("href");
+                                        }
+                                    });
+                                    
+                                }else{
+                                    btn.parentElement.children[1].innerHTML= `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                                    btn.setAttribute("disabled","disabled");
+                                    request(base_url+"/shop/delWishList",formData,"post").then(function(objData){
+                                        btn.removeAttribute("disabled");
+                                        if(objData.status){
+                                            btn.classList.replace("fas","far");
+                                            btn.classList.remove("text-danger");
+                                            btn.parentElement.children[1].classList.replace("c-p","c-d");
+                                            btn.parentElement.children[1].removeAttribute("href");
+                                            btn.parentElement.children[1].innerHTML="Add to wishlist";
+                                        }else{
+                                            openLoginModal();
+                                            btn.parentElement.children[1].innerHTML="Add to wishlist";
+                                            btn.classList.replace("fas","far");
+                                            btn.classList.remove("text-danger");
+                                            btn.parentElement.children[1].classList.replace("c-p","c-d");
+                                            btn.parentElement.children[1].removeAttribute("href");
+                                        }
+                                    });
+                                }
+                            })
+                        }
+                    }
+                });
+                
+            });
+        } 
+    }
+}
+//Add product card button
+function addProductCard(){
+    if(document.querySelectorAll(".product-card-add")){
+        let btnAddCart = document.querySelectorAll(".product-card-add");
+        let popup = document.querySelector(".popup");
+        let popupClose = document.querySelector(".popup-close"); 
+        let timer;
+        
+        for (let i = 0; i < btnAddCart.length; i++) {
+            let btnAdd = btnAddCart[i];
+            btnAdd.addEventListener("click",function(e){
+                let idProduct = btnAdd.parentElement.parentElement.parentElement.getAttribute("data-id");
+                let formData = new FormData();
+                formData.append("idProduct",idProduct);
+                formData.append("txtQty",1);
+                window.clearTimeout(timer);
+                if(popup.classList.length>1){
+                    popup.classList.remove("active");
+                    setTimeout(function(){
+                        popup.classList.add("active");
+                    },100);
+                }else{
+                    popup.classList.add("active");
+                }
+                const runTime = function(){
+                    timer = window.setTimeout(function(){
+                        popup.classList.remove("active");
+                    },6000);
+                };
+                runTime();
+                request(base_url+"/shop/addCart",formData,"post").then(function(objData){
+                    let title = document.querySelectorAll(".product-info a h3")[i].innerHTML;
+                    if(objData.status){
+                        document.querySelector("#qtyCart").innerHTML=objData.qty;
+                        let url = document.querySelectorAll(".product-img img")[i].src;
+                        
+    
+                        popup.children[1].children[0].src=url;
+                        popup.children[1].children[0].alt=title;
+                        popup.children[1].children[1].children[0].innerHTML=title;
+                        popup.children[1].children[1].children[1].innerHTML=objData.msg;
+                        popup.addEventListener("mouseover",function(){
+                            window.clearTimeout(timer);
+                            runTime();
+                        })
+                        popupClose.addEventListener("click",function(){
+                            popup.classList.remove("active");
+                        });
+                    }else{
+    
+                        popup.children[1].children[0].src=base_url+"/Assets/images/uploads/warning.png";
+                        popup.children[1].children[0].alt="error";
+                        popup.children[1].children[1].children[0].innerHTML=title;
+                        popup.children[1].children[1].children[1].innerHTML=`<strong class="text-danger">${objData.msg}</strong>`;
+                        popup.addEventListener("mouseover",function(){
+                            window.clearTimeout(timer);
+                            runTime();
+                        });
+                        popupClose.addEventListener("click",function(){
+                            popup.classList.remove("active");
+                        });
+                    }
+                });
+            });
+        }
+    }
+}
+//add to wishlist
+function addWishList(){
+    if(document.querySelectorAll(".product-btns .addWishList")){
+        let btns = document.querySelectorAll(".product-btns .addWishList");
+        for (let i = 0; i < btns.length; i++) {
+            let btn = btns[i];
+            btn.addEventListener("click",function(){
+                let idProduct = btn.parentElement.parentElement.parentElement.getAttribute("data-id");
+                let formData = new FormData();
+                formData.append("idProduct",idProduct);
+                btn.classList.toggle("active");
+                if(btn.classList.contains("active")){
+                    btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                    btn.setAttribute("disabled","disabled");
+                    request(base_url+"/shop/addWishList",formData,"post").then(function(objData){
+                        btn.removeAttribute("disabled");
+                        if(objData.status){
+                            btn.innerHTML = `<i class="fas fa-heart text-danger " title="Add to wishlist"></i>`;
+                        }else{
+                            openLoginModal();
+                            btn.innerHTML = `<i class="far fa-heart" title="Add to wishlist"></i>`;
+                        }
+                    });
+                }else{
+                    btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                    btn.setAttribute("disabled","disabled");
+                    request(base_url+"/shop/delWishList",formData,"post").then(function(objData){
+                        btn.removeAttribute("disabled");
+                        if(objData.status){
+                            btn.innerHTML = `<i class="far fa-heart" title="Add to wishlist"></i>`;
+                        }else{
+                            btn.innerHTML = `<i class="far fa-heart " title="Add to wishlist"></i>`;
+                            openLoginModal();
+                        }
+                    });
+                    
+                }
+            })
+        }
+    }
+}
