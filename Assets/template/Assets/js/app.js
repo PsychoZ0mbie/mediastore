@@ -105,30 +105,10 @@ window.addEventListener("scroll",function(){
     }
 });
 
+
 //filter select
 if(document.querySelector("#selectSort")){
-    let products = document.querySelectorAll(".product-item");
-    let filter = document.querySelectorAll(".filter-price input");
-    let filterInfo = document.querySelector("#filter-price-info");
     let selectSort = document.querySelector("#selectSort");
-    for (let i = 0; i < filter.length; i++) {
-        let range = filter[i];
-        let min = filter[0];
-        let max = filter[1];
-        range.addEventListener("input",function(){
-            filterInfo.innerHTML=`Price: ${MS+min.value+" "+MD} - ${MS+max.value+" "+MD}`;
-            for (let j = 0; j < products.length; j++) {
-                let price = products[j].getAttribute("data-price");
-                if(price >= min.value && price <= max.value){
-                    products[j].classList.remove("d-none");
-                }else{
-                    products[j].classList.add("d-none");
-                    document.querySelector("#results").innerHTML =`Results: (${products.length-document.querySelectorAll(".product-item.d-none").length})`;
-                    document.querySelectorAll(".product-item.d-none").length
-                }
-            }
-        });
-    }
     selectSort.addEventListener("change",function(){
         let value = selectSort.value;
         let url = window.location.href;
@@ -147,6 +127,7 @@ if(document.querySelector("#selectSort")){
             addProductCard();
             quickModal();
             addWishList();
+            filterPrice();
         });
     });
 }
@@ -154,6 +135,7 @@ window.addEventListener("load",function(){
     addProductCard();
     quickModal();
     addWishList();
+    filterPrice();
     /***************************Popup suscribe********************************/
     if(document.querySelector("#modalPoup")){
         setTimeout(function(){
@@ -267,8 +249,9 @@ if(document.querySelector("#product")){
     let decrement = document.querySelector(".decrement");
     let increment = document.querySelector(".increment");
     let cant = document.querySelector(".cant");
-    let viewProductAdd = document.querySelector("#addProduct");
+    let addProduct = document.querySelector("#addProduct");
     let productImages = document.querySelectorAll(".product-image-item");
+
     for (let i = 0; i < productImages.length; i++) {
         let productImage = productImages[i];
         productImage.addEventListener("click",function(e){
@@ -281,29 +264,39 @@ if(document.querySelector("#product")){
             document.querySelector(".product-image img").src = image;
         })
     }
-    viewProductAdd.addEventListener("click",function(){
-        viewProductAdd.setAttribute("disabled",true);
-        viewProductAdd.innerHTML = `
+
+    addProduct.addEventListener("click",function(){
+        let formData = new FormData();
+        let idProduct = addProduct.getAttribute("data-id");
+        formData.append("idProduct",idProduct);
+        formData.append("txtQty",cant.value);
+        addProduct.setAttribute("disabled",true);
+        addProduct.innerHTML = `
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         `;
-        setTimeout(function(){
-            viewProductAdd.innerHTML = `
-            <i class="fas fa-check"></i> Added
-        `;
-        },500);
-        setTimeout(function(){
-            viewProductAdd.removeAttribute("disabled");
-            viewProductAdd.innerHTML = `
-            <i class="fas fa-shopping-cart me-2"></i> Add
-            `;
-        },1000);
+        request(base_url+"/shop/addCart",formData,"post").then(function(objData){
+            
+            if(objData.status){
+                addProduct.innerHTML = `<i class="fas fa-check"></i> Added`;
+                setTimeout(function(){
+                    addProduct.removeAttribute("disabled");
+                    addProduct.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Add`;
+                },1000);
+                document.querySelector("#alert").classList.add("d-none");
+                document.querySelector("#qtyCart").innerHTML=objData.qty;
+            }else{
+                addProduct.removeAttribute("disabled");
+                addProduct.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Add`;
+                document.querySelector("#alert").classList.remove("d-none");
+            }
+        });
         
     });
     cant.addEventListener("change",function(){
         if(cant.value <= 1){
             cant.value = 1;
-        }else if(cant.value >= 99){
-            cant.value = 99;
+        }else if(cant.value >= cant.getAttribute("max")){
+            cant.value = product['stock'];
         }
     })
     decrement.addEventListener("click",function(){
@@ -313,11 +306,12 @@ if(document.querySelector("#product")){
         cant.value--;
     });
     increment.addEventListener("click",function(){
-        if(cant.value>=99){
-            return cant.value=99;
+        if(cant.value>=cant.getAttribute("max")){
+            return cant.value=cant.getAttribute("max");
         }
         cant.value++;
-    })
+    });
+
     let btnPrev = document.querySelector(".slider-btn-left");
     let btnNext = document.querySelector(".slider-btn-right");
     let inner = document.querySelector(".product-image-inner");
@@ -826,7 +820,7 @@ function quickModal(){
                                                 ${price}
                                                 <p class="mb-3" id="description">${product['shortdescription']}</p>
                                                 <p class="m-0">SKU: <strong>${product['reference']}</strong></p>
-                                                <a href="${base_url+"/shop/"+product['routec']}" class="m-0">Category:<strong> ${product['category']}</strong></a>
+                                                <a href="${base_url+"/shop/category/"+product['routec']}" class="m-0">Category:<strong> ${product['category']}</strong></a>
                                                 <div class="mt-4 mb-4 d-flex align-items-center">
                                                     ${btns}
                                                 </div>
@@ -870,11 +864,15 @@ function quickModal(){
                             document.querySelector("#modalItem").innerHTML="";
                         });
             
-                        let decrement = document.querySelector(".decrement");
-                        let increment = document.querySelector(".increment");
-                        let cant = document.querySelector(".cant");
+                        
                         
                         if(document.querySelector("#viewProductAddModal")){
+                            let btnPrev = document.querySelector(".slider-btn-left");
+                            let btnNext = document.querySelector(".slider-btn-right");
+                            let inner = document.querySelector(".product-image-inner");
+                            let decrement = document.querySelector(".decrement");
+                            let increment = document.querySelector(".increment");
+                            let cant = document.querySelector(".cant");
                             let viewProductAdd = document.querySelector("#viewProductAddModal");
                             viewProductAdd.addEventListener("click",function(){
                                 let formData = new FormData();
@@ -903,6 +901,12 @@ function quickModal(){
                                 });
                                 
                             });
+                            btnPrev.addEventListener("click",function(){
+                                inner.scrollBy(-100,0);
+                            })
+                            btnNext.addEventListener("click",function(){
+                                inner.scrollBy(100,0);
+                            })
                             cant.addEventListener("change",function(){
                                 if(cant.value <= 1){
                                     cant.value = 1;
@@ -924,15 +928,8 @@ function quickModal(){
                             });
                         }
                         
-                        let btnPrev = document.querySelector(".slider-btn-left");
-                        let btnNext = document.querySelector(".slider-btn-right");
-                        let inner = document.querySelector(".product-image-inner");
-                        btnPrev.addEventListener("click",function(){
-                            inner.scrollBy(-100,0);
-                        })
-                        btnNext.addEventListener("click",function(){
-                            inner.scrollBy(100,0);
-                        })
+                        
+                        
                         if(document.querySelector(".product-addwishlistModal")){
                             let btn = document.querySelector(".product-addwishlistModal");
                             let formData = new FormData();
@@ -1031,6 +1028,7 @@ function addProductCard(){
                         popup.children[1].children[0].src=url;
                         popup.children[1].children[0].alt=title;
                         popup.children[1].children[1].children[0].innerHTML=title;
+                        popup.children[1].children[1].children[0].setAttribute("href",objData.url);
                         popup.children[1].children[1].children[1].innerHTML=objData.msg;
                         popup.addEventListener("mouseover",function(){
                             window.clearTimeout(timer);
@@ -1044,6 +1042,7 @@ function addProductCard(){
                         popup.children[1].children[0].src=base_url+"/Assets/images/uploads/warning.png";
                         popup.children[1].children[0].alt="error";
                         popup.children[1].children[1].children[0].innerHTML=title;
+                        popup.children[1].children[1].children[0].setAttribute("href",objData.url);
                         popup.children[1].children[1].children[1].innerHTML=`<strong class="text-danger">${objData.msg}</strong>`;
                         popup.addEventListener("mouseover",function(){
                             window.clearTimeout(timer);
@@ -1097,5 +1096,30 @@ function addWishList(){
                 }
             })
         }
+    }
+}
+//Filter price
+function filterPrice(){
+    let filter = document.querySelectorAll(".filter-price input");
+    let filterInfo = document.querySelector("#filter-price-info");
+    let products = document.querySelectorAll(".product-item");
+    for (let i = 0; i < filter.length; i++) {
+        let range = filter[i];
+        let min = filter[0];
+        let max = filter[1];
+        range.addEventListener("input",function(){
+            filterInfo.innerHTML=`Price: ${MS+min.value+" "+MD} - ${MS+max.value+" "+MD}`;
+            for (let j = 0; j < products.length; j++) {
+                let price = products[j].getAttribute("data-price");
+                if(price >= min.value && price <= max.value){
+                    products[j].classList.remove("d-none");
+                }else{
+                    products[j].classList.add("d-none");
+                    if(document.querySelector("#results")){
+                        document.querySelector("#results").innerHTML =`Results: (${products.length-document.querySelectorAll(".product-item.d-none").length})`;
+                    }
+                }
+            }
+        });
     }
 }

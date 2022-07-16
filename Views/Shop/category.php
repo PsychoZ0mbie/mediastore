@@ -42,8 +42,8 @@
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-center text-center mt-3">
-                <a href="cart.html" class="btnc w-50 p-1 btnc-primary me-4">View Cart</a>
-                <a href="checkout.html" class="btnc w-50 p-1 btnc-primary">Checkout</a>
+                <a href="<?=base_url()?>/shop/cart" class="btnc w-50 p-1 btnc-primary me-4">View Cart</a>
+                <a href="<?=base_url()?>/shop/checkout" class="btnc w-50 p-1 btnc-primary">Checkout</a>
             </div>
         </div>
         <div class="container mt-5 mb-3">
@@ -145,12 +145,12 @@
                                     <?php for ($j = 0 ;$j < 3 ; $j++) {
                                         
                                         if(count($popProducts) >= $j+1){
-                                            $price ='<p>'.$popProducts[$index]['price'].'</p>';
+                                            $price ='<p class="fs-6">'.formatNum($popProducts[$index]['price']).'</p>';
                                             $discount="";
                                             $routeP = base_url()."/shop/product/".$popProducts[$i]['route'];
                                             if($popProducts[$index]['status'] == 1 && $popProducts[$index]['stock']>0){
                                                 if($popProducts[$index]['discount']>0){
-                                                    $price = '<p><strong class="text-dark">'.$popProducts[$index]['priceDiscount'].'</strong> <span class="text-decoration-line-through t-p">'.$popProducts[$index]['price'].'</span></p>';
+                                                    $price = '<p class="fs-6"><strong class="text-dark">'.formatNum($popProducts[$index]['priceDiscount']).'</strong> <span class="text-decoration-line-through t-p">'.formatNum($popProducts[$index]['price']).'</span></p>';
                                                     $discount ='<p class="product-discount" style="width=50px;">-'.$popProducts[$index]['discount'].'%</p>';
                                                 }
                                             }else if($popProducts[$index]['status'] == 1 && $popProducts[$index]['stock']==0){
@@ -173,7 +173,7 @@
                                                 <img src="<?=$popProducts[$index]['url']?>" alt="<?=$popProducts[$index]['name']?>">
                                             </div>
                                             <div class="col-8">
-                                                <h3><a href="<?=$routeP?>"><?=$popProducts[$index]['name']?></a></h3>
+                                                <h3 class="fs-6"><a href="<?=$routeP?>"><?=$popProducts[$index]['name']?></a></h3>
                                                 <div class="product-rate text-start">
                                                     <?=$rate?>
                                                 </div>
@@ -232,7 +232,7 @@
                                 $price="";
                             }
                             for ($j=0; $j < 5; $j++) { 
-                                if($products[$i]['rate']!=null && $j >= $products[$i]['rate']){
+                                if($products[$i]['rate']!=null && $j >= intval($products[$i]['rate'])){
                                     $rate.='<i class="far me-1 fa-star"></i>';
                                 }else if($products[$i]['rate']==null){
                                     $rate.='<i class="far me-1 fa-star"></i>';

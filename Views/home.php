@@ -21,8 +21,8 @@
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-center text-center mt-3">
-                <a href="cart.html" class="btnc w-50 p-1 btnc-primary me-4">View Cart</a>
-                <a href="checkout.html" class="btnc w-50 p-1 btnc-primary">Checkout</a>
+                <a href="<?=base_url()?>/shop/cart" class="btnc w-50 p-1 btnc-primary me-4">View Cart</a>
+                <a href="<?=base_url()?>/shop/checkout" class="btnc w-50 p-1 btnc-primary">Checkout</a>
             </div>
         </div>
         <section>
@@ -124,7 +124,7 @@
                             $price="";
                         }
                         for ($j=0; $j < 5; $j++) { 
-                            if($products[$i]['rate']!=null && $j >= $products[$i]['rate']){
+                            if($products[$i]['rate']!=null && $j >= intval($products[$i]['rate'])){
                                 $rate.='<i class="far me-1 fa-star"></i>';
                             }else if($products[$i]['rate']==null){
                                 $rate.='<i class="far me-1 fa-star"></i>';
@@ -217,7 +217,7 @@
                             $price="";
                         }
                         for ($j=0; $j < 5; $j++) { 
-                            if($j >= $popProducts[$i]['rate']){
+                            if($j >= intval($popProducts[$i]['rate'])){
                                 
                                 $rate.='<i class="far me-1 fa-star"></i>';
                             }else{

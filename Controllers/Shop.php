@@ -4,8 +4,9 @@
     require_once("Models/CategoryTrait.php");
     require_once("Models/CustomerTrait.php");
     require_once("Models/LoginModel.php");
+    require_once("Models/ReviewTrait.php");
     class Shop extends Controllers{
-        use ProductTrait, CategoryTrait, CustomerTrait;
+        use ProductTrait, CategoryTrait, CustomerTrait, ReviewTrait;
         private $login;
         public function __construct(){
             session_start();
@@ -22,14 +23,48 @@
             $data['popProducts'] = $this->getPopularProductsT(9);
             $this->views->getView($this,"shop",$data);
         }
+        public function category($params){
+            $arrParams = explode(",",$params);
+            $category="";
+            $subcategory="";
+
+            if(count($arrParams)>1){
+                $category = strClean($arrParams[0]);
+                $subcategory = strClean($arrParams[1]);
+            }else{
+                $category = strClean($arrParams[0]);
+            }
+            
+            $data['page_tag'] = NOMBRE_EMPRESA;
+            $data['page_title'] = NOMBRE_EMPRESA." | Shop";
+            $data['page_name'] = "shop";
+            $data['categories'] = $this->getCategoriesT();
+            $data['routec'] = $category;
+            $data['routes'] = $subcategory;
+            $data['total'] = $this->getTotalProductsT($category,$subcategory);
+            $data['products'] = $this->getProductsCategoryT($category,$subcategory);
+            $data['popProducts'] = $this->getPopularProductsT(9);
+            $this->views->getView($this,"category",$data);
+        }
+        public function product($params){
+            $params = strClean($params);
+            $data['page_tag'] = NOMBRE_EMPRESA;
+            $data['page_title'] = NOMBRE_EMPRESA." | Shop";
+            $data['page_name'] = "product";
+            $data['product'] = $this->getProductPageT($params);
+            $data['review'] = $this->getRate($data['product']['idproduct']);
+            $data['products'] = $this->getProductsRandT(4);
+            $this->views->getView($this,"product",$data); 
+        }
+        
         public function getProductSort($params){
             $arrParams = explode(",",$params);
             $category="";
             $subcategory="";
             $option =0;
             $html="";
-            
-            if(is_numeric($arrParams[0])){  
+            //dep($arrParams);exit;
+            if(is_numeric($arrParams[0])==1){  
                 $option = $arrParams[0];
                 $request = $this->getProductSortT($category,$subcategory,$option);
             }else{
@@ -45,6 +80,7 @@
                     $request = $this->getProductSortT($category,$subcategory,$option);
                 }
             }
+            //dep($request);exit;
             for ($i=0; $i < count($request) ; $i++) { 
                 $idProduct = openssl_encrypt($request[$i]['idproduct'],METHOD,KEY);
                 $favorite = '';
@@ -72,7 +108,7 @@
                     $price="";
                 }
                 for ($j=0; $j < 5; $j++) { 
-                    if($request[$i]['rate']!=null && $j >= $request[$i]['rate']){
+                    if($request[$i]['rate']!=null && $j >= intval($request[$i]['rate'])){
                         $rate.='<i class="far me-1 fa-star"></i>';
                     }else if($request[$i]['rate']==null){
                         $rate.='<i class="far me-1 fa-star"></i>';
@@ -109,29 +145,6 @@
             echo json_encode($html,JSON_UNESCAPED_UNICODE);
             die();
         }
-        public function category($params){
-            $arrParams = explode(",",$params);
-            $category="";
-            $subcategory="";
-
-            if(count($arrParams)>1){
-                $category = strClean($arrParams[0]);
-                $subcategory = strClean($arrParams[1]);
-            }else{
-                $category = strClean($arrParams[0]);
-            }
-            
-            $data['page_tag'] = NOMBRE_EMPRESA;
-            $data['page_title'] = NOMBRE_EMPRESA." | Shop";
-            $data['page_name'] = "shop";
-            $data['categories'] = $this->getCategoriesT();
-            $data['routec'] = $category;
-            $data['routes'] = $subcategory;
-            $data['total'] = $this->getTotalProductsT($category,$subcategory);
-            $data['products'] = $this->getProductsCategoryT($category,$subcategory);
-            $data['popProducts'] = $this->getPopularProductsT(9);
-            $this->views->getView($this,"category",$data);
-        }
         public function addCart(){
             //dep($_POST);exit;
             //unset($_SESSION['arrCart']);exit;
@@ -163,7 +176,7 @@
                                     $arrCart[$i]['qty']+= $qty;
                                     if($arrCart[$i]['qty'] > $request['stock']){
                                         $arrCart[$i]['qty'] = $currentQty;
-                                        $arrResponse = array("status"=>false,"msg"=>"Not enough units");
+                                        $arrResponse = array("status"=>false,"msg"=>"Not enough units","url"=>$arrProduct['url']);
                                         $flag = false;
                                         break;
                                     }else{
@@ -171,7 +184,7 @@
                                         foreach ($_SESSION['arrCart'] as $quantity) {
                                             $qtyCart += $quantity['qty'];
                                         }
-                                        $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart);
+                                        $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart,"url"=>$arrProduct['url']);
                                     }
                                     $flag =false;
                                     break;
@@ -179,7 +192,7 @@
                             }
                             if($flag){
                                 if($qty > $request['stock']){
-                                    $arrResponse = array("status"=>false,"msg"=>"Not enough units");
+                                    $arrResponse = array("status"=>false,"msg"=>"Not enough units","url"=>$arrProduct['url']);
                                     $_SESSION['arrCart'] = $arrCart;
                                 }else{
                                     array_push($arrCart,$arrProduct);
@@ -187,19 +200,19 @@
                                     foreach ($_SESSION['arrCart'] as $quantity) {
                                         $qtyCart += $quantity['qty'];
                                     }
-                                    $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart);
+                                    $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart,"url"=>$arrProduct['url']);
                                 }
                             }
                         }else{
                             if($qty > $request['stock']){
-                                $arrResponse = array("status"=>false,"msg"=>"Not enough units");
+                                $arrResponse = array("status"=>false,"msg"=>"Not enough units","url"=>$arrProduct['url']);
                             }else{
                                 array_push($arrCart,$arrProduct);
                                 $_SESSION['arrCart'] = $arrCart;
                                 foreach ($_SESSION['arrCart'] as $quantity) {
                                     $qtyCart += $quantity['qty'];
                                 }
-                                $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart);
+                                $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart,"url"=>$arrProduct['url']);
                             } 
                         }
                     }else{
@@ -404,5 +417,6 @@
 			}
 			die();
 		}
+        
     }
 ?>

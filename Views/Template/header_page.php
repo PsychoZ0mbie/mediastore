@@ -123,8 +123,8 @@
                 </div>
                 <p class="t-p " id="total"><strong>Total: <?=formatNum($total)?></strong></p>
                 <div>
-                    <a href="cart.html" class="btn w-100 btnc-primary mb-2">View Cart</a>
-                    <a href="checkout.html" class="btn w-100 btnc-primary">Checkout</a>
+                    <a href="<?=base_url()?>/shop/cart" class="btn w-100 btnc-primary mb-2">View Cart</a>
+                    <a href="<?=base_url()?>/shop/checkout" class="btn w-100 btnc-primary">Checkout</a>
                 </div>
             </div>
         </div>
