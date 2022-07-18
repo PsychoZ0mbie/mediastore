@@ -222,7 +222,7 @@
             FROM product p
             INNER JOIN category c, subcategory s
             WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory $option
-            ORDER BY p.idproduct DESC
+            ORDER BY p.idproduct DESC limit 10
             ";
             $request = $this->con->select_all($sql);
             if(count($request)> 0){

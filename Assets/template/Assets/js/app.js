@@ -595,10 +595,28 @@ if(document.querySelector("#recovery")){
         });
     });
 }
+if(document.querySelector(".pagination")){
+    pagination(100,3,1);
 
+    let prev = document.querySelector(".pagination-prev");
+    let next = document.querySelector(".pagination-next");
+    let pageVal = 1;
+
+    prev.addEventListener("click",function(){
+        if(pageVal <= 1){
+            pageVal = 1;
+        }else{
+            pageVal = document.querySelector(".page.active").getAttribute("data-page");
+            pagination(100,3,--pageVal);
+        }
+    });
+    next.addEventListener("click",function(){
+        pageVal = document.querySelector(".page.active").getAttribute("data-page");
+        pagination(100,3,++pageVal);
+    });
+}
 
 /***************************Essentials Functions****************************** */
-//login modal
 function openLoginModal(){
     let modalItem = document.querySelector("#modalLogin");
     let modal="";
@@ -866,7 +884,6 @@ function openLoginModal(){
         });
     });
 }
-//Quick view modal
 function quickModal(){
     if(document.querySelectorAll(".product-btns .quickView")){
         let btns = document.querySelectorAll(".product-btns .quickView");
@@ -1144,7 +1161,6 @@ function quickModal(){
         } 
     }
 }
-//Add product card button
 function addProductCard(){
     if(document.querySelectorAll(".product-card-add")){
         let btnAddCart = document.querySelectorAll(".product-card-add");
@@ -1213,7 +1229,6 @@ function addProductCard(){
         }
     }
 }
-//add to wishlist
 function addWishList(){
     if(document.querySelectorAll(".product-btns .addWishList")){
         let btns = document.querySelectorAll(".product-btns .addWishList");
@@ -1254,7 +1269,6 @@ function addWishList(){
         }
     }
 }
-//Filter price
 function filterPrice(){
     let filter = document.querySelectorAll(".filter-price input");
     let filterInfo = document.querySelector("#filter-price-info");
@@ -1357,3 +1371,27 @@ function deleteReview(id){
         }
     });
 }
+function pagination(total,max,current){
+
+    let half = Math.round(max/2);
+    let to = max;
+
+    if(current + half >= total){
+        to = total;
+    }else if(current > half){
+        to = current+half;
+    }
+    let from = to - max;
+    let arrPage = Array.from({length:max},(v,i)=>(i+1)+from)
+    let html="";
+    for (let i = 0; i < arrPage.length; i++) {
+        if(arrPage[i]==current){
+            html+=` <li class="page active" data-page="${arrPage[i]}" onclick="pagination(100,3,${arrPage[i]})">${arrPage[i]}</li>`; 
+        }else{
+            html+=` <li class="page" data-page="${arrPage[i]}" onclick="pagination(100,3,${arrPage[i]})">${arrPage[i]}</li>`; 
+        }
+    }
+    let pages = document.querySelector(".pagination-pag ul");
+    pages.innerHTML = html;
+}
+

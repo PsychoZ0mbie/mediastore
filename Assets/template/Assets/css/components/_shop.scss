@@ -142,20 +142,21 @@
         margin: 0;
         li{
             cursor: pointer;
+            width: 40px;
+            text-align: center;
             margin: 0 5px;
-            padding: 5px 15px;
+            padding: 5px 10px;
             border: 1px solid $first-color;
             border-radius: 50%;
-            a{
-                text-decoration: none;
-                color:#000;
-            }
+            color:#000;
             &:hover{
                 background-color: $first-color;
-                a{
-                    color:$third-color;
-                }
+                color:$third-color;
             }
+        }
+        li.active{
+            background-color: $first-color;
+            color:$third-color;
         }
     }
 }
