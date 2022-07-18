@@ -132,7 +132,7 @@
                             <div class="featured-container-items">
                                 <?php 
                                 $index = 0;
-                                $rate="";
+                                
                                 $column=round(count($popProducts)/3);
                                 
                                 if($column ==0){
@@ -143,15 +143,16 @@
                                 ?>  
                                 <div class="featured-items">
                                     <?php for ($j = 0 ;$j < 3 ; $j++) {
-                                        
-                                        if(count($popProducts) >= $j+1){
-                                            $price ='<p class="fs-6">'.formatNum($popProducts[$index]['price']).'</p>';
+                                        if(count($popProducts) > $index){
+                                            
+                                            $price ='<p class="fs-6 text-dark"><strong>'.formatNum($popProducts[$index]['price']).'</strong></p>';
                                             $discount="";
-                                            $routeP = base_url()."/shop/product/".$popProducts[$i]['route'];
+                                            $rate="";
+                                            $routeP = base_url()."/shop/product/".$popProducts[$index]['route'];
                                             if($popProducts[$index]['status'] == 1 && $popProducts[$index]['stock']>0){
                                                 if($popProducts[$index]['discount']>0){
                                                     $price = '<p class="fs-6"><strong class="text-dark">'.formatNum($popProducts[$index]['priceDiscount']).'</strong> <span class="text-decoration-line-through t-p">'.formatNum($popProducts[$index]['price']).'</span></p>';
-                                                    $discount ='<p class="product-discount" style="width=50px;">-'.$popProducts[$index]['discount'].'%</p>';
+                                                    $discount ='<p class="position-absolute top-0 start-0 border border-primary t-p pe-1 ps-1 fw-bold bg-white">-'.$popProducts[$index]['discount'].'%</p>';
                                                 }
                                             }else if($popProducts[$index]['status'] == 1 && $popProducts[$index]['stock']==0){
                                                 $price='<p class="text-danger">Sold out</p>';
@@ -159,20 +160,21 @@
                                                 $price="";
                                             }
                                             for ($k=0; $k < 5; $k++) { 
-                                                if($k >= $popProducts[$index]['rate']){
+                                                if($k >= intval($popProducts[$index]['rate'])){
+                                                    
                                                     $rate.='<i class="far me-1 fa-star"></i>';
                                                 }else{
                                                     $rate.='<i class="fas me-1 fa-star"></i>';
                                                 }
-                                            } 
+                                            }
                                     ?>
                                     <div class="featured-item">
                                         <div class="row position-relative">
-                                            <div class="col-4">
+                                            <div class="col-4 position-relative h-100">
                                                 <?=$discount?>
                                                 <img src="<?=$popProducts[$index]['url']?>" alt="<?=$popProducts[$index]['name']?>">
                                             </div>
-                                            <div class="col-8">
+                                            <div class="col-8 h-100">
                                                 <h3 class="fs-6"><a href="<?=$routeP?>"><?=$popProducts[$index]['name']?></a></h3>
                                                 <div class="product-rate text-start">
                                                     <?=$rate?>

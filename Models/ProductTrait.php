@@ -309,7 +309,7 @@
                 s.name as subcategory,
                 s.route as routes
             FROM product p
-            INNER JOIN category c, subcategory s, productrate r
+            INNER JOIN category c, subcategory s
             WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory $option";
             
             
@@ -374,13 +374,11 @@
                 s.idsubcategory,
                 s.categoryid,
                 s.name as subcategory,
-                r.productid,
-                AVG(r.rate) as rate
+                r.productid
             FROM product p
             INNER JOIN category c, subcategory s, productrate r
-            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND r.productid=p.idproduct
-            HAVING AVG(r.rate) >= 4
-            ORDER BY p.idproduct DESC $cant
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND r.productid = p.idproduct
+            ORDER BY r.rate DESC $cant
             ";
             //dep($sql);exit;
             $request = $this->con->select_all($sql);

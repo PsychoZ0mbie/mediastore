@@ -53,10 +53,10 @@
             $data['page_name'] = "product";
             $data['product'] = $this->getProductPageT($params);
             $data['review'] = $this->getRate($data['product']['idproduct']);
+            $data['reviews'] = $this->getReviewsT($data['product']['idproduct'],"");
             $data['products'] = $this->getProductsRandT(4);
             $this->views->getView($this,"product",$data); 
         }
-        
         public function getProductSort($params){
             $arrParams = explode(",",$params);
             $category="";
@@ -417,6 +417,252 @@
 			}
 			die();
 		}
-        
+        public function setReview(){
+            if($_POST){
+                $idReview = intval($_POST['idReview']);
+                if($idReview>0){
+                    if(empty($_POST['intRate']) || empty($_POST['txtReview']) || empty($_POST['idProduct'])){
+                        $arrResponse = array("status"=>false,"msg"=>"Please rate it and write your review.");
+                        echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                    }else{
+                        $this->updateReview(); 
+                    }
+                    
+                }else{
+                    if(!isset($_SESSION['login'])){
+                        $arrResponse = array("login"=>false,"msg"=>"Please login to share you review.");
+                    }else{
+                        $idUser = $_SESSION['idUser'];
+                        $idProduct = intval(openssl_decrypt($_POST['idProduct'],METHOD,KEY));
+                        $intRate = intval($_POST['intRate']);
+                        $strReview = strClean($_POST['txtReview']);
+                        $request = $this->setReviewT($idProduct,$idUser,$strReview,$intRate);
+                        //dep($request);exit;
+                        if($request>1){
+                            $reviews = $this->getReviewsT($idProduct,"");
+                            $rate = $this->getRate($idProduct);
+                            $html="";
+                            for ($i=0; $i < count($reviews); $i++) { 
+    
+                                $image = media()."/images/uploads/".$reviews[$i]['image'];
+                                $name = $reviews[$i]['firstname']." ".$reviews[$i]['lastname'];
+                                $rateComment ="";
+                                $options="";
+                                if($_SESSION['idUser'] == $reviews[$i]['personid']){
+                                    $options='<a href="#formReview" data-id="'.$reviews[$i]['id'].'" onclick="editReview('.$reviews[$i]['id'].')" title="edit" class="btn text-dark editComment"><i class="fas fa-pen"></i></a>
+                                    <button type="button" class="btn text-dark" onclick="deleteReview('.$reviews[$i]['id'].')" title="delete"><i class="fas fa-trash"></i></button>';
+                                }
+                                for ($j = 0; $j < 5; $j++) {
+                                    if($j >= intval($reviews[$i]['rate'])){
+                                        $rateComment.='<i class="far fa-star"></i>';
+                                    }else{
+                                        $rateComment.='<i class="fas fa-star"></i>';
+                                    }
+                                }
+    
+                                $html.='
+                                <li class="comment-block" data-name="'.$name.'">
+                                    <div class="comment-img">
+                                        <img src="'.$image.'?>" alt="'.$name.'">
+                                        <div class="product-rate text-center mt-2 mb-2">'.$rateComment.'</div>
+                                        <p class="text-center fw-bold">'.$reviews[$i]['date'].'</p>
+                                    </div>
+                                    <div class="comment-feedb">
+                                        <p>'.$reviews[$i]['description'].'</p>
+                                        <div class="d-flex justify-content-between flex-wrap">
+                                            <h3>'.$name.'</h3>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                '.$options.'
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                ';
+                            }
+                            $arrResponse = array("status"=>true,"msg"=>"Your review has been shared.","html"=>$html,"rate"=>$rate);
+                        }else if(is_array($request)){
+                            $arrResponse = array("status"=>false,"msg"=>"You have already shared your review before. Edit it if you want.","id"=>$request['id']);
+                        }else{
+                            $arrResponse = array("status"=>false,"msg"=>"Error, try again.");
+                        }
+                    }
+                    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                }
+            }
+            die();
+        }
+        public function updateReview(){
+            if($_POST){
+                if(empty($_POST['intRate']) || empty($_POST['txtReview']) || empty($_POST['idProduct']) || empty($_POST['idReview'])){
+                    $arrResponse = array("status"=>false,"msg"=>"Please rate it and write your review.");
+                }else if(!isset($_SESSION['login'])){
+                    $arrResponse = array("login"=>false,"msg"=>"Please login to share you review.");
+                }else{
+                    $idUser = $_SESSION['idUser'];
+                    $idReview = intval($_POST['idReview']);
+                    $idProduct = intval(openssl_decrypt($_POST['idProduct'],METHOD,KEY));
+                    $intRate = intval($_POST['intRate']);
+                    $strReview = strClean($_POST['txtReview']);
+
+                    $request = $this->updateReviewT($idReview,$idProduct,$idUser,$strReview,$intRate);
+                    if($request>0){
+                        $reviews = $this->getReviewsT($idProduct,"");
+                        $rate = $this->getRate($idProduct);
+                        $html="";
+                        for ($i=0; $i < count($reviews); $i++) { 
+
+                            $image = media()."/images/uploads/".$reviews[$i]['image'];
+                            $name = $reviews[$i]['firstname']." ".$reviews[$i]['lastname'];
+                            $rateComment ="";
+                            $options="";
+                            if($_SESSION['idUser'] == $reviews[$i]['personid']){
+                                $options='<a href="#formReview" data-id="'.$reviews[$i]['id'].'" onclick="editReview('.$reviews[$i]['id'].')" title="edit" class="btn text-dark editComment"><i class="fas fa-pen"></i></a>
+                                <button type="button" class="btn text-dark" onclick="deleteReview('.$reviews[$i]['id'].')" title="delete"><i class="fas fa-trash"></i></button>';
+                            }
+                            for ($j = 0; $j < 5; $j++) {
+                                if($j >= intval($reviews[$i]['rate'])){
+                                    $rateComment.='<i class="far fa-star"></i>';
+                                }else{
+                                    $rateComment.='<i class="fas fa-star"></i>';
+                                }
+                            }
+
+                            $html.='
+                            <li class="comment-block" data-name="'.$name.'">
+                                <div class="comment-img">
+                                    <img src="'.$image.'?>" alt="'.$name.'">
+                                    <div class="product-rate text-center mt-2 mb-2">'.$rateComment.'</div>
+                                    <p class="text-center fw-bold">'.$reviews[$i]['date'].'</p>
+                                </div>
+                                <div class="comment-feedb">
+                                    <p>'.$reviews[$i]['description'].'</p>
+                                    <div class="d-flex justify-content-between flex-wrap">
+                                        <h3>'.$name.'</h3>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            '.$options.'
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            ';
+                        }
+                        $arrResponse = array("status"=>true,"msg"=>"Your review has been updated.","html"=>$html,"rate"=>$rate);
+                    }else{
+                        $arrResponse = array("status"=>false,"msg"=>"Error, try again.");
+                    }
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+        public function delReview(){
+            if($_POST){
+                $id = intval($_POST['idReview']);
+                $idProduct = intval(openssl_decrypt($_POST['idProduct'],METHOD,KEY));
+                $request = $this->deleteReviewT($id); 
+                $reviews = $this->getReviewsT($idProduct,"");
+                $rate = $this->getRate($idProduct);
+                $html="";
+                for ($i=0; $i < count($reviews); $i++) { 
+
+                    $image = media()."/images/uploads/".$reviews[$i]['image'];
+                    $name = $reviews[$i]['firstname']." ".$reviews[$i]['lastname'];
+                    $rateComment ="";
+                    $options="";
+                    if($_SESSION['idUser'] == $reviews[$i]['personid']){
+                        $options='<a href="#formReview" data-id="'.$reviews[$i]['id'].'" onclick="editReview('.$reviews[$i]['id'].')" title="edit" class="btn text-dark editComment"><i class="fas fa-pen"></i></a>
+                        <button type="button" class="btn text-dark" onclick="deleteReview('.$reviews[$i]['id'].')" title="delete"><i class="fas fa-trash"></i></button>';
+                    }
+                    for ($j = 0; $j < 5; $j++) {
+                        if($j >= intval($reviews[$i]['rate'])){
+                            $rateComment.='<i class="far fa-star"></i>';
+                        }else{
+                            $rateComment.='<i class="fas fa-star"></i>';
+                        }
+                    }
+
+                    $html.='
+                    <li class="comment-block" data-name="'.$name.'">
+                        <div class="comment-img">
+                            <img src="'.$image.'?>" alt="'.$name.'">
+                            <div class="product-rate text-center mt-2 mb-2">'.$rateComment.'</div>
+                            <p class="text-center fw-bold">'.$reviews[$i]['date'].'</p>
+                        </div>
+                        <div class="comment-feedb">
+                            <p>'.$reviews[$i]['description'].'</p>
+                            <div class="d-flex justify-content-between flex-wrap">
+                                <h3>'.$name.'</h3>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    '.$options.'
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    ';
+                }
+                $arrResponse = array("status"=>true,"msg"=>"Review has been deleted.","html"=>$html,"rate"=>$rate);
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function getReview(){
+            if($_POST){
+                $idReview = intval($_POST['idReview']);
+                $request = $this->getReviewT($idReview);
+                echo json_encode($request,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+        public function sortReviews(){
+            if($_POST){
+                
+                $idProduct = intval(openssl_decrypt($_POST['idProduct'],METHOD,KEY));
+                $option = intval($_POST['intSort']);
+                $reviews = $this->getReviewsT($idProduct,$option);
+                $rate = $this->getRate($idProduct);
+                $html="";
+
+                for ($i=0; $i < count($reviews); $i++) { 
+
+                    $image = media()."/images/uploads/".$reviews[$i]['image'];
+                    $name = $reviews[$i]['firstname']." ".$reviews[$i]['lastname'];
+                    $rateComment ="";
+                    $options="";
+                    if($_SESSION['idUser'] == $reviews[$i]['personid']){
+                        $options='<a href="#formReview" data-id="'.$reviews[$i]['id'].'" onclick="editReview('.$reviews[$i]['id'].')" title="edit" class="btn text-dark editComment"><i class="fas fa-pen"></i></a>
+                        <button type="button" class="btn text-dark" onclick="deleteReview('.$reviews[$i]['id'].')" title="delete"><i class="fas fa-trash"></i></button>';
+                    }
+                    for ($j = 0; $j < 5; $j++) {
+                        if($j >= intval($reviews[$i]['rate'])){
+                            $rateComment.='<i class="far fa-star"></i>';
+                        }else{
+                            $rateComment.='<i class="fas fa-star"></i>';
+                        }
+                    }
+
+                    $html.='
+                    <li class="comment-block" data-name="'.$name.'">
+                        <div class="comment-img">
+                            <img src="'.$image.'?>" alt="'.$name.'">
+                            <div class="product-rate text-center mt-2 mb-2">'.$rateComment.'</div>
+                            <p class="text-center fw-bold">'.$reviews[$i]['date'].'</p>
+                        </div>
+                        <div class="comment-feedb">
+                            <p>'.$reviews[$i]['description'].'</p>
+                            <div class="d-flex justify-content-between flex-wrap">
+                                <h3>'.$name.'</h3>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    '.$options.'
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    ';
+                }
+                $arrResponse = array("status"=>true,"msg"=>"Review has been deleted.","html"=>$html,"rate"=>$rate);
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();  
+        }
     }
 ?>

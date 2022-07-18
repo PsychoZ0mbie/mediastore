@@ -191,37 +191,41 @@
                 <div class="row mt-5">
                 <?php
                     for ($i=0; $i < count($popProducts) ; $i++) { 
-                        $idProduct = openssl_encrypt($popProducts[$i]['idproduct'],METHOD,KEY);
-                        $favorite = '';
-                        $routeP = base_url()."/shop/product/".$popProducts[$i]['route'];
-                        $routeC = base_url()."/shop/category/".$popProducts[$i]['routec'];
-                        $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($popProducts[$i]['price']).'</strong></p>';
-                        $btnAdd ='<button type="button" class="btn btn-primary product-card-add">Add to cart</a>';
-                        $discount="";
-                        $rate="";
-                        if($popProducts[$i]['favorite']== 0){
-                            $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
+                        if($popProducts[$i]['rate']<4){
+                            continue;
                         }else{
-                            $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
-                        }
-                        if($popProducts[$i]['status'] == 1 && $popProducts[$i]['stock']>0){
-                            if($popProducts[$i]['discount']>0){
-                                $price = '<p class="m-0 fs-5 product-price"><strong>'.formatNum($popProducts[$i]['priceDiscount']).'</strong><span>'.formatNum($popProducts[$i]['price']).'</span></p>';
-                                $discount ='<p class="product-discount">-'.$popProducts[$i]['discount'].'%</p>';
-                            }
-                        }else if($popProducts[$i]['status'] == 1 && $popProducts[$i]['stock']==0){
-                            $btnAdd="";
-                            $price='<p class="m-0 fs-5 product-price text-danger">Sold out</p>';
-                        }else{
-                            $btnAdd ="";
-                            $price="";
-                        }
-                        for ($j=0; $j < 5; $j++) { 
-                            if($j >= intval($popProducts[$i]['rate'])){
-                                
-                                $rate.='<i class="far me-1 fa-star"></i>';
+                            $idProduct = openssl_encrypt($popProducts[$i]['idproduct'],METHOD,KEY);
+                            $favorite = '';
+                            $routeP = base_url()."/shop/product/".$popProducts[$i]['route'];
+                            $routeC = base_url()."/shop/category/".$popProducts[$i]['routec'];
+                            $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($popProducts[$i]['price']).'</strong></p>';
+                            $btnAdd ='<button type="button" class="btn btn-primary product-card-add">Add to cart</a>';
+                            $discount="";
+                            $rate="";
+                            if($popProducts[$i]['favorite']== 0){
+                                $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
                             }else{
-                                $rate.='<i class="fas me-1 fa-star"></i>';
+                                $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
+                            }
+                            if($popProducts[$i]['status'] == 1 && $popProducts[$i]['stock']>0){
+                                if($popProducts[$i]['discount']>0){
+                                    $price = '<p class="m-0 fs-5 product-price"><strong>'.formatNum($popProducts[$i]['priceDiscount']).'</strong><span>'.formatNum($popProducts[$i]['price']).'</span></p>';
+                                    $discount ='<p class="product-discount">-'.$popProducts[$i]['discount'].'%</p>';
+                                }
+                            }else if($popProducts[$i]['status'] == 1 && $popProducts[$i]['stock']==0){
+                                $btnAdd="";
+                                $price='<p class="m-0 fs-5 product-price text-danger">Sold out</p>';
+                            }else{
+                                $btnAdd ="";
+                                $price="";
+                            }
+                            for ($j=0; $j < 5; $j++) { 
+                                if($j >= intval($popProducts[$i]['rate'])){
+                                    
+                                    $rate.='<i class="far me-1 fa-star"></i>';
+                                }else{
+                                    $rate.='<i class="fas me-1 fa-star"></i>';
+                                }
                             }
                         }
                 ?> 
