@@ -2,6 +2,7 @@
     headerPage($data);
     $categories = $data['categories'];
     $products = $data['products'];
+    //dep($products);exit;
     $category = $data['routec'];
     $subcategory = $data['routes'];
     $totalProducts = $data['total']['total'];
@@ -53,7 +54,7 @@
                   <?=$breadcrumb?>
                 </ol>
             </nav>
-            <div class="row">
+            <div class="row" >
                 <div class="col-lg-3">
                     <aside class="filter-options p-2">
                         <div class="accordion accordion-flush" id="accordionFlushCategories">
@@ -120,7 +121,7 @@
                               </div>
                             </div>
                         </div>
-                        <?php if(count($popProducts)>0){?>
+                        <?php if(!empty($popProducts)>0){?>
                         <div class="featured">
                             <div class="featured-info">
                                 <h2 class="fs-5"><strong>Featured</strong></h2>
@@ -198,13 +199,13 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <label for="selectSort" class="form-label m-0 me-4">Sort by:</label>
                             <select class="form-select w-50" aria-label="Default select example" id="selectSort">
-                                <option value="1">Default sorting</option>
-                                <option value="2">Sort by price hight to low</option>
-                                <option value="3">Sort by price low to hight</option>
+                                <option selected>Sort by</option>
+                                <option value="1">Most relevant</option>
+                                <option value="2">Price hight to low</option>
+                                <option value="3">Price low to hight</option>
                             </select>
                         </div>
                     </div>
-                    <div class="mt-3" id="results">Results: (<?=$totalProducts?>)</div>
                     <div class="row mt-5" id="productItems">
                         <?php
                         for ($i=0; $i < count($products) ; $i++) { 
@@ -269,15 +270,17 @@
                     <?php  }?>
                     </div>
                     <div class="pagination">
+                        <div class="pagination-btn pagination-start" onclick="pagination(<?=$data['products']['total']?>,3,1)"><i class="fas fa-angle-double-left"></i></div>
                         <div class="pagination-btn pagination-prev"><i class="fas fa-angle-left"></i></div>
                         <div class="pagination-pag">
                             <ul>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
+                                <li class="page active"><a href="#">1</a></li>
+                                <li class="page"><a href="#">2</a></li>
+                                <li class="page"><a href="#">3</a></li>
                             </ul>
                         </div>
                         <div class="pagination-btn pagination-next"><i class="fas fa-angle-right"></i></div>
+                        <div class="pagination-btn pagination-end" onclick="pagination(<?=$data['products']['total']?>,3,<?=$data['products']['total']?>)"><i class="fas fa-angle-double-right"></i></div>
                     </div>
                 </div>
             </div>

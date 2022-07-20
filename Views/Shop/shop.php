@@ -179,9 +179,10 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <label for="selectSort" class="form-label m-0 me-4">Sort by:</label>
                             <select class="form-select w-50" aria-label="Default select example" id="selectSort">
-                                <option value="1">Default sorting</option>
-                                <option value="2">Sort by price hight to low</option>
-                                <option value="3">Sort by price low to hight</option>
+                                <option selected>Sort by</option>
+                                <option value="1">Most relevant</option>
+                                <option value="2">Price hight to low</option>
+                                <option value="3">Price low to hight</option>
                             </select>
                         </div>
                     </div>
@@ -223,7 +224,7 @@
                                 }
                             }
                     ?> 
-                    <div class="col-lg-4 col-md-6 product-item" data-id="<?=$idProduct?>" data-price="<?=$products[$i]['price']?>" data-rate="<?=$products[$i]['rate']?>">
+                    <div class="col-lg-4 col-md-6 product-item" data-id="<?=$idProduct?>" data-price="<?=$products[$i]['price']?>" data-rate="<?=$products[$i]['rate'] > 0 ? $products[$i]['rate'] : 0?>">
                         <div class="product-card">
                             <?=$discount?>
                             <div class="product-img">
@@ -249,17 +250,15 @@
                     <?php  }?>
                     </div>
                     <div class="pagination">
-                        <div class="pagination-btn pagination-start" onclick="pagination(100,3,1)"><i class="fas fa-angle-double-left"></i></div>
+                        <div class="pagination-btn pagination-start"><i class="fas fa-angle-double-left"></i></div>
                         <div class="pagination-btn pagination-prev"><i class="fas fa-angle-left"></i></div>
                         <div class="pagination-pag">
                             <ul>
-                                <li class="page active">1</li>
-                                <li class="page">2</li>
-                                <li class="page">3</li>
+                                
                             </ul>
                         </div>
                         <div class="pagination-btn pagination-next"><i class="fas fa-angle-right"></i></div>
-                        <div class="pagination-btn pagination-end" onclick="pagination(100,3,100)"><i class="fas fa-angle-double-right"></i></div>
+                        <div class="pagination-btn pagination-end"><i class="fas fa-angle-double-right"></i></div>
                     </div>
                 </div>
             </div>

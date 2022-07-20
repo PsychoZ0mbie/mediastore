@@ -37,21 +37,22 @@
             
             $data['page_tag'] = NOMBRE_EMPRESA;
             $data['page_title'] = NOMBRE_EMPRESA." | Shop";
-            $data['page_name'] = "shop";
+            $data['page_name'] = "category";
             $data['categories'] = $this->getCategoriesT();
             $data['routec'] = $category;
             $data['routes'] = $subcategory;
             $data['total'] = $this->getTotalProductsT($category,$subcategory);
-            $data['products'] = $this->getProductsCategoryT($category,$subcategory);
+            $data['products'] = $this->getProductsCategoryT($category,$subcategory,1);
             $data['popProducts'] = $this->getPopularProductsT(9);
             $this->views->getView($this,"category",$data);
         }
         public function product($params){
+
             $params = strClean($params);
             $data['page_tag'] = NOMBRE_EMPRESA;
             $data['page_title'] = NOMBRE_EMPRESA." | Shop";
             $data['page_name'] = "product";
-            $data['product'] = $this->getProductPageT($params);
+            $data['product'] = $this->getProductT($params);
             $data['review'] = $this->getRate($data['product']['idproduct']);
             $data['reviews'] = $this->getReviewsT($data['product']['idproduct'],"");
             $data['products'] = $this->getProductsRandT(4);
@@ -66,41 +67,40 @@
             //dep($arrParams);exit;
             if(is_numeric($arrParams[0])==1){  
                 $option = $arrParams[0];
-                $request = $this->getProductSortT($category,$subcategory,$option);
+                $request = $this->getProductSortT($category,$subcategory,$option,$arrParams[1]);
             }else{
                 if(count($arrParams)==3){
                     $category = strClean($arrParams[0]);
                     $subcategory = strClean($arrParams[1]);
                     $option = $arrParams[2];
-                    //dep($arrParams);exit;
-                    $request = $this->getProductSortT($category,$subcategory,$option);
+                    $request = $this->getProductSortT($category,$subcategory,$option,1);
                 }else{
                     $category = strClean($arrParams[0]);
                     $option = $arrParams[1];
-                    $request = $this->getProductSortT($category,$subcategory,$option);
+                    $request = $this->getProductSortT($category,$subcategory,$option,1);
                 }
             }
-            //dep($request);exit;
-            for ($i=0; $i < count($request) ; $i++) { 
-                $idProduct = openssl_encrypt($request[$i]['idproduct'],METHOD,KEY);
+            //dep($request['data']);exit;
+            for ($i=0; $i < count($request['data']) ; $i++) { 
+                $idProduct = openssl_encrypt($request['data'][$i]['idproduct'],METHOD,KEY);
                 $favorite = '';
-                $routeP = base_url()."/shop/product/".$request[$i]['route'];
-                $routeC = base_url()."/shop/category/".$request[$i]['routec'];
-                $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($request[$i]['price']).'</strong></p>';
+                $routeP = base_url()."/shop/product/".$request['data'][$i]['route'];
+                $routeC = base_url()."/shop/category/".$request['data'][$i]['routec'];
+                $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($request['data'][$i]['price']).'</strong></p>';
                 $btnAdd ='<button type="button" class="btn btn-primary product-card-add">Add to cart</a>';
                 $discount="";
                 $rate="";
-                if($request[$i]['favorite']== 0){
+                if($request['data'][$i]['favorite']== 0){
                     $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
                 }else{
                     $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
                 }
-                if($request[$i]['status'] == 1 && $request[$i]['stock']>0){
-                    if($request[$i]['discount']>0){
-                        $price = '<p class="m-0 fs-5 product-price"><strong>'.formatNum($request[$i]['priceDiscount']).'</strong><span>'.formatNum($request[$i]['price']).'</span></p>';
-                        $discount ='<p class="product-discount">-'.$request[$i]['discount'].'%</p>';
+                if($request['data'][$i]['status'] == 1 && $request['data'][$i]['stock']>0){
+                    if($request['data'][$i]['discount']>0){
+                        $price = '<p class="m-0 fs-5 product-price"><strong>'.formatNum($request['data'][$i]['priceDiscount']).'</strong><span>'.formatNum($request['data'][$i]['price']).'</span></p>';
+                        $discount ='<p class="product-discount">-'.$request['data'][$i]['discount'].'%</p>';
                     }
-                }else if($request[$i]['status'] == 1 && $request[$i]['stock']==0){
+                }else if($request['data'][$i]['status'] == 1 && $request['data'][$i]['stock']==0){
                     $btnAdd="";
                     $price='<p class="m-0 fs-5 product-price text-danger">Sold out</p>';
                 }else{
@@ -108,26 +108,26 @@
                     $price="";
                 }
                 for ($j=0; $j < 5; $j++) { 
-                    if($request[$i]['rate']!=null && $j >= intval($request[$i]['rate'])){
+                    if($request['data'][$i]['rate']!=null && $j >= intval($request['data'][$i]['rate'])){
                         $rate.='<i class="far me-1 fa-star"></i>';
-                    }else if($request[$i]['rate']==null){
+                    }else if($request['data'][$i]['rate']==null){
                         $rate.='<i class="far me-1 fa-star"></i>';
                     }else{
                         $rate.='<i class="fas me-1 fa-star"></i>';
                     }
                 }
                 $html .='
-                <div class="col-lg-4 col-md-6 product-item" data-id="'.$idProduct.'" data-price="'.$request[$i]['price'].'" data-rate="'.$request[$i]['rate'].'">
+                <div class="col-lg-4 col-md-6 product-item" data-id="'.$idProduct.'" data-price="'.$request['data'][$i]['price'].'" data-rate="'.$request['data'][$i]['rate'].'">
                     <div class="product-card">
                         '.$discount.'
                         <div class="product-img">
-                            <img src="'.$request[$i]['url'].'" alt="'.$request[$i]['name'].'">
+                            <img src="'.$request['data'][$i]['url'].'" alt="'.$request['data'][$i]['name'].'">
                             '.$btnAdd.'
                         </div>
                         <div class="product-info">
-                            <a class="m-0 product-category fw-bold" href="'.$routeC.'">'.$request[$i]['category'].'</a>
+                            <a class="m-0 product-category fw-bold" href="'.$routeC.'">'.$request['data'][$i]['category'].'</a>
                             <a href="'.$routeP.'">
-                                <h3 class="product-title fw-bold">'.$request[$i]['name'].'</h3>
+                                <h3 class="product-title fw-bold">'.$request['data'][$i]['name'].'</h3>
                                 '.$price.'
                             </a>
                         </div>
@@ -142,7 +142,9 @@
                 </div>
                 ';
             }
-            echo json_encode($html,JSON_UNESCAPED_UNICODE);
+            
+            $arrResponse = array("html"=>$html,"total"=>$request['total']);
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function addCart(){
@@ -615,7 +617,7 @@
         }
         public function sortReviews(){
             if($_POST){
-                
+
                 $idProduct = intval(openssl_decrypt($_POST['idProduct'],METHOD,KEY));
                 $option = intval($_POST['intSort']);
                 $reviews = $this->getReviewsT($idProduct,$option);
@@ -663,6 +665,75 @@
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();  
+        }
+        public function getProductsPage($page){
+            $page = intval($page);
+            $request = $this->getProductsPageT($page);
+            $request = $request['data'];
+            $html="";
+            for ($i=0; $i < count($request) ; $i++) { 
+                $idProduct = openssl_encrypt($request[$i]['idproduct'],METHOD,KEY);
+                $favorite = '';
+                $routeP = base_url()."/shop/product/".$request[$i]['route'];
+                $routeC = base_url()."/shop/category/".$request[$i]['routec'];
+                $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($request[$i]['price']).'</strong></p>';
+                $btnAdd ='<button type="button" class="btn btn-primary product-card-add">Add to cart</a>';
+                $discount="";
+                $rate="";
+                if($request[$i]['favorite']== 0){
+                    $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
+                }else{
+                    $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
+                }
+                if($request[$i]['status'] == 1 && $request[$i]['stock']>0){
+                    if($request[$i]['discount']>0){
+                        $price = '<p class="m-0 fs-5 product-price"><strong>'.formatNum($request[$i]['priceDiscount']).'</strong><span>'.formatNum($request[$i]['price']).'</span></p>';
+                        $discount ='<p class="product-discount">-'.$request[$i]['discount'].'%</p>';
+                    }
+                }else if($request[$i]['status'] == 1 && $request[$i]['stock']==0){
+                    $btnAdd="";
+                    $price='<p class="m-0 fs-5 product-price text-danger">Sold out</p>';
+                }else{
+                    $btnAdd ="";
+                    $price="";
+                }
+                for ($j=0; $j < 5; $j++) { 
+                    if($request[$i]['rate']!=null && $j >= intval($request[$i]['rate'])){
+                        $rate.='<i class="far me-1 fa-star"></i>';
+                    }else if($request[$i]['rate']==null){
+                        $rate.='<i class="far me-1 fa-star"></i>';
+                    }else{
+                        $rate.='<i class="fas me-1 fa-star"></i>';
+                    }
+                }
+                $html .='
+                <div class="col-lg-4 col-md-6 product-item" data-id="'.$idProduct.'" data-price="'.$request[$i]['price'].'" data-rate="'.$request[$i]['rate'].'">
+                    <div class="product-card">
+                        '.$discount.'
+                        <div class="product-img">
+                            <img src="'.$request[$i]['url'].'" alt="'.$request[$i]['name'].'">
+                            '.$btnAdd.'
+                        </div>
+                        <div class="product-info">
+                            <a class="m-0 product-category fw-bold" href="'.$routeC.'">'.$request[$i]['category'].'</a>
+                            <a href="'.$routeP.'">
+                                <h3 class="product-title fw-bold">'.$request[$i]['name'].'</h3>
+                                '.$price.'
+                            </a>
+                        </div>
+                        <div class="product-rate">
+                        '.$rate.'
+                        </div>
+                        <div class="product-btns">
+                        '.$favorite.'
+                            <button type="button" class="btn quickView pe-2 ps-2"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></button>
+                        </div>
+                    </div>
+                </div>
+                ';
+            }
+            echo json_encode($html,JSON_UNESCAPED_UNICODE);
+            die();
         }
     }
 ?>

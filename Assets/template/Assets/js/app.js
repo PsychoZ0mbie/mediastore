@@ -110,25 +110,71 @@ window.addEventListener("scroll",function(){
 if(document.querySelector("#selectSort")){
     let selectSort = document.querySelector("#selectSort");
     selectSort.addEventListener("change",function(){
-        let value = selectSort.value;
-        let url = window.location.href;
-        url = url.split("/");
-        let urlOption ="";
-        
-        if(url.length == 8){
-            urlOption = base_url+"/shop/getProductSort/"+url[6]+"/"+url[7]+"/"+value;
-        }else if(url.length == 7){
-            urlOption = base_url+"/shop/getProductSort/"+url[6]+"/"+value;
-        }else{
-            urlOption = base_url+"/shop/getProductSort/"+value;
-        }
-        request(urlOption,"","get").then(function(html){
-            document.querySelector("#productItems").innerHTML=html;
+        let items = document.querySelectorAll(".product-item");
+        let html="";
+        items=Array.from(items);
+
+        if(selectSort.value == 1){
+            let items = document.querySelectorAll(".product-item");
+            items=Array.from(items);
+            items.sort(function(a,b){
+                a = parseFloat(a.getAttribute("data-rate"));
+                b = parseFloat(b.getAttribute("data-rate"));
+
+                return b-a;
+            });
+            for (let i = 0; i < items.length; i++) {
+                let div = document.createElement('div');
+                div.appendChild(items[i]);
+                html+= div.innerHTML;
+            }
+            document.querySelector("#productItems").innerHTML= html;
             addProductCard();
             quickModal();
             addWishList();
             filterPrice();
-        });
+
+        }else if(selectSort.value == 2){
+            let items = document.querySelectorAll(".product-item");
+            items=Array.from(items);
+            items.sort(function(a,b){
+                a = parseInt(a.getAttribute("data-price"));
+                b = parseInt(b.getAttribute("data-price"));
+
+                return b-a;
+            });
+            for (let i = 0; i < items.length; i++) {
+                let div = document.createElement('div');
+                div.appendChild(items[i]);
+                html+= div.innerHTML;
+            }
+            document.querySelector("#productItems").innerHTML= html;
+            addProductCard();
+            quickModal();
+            addWishList();
+            filterPrice();
+
+        }else if(selectSort.value==3){
+            let items = document.querySelectorAll(".product-item");
+            items=Array.from(items);
+            items.sort(function(a,b){
+                a = parseInt(a.getAttribute("data-price"));
+                b = parseInt(b.getAttribute("data-price"));
+
+                return a-b;
+            });
+            for (let i = 0; i < items.length; i++) {
+                let div = document.createElement('div');
+                div.appendChild(items[i]);
+                html+= div.innerHTML;
+            }
+            document.querySelector("#productItems").innerHTML= html;
+            addProductCard();
+            quickModal();
+            addWishList();
+            filterPrice();
+        }
+        
     });
 }
 window.addEventListener("load",function(){
@@ -556,64 +602,89 @@ if(document.querySelector("#cart")){
     }
     
 }
-/***************************Recovery Page****************************** */
-if(document.querySelector("#recovery")){
-    
-    let formReset = document.querySelector("#formRecovery");
-    let btnReset = document.querySelector("#recoverySubmit");
-
-    formReset.addEventListener("submit",function(e){
-        e.preventDefault();
-
-        let strPassword = document.querySelector("#txtPasswordRecovery").value;
-        let strConfirmPassword = document.querySelector("#txtPasswordConfirmRecovery").value;
-        let url = base_url+'/Login/setPassword'; 
-        let formData = new FormData(formReset);
-
-        if(strPassword.length < 8){
-            Swal.fire("Error","The password must have at least 8 characters","error");
-            return false;
-        }
-        if(strPassword != strConfirmPassword){
-            Swal.fire("Error","The passwords do not match","error");
-            return false;
-        }
-
-        btnReset.innerHTML=`
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Wait...
-        `;
-        btnReset.setAttribute("disabled","");
-        request(url,formData,"post").then(function(objData){
-            btnReset.innerHTML=`Reset my password`;
-            btnReset.removeAttribute("disabled");
-            if(objData.status){
-                window.location.href = base_url;
-            }else{
-                swal("Error",objData.msg,"error");
-            }
-        });
-    });
-}
+/***************************pagination****************************** */
 if(document.querySelector(".pagination")){
-    pagination(100,3,1);
+    const items = Array.from(document.querySelectorAll(".product-item"));
+    const paginationbtns = document.querySelector(".pagination-pag ul");
+    const listItems = document.querySelector("#productItems");
+    
+    let current = 1;
+    let rows = 9;
+    let maxBtns = 3;
+    //console.log(pagination(100,3,4));
+    displayList(items,listItems,rows,current);
+
+    function displayList(items,list,rows,current){
+        let display ="";
+        current--;
+        let start = rows*current;
+        let end = rows+current;
+        let paginated = items.slice(start,end);
+        for (let i = 0; i < paginated.length; i++) {
+            let div = document.createElement("div");
+            div.appendChild(paginated[i]);
+            display+=div.innerHTML;
+        }
+        list.innerHTML = display;
+        let total = Math.ceil(items.length/rows);
+        displayBtns(items,rows,current,paginationbtns);
+
+    }
+    function displayBtns(items,rows,current,paginationbtns){
+        current++;
+        let total = Math.ceil(items.length/rows);
+        let half = Math.ceil(total/2);
+        let to = total;
+        let html="";
+
+        if(current + half >= total){
+            to = total;
+        }else if(current>half){
+            to = current+half;
+        }
+        let from = to-total;
+        
+        let buttons = Array.from({length:total},(v,i)=>(i+1)+from);
+
+    
+        for (let i = 0; i < buttons.length; i++) {
+            if(buttons[i]==current){
+                html+=` <li class="page active" data-page="${buttons[i]}">${buttons[i]}</li>`; 
+            }else{
+                html+=` <li class="page" data-page="${buttons[i]}">${buttons[i]}</li>`; 
+            }
+        }
+        paginationbtns.innerHTML = html;
+    }
+    
+
+    //displayList(items,listItems,rows,current);
+    //displayBtns(items,listItems,pagination,rows,current);
+
+    /*let total = document.querySelector("#totalProducts").getAttribute("data-total");
+    pagination(total,3,1);
 
     let prev = document.querySelector(".pagination-prev");
     let next = document.querySelector(".pagination-next");
-    let pageVal = 1;
+    let current = 1;
+
+    document.querySelector(".pagination-start").setAttribute("onclick",`pagination(${total},${3},${1})`);
+    document.querySelector(".pagination-end").setAttribute("onclick",`pagination(${total},${3},${total})`);
 
     prev.addEventListener("click",function(){
-        if(pageVal <= 1){
-            pageVal = 1;
+        if(current <= 1){
+            current = 1;
         }else{
-            pageVal = document.querySelector(".page.active").getAttribute("data-page");
-            pagination(100,3,--pageVal);
+            current = document.querySelector(".page.active").getAttribute("data-page");
+            pagination(total,3,--current);
         }
     });
     next.addEventListener("click",function(){
-        pageVal = document.querySelector(".page.active").getAttribute("data-page");
-        pagination(100,3,++pageVal);
-    });
+        if(current < total){
+            current = document.querySelector(".page.active").getAttribute("data-page");
+            pagination(total,3,++current);
+        }
+    });*/
 }
 
 /***************************Essentials Functions****************************** */
@@ -1371,8 +1442,11 @@ function deleteReview(id){
         }
     });
 }
-function pagination(total,max,current){
-
+/*function pagination(total,max,current){
+    
+    if(total < max){
+        max = total;
+    }
     let half = Math.round(max/2);
     let to = max;
 
@@ -1381,17 +1455,72 @@ function pagination(total,max,current){
     }else if(current > half){
         to = current+half;
     }
+
     let from = to - max;
-    let arrPage = Array.from({length:max},(v,i)=>(i+1)+from)
+    return Array.from({length:max},(v,i)=>(i+1)+from);
     let html="";
+    let items = document.querySelectorAll(".product-item");
+    let perPage = 9;
+
+    for (let i = perPage; i < (current-1)*perPage; i++) {
+        items[i].classList.add("d-none");
+    }
+
     for (let i = 0; i < arrPage.length; i++) {
         if(arrPage[i]==current){
-            html+=` <li class="page active" data-page="${arrPage[i]}" onclick="pagination(100,3,${arrPage[i]})">${arrPage[i]}</li>`; 
+            html+=` <li class="page active" data-page="${arrPage[i]}" onclick="pagination(${total},3,${arrPage[i]})"><a href="#">${arrPage[i]}</a></li>`; 
         }else{
-            html+=` <li class="page" data-page="${arrPage[i]}" onclick="pagination(100,3,${arrPage[i]})">${arrPage[i]}</li>`; 
+            html+=` <li class="page" data-page="${arrPage[i]}" onclick="pagination(${total},3,${arrPage[i]})"><a href="#">${arrPage[i]}</a></li>`; 
         }
     }
     let pages = document.querySelector(".pagination-pag ul");
     pages.innerHTML = html;
-}
+}*/
+/*
+function displayList(items,listItems,rows, current){
+    listItems.innerHTML="";
+    current--;
 
+    let display="";
+    let start = rows*current;
+    let end = start+rows;
+    let paginated = items.slice(start,end);
+    
+    for (let i = 0; i < paginated.length; i++) {
+        let div = document.createElement("div");
+        div.appendChild(paginated[i]);
+
+        display+= div.innerHTML;
+    }
+    listItems.innerHTML = display;
+}
+function displayBtns(items,listItems,pagination,rows,current){
+    pagination.innerHTML="";
+
+    let pages = Math.ceil(items.length/rows);
+    let display ="";
+    for (let i = 1; i < pages+1; i++) {
+        let btn = paginationBtn(i,current,items,listItems,rows,pagination);
+        let li = document.createElement("li");
+        li.appendChild(btn);
+        display+= li.innerHTML;
+    }
+    pagination.innerHTML = display;
+}
+function paginationBtn(page,current,items,listItems,rows,pagination){
+    let btn = document.createElement("li");
+    btn.classList.add("page");
+    btn.setAttribute("data-id",page);
+    btn.textContent = page;
+    if(current == page)btn.classList.add("active");
+
+    pagination.addEventListener("click",function(e){
+        //document.querySelector(".page.active").classList.remove("active");
+        current = e.target.getAttribute("data-id");
+        btn.classList.add("active");
+        displayList(items,listItems,rows, current);
+    });
+
+    return btn;
+}
+*/

@@ -3,6 +3,7 @@
     trait ProductTrait{
         private $con;
         private $intIdProduct;
+
         public function getProductsSlider($cant){
             $this->con=new Mysql();
             $sql = "SELECT 
@@ -222,7 +223,7 @@
             FROM product p
             INNER JOIN category c, subcategory s
             WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory $option
-            ORDER BY p.idproduct DESC limit 10
+            ORDER BY p.idproduct
             ";
             $request = $this->con->select_all($sql);
             if(count($request)> 0){
@@ -255,97 +256,6 @@
                         $request[$i]['image'] = media()."/images/uploads/image.png";
                     }
                 }
-            }else{
-
-            }
-            //dep($request);exit;
-            return $request;
-        }
-        public function getProductSortT(string $category,string $subcategory,int $selected){
-            $option="";
-            
-            if($selected==1){
-                $option=" ORDER BY p.idproduct DESC";
-                if($category!="" && $subcategory!=""){
-                    $option=" AND c.route='$category' AND s.route = '$subcategory' ORDER BY p.idproduct DESC";
-                }else if($category!=""){
-                    $option=" AND c.route='$category' ORDER BY p.idproduct DESC";
-                }
-            }else if($selected ==2){
-                $option=" ORDER BY p.price DESC";
-                if($category!="" && $subcategory!==""){
-                    $option=" AND c.route='$category' AND s.route = '$subcategory' ORDER BY p.price DESC";
-                }else if($category!=""){
-                    $option=" AND c.route='$category' ORDER BY p.price DESC";  
-                }
-            }else if($selected==3){
-                $option=" ORDER BY p.price ASC";
-                if($category!="" && $subcategory!=""){
-                    $option=" AND c.route='$category' AND s.route = '$subcategory' ORDER BY p.price ASC";
-                }else if($category!=""){
-                    $option=" AND c.route='$category' ORDER BY p.price ASC";
-                }
-            }
-            //dep($option);
-            $this->con=new Mysql();
-            $sql = "SELECT 
-                p.idproduct,
-                p.categoryid,
-                p.subcategoryid,
-                p.reference,
-                p.name,
-                p.description,
-                p.price,
-                p.discount,
-                p.description,
-                p.stock,
-                p.status,
-                p.route,
-                c.idcategory,
-                c.name as category,
-                c.route as routec,
-                s.idsubcategory,
-                s.categoryid,
-                s.name as subcategory,
-                s.route as routes
-            FROM product p
-            INNER JOIN category c, subcategory s
-            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory $option";
-            
-            
-            $request = $this->con->select_all($sql);
-            if(count($request)> 0){
-                for ($i=0; $i < count($request); $i++) { 
-
-                    $request[$i]['priceDiscount'] =  $request[$i]['price']-($request[$i]['price']*($request[$i]['discount']*0.01));
-                    $request[$i]['price'] = $request[$i]['price'];
-                    $request[$i]['favorite'] = 0;
-
-                    $idProduct = $request[$i]['idproduct'];
-
-                    if(isset($_SESSION['login'])){
-                        $idUser = $_SESSION['idUser'];
-                        $sqlFavorite = "SELECT * FROM wishlist WHERE productid = $idProduct AND personid = $idUser";
-                        $requestFavorite = $this->con->select($sqlFavorite);
-                        if(!empty($requestFavorite)){
-                            $request[$i]['favorite'] = $requestFavorite['status'];
-                        }
-                    }
-                    $sqlRate = "SELECT AVG(rate) as rate FROM productrate WHERE productid = $idProduct";
-                    $sqlImg = "SELECT * FROM productimage WHERE productid = $idProduct";
-                    $requestImg =  $this->con->select_all($sqlImg);
-                    $requestRate =  $this->con->select($sqlRate);
-                    $request[$i]['rate'] = $requestRate['rate'];
-
-                    if(count($requestImg)>0){
-                        $request[$i]['url'] = media()."/images/uploads/".$requestImg[0]['name'];
-                        $request[$i]['image'] = $requestImg[0]['name'];
-                    }else{
-                        $request[$i]['image'] = media()."/images/uploads/image.png";
-                    }
-                }
-            }else{
-
             }
             //dep($request);exit;
             return $request;
@@ -467,68 +377,6 @@
                 }
             }
             //dep($request);exit;
-            return $request;
-        }
-        public function getProductPageT(string $route){
-            $this->con=new Mysql();
-            $sql = "SELECT 
-                p.idproduct,
-                p.categoryid,
-                p.subcategoryid,
-                p.reference,
-                p.name,
-                p.shortdescription,
-                p.description,
-                p.price,
-                p.discount,
-                p.stock,
-                p.status,
-                p.route,
-                c.idcategory,
-                c.name as category,
-                c.route as routec,
-                s.idsubcategory,
-                s.categoryid,
-                s.name as subcategory
-            FROM product p
-            INNER JOIN category c, subcategory s
-            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory 
-            AND p.route = '$route'";
-
-            $request = $this->con->select($sql);
-            $request['priceDiscount'] =  $request['price']-($request['price']*($request['discount']*0.01));
-            $request['price'] = $request['price'];
-            $request['favorite'] = 0;
-            $idProduct =$request['idproduct'];
-
-            if(isset($_SESSION['login'])){
-                $idUser = $_SESSION['idUser'];
-                $sqlFavorite = "SELECT * FROM wishlist WHERE productid = $idProduct AND personid = $idUser";
-                $requestFavorite = $this->con->select($sqlFavorite);
-                if(!empty($requestFavorite)){
-                    $request['favorite'] = $requestFavorite['status'];
-                }
-            }
-
-            $sqlRate = "SELECT AVG(rate) as rate, COUNT(rate) as total FROM productrate WHERE productid = $idProduct HAVING rate IS NOT NULL";
-            $requestRate =  $this->con->select($sqlRate);
-            //dep($requestRate);exit;
-            if(!empty($requestRate)){
-                $request['rate'] = number_format($requestRate['rate'],1);
-                $request['reviews'] = $requestRate['total'];
-            }else{
-                $request['rate'] = number_format(0,1);
-                $request['reviews'] = 0;
-            }
-            
-            $sqlImg = "SELECT * FROM productimage WHERE productid = $idProduct";
-            $requestImg = $this->con->select_all($sqlImg);
-
-            if(count($requestImg)){
-                for ($i=0; $i < count($requestImg); $i++) { 
-                    $request['image'][$i] = array("url"=>media()."/images/uploads/".$requestImg[$i]['name'],"name"=>$requestImg[$i]['name']);
-                }
-            }
             return $request;
         }
         public function addWishListT($idProduct,$idUser){
