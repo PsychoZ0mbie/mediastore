@@ -270,17 +270,15 @@
                     <?php  }?>
                     </div>
                     <div class="pagination">
-                        <div class="pagination-btn pagination-start" onclick="pagination(<?=$data['products']['total']?>,3,1)"><i class="fas fa-angle-double-left"></i></div>
+                        <div class="pagination-btn pagination-start"><i class="fas fa-angle-double-left"></i></div>
                         <div class="pagination-btn pagination-prev"><i class="fas fa-angle-left"></i></div>
                         <div class="pagination-pag">
                             <ul>
-                                <li class="page active"><a href="#">1</a></li>
-                                <li class="page"><a href="#">2</a></li>
-                                <li class="page"><a href="#">3</a></li>
+                                
                             </ul>
                         </div>
                         <div class="pagination-btn pagination-next"><i class="fas fa-angle-right"></i></div>
-                        <div class="pagination-btn pagination-end" onclick="pagination(<?=$data['products']['total']?>,3,<?=$data['products']['total']?>)"><i class="fas fa-angle-double-right"></i></div>
+                        <div class="pagination-btn pagination-end"><i class="fas fa-angle-double-right"></i></div>
                     </div>
                 </div>
             </div>

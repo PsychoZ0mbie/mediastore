@@ -607,63 +607,52 @@ if(document.querySelector(".pagination")){
     const items = Array.from(document.querySelectorAll(".product-item"));
     const paginationbtns = document.querySelector(".pagination-pag ul");
     const listItems = document.querySelector("#productItems");
-    
+    const prev = document.querySelector(".pagination-prev");
+    const next = document.querySelector(".pagination-next");
+    const start = document.querySelector(".pagination-start");
+    const end = document.querySelector(".pagination-end");
+
     let current = 1;
     let rows = 3;
     let max = 3;
-    //console.log(pagination(100,3,4));
-    displayList(items,listItems,rows,current);
 
-    function displayList(items,list,rows,current){
-        list.innerHTML="";
-        let display ="";
-        current--;
-
-        let start = rows*current;
-        let end = start+rows;
-        let paginated = items.slice(start,end);
-
-        for (let i = 0; i < paginated.length; i++) {
-            let div = document.createElement("div");
-            div.appendChild(paginated[i]);
-            display+=div.innerHTML;
-        }
-        list.innerHTML = display;
-        displayBtns(items,rows,current,paginationbtns);
-    }
-    function displayBtns(items,rows,current,paginationbtns){
-        current++;
-        let total = Math.ceil(items.length/rows);
-        let half = Math.round(max/2);
-        let to = max;
-        let html="";
-        
-        
-        if(current + half > total){
-            to = total;
-        }else if(current>half){
-            to = current+half;
-        }
-        
-        let from = to-max;
-        let buttons = Array.from({length:max},(v,i)=>(i+1)+from);
-        for (let i = 0; i < buttons.length; i++) {
-            if(buttons[i]==current){
-                html+=` <li class="page active" data-page="${buttons[i]}">${buttons[i]}</li>`; 
-            }else{
-                html+=` <li class="page" data-page="${buttons[i]}">${buttons[i]}</li>`; 
-            }
-        }
-        paginationbtns.innerHTML = html;
-        
-    }
+    displayList(items,listItems,rows,current,paginationbtns,max);
     
     paginationbtns.addEventListener("click",function(e){
         if(e.target.getAttribute("data-page")!=null){
-            let updatePage =e.target.getAttribute("data-page");
-            displayList(items,listItems,rows,updatePage);
+            let current =e.target.getAttribute("data-page");
+            displayList(items,listItems,rows,current,paginationbtns,max);
         }
     });
+    start.addEventListener("click",function(){
+        displayList(items,listItems,rows,1,paginationbtns,max);
+    });
+    end.addEventListener("click",function(){
+        let end = Math.ceil(items.length/rows);
+        displayList(items,listItems,rows,end,paginationbtns,max);
+    });
+    prev.addEventListener("click",function(){
+        let current = document.querySelector(".page.active").getAttribute("data-page");
+        if(current == 1){
+            current = 1;
+        }else{
+            current--;
+        }
+        displayList(items,listItems,rows,current,paginationbtns,max);
+    });
+    next.addEventListener("click",function(){
+        let end = Math.ceil(items.length/rows);
+        let current = document.querySelector(".page.active").getAttribute("data-page");
+
+        if(end == current){
+            current = end;
+        }else{
+            current++;
+        }
+        displayList(items,listItems,rows,current,paginationbtns,max);
+    });
+
+
     //displayList(items,listItems,rows,current);
     //displayBtns(items,listItems,pagination,rows,current);
 
@@ -1446,6 +1435,52 @@ function deleteReview(id){
             document.querySelectorAll(".review-stars span")[4].innerHTML =`(${rate.one})`;
         }
     });
+}
+function displayList(items,list,rows,current,paginationBtn,max){
+    list.innerHTML="";
+    let display ="";
+    current--;
+
+    let start = rows*current;
+    let end = start+rows;
+    let paginated = items.slice(start,end);
+
+    for (let i = 0; i < paginated.length; i++) {
+        let div = document.createElement("div");
+        div.appendChild(paginated[i]);
+        display+=div.innerHTML;
+    }
+    list.innerHTML = display;
+    displayBtns(items,rows,current,paginationBtn,max);
+}
+function displayBtns(items,rows,current,paginationbtns,max){
+    current++;
+    let total = Math.ceil(items.length/rows);
+    let half = Math.round(max/2);
+    if(total < max){
+        max = total;
+    }
+    let to = max;
+    let html="";
+    
+    
+    if(current + half > total){
+        to = total;
+    }else if(current>half){
+        to = current+half;
+    }
+    
+    let from = to-max;
+    let buttons = Array.from({length:max},(v,i)=>(i+1)+from);
+    for (let i = 0; i < buttons.length; i++) {
+        if(buttons[i]==current){
+            html+=` <li class="page active" data-page="${buttons[i]}">${buttons[i]}</li>`; 
+        }else{
+            html+=` <li class="page" data-page="${buttons[i]}">${buttons[i]}</li>`; 
+        }
+    }
+    paginationbtns.innerHTML = html;
+    
 }
 /*function pagination(total,max,current){
     
