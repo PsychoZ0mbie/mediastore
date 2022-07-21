@@ -158,7 +158,7 @@
                 $valiQty =true;
                 if(is_numeric($id)){
                     $request = $this->getProductT($id);
-                    $data = array("name"=>$request['name'],"image"=>$request['image'][0]);
+                    $data = array("name"=>$request['name'],"image"=>$request['image'][0],"route"=>base_url()."/shop/product/".$request['route']);
 
                     if(!empty($request)){
                         $arrProduct = array(

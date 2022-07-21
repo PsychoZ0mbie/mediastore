@@ -71,7 +71,7 @@
                     $option = " AND r.rate >= 4";
                 }
             }else{
-                $option = " ORDER BY r.id DESC";
+                $option = " ORDER BY r.rate DESC";
             }
             $this->con = new Mysql();
             $this->intIdProduct = $id;

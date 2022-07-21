@@ -1274,7 +1274,7 @@ function addProduct(){
                         popup.children[1].children[0].src=objData.data.image.url;
                         popup.children[1].children[0].alt=objData.data.name;
                         popup.children[1].children[1].children[0].innerHTML=objData.data.name;
-                        popup.children[1].children[1].children[0].setAttribute("href",objData.data.image.url);
+                        popup.children[1].children[1].children[0].setAttribute("href",objData.data.route);
                         popup.children[1].children[1].children[1].innerHTML=objData.msg;
                         popup.addEventListener("mouseover",function(){
                             window.clearTimeout(timer);
@@ -1288,7 +1288,7 @@ function addProduct(){
                         popup.children[1].children[0].src=objData.data.image.url;
                         popup.children[1].children[0].alt=objData.data.name;
                         popup.children[1].children[1].children[0].innerHTML=objData.data.name;
-                        popup.children[1].children[1].children[0].setAttribute("href",objData.data.image.url);
+                        popup.children[1].children[1].children[0].setAttribute("href",objData.data.route);
                         popup.children[1].children[1].children[1].innerHTML=`<strong class="text-danger">${objData.msg}</strong>`;
                         popup.addEventListener("mouseover",function(){
                             window.clearTimeout(timer);
