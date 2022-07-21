@@ -47,12 +47,12 @@
             $this->views->getView($this,"category",$data);
         }
         public function product($params){
-
+            
             $params = strClean($params);
             $data['page_tag'] = NOMBRE_EMPRESA;
             $data['page_title'] = NOMBRE_EMPRESA." | Shop";
             $data['page_name'] = "product";
-            $data['product'] = $this->getProductT($params);
+            $data['product'] = $this->getProductPageT($params);
             $data['review'] = $this->getRate($data['product']['idproduct']);
             $data['reviews'] = $this->getReviewsT($data['product']['idproduct'],"");
             $data['products'] = $this->getProductsRandT(4);

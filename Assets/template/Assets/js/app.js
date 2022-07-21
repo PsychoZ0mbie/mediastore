@@ -609,44 +609,44 @@ if(document.querySelector(".pagination")){
     const listItems = document.querySelector("#productItems");
     
     let current = 1;
-    let rows = 9;
-    let maxBtns = 3;
+    let rows = 3;
+    let max = 3;
     //console.log(pagination(100,3,4));
     displayList(items,listItems,rows,current);
 
     function displayList(items,list,rows,current){
+        list.innerHTML="";
         let display ="";
         current--;
+
         let start = rows*current;
-        let end = rows+current;
+        let end = start+rows;
         let paginated = items.slice(start,end);
+
         for (let i = 0; i < paginated.length; i++) {
             let div = document.createElement("div");
             div.appendChild(paginated[i]);
             display+=div.innerHTML;
         }
         list.innerHTML = display;
-        let total = Math.ceil(items.length/rows);
         displayBtns(items,rows,current,paginationbtns);
-
     }
     function displayBtns(items,rows,current,paginationbtns){
         current++;
         let total = Math.ceil(items.length/rows);
-        let half = Math.ceil(total/2);
-        let to = total;
+        let half = Math.round(max/2);
+        let to = max;
         let html="";
-
-        if(current + half >= total){
+        
+        
+        if(current + half > total){
             to = total;
         }else if(current>half){
             to = current+half;
         }
-        let from = to-total;
         
-        let buttons = Array.from({length:total},(v,i)=>(i+1)+from);
-
-    
+        let from = to-max;
+        let buttons = Array.from({length:max},(v,i)=>(i+1)+from);
         for (let i = 0; i < buttons.length; i++) {
             if(buttons[i]==current){
                 html+=` <li class="page active" data-page="${buttons[i]}">${buttons[i]}</li>`; 
@@ -655,9 +655,15 @@ if(document.querySelector(".pagination")){
             }
         }
         paginationbtns.innerHTML = html;
+        
     }
     
-
+    paginationbtns.addEventListener("click",function(e){
+        if(e.target.getAttribute("data-page")!=null){
+            let updatePage =e.target.getAttribute("data-page");
+            displayList(items,listItems,rows,updatePage);
+        }
+    });
     //displayList(items,listItems,rows,current);
     //displayBtns(items,listItems,pagination,rows,current);
 
@@ -1409,7 +1415,6 @@ function deleteReview(id){
         if(objData.status){
             let rate = objData.rate;
             let rateStars ="";
-
             for (let i = 0; i < 5; i++) {
                 if(i >= parseInt(rate.rate)){
                     rateStars+='<i class="far fa-star"></i>';
@@ -1424,16 +1429,16 @@ function deleteReview(id){
             document.querySelector("#pills-reviews-tab").innerHTML=`Reviews (${rate.total})`;
 
             document.querySelector("#avgRate").innerHTML = `${parseFloat(rate.rate).toFixed(1)}<span class="fs-6">/ 5</span>`;
-            document.querySelectorAll(".progress-bar")[0].style.width=`${(rate.five/rate.total)*100}%`;
-            document.querySelectorAll(".progress-bar")[0].ariaValueNow = (rate.five/rate.total)*100;
-            document.querySelectorAll(".progress-bar")[1].style.width=`${(rate.four/rate.total)*100}%`;
-            document.querySelectorAll(".progress-bar")[1].ariaValueNow = (rate.four/rate.total)*100;
-            document.querySelectorAll(".progress-bar")[2].style.width=`${(rate.three/rate.total)*100}%`;
-            document.querySelectorAll(".progress-bar")[2].ariaValueNow = (rate.three/rate.total)*100;
-            document.querySelectorAll(".progress-bar")[3].style.width=`${(rate.two/rate.total)*100}%`;
-            document.querySelectorAll(".progress-bar")[3].ariaValueNow = (rate.two/rate.total)*100;
-            document.querySelectorAll(".progress-bar")[4].style.width=`${(rate.one/rate.total)*100}%`;
-            document.querySelectorAll(".progress-bar")[4].ariaValueNow = (rate.one/rate.total)*100;
+            document.querySelectorAll(".progress-bar")[0].style.width=`${(rate.total>0 ? rate.five/rate.total : 0)*100}%`;
+            document.querySelectorAll(".progress-bar")[0].ariaValueNow = (rate.total>0 ? rate.five/rate.total : 0)*100;
+            document.querySelectorAll(".progress-bar")[1].style.width=`${(rate.total>0 ? rate.four/rate.total : 0)*100}%`;
+            document.querySelectorAll(".progress-bar")[1].ariaValueNow = (rate.total>0 ? rate.four/rate.total : 0)*100;
+            document.querySelectorAll(".progress-bar")[2].style.width=`${(rate.total>0 ? rate.three/rate.total : 0)*100}%`;
+            document.querySelectorAll(".progress-bar")[2].ariaValueNow = (rate.total>0 ? rate.three/rate.total : 0)*100;
+            document.querySelectorAll(".progress-bar")[3].style.width=`${(rate.total>0 ? rate.two/rate.total : 0)*100}%`;
+            document.querySelectorAll(".progress-bar")[3].ariaValueNow = (rate.total>0 ? rate.two/rate.total : 0)*100;
+            document.querySelectorAll(".progress-bar")[4].style.width=`${(rate.total>0 ? rate.one/rate.total : 0)*100}%`;
+            document.querySelectorAll(".progress-bar")[4].ariaValueNow = (rate.total>0 ? rate.one/rate.total : 0)*100;
             document.querySelectorAll(".review-stars span")[0].innerHTML =`(${rate.five})`;
             document.querySelectorAll(".review-stars span")[1].innerHTML =`(${rate.four})`;
             document.querySelectorAll(".review-stars span")[2].innerHTML =`(${rate.three})`;

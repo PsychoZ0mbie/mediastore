@@ -20,6 +20,15 @@
             sum(case when rate = 1 then 1 else 0 end) AS one
             FROM productrate WHERE productid=$id";
             $request = $this->con->select($sql);
+
+            if($request['rate']==null){
+                $request['five'] = 0;
+                $request['four'] = 0;
+                $request['three'] = 0;
+                $request['two'] = 0;
+                $request['one'] = 0;
+                $request['rate']=0;
+            }
             return $request;
         }
         public function setReviewT($idProduct,$idUser,$strReview,$intRate){
