@@ -270,15 +270,15 @@
                     <?php  }?>
                     </div>
                     <div class="pagination">
-                        <div class="pagination-btn pagination-start"><i class="fas fa-angle-double-left"></i></div>
-                        <div class="pagination-btn pagination-prev"><i class="fas fa-angle-left"></i></div>
+                        <a href="#" class="pagination-btn pagination-start"><i class="fas fa-angle-double-left"></i></a>
+                        <a href="#" class="pagination-btn pagination-prev"><i class="fas fa-angle-left"></i></a>
                         <div class="pagination-pag">
                             <ul>
                                 
                             </ul>
                         </div>
-                        <div class="pagination-btn pagination-next"><i class="fas fa-angle-right"></i></div>
-                        <div class="pagination-btn pagination-end"><i class="fas fa-angle-double-right"></i></div>
+                        <a href="#" class="pagination-btn pagination-next"><i class="fas fa-angle-right"></i></a>
+                        <a href="#" class="pagination-btn pagination-end"><i class="fas fa-angle-double-right"></i></a>
                     </div>
                 </div>
             </div>

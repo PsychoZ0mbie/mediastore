@@ -1467,9 +1467,9 @@ function displayBtns(items,rows,current,paginationbtns,max){
     let buttons = Array.from({length:max},(v,i)=>(i+1)+from);
     for (let i = 0; i < buttons.length; i++) {
         if(buttons[i]==current){
-            html+=` <li class="page active" data-page="${buttons[i]}">${buttons[i]}</li>`; 
+            html+=` <a href="#" class="page active" data-page="${buttons[i]}">${buttons[i]}</a>`; 
         }else{
-            html+=` <li class="page" data-page="${buttons[i]}">${buttons[i]}</li>`; 
+            html+=` <a href="#" class="page" data-page="${buttons[i]}">${buttons[i]}</a>`; 
         }
     }
     paginationbtns.innerHTML = html;
