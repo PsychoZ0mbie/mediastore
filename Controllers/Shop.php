@@ -58,7 +58,7 @@
             $data['products'] = $this->getProductsRandT(4);
             $this->views->getView($this,"product",$data); 
         }
-        public function getProductSort($params){
+        /*public function getProductSort($params){
             $arrParams = explode(",",$params);
             $category="";
             $subcategory="";
@@ -146,7 +146,7 @@
             $arrResponse = array("html"=>$html,"total"=>$request['total']);
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
-        }
+        }*/
         public function addCart(){
             //dep($_POST);exit;
             //unset($_SESSION['arrCart']);exit;
@@ -158,6 +158,8 @@
                 $valiQty =true;
                 if(is_numeric($id)){
                     $request = $this->getProductT($id);
+                    $data = array("name"=>$request['name'],"image"=>$request['image'][0]);
+
                     if(!empty($request)){
                         $arrProduct = array(
                             "idproduct"=>$_POST['idProduct'],
@@ -178,7 +180,7 @@
                                     $arrCart[$i]['qty']+= $qty;
                                     if($arrCart[$i]['qty'] > $request['stock']){
                                         $arrCart[$i]['qty'] = $currentQty;
-                                        $arrResponse = array("status"=>false,"msg"=>"Not enough units","url"=>$arrProduct['url']);
+                                        $arrResponse = array("status"=>false,"msg"=>"Not enough units","data"=>$data);
                                         $flag = false;
                                         break;
                                     }else{
@@ -186,7 +188,7 @@
                                         foreach ($_SESSION['arrCart'] as $quantity) {
                                             $qtyCart += $quantity['qty'];
                                         }
-                                        $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart,"url"=>$arrProduct['url']);
+                                        $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart,"data"=>$data);
                                     }
                                     $flag =false;
                                     break;
@@ -194,7 +196,7 @@
                             }
                             if($flag){
                                 if($qty > $request['stock']){
-                                    $arrResponse = array("status"=>false,"msg"=>"Not enough units","url"=>$arrProduct['url']);
+                                    $arrResponse = array("status"=>false,"msg"=>"Not enough units","data"=>$data);
                                     $_SESSION['arrCart'] = $arrCart;
                                 }else{
                                     array_push($arrCart,$arrProduct);
@@ -202,19 +204,19 @@
                                     foreach ($_SESSION['arrCart'] as $quantity) {
                                         $qtyCart += $quantity['qty'];
                                     }
-                                    $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart,"url"=>$arrProduct['url']);
+                                    $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart,"data"=>$data);
                                 }
                             }
                         }else{
                             if($qty > $request['stock']){
-                                $arrResponse = array("status"=>false,"msg"=>"Not enough units","url"=>$arrProduct['url']);
+                                $arrResponse = array("status"=>false,"msg"=>"Not enough units","data"=>$data);
                             }else{
                                 array_push($arrCart,$arrProduct);
                                 $_SESSION['arrCart'] = $arrCart;
                                 foreach ($_SESSION['arrCart'] as $quantity) {
                                     $qtyCart += $quantity['qty'];
                                 }
-                                $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart,"url"=>$arrProduct['url']);
+                                $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart,"data"=>$request);
                             } 
                         }
                     }else{
@@ -677,7 +679,7 @@
                 $routeP = base_url()."/shop/product/".$request[$i]['route'];
                 $routeC = base_url()."/shop/category/".$request[$i]['routec'];
                 $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($request[$i]['price']).'</strong></p>';
-                $btnAdd ='<button type="button" class="btn btn-primary product-card-add">Add to cart</a>';
+                $btnAdd ='<button type="button" class="btn btn-primary product-card-add" data-id="'.$idProduct.'">Add to cart</a>';
                 $discount="";
                 $rate="";
                 if($request[$i]['favorite']== 0){

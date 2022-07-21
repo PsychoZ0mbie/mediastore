@@ -441,6 +441,54 @@
             }
             return $request;
         }
+        public function getProductsFavorites($id){
+            $this->con=new Mysql();
+            $sql = "SELECT 
+                p.idproduct,
+                p.categoryid,
+                p.subcategoryid,
+                p.reference,
+                p.name,
+                p.description,
+                p.price,
+                p.discount,
+                p.description,
+                p.stock,
+                p.status,
+                p.route,
+                c.idcategory,
+                c.name as category,
+                c.route as routec,
+                s.idsubcategory,
+                s.categoryid,
+                s.name as subcategory
+            FROM product p
+            INNER JOIN category c, subcategory s, wishlist w
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory 
+            AND p.idproduct = w.productid AND w.personid = $id AND w.status = 1";
+            $request = $this->con->select_all($sql);
+            if(count($request)> 0){
+                for ($i=0; $i < count($request); $i++) { 
+
+                    $request[$i]['priceDiscount'] =  $request[$i]['price']-($request[$i]['price']*($request[$i]['discount']*0.01));
+                    $request[$i]['price'] = $request[$i]['price'];
+                    $request[$i]['favorite'] = 0;
+
+                    $idProduct = $request[$i]['idproduct'];
+
+                    $sqlImg = "SELECT * FROM productimage WHERE productid = $idProduct";
+                    $requestImg =  $this->con->select_all($sqlImg);
+
+                    if(count($requestImg)>0){
+                        $request[$i]['url'] = media()."/images/uploads/".$requestImg[0]['name'];
+                        $request[$i]['image'] = $requestImg[0]['name'];
+                    }else{
+                        $request[$i]['image'] = media()."/images/uploads/image.png";
+                    }
+                }
+            }
+            return $request;
+        }
         public function addWishListT($idProduct,$idUser){
             $this->con = new Mysql();
             $sql = "SELECT * FROM wishlist WHERE productid = $idProduct AND personid = $idUser";

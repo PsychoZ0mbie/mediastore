@@ -54,7 +54,13 @@
             <div class="nav-icons">
                 <ul class="nav-icons-btns">
                     <li title="Search" class="c-p" id="btnSearch"><i class="fas fa-search"></i></li>
-                    <li title="Wishlist" ><a href="wishlist.html"><i class="fas fa-heart"></i></a></li>
+                    <?php
+                        if(isset($_SESSION['login'])){
+                    ?>
+                    <li title="Wishlist" ><a href="<?=base_url()?>/wishlist"><i class="fas fa-heart"></i></a></li>
+                    <?php  }else{ ?>
+                    <li onclick="openLoginModal();" title="Wishlist" class="c-p"><a><i class="fas fa-heart"></i></a></li>
+                    <?php }?>
                     <li class="nav-icons-qty" title="My cart" id="btnToggleCart">
                         <i class="fas fa-shopping-cart"></i>
                         <span id="qtyCart"><?=$qtyCart?></span>
@@ -72,7 +78,7 @@
                         </ul>
                     </div>
                     <?php }else{ ?>
-                    <li id="myAccount" title="My account" class="c-p" ><i class="fas fa-user"></i></li> 
+                    <li onclick="openLoginModal();" title="My account" class="c-p" ><i class="fas fa-user"></i></li> 
                     <?php }?>
                     <li id="btnToggleNav"><i class="fas fa-bars"></i></li>
                 </ul>
@@ -129,5 +135,6 @@
             </div>
         </div>
     </header>
+    <div id="modalLogin"></div>
     <a class="text-decoration-none" href="#" id="scrollTop"><i class="fas fa-angle-up"></i></a>
     
