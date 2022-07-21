@@ -604,6 +604,7 @@ if(document.querySelector("#cart")){
 }
 /***************************pagination****************************** */
 if(document.querySelector(".pagination")){
+    
     const items = Array.from(document.querySelectorAll(".product-item"));
     const paginationbtns = document.querySelector(".pagination-pag ul");
     const listItems = document.querySelector("#productItems");
@@ -613,23 +614,36 @@ if(document.querySelector(".pagination")){
     const end = document.querySelector(".pagination-end");
 
     let current = 1;
-    let rows = 3;
+    let rows = 9;
     let max = 3;
 
     displayList(items,listItems,rows,current,paginationbtns,max);
-    
+
     paginationbtns.addEventListener("click",function(e){
+        
         if(e.target.getAttribute("data-page")!=null){
             let current =e.target.getAttribute("data-page");
             displayList(items,listItems,rows,current,paginationbtns,max);
         }
+        addProductCard();
+        quickModal();
+        addWishList();
+        filterPrice();
     });
     start.addEventListener("click",function(){
         displayList(items,listItems,rows,1,paginationbtns,max);
+        addProductCard();
+        quickModal();
+        addWishList();
+        filterPrice();
     });
     end.addEventListener("click",function(){
         let end = Math.ceil(items.length/rows);
         displayList(items,listItems,rows,end,paginationbtns,max);
+        addProductCard();
+        quickModal();
+        addWishList();
+        filterPrice();
     });
     prev.addEventListener("click",function(){
         let current = document.querySelector(".page.active").getAttribute("data-page");
@@ -639,6 +653,10 @@ if(document.querySelector(".pagination")){
             current--;
         }
         displayList(items,listItems,rows,current,paginationbtns,max);
+        addProductCard();
+        quickModal();
+        addWishList();
+        filterPrice();
     });
     next.addEventListener("click",function(){
         let end = Math.ceil(items.length/rows);
@@ -650,36 +668,11 @@ if(document.querySelector(".pagination")){
             current++;
         }
         displayList(items,listItems,rows,current,paginationbtns,max);
+        addProductCard();
+        quickModal();
+        addWishList();
+        filterPrice();
     });
-
-
-    //displayList(items,listItems,rows,current);
-    //displayBtns(items,listItems,pagination,rows,current);
-
-    /*let total = document.querySelector("#totalProducts").getAttribute("data-total");
-    pagination(total,3,1);
-
-    let prev = document.querySelector(".pagination-prev");
-    let next = document.querySelector(".pagination-next");
-    let current = 1;
-
-    document.querySelector(".pagination-start").setAttribute("onclick",`pagination(${total},${3},${1})`);
-    document.querySelector(".pagination-end").setAttribute("onclick",`pagination(${total},${3},${total})`);
-
-    prev.addEventListener("click",function(){
-        if(current <= 1){
-            current = 1;
-        }else{
-            current = document.querySelector(".page.active").getAttribute("data-page");
-            pagination(total,3,--current);
-        }
-    });
-    next.addEventListener("click",function(){
-        if(current < total){
-            current = document.querySelector(".page.active").getAttribute("data-page");
-            pagination(total,3,++current);
-        }
-    });*/
 }
 
 /***************************Essentials Functions****************************** */
@@ -1480,7 +1473,6 @@ function displayBtns(items,rows,current,paginationbtns,max){
         }
     }
     paginationbtns.innerHTML = html;
-    
 }
 /*function pagination(total,max,current){
     
