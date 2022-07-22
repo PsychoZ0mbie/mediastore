@@ -16,7 +16,7 @@
 
         public function shop(){
             $data['page_tag'] = NOMBRE_EMPRESA;
-            $data['page_title'] = NOMBRE_EMPRESA." | Shop";
+            $data['page_title'] = "Shop | ".NOMBRE_EMPRESA;
             $data['page_name'] = "shop";
             $data['categories'] = $this->getCategoriesT();
             $data['products'] = $this->getProductsT("");
@@ -36,7 +36,7 @@
             }
             
             $data['page_tag'] = NOMBRE_EMPRESA;
-            $data['page_title'] = NOMBRE_EMPRESA." | Shop";
+            $data['page_title'] = "Shop | ".NOMBRE_EMPRESA;
             $data['page_name'] = "category";
             $data['categories'] = $this->getCategoriesT();
             $data['routec'] = $category;
@@ -47,16 +47,22 @@
             $this->views->getView($this,"category",$data);
         }
         public function product($params){
-            
             $params = strClean($params);
             $data['page_tag'] = NOMBRE_EMPRESA;
-            $data['page_title'] = NOMBRE_EMPRESA." | Shop";
+            $data['page_title'] = "Shop | ".NOMBRE_EMPRESA;
             $data['page_name'] = "product";
             $data['product'] = $this->getProductPageT($params);
             $data['review'] = $this->getRate($data['product']['idproduct']);
             $data['reviews'] = $this->getReviewsT($data['product']['idproduct'],"");
             $data['products'] = $this->getProductsRandT(4);
             $this->views->getView($this,"product",$data); 
+        }
+        public function cart(){
+            $params = strClean($params);
+            $data['page_tag'] = NOMBRE_EMPRESA;
+            $data['page_title'] ="My cart | ".NOMBRE_EMPRESA;
+            $data['page_name'] = "cart";
+            $this->views->getView($this,"cart",$data); 
         }
         /*public function getProductSort($params){
             $arrParams = explode(",",$params);
