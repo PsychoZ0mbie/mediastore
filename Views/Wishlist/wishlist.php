@@ -19,12 +19,6 @@
             </div>
         </div>
         <div class="container">
-            <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/shop">Shop</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Wishlist</li>
-                </ol>
-            </nav>
             <div class="row mt-5 mb-5">
                 <h1 class="text-center">My wishlist</h1>
                 <div class="col-lg-12 mt-5">
