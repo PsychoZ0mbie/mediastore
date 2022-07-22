@@ -6,6 +6,7 @@ let btnClose = document.querySelector("#btnCloseNav");
 let btnCloseCart = document.querySelector("#btnCloseCart");
 let btnSearch = document.querySelector("#btnSearch");
 let btnCloseSearch = document.querySelector("#btnCloseSearch");
+let inputSearch = document.querySelector("#txtSearch");
 
 btnCloseSearch.addEventListener("click",function(){
     document.querySelector(".nav-search").classList.remove("nav-search-open");
@@ -13,9 +14,12 @@ btnCloseSearch.addEventListener("click",function(){
     document.querySelector(".nav-logo").classList.remove("active");
     document.querySelector(".nav-main").classList.remove("active");
     document.querySelector(".nav-icons").classList.remove("active");
+    document.querySelector("#txtSearch").value="";
+    document.querySelector(".search-items").classList.add("d-none");
+    document.querySelector(".search-items").innerHTML = "";
     setTimeout(function(){
         document.querySelector(".nav-search").classList.add("d-none");
-        document.querySelector("#txtSearch").value="";
+        
     },800)
 });
 btnSearch.addEventListener("click",function(){
@@ -78,6 +82,24 @@ document.querySelector(".cart-panel").addEventListener("click",function(e){
         document.querySelector(".cart-panel").classList.remove("active"); 
     }
 });
+inputSearch.addEventListener("input",function(){
+    let strSearch = inputSearch.value;
+    let formData = new FormData();
+    formData.append("txtSearch",strSearch);
+    request(base_url+"/shop/search",formData,"post").then(function(objData){
+        if(strSearch=="")return document.querySelector(".search-items").innerHTML="";
+        if(objData.status){
+            document.querySelector(".search-items").classList.remove("d-none");
+            document.querySelector(".search-items").innerHTML = objData.data;
+        }else{
+            document.querySelector(".search-items").classList.remove("d-none");
+            document.querySelector(".search-items").innerHTML = `<div class="search-item text-center text-dark d-flex justify-content-center align-items"><span>${objData.msg}</span></div>`;
+        }
+        addProduct();
+        quickModal();
+        
+    });
+})
 
 if(document.querySelector("#logout")){
     let logout = document.querySelector("#logout");

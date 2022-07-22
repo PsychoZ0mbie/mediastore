@@ -737,5 +737,69 @@
             echo json_encode($html,JSON_UNESCAPED_UNICODE);
             die();
         }
+        public function search(){
+            if($_POST){
+                $strSearch = strClean(strtolower($_POST['txtSearch']));
+                $request = $this->getProductsSearchT($strSearch);
+                if(!empty($request)){
+                    $html="";
+                    for ($i=0; $i < count($request) ; $i++) { 
+                        $idProduct = openssl_encrypt($request[$i]['idproduct'],METHOD,KEY);
+                        $price ='<p class="m-0 text-dark">'.formatNum($request[$i]['price']).'</p>';
+                        $btnAdd ='<div class="border border-dark product-card-add c-p" data-id="'.$idProduct.'"><i class="fas fa-shopping-cart" aria-hidden="true"></i></div>';
+                        $discount="";
+                        $rate="";
+                        $route = base_url()."/shop/product/".$request[$i]['route'];
+                        if($request[$i]['status'] == 1 && $request[$i]['stock']>0){
+                            if($request[$i]['discount']>0){
+                                $price = '<p class="m-0 text-dark">'.formatNum($request[$i]['priceDiscount']).' <span class="text-decoration-line-through t-p">'.formatNum($request[$i]['price']).'</span></p>';
+                                $discount ='<div>-'.$request[$i]['discount'].'%</div>';
+                            }
+                        }else if($request[$i]['status'] == 1 && $request[$i]['stock']==0){
+                            $btnAdd="";
+                            $price='<p class="m-0 text-danger">Sold out</p>';
+                        }else{
+                            $btnAdd ="";
+                            $price="";
+                        }
+                        for ($j=0; $j < 5; $j++) { 
+                            if($request[$i]['rate']!=null && $j >= intval($request[$i]['rate'])){
+                                $rate.='<i class="far me-1 fa-star"></i>';
+                            }else if($request[$i]['rate']==null){
+                                $rate.='<i class="far me-1 fa-star"></i>';
+                            }else{
+                                $rate.='<i class="fas me-1 fa-star"></i>';
+                            }
+                        }
+                        $html .='
+                        <div class="search-item">
+                            <div class="search-item-info">
+                                <div class="search-item-img">
+                                    <img src="'.$request[$i]['url'].'" alt="'.$request[$i]['name'].'">
+                                    '.$discount.'
+                                </div>
+                                <div class="search-item-data">
+                                    <h2><a href="'.$route.'" class="text-decoration-none text-dark">'.$request[$i]['name'].'</a></h2>
+                                    <div class="product-rate">
+                                        '.$rate.'
+                                    </div>
+                                    <div>'.$price.'</div>
+                                </div>
+                            </div>
+                            <div class="search-item-actions">
+                                <div class="border border-dark quickView c-p" data-id="'.$idProduct.'"><i class="fas fa-eye"></i></div>
+                                '.$btnAdd.'
+                            </div>
+                        </div>
+                        ';
+                    }
+                    $arrResponse = array("status"=>true,"data"=>$html);
+                }else{
+                    $arrResponse = array("status"=>false,"msg"=>"No results");
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
     }
 ?>

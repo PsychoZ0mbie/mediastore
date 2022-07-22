@@ -510,6 +510,60 @@
             $request = $this->con->delete($sql);
             return $request;
         }
+        public function getProductsSearchT($search){
+            $this->con=new Mysql();
+            $sql = "SELECT 
+                p.idproduct,
+                p.categoryid,
+                p.subcategoryid,
+                p.reference,
+                p.name,
+                p.description,
+                p.price,
+                p.discount,
+                p.description,
+                p.stock,
+                p.status,
+                p.route,
+                c.idcategory,
+                c.name as category,
+                c.route as routec,
+                s.idsubcategory,
+                s.categoryid,
+                s.name as subcategory
+            FROM product p
+            INNER JOIN category c, subcategory s
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND
+            p.name LIKE  '%$search%' || c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND
+            c.name LIKE  '%$search%' || c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND
+            s.name LIKE '%$search%'
+            ";
+            $request = $this->con->select_all($sql);
+            if(count($request)> 0){
+                for ($i=0; $i < count($request); $i++) { 
+
+                    $request[$i]['priceDiscount'] =  $request[$i]['price']-($request[$i]['price']*($request[$i]['discount']*0.01));
+                    $request[$i]['price'] = $request[$i]['price'];
+
+                    $idProduct = $request[$i]['idproduct'];
+
+                    $sqlRate = "SELECT AVG(rate) as rate FROM productrate WHERE productid = $idProduct";
+                    $sqlImg = "SELECT * FROM productimage WHERE productid = $idProduct";
+                    $requestImg =  $this->con->select_all($sqlImg);
+                    $requestRate =  $this->con->select($sqlRate);
+                    $request[$i]['rate'] = $requestRate['rate'];
+
+                    if(count($requestImg)>0){
+                        $request[$i]['url'] = media()."/images/uploads/".$requestImg[0]['name'];
+                        $request[$i]['image'] = $requestImg[0]['name'];
+                    }else{
+                        $request[$i]['image'] = media()."/images/uploads/image.png";
+                    }
+                }
+            }
+            //dep($request);exit;
+            return $request;
+        }
     }
     
 ?>

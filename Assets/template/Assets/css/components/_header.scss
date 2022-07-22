@@ -381,3 +381,73 @@ header{
     color: $second-color;
     cursor: pointer;
 }
+.search-items{
+    min-height: 110px;
+    max-height: 90vh;
+    overflow-y: scroll;
+    width: 100%;
+    background-color: #f5f7fa99; 
+}
+.search-item{
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #fff;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.search-item-info{
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.search-item-img{
+    position: relative;
+    padding-right: 5px;
+    img{
+        width: 60px;
+        height: 100%;
+    }
+    div{
+        position: absolute;
+        top:0;
+        left:0;
+        padding: 1px 3px;
+        background-color: $third-color;
+        border: 1px solid $first-color;
+        font-size: 12px;
+        color:$first-color;
+    }
+}
+.search-item-data{
+    h2{
+        font-size: 12px;
+        margin: 0;
+        height: 30px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    .product-rate{
+        text-align: start;
+        i{
+            font-size: 10px;
+        }
+    }
+    p{
+        font-size: 12px;
+    }
+}
+.search-item-actions{
+    display: flex;
+    align-items: center;
+    div{
+        font-size: 12px;
+        background-color: #fff;
+        border: 1px solid #000;
+        border-radius: 5px;
+        color:#000;
+        padding: 2px 5px;
+        margin-right:5px;
+    }
+}
