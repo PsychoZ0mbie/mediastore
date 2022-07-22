@@ -49,16 +49,15 @@
         public function product($params){
             $params = strClean($params);
             $data['page_tag'] = NOMBRE_EMPRESA;
-            $data['page_title'] = "Shop | ".NOMBRE_EMPRESA;
             $data['page_name'] = "product";
             $data['product'] = $this->getProductPageT($params);
             $data['review'] = $this->getRate($data['product']['idproduct']);
             $data['reviews'] = $this->getReviewsT($data['product']['idproduct'],"");
             $data['products'] = $this->getProductsRandT(4);
+            $data['page_title'] =$data['product']['name']." | ".NOMBRE_EMPRESA;
             $this->views->getView($this,"product",$data); 
         }
         public function cart(){
-            $params = strClean($params);
             $data['page_tag'] = NOMBRE_EMPRESA;
             $data['page_title'] ="My cart | ".NOMBRE_EMPRESA;
             $data['page_name'] = "cart";
