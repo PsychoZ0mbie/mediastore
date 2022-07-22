@@ -72,7 +72,7 @@
                             </td>
                             <td><?=$price?></td>
                             <td>
-                                <div>
+                                <div class="wishlist-actions">
                                     <button type="button" class="btn me-2 quickView border border-dark" data-id="<?=$idProduct?>">Quick view</button>
                                     <?=$btnAdd?>
                                 </div>
