@@ -205,23 +205,36 @@ export default class Coupon{
         });
     }
     deleteItem(id){
-        let url = base_url+"/Store/delCoupon"
-        let formData = new FormData();
-        let element = document.querySelector("#listItem");
-        formData.append("idCoupon",id);
-        request(url,formData,"post").then(function(objData){
-            if(objData.status){
-                Swal.fire("Deleted",objData.msg,"success");
-                url = base_url+"/Store/getCoupons";
-                request(url,"","get").then(function(objData){
+        Swal.fire({
+            title:"Are you sure to delete it?",
+            text:"It will delete for ever...",
+            icon: 'warning',
+            showCancelButton:true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText:"Yes, delete",
+            cancelButtonText:"No, cancel"
+        }).then(function(result){
+            if(result.isConfirmed){
+                let url = base_url+"/Store/delCoupon"
+                let formData = new FormData();
+                let element = document.querySelector("#listItem");
+                formData.append("idCoupon",id);
+                request(url,formData,"post").then(function(objData){
                     if(objData.status){
-                        element.innerHTML = objData.data;
+                        Swal.fire("Deleted",objData.msg,"success");
+                        url = base_url+"/Store/getCoupons";
+                        request(url,"","get").then(function(objData){
+                            if(objData.status){
+                                element.innerHTML = objData.data;
+                            }else{
+                                element.innerHTML = objData.msg;
+                            }
+                        })
                     }else{
-                        element.innerHTML = objData.msg;
+                        Swal.fire("Error",objData.msg,"error");
                     }
-                })
-            }else{
-                Swal.fire("Error",objData.msg,"error");
+                });
             }
         });
     }
