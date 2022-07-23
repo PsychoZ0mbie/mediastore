@@ -38,6 +38,11 @@ btnCart.addEventListener("click",function(){
     document.querySelector(".cart-panel-main").classList.toggle("active");
     document.querySelector(".cart-panel").classList.toggle("active");
     request(base_url+"/shop/currentCart","","get").then(function(objData){
+        if (objData.items!="") {
+            document.querySelector("#btnsCartPanel").classList.remove("d-none");
+        }else{
+            document.querySelector("#btnsCartPanel").classList.add("d-none");
+        }
         document.querySelector(".cart-panel-items").innerHTML=objData.items;
         document.querySelector("#total").innerHTML = `<strong>Total: ${objData.total}</strong>`;
         if(document.querySelectorAll(".btn-del")){
@@ -53,6 +58,12 @@ btnCart.addEventListener("click",function(){
                             btn.parentElement.remove();
                             document.querySelector("#total").innerHTML = `<strong>Total: ${objData.total}</strong>`;
                             document.querySelector("#qtyCart").innerHTML=objData.qty;
+                            console.log(document.querySelectorAll(".cart-panel-item"))
+                            if(document.querySelectorAll(".cart-panel-item").length>0){
+                                document.querySelector("#btnsCartPanel").classList.remove("d-none");
+                            }else{
+                                document.querySelector("#btnsCartPanel").classList.add("d-none");
+                            }
                         }
                     });
                 });
@@ -594,7 +605,7 @@ if(document.querySelector("#product")){
 
 /***************************Cart Page****************************** */
 if(document.querySelector("#cart")){
-
+    document.querySelector(".nav-icons-qty").classList.add("d-none");
     let decrement = document.querySelectorAll(".decrement");
     let increment = document.querySelectorAll(".increment");
     let inputs = document.querySelectorAll(".cant");
@@ -604,25 +615,101 @@ if(document.querySelector("#cart")){
         let minus = decrement[i];
         let plus = increment[i];
         input.addEventListener("change",function(){
-            if(input.value <= 1){
-                input.value = 1;
-            }else if(input.value >= 99){
-                input.value = 99;
-            }
+            let idProduct = input.getAttribute("data-id");
+            let formData = new FormData();
+            formData.append("idProduct",idProduct);
+
+            request(base_url+"/shop/getProduct",formData,"post").then(function(objData){
+                
+                if(input.value <= 1){
+                    input.value = 1;
+                }else if(input.value >=objData.data.stock){
+                    input.value = objData.data.stock;
+                }
+                let qty=input.value;
+
+                formData.append("idProduct",idProduct);
+                formData.append("qty",qty);
+                request(base_url+"/shop/updateCart",formData,"post").then(function(objData){
+                    if(objData.status){
+                        document.querySelector("#subtotal").innerHTML = objData.total;
+                        document.querySelector("#totalProducts").innerHTML = objData.total;
+                        document.querySelectorAll(".totalPerProduct")[i].innerHTML = objData.totalPrice;
+                    }
+                });
+            });
+            
+              
+            
         })
         minus.addEventListener("click",function(){
+            let idProduct = input.getAttribute("data-id");
+            let formData = new FormData();
             if(input.value<=1){
-                return input.value=1;
+                input.value=1;
+            }else{
+                input.value--;
             }
-            input.value--;
+            let qty=input.value;
+            formData.append("idProduct",idProduct);
+            formData.append("qty",qty);
+            request(base_url+"/shop/updateCart",formData,"post").then(function(objData){
+                if(objData.status){
+                    document.querySelector("#subtotal").innerHTML = objData.total;
+                    document.querySelector("#totalProducts").innerHTML = objData.total;
+                    document.querySelectorAll(".totalPerProduct")[i].innerHTML = objData.totalPrice;
+                }
+            });
         });
         plus.addEventListener("click",function(){
-            if(input.value>=99){
-                return input.value=99;
-            }
-            input.value++;
+            let idProduct = input.getAttribute("data-id");
+            let formData = new FormData();
+            formData.append("idProduct",idProduct);
+            request(base_url+"/shop/getProduct",formData,"post").then(function(objData){
+
+                if(input.value >=objData.data.stock){
+                    input.value=objData.data.stock;
+                }else{
+                    input.value++;
+                }
+
+                let qty=input.value;
+                formData.append("idProduct",idProduct);
+                formData.append("qty",qty);
+
+                request(base_url+"/shop/updateCart",formData,"post").then(function(objData){
+                    if(objData.status){
+                        document.querySelector("#subtotal").innerHTML = objData.total;
+                        document.querySelector("#totalProducts").innerHTML = objData.total;
+                        document.querySelectorAll(".totalPerProduct")[i].innerHTML = objData.totalPrice;
+                    }
+                });
+            });
+            
         })
         
+    }
+    if(document.querySelectorAll(".table-cart .btn-del")){
+        let btns = document.querySelectorAll(".table-cart .btn-del");
+        for (let i = 0; i < btns.length; i++) {
+            let btn = btns[i];
+            btn.addEventListener("click",function(){
+                console.log(btns);
+                let idProduct = inputs[i].getAttribute("data-id");
+                let formData = new FormData();
+                formData.append("idProduct",idProduct);
+                request(base_url+"/shop/delCart",formData,"post").then(function(objData){
+                    if(objData.status){
+                        btn.parentElement.parentElement.parentElement.remove();
+                        document.querySelector("#subtotal").innerHTML = objData.total;
+                        document.querySelector("#totalProducts").innerHTML = objData.total;
+                        if(objData.qty == 0){
+                            window.location.reload();
+                        }
+                    }
+                });
+            })
+        }
     }
     
 }
