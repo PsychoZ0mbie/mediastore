@@ -58,7 +58,6 @@ btnCart.addEventListener("click",function(){
                             btn.parentElement.remove();
                             document.querySelector("#total").innerHTML = `<strong>Total: ${objData.total}</strong>`;
                             document.querySelector("#qtyCart").innerHTML=objData.qty;
-                            console.log(document.querySelectorAll(".cart-panel-item"))
                             if(document.querySelectorAll(".cart-panel-item").length>0){
                                 document.querySelector("#btnsCartPanel").classList.remove("d-none");
                             }else{
@@ -806,6 +805,60 @@ if(document.querySelector("#wishlist")){
     addProduct(document.querySelectorAll(".wishlist-actions .product-card-add"));
     quickModal(document.querySelectorAll(".wishlist-actions .quickView"));
 }
+/***************************Checkout page****************************** */
+if(document.querySelector("#checkout")){
+    document.querySelector(".nav-icons-qty").classList.add("d-none");
+    let intCountry = document.querySelector("#listCountry");
+    let intState = document.querySelector("#listState");
+    let intCity = document.querySelector("#listCity");
+    let formOrder = document.querySelector("#formOrder");
+    let formCoupon = document.querySelector("#formCoupon");
+    let btnCoupon = document.querySelector("#btnCoupon");
+    let alertCoupon = document.querySelector("#alertCoupon");
+
+    request(base_url+"/shop/getCountries","","get").then(function(objData){
+        intCountry.innerHTML = objData;
+    });
+
+    intCountry.addEventListener("change",function(){
+        request(base_url+"/shop/getSelectCountry/"+intCountry.value,"","get").then(function(objData){
+            intState.innerHTML = objData;
+        });
+        intCity.innerHTML = "";
+    });
+    intState.addEventListener("change",function(){
+        request(base_url+"/shop/getSelectState/"+intState.value,"","get").then(function(objData){
+            intCity.innerHTML = objData;
+        });
+    });
+
+    btnCoupon.addEventListener("click",function(){
+        let strCoupon = document.querySelector("#txtCoupon").value;
+        if(strCoupon ==""){
+            alertCoupon.innerHTML="Please put your coupon code.";
+            alertCoupon.classList.remove("d-none");
+            return false;
+        }
+        btnCoupon.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+        btnCoupon.setAttribute("disabled","");
+
+        let formData = new FormData(formCoupon);
+        request(base_url+"/shop/setCouponCode",formData,"post").then(function(objData){
+            btnCoupon.innerHTML=`+`;
+            btnCoupon.removeAttribute("disabled");
+            if(objData.status){
+                formCoupon.parentElement.innerHTML=`
+                    <p>${objData.data['code']}</p>
+                    <p>-${objData.data['discount']}%</p>`;
+                document.querySelector("#totalResume").innerHTML=objData.data['total'];
+            }else{
+                alertCoupon.innerHTML=objData.msg;
+                alertCoupon.classList.remove("d-none");
+            }
+        });
+    })
+
+}
 
 /***************************Essentials Functions****************************** */
 function openLoginModal(){
@@ -1382,7 +1435,7 @@ function addProduct(elements){
                 if(objData.status){
                     document.querySelector("#qtyCart").innerHTML=objData.qty;
 
-                    popup.children[1].children[0].src=objData.data.image.url;
+                    popup.children[1].children[0].src=objData.data.image['url'];
                     popup.children[1].children[0].alt=objData.data.name;
                     popup.children[1].children[1].children[0].innerHTML=objData.data.name;
                     popup.children[1].children[1].children[0].setAttribute("href",objData.data.route);
@@ -1396,7 +1449,7 @@ function addProduct(elements){
                     });
                 }else{
 
-                    popup.children[1].children[0].src=objData.data.image.url;
+                    popup.children[1].children[0].src=objData.data.image['url'];
                     popup.children[1].children[0].alt=objData.data.name;
                     popup.children[1].children[1].children[0].innerHTML=objData.data.name;
                     popup.children[1].children[1].children[0].setAttribute("href",objData.data.route);
@@ -1599,85 +1652,3 @@ function displayBtns(items,rows,current,paginationbtns,max){
     }
     paginationbtns.innerHTML = html;
 }
-/*function pagination(total,max,current){
-    
-    if(total < max){
-        max = total;
-    }
-    let half = Math.round(max/2);
-    let to = max;
-
-    if(current + half >= total){
-        to = total;
-    }else if(current > half){
-        to = current+half;
-    }
-
-    let from = to - max;
-    return Array.from({length:max},(v,i)=>(i+1)+from);
-    let html="";
-    let items = document.querySelectorAll(".product-item");
-    let perPage = 9;
-
-    for (let i = perPage; i < (current-1)*perPage; i++) {
-        items[i].classList.add("d-none");
-    }
-
-    for (let i = 0; i < arrPage.length; i++) {
-        if(arrPage[i]==current){
-            html+=` <li class="page active" data-page="${arrPage[i]}" onclick="pagination(${total},3,${arrPage[i]})"><a href="#">${arrPage[i]}</a></li>`; 
-        }else{
-            html+=` <li class="page" data-page="${arrPage[i]}" onclick="pagination(${total},3,${arrPage[i]})"><a href="#">${arrPage[i]}</a></li>`; 
-        }
-    }
-    let pages = document.querySelector(".pagination-pag ul");
-    pages.innerHTML = html;
-}*/
-/*
-function displayList(items,listItems,rows, current){
-    listItems.innerHTML="";
-    current--;
-
-    let display="";
-    let start = rows*current;
-    let end = start+rows;
-    let paginated = items.slice(start,end);
-    
-    for (let i = 0; i < paginated.length; i++) {
-        let div = document.createElement("div");
-        div.appendChild(paginated[i]);
-
-        display+= div.innerHTML;
-    }
-    listItems.innerHTML = display;
-}
-function displayBtns(items,listItems,pagination,rows,current){
-    pagination.innerHTML="";
-
-    let pages = Math.ceil(items.length/rows);
-    let display ="";
-    for (let i = 1; i < pages+1; i++) {
-        let btn = paginationBtn(i,current,items,listItems,rows,pagination);
-        let li = document.createElement("li");
-        li.appendChild(btn);
-        display+= li.innerHTML;
-    }
-    pagination.innerHTML = display;
-}
-function paginationBtn(page,current,items,listItems,rows,pagination){
-    let btn = document.createElement("li");
-    btn.classList.add("page");
-    btn.setAttribute("data-id",page);
-    btn.textContent = page;
-    if(current == page)btn.classList.add("active");
-
-    pagination.addEventListener("click",function(e){
-        //document.querySelector(".page.active").classList.remove("active");
-        current = e.target.getAttribute("data-id");
-        btn.classList.add("active");
-        displayList(items,listItems,rows, current);
-    });
-
-    return btn;
-}
-*/

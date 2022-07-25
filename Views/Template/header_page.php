@@ -83,7 +83,7 @@
                 <ul class="nav-icons-btns">
                     <li title="Search" class="c-p" id="btnSearch"><i class="fas fa-search"></i></li>
                     <?php
-                        if(isset($_SESSION['login'])){
+                        if(isset($_SESSION['login']) && isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){
                     ?>
                     <li title="Wishlist" ><a href="<?=base_url()?>/wishlist"><i class="fas fa-heart"></i></a></li>
                     <?php  }else{ ?>
@@ -158,7 +158,11 @@
                 <p class="t-p " id="total"><strong>Total: <?=formatNum($total)?></strong></p>
                 <div class="d-none" id="btnsCartPanel">
                     <a href="<?=base_url()?>/shop/cart" class="btn w-100 btnc-primary mb-2">View Cart</a>
-                    <a href="<?=base_url()?>/shop/checkout" class="btn w-100 btnc-primary">Checkout</a>
+                    <?php if(isset($_SESSION['login']) && isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){ ?>
+                    <a href="<?=base_url()?>/shop/checkout" class="mb-3 w-100 btn btnc-primary">Checkout</a>
+                    <?php }else{ ?>
+                    <button type="button" onclick="openLoginModal();" class="mb-3 w-100 btn btnc-primary">Checkout</button>
+                    <?php }?>
                 </div>
             </div>
         </div>

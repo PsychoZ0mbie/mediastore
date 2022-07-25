@@ -63,6 +63,18 @@
             $data['page_name'] = "cart";
             $this->views->getView($this,"cart",$data); 
         }
+        public function checkout(){
+            if(isset($_SESSION['login']) && isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){
+                $this->setDetailTemp();
+                $data['page_tag'] = NOMBRE_EMPRESA;
+                $data['page_title'] ="Checkout | ".NOMBRE_EMPRESA;
+                $data['page_name'] = "checkout";
+                $this->views->getView($this,"checkout",$data); 
+            }else{
+                header("location: ".base_url());
+                die();
+            }
+        }
         /*public function getProductSort($params){
             $arrParams = explode(",",$params);
             $category="";
@@ -223,7 +235,7 @@
                                 foreach ($_SESSION['arrCart'] as $quantity) {
                                     $qtyCart += $quantity['qty'];
                                 }
-                                $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart,"data"=>$request);
+                                $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart,"data"=>$data);
                             } 
                         }
                     }else{
@@ -700,7 +712,76 @@
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();  
         }
-        
+        /******************************Checkout methods************************************/
+        public function setDetailTemp(){
+            $idsession = session_id();
+            $arrOrder = array("idcustomer" =>$_SESSION['idUser'],
+                                "idtransaction" => $idsession,
+                                "products" => $_SESSION['arrCart']
+                                );
+            $this->insertDetailTemp($arrOrder);
+        }
+        public function setCouponCode(){
+            if($_POST){
+                if(empty($_POST['txtCoupon'])){
+                    $arrResponse = array("status"=>false,"msg"=>"Data error"); 
+                }else{
+                    $idUser = $_SESSION['idUser'];
+                    $strCoupon = strClean(strtoupper($_POST['txtCoupon']));
+                    $request = $this->setCouponCodeT($idUser,$strCoupon);
+                    if(is_array($request)){
+                        $total=0;
+                        $arrProducts = $_SESSION['arrCart'];
+                        foreach ($arrProducts as $product) {
+                            if($product['discount']>0){
+                                $total += $product['qty']*($product['price']-($product['price']*($product['discount']*0.01)));
+                            }else{
+                                $total+=$product['qty']*$product['price'];
+                            }
+                        }
+                        $_SESSION['couponDiscount'] = $request;
+                        $total = $total-(($request['discount']/100)*$total);
+                        $request['total'] = formatNum($total);
+                        $arrResponse=array("status"=>true,"data"=>$request);
+
+                    }else if($request==""){
+                        $arrResponse = array("status"=>false,"msg"=>"Coupon doesn't exists or it's inactive."); 
+                    }else if($request =="exists"){
+                        $arrResponse = array("status"=>false,"msg"=>"You have already used your coupon before."); 
+                    }
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+        public function getCountries(){
+            $request = $this->selectCountries();
+            $html="";
+            for ($i=0; $i < count($request) ; $i++) { 
+                $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
+            }
+
+            echo json_encode($html,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function getSelectCountry($id){
+            $request = $this->selectStates($id);
+            $html="";
+            for ($i=0; $i < count($request) ; $i++) { 
+                $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
+            }
+            echo json_encode($html,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function getSelectState($id){
+            $request = $this->selectCities($id);
+            $html="";
+            for ($i=0; $i < count($request) ; $i++) { 
+                $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
+            }
+            echo json_encode($html,JSON_UNESCAPED_UNICODE);
+            die();
+        }
         /******************************General shop methods************************************/
         public function search(){
             if($_POST){

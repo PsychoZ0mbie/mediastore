@@ -324,6 +324,7 @@ if(document.querySelector("#profile")){
         request(url,"","get").then(function(objData){
             intState.innerHTML = objData;
         });
+        intCity.innerHTML = "";
     });
     intState.addEventListener("change",function(){
         let url = base_url+"/user/getSelectState/"+intState.value;

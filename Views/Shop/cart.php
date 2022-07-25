@@ -94,11 +94,16 @@
                             <p class="m-0 fw-bold" id="totalProducts"><?=formatNum($total)?></p>
                         </div>
                     </div>
-                    <div class="input-group mb-3">
+                    <!--<div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Coupon code" aria-label="Coupon code" aria-describedby="button-addon2">
                         <button class="btn btnc-primary" type="button" id="button-addon2">+</button>
-                    </div>
-                    <a href="checkout.html" class="w-100 btn btnc-primary">Proceed to checkout</a>
+                    </div>-->
+                    <?php if(isset($_SESSION['login']) && isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){ ?>
+                    <a href="<?=base_url()?>/shop/checkout" class="mb-3 w-100 btn btnc-primary">Checkout</a>
+                    <?php }else{ ?>
+                    <button type="button" onclick="openLoginModal();" class="mb-3 w-100 btn btnc-primary">Checkout</button>
+                    <?php }?>
+                    <a href="<?=base_url()?>/shop" class="w-100 btn btn-dark">Continue shopping</a>
                 </div>
             </div>
             <?php }else {?>
