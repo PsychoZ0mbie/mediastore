@@ -7,8 +7,18 @@
         private $strPassword;
         private $intRoleId;
         private $intIdUser;
-        private $intIdTransaction;
+        private $strIdTransaction;
         private $strCoupon;
+        private $intIdOrder;
+        private $strFirstName;
+        private $strLastName;
+        private $strEmail;
+        private $strPhone;
+        private $strCountry;
+        private $strState;
+        private $strCity;
+        private $strAddress;
+        private $strPostalCode;
 
         public function setCustomerT($strName,$strPicture,$strEmail,$strPassword,$rolid){
             $this->con = new Mysql();
@@ -70,8 +80,8 @@
                 $sql = "SELECT * FROM usedcoupon WHERE code = '$this->strCoupon' AND personid= $this->intIdUser";
                 $request = $this->con->select_all($sql);
                 if(empty($request)){
-                    $sql = "INSERT INTO usedcoupon(couponid,personid,code) VALUE(?,?,?)";
-                    $arrData = array($idCoupon,$this->intIdUser,$this->strCoupon);
+                    $sql = "INSERT INTO usedcoupon(couponid,personid,code,status) VALUE(?,?,?,?)";
+                    $arrData = array($idCoupon,$this->intIdUser,$this->strCoupon,1);
                     $request= $this->con->insert($sql,$arrData);
                     $return = $data;
                 }else{
@@ -80,7 +90,24 @@
             }
             return $return;
         }
-        public function insertDetailTemp(array $arrOrder){
+        public function checkCoupon($idUser){
+            $this->con = new Mysql();
+            $this->intIdUser = $idUser;
+            $sql = "SELECT * FROM usedcoupon WHERE personid = $this->intIdUser AND status = 1";
+            $request = $this->con->select($sql);
+            $data=array();
+            if(!empty($request)){
+                $code = $request['code'];
+                $sql = "SELECT * FROM coupon WHERE code = '$code' AND status = 1";
+                $request = $this->con->select($sql);
+                if(!empty($request)){
+                    $data['code'] = $code;
+                    $data['discount']=$request['discount'];
+                }
+            }
+            return $data;
+        }
+        /*public function insertDetailTemp(array $arrOrder){
             $this->con = new Mysql();
             $this->intIdUser = $arrOrder['idcustomer'];
             $this->intIdTransaction = $arrOrder['idtransaction'];
@@ -116,6 +143,72 @@
                     $requestPro = $this->con->insert($query,$arrData);
                 }
             }
+        }*/
+        public function insertOrder($idUser,$idTransaction,$dataPaypal,$firstname,$lastname,$email,$phone,$country,$state,$city,$address,
+        $postalCode,$notes,$total,$status){
+
+            $this->con = new Mysql();
+            $this->strIdTransaction = $idTransaction;
+            $this->intIdUser = $idUser;
+            $this->strFirstName = $firstname;
+            $this->strLastName = $lastname;
+            $this->strEmail = $email;
+            $this->strPhone = $phone;
+            $this->strCountry = $country;
+            $this->strState = $state;
+            $this->strCity = $city;
+            $this->strPostalCode = $postalCode;
+            $this->strAddress=$address;
+
+            $sql ="INSERT INTO orderdata(personid,idtransaction,paypaldata,firstname,lastname,email,phone,address,country,state,city,postalcode,note,amount,status) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $arrData = array(
+                $this->intIdUser, 
+                $this->strIdTransaction,
+                $dataPaypal,
+                $this->strFirstName,
+                $this->strLastName,
+                $this->strEmail,
+                $this->strPhone,
+                $this->strAddress,
+                $this->strCountry,
+                $this->strState,
+                $this->strCity,
+                $this->strPostalCode,
+                $note,
+                $total,
+                $status);
+            $request = $this->con->insert($sql,$arrData);
+            return $request;
+        }
+        public function insertOrderDetail(array $arrOrder){
+            $this->con = new Mysql();
+            $this->intIdUser = $arrOrder['iduser'];
+            $this->intIdOrder = $arrOrder['idorder'];
+            $products = $arrOrder['products'];
+
+            foreach ($products as $pro) {
+                $query = "INSERT INTO orderdetail(orderid,personid,productid,quantity,price)
+                        VALUE(?,?,?,?,?)";
+                $arrData=array($this->intIdOrder,
+                                $this->intIdUser,
+                                openssl_decrypt($pro['idproduct'],METHOD,KEY),
+                                $pro['qty'],
+                                $pro['price']);
+                $request = $this->con->insert($query,$arrData);
+            }
+            return $request;
+        }
+        public function getOrder($idOrder){
+            $this->con = new Mysql();
+            $this->intIdOrder =$idOrder;
+            $sql = "SELECT *,DATE_FORMAT(date, '%d/%m/%Y') as date FROM orderdata WHERE idorder = $this->intIdOrder";
+            $order = $this->con->select($sql);
+            if(!empty($order)){
+                $sql = "SELECT * FROM orderdetail WHERE orderid = $this->intIdOrder";
+                $detail = $this->select_all($sql);
+                $arrData = array("order"=>$order,"detail"=>$detail);
+            }   
+            return $arrData;
         }
         
     }

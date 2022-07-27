@@ -42,6 +42,9 @@
 	const TELEFONO = "(+57)3108714741";
 	const WEB_EMPRESA = "https://buhosmarqueteriaygaleria.co";
 
+	//Paypal data
+	const CURRENCY ="USD";
+	const CLIENT_ID ="AakgfOkNP7xRfFWsnxsBFwlDFCnrbry6NWBM9Lg-003UIFfZgnvMprJLHyhrZj65i0oMJx-SF9QS4z6R";
 	//Encriptado
 	const KEY = "ecommerce";
 	const METHOD = "AES-128-ECB";

@@ -65,10 +65,11 @@
         }
         public function checkout(){
             if(isset($_SESSION['login']) && isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){
-                $this->setDetailTemp();
+                //$this->setDetailTemp();
                 $data['page_tag'] = NOMBRE_EMPRESA;
                 $data['page_title'] ="Checkout | ".NOMBRE_EMPRESA;
                 $data['page_name'] = "checkout";
+                $data['coupon'] = $this->checkCoupon($_SESSION['idUser']);
                 $this->views->getView($this,"checkout",$data); 
             }else{
                 header("location: ".base_url());
@@ -713,13 +714,110 @@
             die();  
         }
         /******************************Checkout methods************************************/
-        public function setDetailTemp(){
+        /*public function setDetailTemp(){
             $idsession = session_id();
             $arrOrder = array("idcustomer" =>$_SESSION['idUser'],
                                 "idtransaction" => $idsession,
                                 "products" => $_SESSION['arrCart']
                                 );
             $this->insertDetailTemp($arrOrder);
+        }*/
+        public function checkData(){
+            if($_POST){
+                if(empty($_POST['txtNameOrder']) || empty($_POST['txtLastNameOrder']) || empty($_POST['txtEmailOrder']) || 
+                empty($_POST['txtPhoneOrder']) || empty($_POST['txtAddressOrder']) || empty($_POST['country'])
+                || empty($_POST['state']) || empty($_POST['city'])){
+                    $arrResponse = array("status"=>false,"msg"=>"Data error");
+                }else{
+                    $arrData = array(
+                        "firstname"=>strClean(ucwords($_POST['txtNameOrder'])),
+                        "lastname"=>strClean(ucwords($_POST['txtLastNameOrder'])),
+                        "email"=>strClean(strtolower($_POST['txtEmailOrder'])),
+                        "phone"=>strClean($_POST['txtPhoneOrder']),
+                        "address"=>strClean($_POST['txtAddressOrder']),
+                        "country"=>strClean($_POST['country']),
+                        "state"=>strClean($_POST['state']),
+                        "city"=>strClean($_POST['city']),
+                        "postalcode" =>strClean($_POST['txtPostCodeOrder']),
+                        "note"=>strClean($_POST['txtNote'])
+                    );
+                    $_SESSION['checkData'] = $arrData;
+                    $arrResponse = array("status"=>true,"msg"=>"Data correct");
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+        public function setOrder(){
+            if($_POST){
+                if(empty($_POST['data']) || empty($_SESSION['checkData'])){
+                    $arrResponse = array("status"=>false,"msg"=>"Data error");
+                }else{
+                    $arrCart = array();
+                    $total = 0;
+                    $idUser = $_SESSION['idUser'];
+                    $objPaypal = json_decode($_POST['data']);
+                    $arrInfo = $_SESSION['checkData'];
+                    unset($_SESSION['checkData']);
+
+                    if(!empty($_SESSION['arrCart'])){
+                        $arrProducts = $_SESSION['arrCart'];
+                        foreach ($arrProducts as $product) {
+                            if($product['discount']>0){
+                                $total += $product['qty']*($product['price']-($product['price']*($product['discount']*0.01)));
+                            }else{
+                                $total+=$product['qty']*$product['price'];
+                            }
+                        }
+                        $dataCoupon = $this->checkCoupon($idUser);
+                        if(!empty($dataCoupon)){
+                            $total = $total-(($dataCoupon['discount']/100)*$total);
+                        }
+                        if(is_object($objPaypal)){
+
+                            $dataPaypal = $_POST['data'];
+                            $idTransaction = $objPaypal->purchase_units[0]->payments->captures[0]->id;
+                            $status = $objPaypal->purchase_units[0]->payments->captures[0]->status;
+                            $firstname = $arrInfo['name'];
+                            $lastname = $arrInfo['lastname'];
+                            $email = $arrInfo['email'];
+                            $phone = $arrInfo['phone'];
+                            $postalCode = $arrInfo['postalcode'];  
+                            $country = $arrInfo['country'];
+                            $state = $arrInfo['state'];
+                            $city = $arrInfo['city'];
+                            $address = $arrInfo['address'];
+                            $note = $arrInfo['note'];
+
+                            $requestOrder = $this->insertOrder($idUser,$idTransaction,$dataPaypal,$firstname,$lastname,$email,$phone,$country,$state,$city,$address,
+                            $postalCode,$notes,$total,$status);
+
+                            if($requestOrder>0){
+
+                                $arrOrder = array("idorder"=>$requestOrder,"iduser"=>$_SESSION['idUser'],"products"=>$_SESSION['arrCart']);
+                                $request = $this->insertOrderDetail($arrOrder);
+                                $orderInfo = $this->getOrder($requestOrder);
+                                $orderInfo['coupon'] = $dataCoupon;
+                                $dataEmailOrden = array(
+                                    'asunto' => "Your order is N -".$requestOrder,
+                                    'email' => $_SESSION['userData']['email'], 
+                                    'emailCopia' => EMAIL_REMITENTE,
+                                    'order' => $orderInfo );
+
+								sendEmail($dataEmailOrden,"email_order");
+                                
+                                
+                                $arrResponse = array("status"=>true,"orden"=>$orden,"msg"=>"Pedido realizado");
+                            }else{
+                                $arrResponse = array("status"=>false,"msg"=>"The order could not be placed.");
+                            }
+                        }else{
+                            $arrResponse = array("status"=>false,"msg"=>"An error has occurred in the transaction.");
+                        }
+                    }
+                }
+            }
+            die();
         }
         public function setCouponCode(){
             if($_POST){
@@ -739,7 +837,8 @@
                                 $total+=$product['qty']*$product['price'];
                             }
                         }
-                        $_SESSION['couponDiscount'] = $request;
+                        //$_SESSION['couponData']['data'] = $request;
+                       // $_SESSION['couponData']['idUser'] = $_SESSION['idUser'];
                         $total = $total-(($request['discount']/100)*$total);
                         $request['total'] = formatNum($total);
                         $arrResponse=array("status"=>true,"data"=>$request);

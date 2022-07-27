@@ -813,7 +813,7 @@ if(document.querySelector("#checkout")){
     let intCity = document.querySelector("#listCity");
     let formOrder = document.querySelector("#formOrder");
     let formCoupon = document.querySelector("#formCoupon");
-    let btnCoupon = document.querySelector("#btnCoupon");
+    let checkData = document.querySelector("#checkData");
     let alertCoupon = document.querySelector("#alertCoupon");
 
     request(base_url+"/shop/getCountries","","get").then(function(objData){
@@ -831,33 +831,107 @@ if(document.querySelector("#checkout")){
             intCity.innerHTML = objData;
         });
     });
+    if(document.querySelector("#btnCoupon")){
+        let btnCoupon = document.querySelector("#btnCoupon");
+        btnCoupon.addEventListener("click",function(){
+            let strCoupon = document.querySelector("#txtCoupon").value;
+            if(strCoupon ==""){
+                alertCoupon.innerHTML="Please put your coupon code.";
+                alertCoupon.classList.remove("d-none");
+                return false;
+            }
+            btnCoupon.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+            btnCoupon.setAttribute("disabled","");
+    
+            let formData = new FormData(formCoupon);
+            request(base_url+"/shop/setCouponCode",formData,"post").then(function(objData){
+                btnCoupon.innerHTML=`+`;
+                btnCoupon.removeAttribute("disabled");
+                if(objData.status){
+                    formCoupon.parentElement.innerHTML=`
+                        <p>${objData.data['code']}</p>
+                        <p>-${objData.data['discount']}%</p>`;
+                    document.querySelector("#totalResume").innerHTML=objData.data['total'];
+                }else{
+                    alertCoupon.innerHTML=objData.msg;
+                    alertCoupon.classList.remove("d-none");
+                }
+            });
+        })
+    }
+    checkData.addEventListener("click",function(){
+        let strName = document.querySelector("#txtNameOrder").value;
+        let strLastName = document.querySelector("#txtLastNameOrder").value;
+        let strEmail = document.querySelector("#txtEmailOrder").value;
+        let strPhone = document.querySelector("#txtPhoneOrder").value;
+        let strAddress = document.querySelector("#txtAddressOrder").value;
+        let strPostalCode = document.querySelector("#txtPostCodeOrder").value;
+        let strNote = document.querySelector("#txtNote");
+    
+        const countryList = document.querySelector("#listCountry");
+        const stateList = document.querySelector("#listState");
+        const cityList = document.querySelector("#listCity"); 
+        const alertOrder = document.querySelector("#alertCheckData");
+        const btnPaypal = document.querySelector("#paypal-button-container");
+        
+        
+        if(strName=="" || strLastName=="" || strEmail =="" || strPhone =="" || strAddress=="" || countryList.value=="" || stateList.value =="" || cityList.value==""){
+            
+            console.log("hola");
+            alertOrder.classList.remove("d-none");
+            btnPaypal.classList.add("d-none");
+            alertOrder.innerHTML =`Please, fill the fields with (<span class="text-danger">*</span>)`;
 
-    btnCoupon.addEventListener("click",function(){
-        let strCoupon = document.querySelector("#txtCoupon").value;
-        if(strCoupon ==""){
-            alertCoupon.innerHTML="Please put your coupon code.";
-            alertCoupon.classList.remove("d-none");
             return false;
         }
-        btnCoupon.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
-        btnCoupon.setAttribute("disabled","");
+        if(!fntEmailValidate(strEmail)){
+            let html = ` Your email is incorrect, it is only allowed:
+            <ul class="m-0 mt-1">
+                <li>@hotmail.com</li>
+                <li>@outlook.com</li>
+                <li>@yahoo.com</li>
+                <li>@live.com</li>
+                <li>@gmail.com</li>
+            </ul>
+            `;
+            alertOrder.innerHTML = html;
+            alertOrder.classList.remove("d-none");
+            btnPaypal.classList.add("d-none");
+            return false;
+        }
+        if(strPhone.length < 9){
+            alertOrder.innerHTML = "Phone number must have at least 9 digits";
+            alertOrder.classList.remove("d-none");
+            btnPaypal.classList.add("d-none");
+            return false;
+        }
+        
+        
+        let formData = new FormData(formOrder);
+        formData.append("country",countryList.options[countryList.selectedIndex].text);
+        formData.append("state",stateList.options[stateList.selectedIndex].text);
+        formData.append("city",cityList.options[cityList.selectedIndex].text);
 
-        let formData = new FormData(formCoupon);
-        request(base_url+"/shop/setCouponCode",formData,"post").then(function(objData){
-            btnCoupon.innerHTML=`+`;
-            btnCoupon.removeAttribute("disabled");
+        checkData.innerHTML=`
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Wait...
+        `;
+        checkData.setAttribute("disabled","");
+        request(base_url+"/shop/checkData",formData,"post").then(function(objData){
+            checkData.innerHTML = "Pay now";
+            checkData.removeAttribute("disabled","");
             if(objData.status){
-                formCoupon.parentElement.innerHTML=`
-                    <p>${objData.data['code']}</p>
-                    <p>-${objData.data['discount']}%</p>`;
-                document.querySelector("#totalResume").innerHTML=objData.data['total'];
+                alertOrder.classList.add("d-none");
+                btnPaypal.classList.remove("d-none");
+                checkData.classList.add("d-none");
             }else{
-                alertCoupon.innerHTML=objData.msg;
-                alertCoupon.classList.remove("d-none");
+                alertOrder.classList.remove("d-none");
+                checkData.classList.remove("d-none");
+                btnPaypal.classList.add("d-none");
+                alertOrder.innerHTML = objData.msg;
             }
         });
-    })
-
+    });
 }
 
 /***************************Essentials Functions****************************** */
