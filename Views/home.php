@@ -21,11 +21,7 @@
             </div>
             <div class="d-flex justify-content-between align-items-center text-center mt-3">
                 <a href="<?=base_url()?>/shop/cart" class="btnc w-50 p-1 btnc-primary me-4">View Cart</a>
-                <?php if(isset($_SESSION['login']) && !empty($_SESSION['arrCart'])){ ?>
-                <a href="<?=base_url()?>/shop/checkout" class="btnc w-50 p-1 btnc-primary">Checkout</a>
-                <?php }else{ ?>
-                    <div type="button" onclick="openLoginModal();" class="btnc w-50 h-100 p-1 btnc-primary">Checkout</div>
-                <?php }?>
+                <div class="btnc w-50 h-100 p-1 btnc-primary c-p" id="btnCheckOutPopup">Checkout</div>
             </div>
         </div>
         <section>

@@ -107,6 +107,14 @@
             }
             return $data;
         }
+        public function updateCoupon($idUser,$code){
+            $this->con = new Mysql();
+            $this->intIdUser = $idUser;
+            $sql = "UPDATE usedcoupon SET status=? WHERE personid = $this->intIdUser AND code = '$code'";
+            $arrData = array(2);
+            $request = $this->con->update($sql,$arrData);
+            return;
+        }
         /*public function insertDetailTemp(array $arrOrder){
             $this->con = new Mysql();
             $this->intIdUser = $arrOrder['idcustomer'];
@@ -145,7 +153,7 @@
             }
         }*/
         public function insertOrder($idUser,$idTransaction,$dataPaypal,$firstname,$lastname,$email,$phone,$country,$state,$city,$address,
-        $postalCode,$notes,$total,$status){
+        $postalCode,$note,$total,$status){
 
             $this->con = new Mysql();
             $this->strIdTransaction = $idTransaction;
@@ -187,13 +195,20 @@
             $products = $arrOrder['products'];
 
             foreach ($products as $pro) {
-                $query = "INSERT INTO orderdetail(orderid,personid,productid,quantity,price)
-                        VALUE(?,?,?,?,?)";
+                $price=0;
+                if($pro['discount']>0){
+                    $price = $pro['price']-($pro['price']*($pro['discount']*0.01));
+                }else{
+                    $price = $pro['price'];
+                }
+                $query = "INSERT INTO orderdetail(orderid,personid,productid,name,quantity,price)
+                        VALUE(?,?,?,?,?,?)";
                 $arrData=array($this->intIdOrder,
                                 $this->intIdUser,
                                 openssl_decrypt($pro['idproduct'],METHOD,KEY),
+                                $pro['name'],
                                 $pro['qty'],
-                                $pro['price']);
+                                $price);
                 $request = $this->con->insert($query,$arrData);
             }
             return $request;
@@ -205,7 +220,7 @@
             $order = $this->con->select($sql);
             if(!empty($order)){
                 $sql = "SELECT * FROM orderdetail WHERE orderid = $this->intIdOrder";
-                $detail = $this->select_all($sql);
+                $detail = $this->con->select_all($sql);
                 $arrData = array("order"=>$order,"detail"=>$detail);
             }   
             return $arrData;

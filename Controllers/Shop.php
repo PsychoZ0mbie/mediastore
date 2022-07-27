@@ -14,6 +14,7 @@
             $this->login = new LoginModel();
         }
 
+        /******************************Views************************************/
         public function shop(){
             $data['page_tag'] = NOMBRE_EMPRESA;
             $data['page_title'] = "Shop | ".NOMBRE_EMPRESA;
@@ -71,6 +72,19 @@
                 $data['page_name'] = "checkout";
                 $data['coupon'] = $this->checkCoupon($_SESSION['idUser']);
                 $this->views->getView($this,"checkout",$data); 
+            }else{
+                header("location: ".base_url());
+                die();
+            }
+        }
+        public function confirm(){
+            if(isset($_SESSION['orderData'])){
+                $data['page_tag'] = NOMBRE_EMPRESA;
+                $data['page_title'] ="Confirm order | ".NOMBRE_EMPRESA;
+                $data['page_name'] = "confirm";
+                $data['orderData'] = $_SESSION['orderData'];
+                unset($_SESSION['orderData']);
+                $this->views->getView($this,"confirm",$data); 
             }else{
                 header("location: ".base_url());
                 die();
@@ -311,7 +325,11 @@
                         $total+=$product['qty']*$product['price'];
                     }
                 }
-                $arrResponse = array("items"=>$html,"total"=>formatNum($total));
+                $status=false;
+                if(isset($_SESSION['login']) && !empty($_SESSION['arrCart'])){
+                    $status=true;
+                }
+                $arrResponse = array("status"=>$status,"items"=>$html,"total"=>formatNum($total));
             }else{
                 $arrResponse = array("items"=>"","total"=>formatNum(0));
             }
@@ -772,13 +790,14 @@
                         $dataCoupon = $this->checkCoupon($idUser);
                         if(!empty($dataCoupon)){
                             $total = $total-(($dataCoupon['discount']/100)*$total);
+                            $this->updateCoupon($idUser,$dataCoupon['code']);
                         }
                         if(is_object($objPaypal)){
 
                             $dataPaypal = $_POST['data'];
                             $idTransaction = $objPaypal->purchase_units[0]->payments->captures[0]->id;
                             $status = $objPaypal->purchase_units[0]->payments->captures[0]->status;
-                            $firstname = $arrInfo['name'];
+                            $firstname = $arrInfo['firstname'];
                             $lastname = $arrInfo['lastname'];
                             $email = $arrInfo['email'];
                             $phone = $arrInfo['phone'];
@@ -790,7 +809,7 @@
                             $note = $arrInfo['note'];
 
                             $requestOrder = $this->insertOrder($idUser,$idTransaction,$dataPaypal,$firstname,$lastname,$email,$phone,$country,$state,$city,$address,
-                            $postalCode,$notes,$total,$status);
+                            $postalCode,$note,$total,$status);
 
                             if($requestOrder>0){
 
@@ -800,22 +819,28 @@
                                 $orderInfo['coupon'] = $dataCoupon;
                                 $dataEmailOrden = array(
                                     'asunto' => "Your order is N -".$requestOrder,
-                                    'email' => $_SESSION['userData']['email'], 
-                                    'emailCopia' => EMAIL_REMITENTE,
+                                    'email_usuario' => $_SESSION['userData']['email'], 
+                                    'email_remitente'=>EMAIL_REMITENTE,
+                                    'email_copia' => EMAIL_REMITENTE,
                                     'order' => $orderInfo );
 
 								sendEmail($dataEmailOrden,"email_order");
-                                
-                                
-                                $arrResponse = array("status"=>true,"orden"=>$orden,"msg"=>"Pedido realizado");
+                                $idOrder = openssl_encrypt($requestOrder,METHOD,KEY);
+                                $idTransaction = openssl_encrypt($orderInfo['order']['idtransaction'],METHOD,KEY);
+                                $arrResponse = array("status"=>true,"order"=>$idOrder,"transaction"=>$idTransaction,"msg"=>"Order placed");
+                                $_SESSION['orderData'] = $arrResponse;
+                                unset($_SESSION['arrCart']);
                             }else{
                                 $arrResponse = array("status"=>false,"msg"=>"The order could not be placed.");
                             }
                         }else{
                             $arrResponse = array("status"=>false,"msg"=>"An error has occurred in the transaction.");
                         }
+                    }else{
+                        $arrResponse = array("status"=>false,"msg"=>"An error has occurred in the transaction.");
                     }
                 }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
             die();
         }

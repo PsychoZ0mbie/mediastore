@@ -97,24 +97,14 @@ $coupon = $data['order']['coupon'];
 		  	<?php 
 		  		if(count($detail) > 0){
 		  			$subtotal = 0;
-					$totalProducts =0;
-					$price=0;
 		  			foreach ($detail as $product) {
-						if($product['discount']>0){
-							$total += $product['qty']*($product['price']-($product['price']*($product['discount']*0.01)));
-							$subtotal += $product['qty']*($product['price']-($product['price']*($product['discount']*0.01)));
-							$price = $product[$i]['price']-($product[$i]['price']*($product[$i]['discount']*0.01));
-						}else{
-							$total+=$product['qty']*$product['price'];
-							$subtotal+=$product['qty']*$product['price'];
-							$price = $product[$i]['price'];
-						}
+						$subtotal+=$product['quantity']*$product['price'];
 		  	 ?>
 		    <tr>
 		      <td><?=$product['name']?><br></td>
-		      <td class="text-right"><?=formatNum($price)?></td>
+		      <td class="text-right"><?=formatNum($product['price'])?></td>
 		      <td class="text-center"><?= $product['quantity'] ?></td>
-		      <td class="text-right"><?= formatNum($price*$product['quantity'])?></td>
+		      <td class="text-right"><?= formatNum($product['price']*$product['quantity'])?></td>
 		    </tr>
 			<?php 		
 				}
@@ -129,16 +119,17 @@ $coupon = $data['order']['coupon'];
 				<?php if(!empty($coupon)){?>
 				<tr>
 		  			<th colspan="3" class="text-right">Coupon discount:</th>
-		  			<td class="text-right"><?= $coupon['code']." - ".$coupon['discount']?></td>
+		  			<td class="text-right"><?= $coupon['code']." - ".$coupon['discount']?>%</td>
 		  		</tr>
 				<?php }?>
 		  		<tr>
 		  			<th colspan="3" class="text-right">Total:</th>
-		  			<td class="text-right"><?= formatNum($orden['amount'])?></td>
+		  			<td class="text-right"><?= formatNum($order['amount'])?></td>
 		  		</tr>
 		  </tfoot>
 		</table>
 		<div class="text-center">
+			<p>We will contact you soon to organize the delivery</p>
 			<h4>Thank you for your purchase!</h4>			
 		</div>
 	</div>									

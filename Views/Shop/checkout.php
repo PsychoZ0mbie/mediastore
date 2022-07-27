@@ -43,7 +43,7 @@
             formData.append("data",JSON.stringify(orderData, null, 2));
             request(base_url+"/shop/setOrder",formData,"post").then(function(objData){
                 if(objData.status){
-                    
+                    window.location.href=base_url+"/shop/confirm";
                 }
             });
             //console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
