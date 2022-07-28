@@ -1,11 +1,24 @@
 'use strict'
+function printDiv(div){
+    div.style.backgroundColor="#fff";
+    div.style.height="100%";
+    div.style.width="100%";
+    div.style.position="fixed";
+    div.style.top="0";
+    div.style.left="0";
+    div.style.zIndex="9999";
+    div.style.margin="0";
+    div.style.padding="15px";
+    window.print();
+    window.location.reload();
+}
 function uploadImg(img,location){
     let imgUpload = img.value;
     let fileUpload = img.files;
     let type = fileUpload[0].type;
     if(type != "image/png" && type != "image/jpg" && type != "image/jpeg" && type != "image/gif"){
         imgUpload ="";
-        Swal.fire("Error","El archivo es incorrecto.","error");
+        Swal.fire("Error","wrong file.","error");
     }else{
         let objectUrl = window.URL || window.webkitURL;
         let route = objectUrl.createObjectURL(fileUpload[0]);
@@ -17,7 +30,7 @@ function uploadMultipleImg(img,parent){
     let files = img.files;
     for (let i = 0; i < files.length; i++) {
         if(files[i].type != "image/png" && files[i].type != "image/jpg" && files[i].type != "image/jpeg" && files[i].type != "image/gif"){
-            Swal.fire("Error","Sólo se permite imágenes","error");
+            Swal.fire("Error","Only images are allowed","error");
             value ="";
         }else{
             let div = document.createElement("div");
@@ -70,7 +83,7 @@ async function request(url,requestData,option){
         data = await request.json();
         return data;
     } catch (error) {
-        console.log("Hubo un problema con la petición: "+error.message);
+        console.log("There was a problem with the request: "+error.message);
     }
 }
 function controlTag(e) {

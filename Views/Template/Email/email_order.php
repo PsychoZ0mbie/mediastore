@@ -119,7 +119,7 @@ $coupon = $data['order']['coupon'];
 				<?php if(!empty($coupon)){?>
 				<tr>
 		  			<th colspan="3" class="text-right">Coupon discount:</th>
-		  			<td class="text-right"><?= $coupon['code']." - ".$coupon['discount']?>%</td>
+		  			<td class="text-right"><?=$coupon['discount']?>%</td>
 		  		</tr>
 				<?php }?>
 		  		<tr>

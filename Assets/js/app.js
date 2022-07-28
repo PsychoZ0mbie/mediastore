@@ -5,6 +5,7 @@ import Category from "./modules/category.js";
 import SubCategory from "./modules/subcategory.js";
 import Product from "./modules/product.js";
 import Coupon from "./modules/coupon.js";
+import Orders from "./modules/orders.js";
 
 document.addEventListener('focusin', (e) => {
     if (e.target.closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
@@ -255,6 +256,25 @@ if(document.querySelector("#product")){
         }
     });
     
+}
+/*************************Orders Pages*******************************/
+if(document.querySelector("#orders")){
+    let item = new Orders();
+    let element = document.querySelector("#listItem");
+
+    window.addEventListener("DOMContentLoaded",function() {
+        item.showItems(element);
+    })
+
+    element.addEventListener("click",function(e) {
+        let element = e.target;
+        let id = element.getAttribute("data-id");
+        if(element.name == "btnDelete"){
+            item.deleteItem(id);
+        }else if(element.name == "btnView"){
+            item.viewItem(id);
+        }
+    });
 }
 /*************************Store Pages*******************************/
 if(document.querySelector("#coupon")){
@@ -666,3 +686,9 @@ if(document.querySelector("#mensaje")){
     }
 }
 
+if(document.querySelector("#btnPrint")){
+    let btn = document.querySelector("#btnPrint");
+    btn.addEventListener("click",function(){
+        printDiv(document.querySelector("#orderInfo"));
+    });
+}

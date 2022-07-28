@@ -788,7 +788,9 @@
                             }
                         }
                         $dataCoupon = $this->checkCoupon($idUser);
+                        $idCoupon = 0;
                         if(!empty($dataCoupon)){
+                            $idCoupon = $dataCoupon['id'];
                             $total = $total-(($dataCoupon['discount']/100)*$total);
                             $this->updateCoupon($idUser,$dataCoupon['code']);
                         }
@@ -809,7 +811,7 @@
                             $note = $arrInfo['note'];
 
                             $requestOrder = $this->insertOrder($idUser,$idTransaction,$dataPaypal,$firstname,$lastname,$email,$phone,$country,$state,$city,$address,
-                            $postalCode,$note,$total,$status);
+                            $postalCode,$note,$total,$idCoupon,$status);
 
                             if($requestOrder>0){
 

@@ -19,12 +19,12 @@
 	//Otros
 	const KEYWORDS ="";
 	const MS = "$"; // Simbolo de moneda
-	const MD = " US"; // Divisa
+	const MD = " USD"; // Divisa
 	const DEC = ","; // Decimales;
 	const MIL = ".";//Millares;
 	const ENVIO =0;
-	const DESCRIPCION = "Marquetería tradicional y Moderna para diplomas, fotografías, afiches, retablos, espejos y obras de arte. Venta de todo tipo de obra sobre lienzo. La mejor marquetería del departamento de Villavicencio/Meta";
-	const SHAREDHASH ="BuhosMarqueteríayGalería";
+	const DESCRIPCION = "";
+	const SHAREDHASH ="";
 	//Datos envio de correo produccion
 	/*const NOMBRE_REMITENTE= "Buhos Marquetería & Galería";
 	const EMAIL_REMITENTE = "info@buhosmarqueteriaygaleria.co";
@@ -40,7 +40,7 @@
 	const NOMBRE_EMPRESA = "MediaStore";
 	const DIRECCION = "Colombia, Villavicencio/Meta, Cra 36 #15a-03 Barrio Nuevo Ricaurte";
 	const TELEFONO = "(+57)3108714741";
-	const WEB_EMPRESA = "https://buhosmarqueteriaygaleria.co";
+	const WEB_EMPRESA = "http://localhost/mediastore";
 
 	//Paypal data
 	const CURRENCY ="USD";

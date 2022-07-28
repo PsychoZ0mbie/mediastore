@@ -97,10 +97,12 @@
             $request = $this->con->select($sql);
             $data=array();
             if(!empty($request)){
+                $id = $request['couponid'];
                 $code = $request['code'];
                 $sql = "SELECT * FROM coupon WHERE code = '$code' AND status = 1";
                 $request = $this->con->select($sql);
                 if(!empty($request)){
+                    $data['id'] = $id;
                     $data['code'] = $code;
                     $data['discount']=$request['discount'];
                 }
@@ -153,7 +155,7 @@
             }
         }*/
         public function insertOrder($idUser,$idTransaction,$dataPaypal,$firstname,$lastname,$email,$phone,$country,$state,$city,$address,
-        $postalCode,$note,$total,$status){
+        $postalCode,$note,$total,$idCoupon,$status){
 
             $this->con = new Mysql();
             $this->strIdTransaction = $idTransaction;
@@ -168,7 +170,7 @@
             $this->strPostalCode = $postalCode;
             $this->strAddress=$address;
 
-            $sql ="INSERT INTO orderdata(personid,idtransaction,paypaldata,firstname,lastname,email,phone,address,country,state,city,postalcode,note,amount,status) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sql ="INSERT INTO orderdata(personid,idtransaction,paypaldata,firstname,lastname,email,phone,address,country,state,city,postalcode,note,amount,couponid,status) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $arrData = array(
                 $this->intIdUser, 
                 $this->strIdTransaction,
@@ -184,6 +186,7 @@
                 $this->strPostalCode,
                 $note,
                 $total,
+                $idCoupon,
                 $status);
             $request = $this->con->insert($sql,$arrData);
             return $request;
