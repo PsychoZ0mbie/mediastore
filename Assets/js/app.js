@@ -271,8 +271,6 @@ if(document.querySelector("#orders")){
         let id = element.getAttribute("data-id");
         if(element.name == "btnDelete"){
             item.deleteItem(id);
-        }else if(element.name == "btnView"){
-            item.viewItem(id);
         }
     });
 }
@@ -684,6 +682,13 @@ if(document.querySelector("#mensaje")){
             }
         });
     }
+}
+if(document.querySelector("#btnRefund")){
+    let item = new Orders();
+    let btn = document.querySelector("#btnRefund");
+    btn.addEventListener("click",function(){
+        item.refund(btn.getAttribute("data-id"));
+    });
 }
 
 if(document.querySelector("#btnPrint")){

@@ -21,21 +21,40 @@
                 die();
             }
         }
-        public function order($params){
+        public function order($idOrder){
             if($_SESSION['permitsModule']['r']){
-                if(is_numeric($params)){
-                    $id = intval($params);
-                    $data['orderdata'] = $this->model->selectOrder($id);
-                    $data['orderdetail'] = $this->model->selectOrderDetail($id);
+                if(is_numeric($idOrder)){
+                    $idPerson ="";
+                    if($_SESSION['userData']['roleid'] == 2 ){
+                        $idPerson= $_SESSION['idUser'];
+                    }
+                    $data['orderdata'] = $this->model->selectOrder($idOrder,$idPerson);
+                    $data['orderdetail'] = $this->model->selectOrderDetail($idOrder);
                     $data['coupon'] = $this->model->selectCoupon($data['orderdata']['couponid']);
                     $data['page_tag'] = "Order";
                     $data['page_title'] = "Order";
                     $data['page_name'] = "order";
                     $this->views->getView($this,"order",$data);
                 }else{
-                    header("location: ".base_url());
-                    die();
+                    header("location: ".base_url()."/Orders");
                 }
+                
+            }else{
+                header("location: ".base_url());
+                die();
+            }
+        }
+        public function transaction($idTransaction){
+            if($_SESSION['permitsModule']['r']){
+                $idPerson ="";
+                if($_SESSION['userData']['roleid'] == 2 ){
+                    $idPerson= $_SESSION['idUser'];
+                }
+                $data['transaction'] = $this->model->selectTransaction($idTransaction,$idPerson);
+                $data['page_tag'] = "Transaction";
+                $data['page_title'] = "Transaction";
+                $data['page_name'] = "transaction";
+                $this->views->getView($this,"transaction",$data);
                 
             }else{
                 header("location: ".base_url());
@@ -49,14 +68,28 @@
                 if(count($request)>0){
                     for ($i=0; $i < count($request); $i++) { 
 
-                        $btnView='<button class="btn btn-info m-1" type="button" title="View" data-id="'.$request[$i]['idorder'].'" name="btnView"><i class="fas fa-eye"></i></button>';
-                        $btnPrint='<button class="btn btn-danger m-1" type="button" title="Print" data-id="'.$request[$i]['idorder'].'" name="btnPrint"><i class="fas fa-file-pdf"></i></button>';
-                        $btnPaypal='<button class="btn btn-info m-1" type="button" title="Paypal" data-id="'.$request[$i]['idorder'].'" name="btnPaypal"><i class="fab fa-paypal"></i></button>';;
+                        $btnView='<a href="'.base_url().'/orders/order/'.$request[$i]['idorder'].'" class="btn btn-info text-white m-1" type="button" title="View order" name="btnView"><i class="fas fa-eye"></i></a>';
+                        $btnPrint='<button class="btn btn-danger text-white m-1" type="button" title="Print order" data-id="'.$request[$i]['idorder'].'" name="btnPrint"><i class="fas fa-file-pdf"></i></button>';
+                        $btnPaypal='<a href="'.base_url().'/orders/transaction/'.$request[$i]['idtransaction'].'" class="btn btn-info m-1 text-white " type="button" title="View Transaction" name="btnPaypal"><i class="fab fa-paypal"></i></a>';
                         $btnDelete ="";
-                        if($_SESSION['permitsModule']['d']){
-                            $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idorder'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+
+                        if($_SESSION['permitsModule']['d'] && $_SESSION['userData']['roleid'] == 1){
+                            $btnDelete = '<button class="btn btn-danger text-white m-1" type="button" title="Delete" data-id="'.$request[$i]['idorder'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                         }
-                        $html.='
+                        if($_SESSION['userData']['roleid'] == 1){
+
+                            $html.='
+                                <tr class="item">
+                                    <td><strong>Id: </strong>'.$request[$i]['idorder'].'</td>
+                                    <td><strong>Transaction: </strong>'.$request[$i]['idtransaction'].'</td>
+                                    <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
+                                    <td><strong>Amount: </strong>'.formatNum($request[$i]['amount']).'</td>
+                                    <td><strong>Status: </strong>'.$request[$i]['status'].'</td>
+                                    <td class="item-btn">'.$btnView.$btnPrint.$btnPaypal.$btnDelete.'</td>
+                                </tr>
+                            ';
+                        }elseif($_SESSION['idUser'] == $request[$i]['personid']){
+                            $html.='
                             <tr class="item">
                                 <td><strong>Id: </strong>'.$request[$i]['idorder'].'</td>
                                 <td><strong>Transaction: </strong>'.$request[$i]['idtransaction'].'</td>
@@ -66,6 +99,7 @@
                                 <td class="item-btn">'.$btnView.$btnPrint.$btnPaypal.$btnDelete.'</td>
                             </tr>
                         ';
+                        }
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
@@ -77,6 +111,41 @@
                 die();
             }
             
+            die();
+        }
+        public function getTransaction(string $idTransaction){
+            if($_SESSION['permitsModule']['r'] && $_SESSION['userData']['roleid'] !=2){
+                $idTransaction = strClean($idTransaction);
+                $request = $this->model->selectTransaction($idTransaction,"");
+                if(!empty($request)){
+                    $arrResponse = array("status"=>true,"data"=>$request);
+                }else{
+                    $arrResponse = array("status"=>false,"msg"=>"Data no found.");
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+        public function setRefund(){
+            if($_POST){
+                if(empty($_POST['idTransaction']) || empty($_POST['txtDescription'])){
+                    $arrResponse = array("status"=>false,"msg"=>"Data error.");
+                }else{
+                    if($_SESSION['permitsModule']['u'] && $_SESSION['userData']['roleid'] !=2){
+                        $idTransaction = strClean($_POST['idTransaction']);
+                        $strDescription = strClean($_POST['txtDescription']);
+                        $request = $this->model->insertRefund($idTransaction,$strDescription);
+                        if($request){
+                            $arrResponse = array("status"=>true,"msg"=>"Order has been refunded.");
+                        }else{
+                            $arrResponse = array("status"=>false,"msg"=>"Order can't be refunded.");
+                        }
+                    }else{
+                        $arrResponse = array("status"=>false,"msg"=>"You can't refund it, please contact with your admin.");
+                    }
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
             die();
         }
     }

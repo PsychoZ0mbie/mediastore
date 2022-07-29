@@ -42,6 +42,12 @@ $total=0;
                             <p class="m-0">Amount: <?=formatNum($order['amount'])?></p>
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12 text-start">
+                            <p class="m-0 fw-bold">Order note:</p>
+                            <p class="m-0"><?=$order['note']?></p> 
+                        </div>
+                    </div>
                     <table class="table items align-middle">
                         <thead class="text-center">
                             <tr>

@@ -45,6 +45,9 @@
 	//Paypal data
 	const CURRENCY ="USD";
 	const CLIENT_ID ="AakgfOkNP7xRfFWsnxsBFwlDFCnrbry6NWBM9Lg-003UIFfZgnvMprJLHyhrZj65i0oMJx-SF9QS4z6R";
+	const SECRET = "EGbVpex-9_HGLoBB2N6fYii6Qjzbad0yRupp8vbeg9pf95S_R9pUsqMxI3uHy2D2KOoJ8-Ez16jvFb96";
+	const URLPAYPAL="https://api.sandbox.paypal.com";
+	
 	//Encriptado
 	const KEY = "ecommerce";
 	const METHOD = "AES-128-ECB";
