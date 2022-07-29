@@ -83,7 +83,7 @@
                 <ul class="nav-icons-btns">
                     <li title="Search" class="c-p" id="btnSearch"><i class="fas fa-search"></i></li>
                     <?php
-                        if(isset($_SESSION['login']) && !empty($_SESSION['arrCart'])){
+                        if(isset($_SESSION['login'])){
                     ?>
                     <li title="Wishlist" ><a href="<?=base_url()?>/wishlist"><i class="fas fa-heart"></i></a></li>
                     <?php  }else{ ?>
@@ -164,6 +164,10 @@
             </div>
         </div>
     </header>
+    <div id="divLoading" class="d-none">
+        <div></div>
+        <span>Loading...</span>
+    </div>
     <div id="modalLogin"></div>
     <a class="text-decoration-none" href="#" id="scrollTop"><i class="fas fa-angle-up"></i></a>
     

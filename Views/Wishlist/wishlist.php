@@ -19,6 +19,7 @@
             </div>
         </div>
         <div class="container">
+            <?php if(!empty($products)){?>
             <div class="row mt-5 mb-5">
                 <h1 class="text-center">My wishlist</h1>
                 <div class="col-lg-12 mt-5">
@@ -77,6 +78,12 @@
                       </table>
                 </div>
             </div>
+            <?php }else{?>
+            <div class="mt-5 mb-5 text-center">
+                <h1 class="mb-3">Oops! You do not have favorite products.</h1>
+                <a class="btn btnc-primary"href="<?=base_url()?>/shop">Go to shopping</a>
+            </div>
+            <?php }?>
         </div>
     </main>
 <?php

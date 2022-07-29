@@ -1,4 +1,5 @@
 'use strict'
+var loading = document.querySelector("#divLoading");
 /***************************Nav Events****************************** */
 let btnBar = document.querySelector("#btnToggleNav");
 let btnCart = document.querySelector("#btnToggleCart");
@@ -216,6 +217,7 @@ if(document.querySelector("#selectSort")){
     });
 }
 window.addEventListener("load",function(){
+    loading.classList.add("d-none");
     if(document.querySelectorAll(".product-btns")){
         addProduct(document.querySelectorAll(".product-img .product-card-add"));
         quickModal(document.querySelectorAll(".product-btns .quickView"));
@@ -277,6 +279,9 @@ window.addEventListener("load",function(){
         },30000);
     }
 });
+window.addEventListener("DOMContentLoaded",function(){
+    loading.classList.remove("d-none");
+})
 
 /***************************Filter****************************** */
 if(document.querySelector(".addFilter")){
