@@ -92,6 +92,12 @@
             return $response;
 
         }
+        public function deleteOrder($id){
+            $this->intIdOrder = $id;
+            $sql = "DELETE FROM orderdata WHERE idorder = $this->intIdOrder";
+            $request = $this->delete($sql);
+            return $request;
+        }
         /*public function selectCategory($id){
             $this->intIdCategory = $id;
             $sql = "SELECT * FROM category WHERE idcategory = $this->intIdCategory";

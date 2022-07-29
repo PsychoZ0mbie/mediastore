@@ -219,7 +219,22 @@
         public function getOrder($idOrder){
             $this->con = new Mysql();
             $this->intIdOrder =$idOrder;
-            $sql = "SELECT *,DATE_FORMAT(date, '%d/%m/%Y') as date FROM orderdata WHERE idorder = $this->intIdOrder";
+            $sql = "SELECT idorder,
+                    idtransaction,
+                    firstname,
+                    lastname,
+                    email,
+                    phone,
+                    address,
+                    country,
+                    state,
+                    city,
+                    postalcode,
+                    note,
+                    amount,
+                    DATE_FORMAT(date, '%d/%m/%Y') as date,
+                    status
+                    FROM orderdata WHERE idorder = $this->intIdOrder";
             $order = $this->con->select($sql);
             if(!empty($order)){
                 $sql = "SELECT * FROM orderdetail WHERE orderid = $this->intIdOrder";

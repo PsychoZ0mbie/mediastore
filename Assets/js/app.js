@@ -694,6 +694,7 @@ if(document.querySelector("#btnRefund")){
 if(document.querySelector("#btnPrint")){
     let btn = document.querySelector("#btnPrint");
     btn.addEventListener("click",function(){
+        if(document.querySelector("#btnRefund"))document.querySelector("#btnRefund").classList.add("d-none");
         printDiv(document.querySelector("#orderInfo"));
     });
 }

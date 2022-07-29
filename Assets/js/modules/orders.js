@@ -145,14 +145,14 @@ export default class Orders{
             cancelButtonText:"No, cancel"
         }).then(function(result){
             if(result.isConfirmed){
-                let url = base_url+"/Category/delCategory"
+                let url = base_url+"/Orders/delOrder"
                 let formData = new FormData();
                 let element = document.querySelector("#listItem");
-                formData.append("idCategory",id);
+                formData.append("idOrder",id);
                 request(url,formData,"post").then(function(objData){
                     if(objData.status){
                         Swal.fire("Deleted",objData.msg,"success");
-                        url = base_url+"/Category/getCategories";
+                        let url = base_url+"/Orders/getOrders";
                         request(url,"","get").then(function(objData){
                             if(objData.status){
                                 element.innerHTML = objData.data;

@@ -12,39 +12,29 @@ $total=0;
         <div class="card">
             <div class="card-body">
                 <div id="orderInfo">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="fs-5"><?=NOMBRE_EMPRESA?></div>
-                        <div class="fs-5 fw-bold"><?=$order['date']?></div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 mb-2 fw-bold">From</p>
+                    <div class="d-flex justify-content-between flex-wrap mb-3">
+                        <div class="mb-3">
+                            <p class="fs-5 fw-bold"><?=NOMBRE_EMPRESA?></p>
                             <p class="m-0"><?=DIRECCION?></p>
                             <p class="m-0"><?=TELEFONO?></p>
                             <p class="m-0"><?=EMAIL_REMITENTE?></p>
                             <p class="m-0"><?=WEB_EMPRESA?></p>
                         </div>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 mb-2 fw-bold">To</p>
-                            <p class="m-0">Name: <?=$order['firstname']." ".$order['lastname']?></p>
-                            <p class="m-0">Phone: <?=$order['phone']?></p>
-                            <p class="m-0">Email: <?=$order['email']?></p>
-                            <p class="m-0">Country: <?=$order['country']?></p>
-                            <p class="m-0">State: <?=$order['state']?></p>
-                            <p class="m-0">City: <?=$order['city']?></p>
-                            <p class="m-0">Shipping address: <?=$order['address']?></p>
-                            <p class="m-0">Postal code: <?=$order['postalcode']?></p>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 mb-2 fw-bold">Order: <?=$order['idorder']?></p>
-                            <p class="m-0">Transaction: <?=$order['idtransaction']?></p>
-                            <p class="m-0">Status: <?=$order['status']?></p>
-                            <p class="m-0">Amount: <?=formatNum($order['amount'])?></p>
+                        <div class="text-start">
+                            <p class="m-0"><span class="fw-bold">Date: </span><?=$order['date']?></p>
+                            <p class="m-0"><span class="fw-bold">Order: </span>#<?=$order['idorder']?></p>
+                            <p class="m-0"><span class="fw-bold">Transaction: </span><?=$order['idtransaction']?></p>
+                            <p class="m-0"><span class="fw-bold">Status: </span><?=$order['status']?></p>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-12 text-start">
-                            <p class="m-0 fw-bold">Order note:</p>
+                        <div class="col-12 mb-3">
+                            <p class="m-0 mb-2 fw-bold">Customer</p>
+                            <p class="m-0">Name: <?=$order['firstname']." ".$order['lastname']?></p>
+                            <p class="m-0">Phone: <?=$order['phone']?></p>
+                            <p class="m-0">Email: <?=$order['email']?></p>
+                            <p class="m-0">Address: <?=$order['country'].", ".$order['state'].", ".$order['city']." ".$order['address']." ".$order['postalcode']?></p>
+                            <p class="m-0 fw-bold mt-3">Order note:</p>
                             <p class="m-0"><?=$order['note']?></p> 
                         </div>
                     </div>

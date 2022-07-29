@@ -69,7 +69,6 @@
                     for ($i=0; $i < count($request); $i++) { 
 
                         $btnView='<a href="'.base_url().'/orders/order/'.$request[$i]['idorder'].'" class="btn btn-info text-white m-1" type="button" title="View order" name="btnView"><i class="fas fa-eye"></i></a>';
-                        $btnPrint='<button class="btn btn-danger text-white m-1" type="button" title="Print order" data-id="'.$request[$i]['idorder'].'" name="btnPrint"><i class="fas fa-file-pdf"></i></button>';
                         $btnPaypal='<a href="'.base_url().'/orders/transaction/'.$request[$i]['idtransaction'].'" class="btn btn-info m-1 text-white " type="button" title="View Transaction" name="btnPaypal"><i class="fab fa-paypal"></i></a>';
                         $btnDelete ="";
 
@@ -85,7 +84,7 @@
                                     <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
                                     <td><strong>Amount: </strong>'.formatNum($request[$i]['amount']).'</td>
                                     <td><strong>Status: </strong>'.$request[$i]['status'].'</td>
-                                    <td class="item-btn">'.$btnView.$btnPrint.$btnPaypal.$btnDelete.'</td>
+                                    <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
                                 </tr>
                             ';
                         }elseif($_SESSION['idUser'] == $request[$i]['personid']){
@@ -96,7 +95,7 @@
                                 <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
                                 <td><strong>Amount: </strong>'.formatNum($request[$i]['amount']).'</td>
                                 <td><strong>Status: </strong>'.$request[$i]['status'].'</td>
-                                <td class="item-btn">'.$btnView.$btnPrint.$btnPaypal.$btnDelete.'</td>
+                                <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
                             </tr>
                         ';
                         }
@@ -145,6 +144,30 @@
                     }
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+        public function delOrder(){
+            if($_SESSION['permitsModule']['d']){
+
+                if($_POST){
+                    if(empty($_POST['idOrder'])){
+                        $arrResponse=array("status"=>false,"msg"=>"Data error");
+                    }else{
+                        $id = intval($_POST['idOrder']);
+                        $request = $this->model->deleteOrder($id);
+
+                        if($request=="ok"){
+                            $arrResponse = array("status"=>true,"msg"=>"It has been deleted");
+                        }else{
+                            $arrResponse = array("status"=>false,"msg"=>"It has not been possible to delete, try again.");
+                        }
+                    }
+                    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                }
+            }else{
+                header("location: ".base_url());
+                die();
             }
             die();
         }
