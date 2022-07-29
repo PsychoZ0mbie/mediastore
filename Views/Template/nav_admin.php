@@ -50,6 +50,20 @@
                                 }
                             ?>
                             <?php 
+                                if($_SESSION['permit'][3]['r']){
+                            ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?=base_url()?>/customer">
+                                    <svg class="nav-icon">
+                                        <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-user-follow"></use>
+                                    </svg> 
+                                    Customers<span class="badge badge-sm bg-info ms-auto"></span>
+                                </a>
+                            </li>
+                            <?php 
+                                }
+                            ?>
+                            <?php 
                                 if($_SESSION['permit'][4]['r']){
                             ?>
                             <li class="nav-group">

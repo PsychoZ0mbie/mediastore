@@ -1,6 +1,6 @@
-export default class User{
+export default class Customer{
     showItems(element){
-        let url = base_url+"/User/getUsers";
+        let url = base_url+"/Customer/getCustomers";
         request(url,"","get").then(function(objData){
             if(objData.status){
                 element.innerHTML = objData.data;
@@ -16,7 +16,7 @@ export default class User{
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">New user</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel">New customer</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -64,17 +64,13 @@ export default class User{
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="typeList" class="form-label">Role <span class="text-danger">*</span></label>
-                                        <select class="form-control" aria-label="Default select example" id="typeList" name="typeList" required></select>
+                                        <label for="statusList" class="form-label">Status <span class="text-danger">*</span></label>
+                                        <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
+                                            <option value="1">Active</option>
+                                            <option value="2">Inactive</option>
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="typeList" class="form-label">Status <span class="text-danger">*</span></label>
-                                <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
-                                    <option value="1">Active</option>
-                                    <option value="2">Inactive</option>
-                                </select>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Add</button>
@@ -89,10 +85,6 @@ export default class User{
 
         modalItem.innerHTML = modal;
         let modalView = new bootstrap.Modal(document.querySelector("#modalElement"));
-        let url = base_url+"/User/getRoles";
-        request(url,"","get").then(function(objData){
-            document.querySelector("#typeList").innerHTML = objData.data;
-        });
         modalView.show();
 
         let img = document.querySelector("#txtImg");
@@ -108,12 +100,11 @@ export default class User{
             let strLastName = document.querySelector("#txtLastName").value;
             let strEmail = document.querySelector("#txtEmail").value;
             let strPhone = document.querySelector("#txtPhone").value;
-            let typeValue = document.querySelector("#typeList").value;
             let strPassword = document.querySelector("#txtPassword").value;
             let statusList = document.querySelector("#statusList").value;
             let idUser = document.querySelector("#idUser").value;
 
-            if(strFirstName == "" || strLastName == "" || strEmail == "" || strPhone == "" || typeValue == "" || statusList == ""){
+            if(strFirstName == "" || strLastName == "" || strEmail == "" || strPhone == "" || statusList == ""){
                 Swal.fire("Error","All fields marked with (*) are required","error");
                 return false;
             }
@@ -139,7 +130,6 @@ export default class User{
                 return false;
             }
             
-            url = base_url+"/User/setUser";
             let formData = new FormData(form);
             let btnAdd = document.querySelector("#btnAdd");
             let element = document.querySelector("#listItem");
@@ -148,15 +138,14 @@ export default class User{
                 Wait...
             `;
             btnAdd.setAttribute("disabled","");
-            request(url,formData,"post").then(function(objData){
+            request(base_url+"/Customer/setCustomer",formData,"post").then(function(objData){
                 btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Add`;
                 btnAdd.removeAttribute("disabled");
                 if(objData.status){
                     Swal.fire("Added",objData.msg,"success");
                     //modalView.hide();
                     form.reset();
-                    url = base_url+"/User/getUsers";
-                    request(url,"","get").then(function(objData){
+                    request(base_url+"/Customer/getCustomers","","get").then(function(objData){
                         if(objData.status){
                             element.innerHTML = objData.data;
                         }else{
@@ -170,7 +159,7 @@ export default class User{
         })
     }
     viewItem(id){
-        let url = base_url+"/User/getUser";
+        let url = base_url+"/Customer/getCustomer";
         let formData = new FormData();
         
         formData.append("idUser",id);
@@ -230,10 +219,6 @@ export default class User{
                                             <td>${objData.data.date}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Role: </strong></td>
-                                            <td>${objData.data.role}</td>
-                                        </tr>
-                                        <tr>
                                             <td><strong>Status: </strong></td>
                                             <td>${status}</td>
                                         </tr>
@@ -257,7 +242,7 @@ export default class User{
         });
     }
     editItem(id){
-        let url = base_url+"/User/getUser";
+        let url = base_url+"/Customer/getCustomer";
         let formData = new FormData();
         formData.append("idUser",id);
         request(url,formData,"post").then(function(objData){
@@ -403,7 +388,7 @@ export default class User{
                     return false;
                 }
                 
-                url = base_url+"/User/setUser";
+                url = base_url+"/Customer/setCustomer";
                 let formData = new FormData(form);
                 let btnAdd = document.querySelector("#btnAdd");
                 let element = document.querySelector("#listItem");
@@ -418,7 +403,7 @@ export default class User{
                     if(objData.status){
                         Swal.fire("Updated",objData.msg,"success");
                         modalView.hide();
-                        url = base_url+"/User/getUsers";
+                        url = base_url+"/Customer/getCustomers";
                         request(url,"","get").then(function(objData){
                             if(objData.status){
                                 element.innerHTML = objData.data;
@@ -446,14 +431,14 @@ export default class User{
             cancelButtonText:"No, cancel"
         }).then(function(result){
             if(result.isConfirmed){
-                let url = base_url+"/User/delUser"
+                let url = base_url+"/Customer/delCustomer"
                 let formData = new FormData();
                 let element = document.querySelector("#listItem");
                 formData.append("idUser",id);
                 request(url,formData,"post").then(function(objData){
                     if(objData.status){
                         Swal.fire("Deleted",objData.msg,"success");
-                        url = base_url+"/User/getUsers";
+                        url = base_url+"/Customer/getCustomers";
                         request(url,"","get").then(function(objData){
                             if(objData.status){
                                 element.innerHTML = objData.data;

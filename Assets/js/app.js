@@ -1,6 +1,7 @@
 'use strict';
 import Role from "./modules/role.js";
 import User from "./modules/user.js";
+import Customer from "./modules/customer.js";
 import Category from "./modules/category.js";
 import SubCategory from "./modules/subcategory.js";
 import Product from "./modules/product.js";
@@ -81,6 +82,38 @@ if(document.querySelector("#user")){
     })
 
     let item = new User();
+    let element = document.querySelector("#listItem");
+
+    if(document.querySelector("#btnNew")){
+        let btnNew = document.querySelector("#btnNew");
+        btnNew.addEventListener("click",function(){
+            item.addItem();
+        });
+    }
+
+    window.addEventListener("DOMContentLoaded",function() {
+        item.showItems(element);
+    })
+
+    element.addEventListener("click",function(e) {
+        let element = e.target;
+        let id = element.getAttribute("data-id");
+        if(element.name == "btnDelete"){
+            item.deleteItem(id);
+        }else if(element.name == "btnView"){
+            item.viewItem(id);
+        }else if(element.name == "btnEdit"){
+            item.editItem(id);
+        }
+    });
+    
+}
+/*************************User Page*******************************/
+if(document.querySelector("#customer")){
+    document.querySelector("#btnNew").classList.remove("d-none");
+    let search = document.querySelector("#search");
+
+    let item = new Customer();
     let element = document.querySelector("#listItem");
 
     if(document.querySelector("#btnNew")){
