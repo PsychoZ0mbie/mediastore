@@ -142,5 +142,19 @@
             }
             return $arrPermisos;
         }
+        public function search($search){
+            $sql = "SELECT * FROM role WHERE name LIKE '%$search%'";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function sort($sort){
+            $option="DESC";
+            if($sort == 2){
+                $option = " ASC"; 
+            }
+            $sql = "SELECT * FROM role ORDER BY idrole $option ";
+            $request = $this->select_all($sql);
+            return $request;
+        }
     }
 ?>

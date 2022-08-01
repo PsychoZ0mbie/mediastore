@@ -171,5 +171,97 @@
             }
             die();
         }
+        public function search($params){
+            $search = strClean($params);
+            $request = $this->model->search($params);
+            if(count($request)>0){
+                $html="";
+                for ($i=0; $i < count($request); $i++) { 
+
+                    $btnView='<a href="'.base_url().'/orders/order/'.$request[$i]['idorder'].'" class="btn btn-info text-white m-1" type="button" title="View order" name="btnView"><i class="fas fa-eye"></i></a>';
+                    $btnPaypal='<a href="'.base_url().'/orders/transaction/'.$request[$i]['idtransaction'].'" class="btn btn-info m-1 text-white " type="button" title="View Transaction" name="btnPaypal"><i class="fab fa-paypal"></i></a>';
+                    $btnDelete ="";
+
+                    if($_SESSION['permitsModule']['d'] && $_SESSION['userData']['roleid'] == 1){
+                        $btnDelete = '<button class="btn btn-danger text-white m-1" type="button" title="Delete" data-id="'.$request[$i]['idorder'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+                    }
+                    if($_SESSION['userData']['roleid'] == 1){
+
+                        $html.='
+                            <tr class="item">
+                                <td><strong>Id: </strong>'.$request[$i]['idorder'].'</td>
+                                <td><strong>Transaction: </strong>'.$request[$i]['idtransaction'].'</td>
+                                <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
+                                <td><strong>Amount: </strong>'.formatNum($request[$i]['amount']).'</td>
+                                <td><strong>Status: </strong>'.$request[$i]['status'].'</td>
+                                <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
+                            </tr>
+                        ';
+                    }elseif($_SESSION['idUser'] == $request[$i]['personid']){
+                        $html.='
+                        <tr class="item">
+                            <td><strong>Id: </strong>'.$request[$i]['idorder'].'</td>
+                            <td><strong>Transaction: </strong>'.$request[$i]['idtransaction'].'</td>
+                            <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
+                            <td><strong>Amount: </strong>'.formatNum($request[$i]['amount']).'</td>
+                            <td><strong>Status: </strong>'.$request[$i]['status'].'</td>
+                            <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
+                        </tr>
+                    ';
+                    }
+                }
+                $arrResponse = array("status"=>true,"data"=>$html);
+            }else{
+                $arrResponse = array("status"=>false,"msg"=>"No data");
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function sort($params){
+            $sort = intval($params);
+            $request = $this->model->sort($sort);
+            if(count($request)>0){
+                $html="";
+                for ($i=0; $i < count($request); $i++) { 
+
+                    $btnView='<a href="'.base_url().'/orders/order/'.$request[$i]['idorder'].'" class="btn btn-info text-white m-1" type="button" title="View order" name="btnView"><i class="fas fa-eye"></i></a>';
+                    $btnPaypal='<a href="'.base_url().'/orders/transaction/'.$request[$i]['idtransaction'].'" class="btn btn-info m-1 text-white " type="button" title="View Transaction" name="btnPaypal"><i class="fab fa-paypal"></i></a>';
+                    $btnDelete ="";
+
+                    if($_SESSION['permitsModule']['d'] && $_SESSION['userData']['roleid'] == 1){
+                        $btnDelete = '<button class="btn btn-danger text-white m-1" type="button" title="Delete" data-id="'.$request[$i]['idorder'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+                    }
+                    if($_SESSION['userData']['roleid'] == 1){
+
+                        $html.='
+                            <tr class="item">
+                                <td><strong>Id: </strong>'.$request[$i]['idorder'].'</td>
+                                <td><strong>Transaction: </strong>'.$request[$i]['idtransaction'].'</td>
+                                <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
+                                <td><strong>Amount: </strong>'.formatNum($request[$i]['amount']).'</td>
+                                <td><strong>Status: </strong>'.$request[$i]['status'].'</td>
+                                <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
+                            </tr>
+                        ';
+                    }elseif($_SESSION['idUser'] == $request[$i]['personid']){
+                        $html.='
+                        <tr class="item">
+                            <td><strong>Id: </strong>'.$request[$i]['idorder'].'</td>
+                            <td><strong>Transaction: </strong>'.$request[$i]['idtransaction'].'</td>
+                            <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
+                            <td><strong>Amount: </strong>'.formatNum($request[$i]['amount']).'</td>
+                            <td><strong>Status: </strong>'.$request[$i]['status'].'</td>
+                            <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
+                        </tr>
+                    ';
+                    }
+                }
+                $arrResponse = array("status"=>true,"data"=>$html);
+            }else{
+                $arrResponse = array("status"=>false,"msg"=>"No data");
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
     }
 ?>

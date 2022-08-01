@@ -20,22 +20,28 @@ if(document.querySelector("#dashboard")){
 if(document.querySelector("#role")){
     document.querySelector("#btnNew").classList.remove("d-none");
     let search = document.querySelector("#search");
-    search.addEventListener('input',function() {
-    let elements = document.querySelectorAll(".item");
-    let value = search.value.toLowerCase();
-        for(let i = 0; i < elements.length; i++) {
-            let element = elements[i];
-            let strName = element.getAttribute("data-name").toLowerCase();
-            if(!strName.includes(value) ){
-                element.classList.add("d-none");
-            }else{
-                element.classList.remove("d-none");
-            }
-        }
-    })
-
-    let item = new Role();
+    let sort = document.querySelector("#sortBy");
     let element = document.querySelector("#listItem");
+    let item = new Role();
+    search.addEventListener('input',function() {
+        request(base_url+"/role/search/"+search.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    })
+    sort.addEventListener("change",function(){
+        request(base_url+"/role/sort/"+sort.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+
     if(document.querySelector("#btnNew")){
         let btnNew = document.querySelector("#btnNew");
         btnNew.addEventListener("click",function(){
@@ -64,25 +70,27 @@ if(document.querySelector("#role")){
 if(document.querySelector("#user")){
     document.querySelector("#btnNew").classList.remove("d-none");
     let search = document.querySelector("#search");
-    search.addEventListener('input',function() {
-    let elements = document.querySelectorAll(".item");
-    let value = search.value.toLowerCase();
-        for(let i = 0; i < elements.length; i++) {
-            let element = elements[i];
-            let strName = element.getAttribute("data-name").toLowerCase();
-            let strLastName = element.getAttribute("data-lastname").toLowerCase();
-            let strEmail = element.getAttribute("data-email").toLowerCase();
-            let intPhone = element.getAttribute("data-phone").toLowerCase();
-            if(!strName.includes(value) && !strLastName.includes(value) && !strEmail.includes(value) && !intPhone.includes(value)){
-                element.classList.add("d-none");
-            }else{
-                element.classList.remove("d-none");
-            }
-        }
-    })
-
-    let item = new User();
+    let sort = document.querySelector("#sortBy");
     let element = document.querySelector("#listItem");
+    let item = new User();
+    search.addEventListener('input',function() {
+        request(base_url+"/user/search/"+search.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    })
+    sort.addEventListener("change",function(){
+        request(base_url+"/user/sort/"+sort.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
 
     if(document.querySelector("#btnNew")){
         let btnNew = document.querySelector("#btnNew");
@@ -108,13 +116,31 @@ if(document.querySelector("#user")){
     });
     
 }
-/*************************User Page*******************************/
+/*************************Customer Page*******************************/
 if(document.querySelector("#customer")){
     document.querySelector("#btnNew").classList.remove("d-none");
     let search = document.querySelector("#search");
-
-    let item = new Customer();
+    let sort = document.querySelector("#sortBy");
     let element = document.querySelector("#listItem");
+    let item = new Customer();
+    search.addEventListener('input',function() {
+        request(base_url+"/customer/search/"+search.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    })
+    sort.addEventListener("change",function(){
+        request(base_url+"/customer/sort/"+sort.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
 
     if(document.querySelector("#btnNew")){
         let btnNew = document.querySelector("#btnNew");
@@ -144,24 +170,30 @@ if(document.querySelector("#customer")){
 if(document.querySelector("#category")){
     document.querySelector("#btnNew").classList.remove("d-none");
     let search = document.querySelector("#search");
-    search.addEventListener('input',function() {
-    let elements = document.querySelectorAll(".item");
-    let value = search.value.toLowerCase();
-        for(let i = 0; i < elements.length; i++) {
-
-            let element = elements[i];
-            let strName = element.getAttribute("data-name").toLowerCase();
-
-            if(!strName.includes(value) ){
-                element.classList.add("d-none");
-            }else{
-                element.classList.remove("d-none");
-            }
-        }
-    })
-
-    let item = new Category();
+    let sort = document.querySelector("#sortBy");
     let element = document.querySelector("#listItem");
+    let item = new Category();
+
+    search.addEventListener('input',function() {
+        request(base_url+"/category/search/"+search.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+
+    sort.addEventListener("change",function(){
+        request(base_url+"/category/sort/"+sort.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+
     if(document.querySelector("#btnNew")){
         let btnNew = document.querySelector("#btnNew");
         btnNew.addEventListener("click",function(){
@@ -188,23 +220,30 @@ if(document.querySelector("#category")){
 if(document.querySelector("#subcategory")){
     document.querySelector("#btnNew").classList.remove("d-none");
     let search = document.querySelector("#search");
-    search.addEventListener('input',function() {
-    let elements = document.querySelectorAll(".item");
-    let value = search.value.toLowerCase();
-        for(let i = 0; i < elements.length; i++) {
-            let element = elements[i];
-            let strName = element.getAttribute("data-name").toLowerCase();
-            let strCategory = element.getAttribute("data-category").toLowerCase();
-            if(!strName.includes(value) && !strCategory.includes(value) ){
-                element.classList.add("d-none");
-            }else{
-                element.classList.remove("d-none");
-            }
-        }
-    })
-
-    let item = new SubCategory();
+    let sort = document.querySelector("#sortBy");
     let element = document.querySelector("#listItem");
+    let item = new SubCategory();
+    
+    search.addEventListener('input',function() {
+        request(base_url+"/category/searchs/"+search.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+
+    sort.addEventListener("change",function(){
+        request(base_url+"/category/sorts/"+sort.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+    
     if(document.querySelector("#btnNew")){
         let btnNew = document.querySelector("#btnNew");
         btnNew.addEventListener("click",function(){
@@ -231,24 +270,30 @@ if(document.querySelector("#subcategory")){
 if(document.querySelector("#product")){
     document.querySelector("#btnNew").classList.remove("d-none");
     let search = document.querySelector("#search");
-    search.addEventListener('input',function() {
-    let elements = document.querySelectorAll(".item");
-    let value = search.value.toLowerCase();
-        for(let i = 0; i < elements.length; i++) {
-            let element = elements[i];
-            let strName = element.getAttribute("data-name").toLowerCase();
-            let strCategory = element.getAttribute("data-category").toLowerCase();
-            let strSubcategory = element.getAttribute("data-subcategory").toLowerCase();
-            if(!strName.includes(value) && !strCategory.includes(value) && !strSubcategory.includes(value)){
-                element.classList.add("d-none");
-            }else{
-                element.classList.remove("d-none");
-            }
-        }
-    })
-
-    let item = new Product();
+    let sort = document.querySelector("#sortBy");
     let element = document.querySelector("#listItem");
+    let item = new Product();
+    
+    search.addEventListener('input',function() {
+        request(base_url+"/product/search/"+search.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+
+    sort.addEventListener("change",function(){
+        request(base_url+"/product/sort/"+sort.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+
     if(document.querySelector("#btnNew")){
         let btnNew = document.querySelector("#btnNew");
         btnNew.addEventListener("click",function(){
@@ -290,10 +335,32 @@ if(document.querySelector("#product")){
     });
     
 }
-/*************************Orders Pages*******************************/
+/*************************Order Page*******************************/
 if(document.querySelector("#orders")){
     let item = new Orders();
+    let search = document.querySelector("#search");
+    let sort = document.querySelector("#sortBy");
     let element = document.querySelector("#listItem");
+
+    search.addEventListener('input',function() {
+        request(base_url+"/orders/search/"+search.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+
+    sort.addEventListener("change",function(){
+        request(base_url+"/orders/sort/"+sort.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
 
     window.addEventListener("DOMContentLoaded",function() {
         item.showItems(element);
@@ -310,20 +377,6 @@ if(document.querySelector("#orders")){
 /*************************Store Pages*******************************/
 if(document.querySelector("#coupon")){
     document.querySelector("#btnNew").classList.remove("d-none");
-    let search = document.querySelector("#search");
-    search.addEventListener('input',function() {
-    let elements = document.querySelectorAll(".item");
-    let value = search.value.toLowerCase();
-        for(let i = 0; i < elements.length; i++) {
-            let element = elements[i];
-            let strName = element.getAttribute("data-name").toLowerCase();
-            if(!strName.includes(value)){
-                element.classList.add("d-none");
-            }else{
-                element.classList.remove("d-none");
-            }
-        }
-    })
 
     let item = new Coupon();
     let element = document.querySelector("#listItem");
@@ -598,77 +651,6 @@ if(document.querySelector("#recovery")){
             });
         }
     });
-}
-/*************************Order Page*******************************/
-if(document.querySelector("#pedidos")){
-
-    let search = document.querySelector("#search");
-    search.addEventListener('input',function() {
-    let elements = document.querySelectorAll(".item");
-    let value = search.value.toLowerCase();
-        for(let i = 0; i < elements.length; i++) {
-            let element = elements[i];
-            let strName = element.getAttribute("data-name").toLowerCase();
-            let strEmail = element.getAttribute("data-email").toLowerCase();
-            let strPhone = element.getAttribute("data-phone").toLowerCase();
-            let strStatus = element.getAttribute("data-status").toLocaleLowerCase();
-            if(!strName.includes(value) && !strEmail.includes(value) && !strPhone.includes(value) && !strStatus.includes(value)){
-                element.classList.add("d-none");
-            }else{
-                element.classList.remove("d-none");
-            }
-        }
-    })
-
-    let item = new Pedidos();
-    let element = document.querySelector("#listItem");
-    let orderBy = document.querySelector("#orderBy");
-    orderBy.addEventListener("change",function(){
-        item.orderItem(element,orderBy.value);
-    });
-
-    window.addEventListener("DOMContentLoaded",function() {
-        item.showItems(element);
-    })
-
-    //buttons
-    if(document.querySelector("#listItem")){
-        let listProduct = document.querySelector("#listItem");
-        listProduct.addEventListener("click",function(e) {
-                let element = e.target;
-                let id = element.getAttribute("data-id");
-                let idorder = element.getAttribute("data-order");
-                if(element.name == "btnDelete"){
-                    item.deleteItem(element,id,idorder);
-                }else if(element.name == "btnView"){
-                    item.viewItem(id,idorder);
-                }else if(element.name == "btnEdit"){
-                    item.editItem(id,idorder);
-                }
-        });
-    }
-        /*
-        
-        formOrder.addEventListener("submit",function(){
-            e.preventDefault();
-            let idorder = document.querySelector("#idpedido").value;
-            let idperson = document.querySelector("#idpersona").value;
-            let status = document.querySelector("#status").innerHTML;
-            let url = base_url+"/pedidos/updatePedido";
-            let formData = new FormData(formOrder);
-            request(url,formData,"post").then(function(objData){
-                console.log(objData);
-            });
-            console.log("existe");
-        })*/
-
-    let btnBack = document.querySelector("#btnBack");
-    btnBack.addEventListener("click",function(){
-        document.querySelector("#listItem").classList.remove("d-none");
-        document.querySelector("#detailItem").classList.add("d-none");
-    });
-
-
 }
 /*************************Message Page*******************************/
 if(document.querySelector("#mensaje")){

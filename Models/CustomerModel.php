@@ -158,6 +158,38 @@
             $request = $this->select($sql);
             return $request;
         }
+        public function search($search){
+            $sql = "SELECT *,DATE_FORMAT(date, '%d/%m/%Y') as date
+            FROM person 
+            WHERE firstname LIKE '%$search%' AND roleid=2
+            ||  lastname LIKE '%$search%' AND roleid=2 ||  email LIKE '%$search%' AND roleid=2
+            ||  phone LIKE '%$search%' AND roleid=2
+            ORDER BY idperson DESC";
+
+            $request = $this->select_all($sql);
+            if(count($request)>0){
+                for ($i=0; $i < count($request) ; $i++) { 
+                    $request[$i]['image'] = media()."/images/uploads/".$request[$i]['image'];
+                }
+            }
+            return $request;
+        }
+        public function sort($sort){
+            $option=" DESC";
+            if($sort == 2){
+                $option = " ASC"; 
+            }
+            $sql = "SELECT *,DATE_FORMAT(date, '%d/%m/%Y') as date FROM person WHERE roleid=2 ORDER BY idperson $option";
+            
+
+            $request = $this->select_all($sql);
+            if(count($request)>0){
+                for ($i=0; $i < count($request) ; $i++) { 
+                    $request[$i]['image'] = media()."/images/uploads/".$request[$i]['image'];
+                }
+            }
+            return $request;
+        }
 
     }
 ?>

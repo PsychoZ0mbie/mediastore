@@ -237,5 +237,91 @@
             $request = $this->select_all($sql);
             return $request;
         }
+        public function search($search){
+            $sql="SELECT 
+                p.idproduct,
+                p.categoryid,
+                p.subcategoryid,
+                p.reference,
+                p.name,
+                p.description,
+                p.price,
+                p.discount,
+                p.description,
+                p.stock,
+                p.status,
+                p.route,
+                c.idcategory,
+                c.name as category,
+                c.route as routec,
+                s.idsubcategory,
+                s.categoryid,
+                s.name as subcategory,
+                DATE_FORMAT(p.date, '%d/%m/%Y') as date
+            FROM product p
+            INNER JOIN category c, subcategory s
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND
+            p.name LIKE  '%$search%' || c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND
+            c.name LIKE  '%$search%' || c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND
+            s.name LIKE '%$search%'
+            ";
+            $request = $this->select_all($sql);
+            if(count($request)> 0){
+                for ($i=0; $i < count($request); $i++) { 
+                    $idProduct = $request[$i]['idproduct'];
+                    $sqlImg = "SELECT * FROM productimage WHERE productid = $idProduct";
+                    $requestImg = $this->select_all($sqlImg);
+                    if(count($requestImg)>0){
+                        $request[$i]['image'] = media()."/images/uploads/".$requestImg[0]['name'];
+                    }else{
+                        $request[$i]['image'] = media()."/images/uploads/image.png";
+                    }
+                }
+            }
+            return $request;
+        }
+        public function sort($sort){
+            $option="DESC";
+            if($sort == 2){
+                $option = " ASC"; 
+            }
+            $sql="SELECT 
+                p.idproduct,
+                p.categoryid,
+                p.subcategoryid,
+                p.reference,
+                p.name,
+                p.description,
+                p.price,
+                p.discount,
+                p.description,
+                p.stock,
+                p.status,
+                p.route,
+                c.idcategory,
+                c.name as category,
+                c.route as routec,
+                s.idsubcategory,
+                s.categoryid,
+                s.name as subcategory,
+                DATE_FORMAT(p.date, '%d/%m/%Y') as date
+            FROM product p
+            INNER JOIN category c, subcategory s
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory ORDER BY p.idproduct $option";
+            $request = $this->select_all($sql);
+            if(count($request)> 0){
+                for ($i=0; $i < count($request); $i++) { 
+                    $idProduct = $request[$i]['idproduct'];
+                    $sqlImg = "SELECT * FROM productimage WHERE productid = $idProduct";
+                    $requestImg = $this->select_all($sqlImg);
+                    if(count($requestImg)>0){
+                        $request[$i]['image'] = media()."/images/uploads/".$requestImg[0]['name'];
+                    }else{
+                        $request[$i]['image'] = media()."/images/uploads/image.png";
+                    }
+                }
+            }
+            return $request;
+        }
     }
 ?>

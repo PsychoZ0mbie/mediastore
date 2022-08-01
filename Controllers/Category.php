@@ -211,6 +211,80 @@
             }
             die();
         }
+        public function search($params){
+            $search = strClean($params);
+            $request = $this->model->search($params);
+            if(count($request)>0){
+                $html="";
+                for ($i=0; $i < count($request); $i++) { 
+
+                    $status="";
+                    $btnEdit="";
+                    $btnDelete="";
+                    
+                    if($_SESSION['permitsModule']['u']){
+                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idcategory'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
+                    }
+                    if($_SESSION['permitsModule']['d']){
+                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idcategory'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+                    }
+                    if($request[$i]['status']==1){
+                        $status='<span class="badge me-1 bg-success">Active</span>';
+                    }else{
+                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
+                    }
+                    $html.='
+                        <tr class="item" data-name="'.$request[$i]['name'].'">
+                            <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
+                            <td><strong>Status: </strong>'.$status.'</td>
+                            <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
+                        </tr>
+                    ';
+                }
+                $arrResponse = array("status"=>true,"data"=>$html);
+            }else{
+                $arrResponse = array("status"=>false,"msg"=>"No data");
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function sort($params){
+            $sort = intval($params);
+            $request = $this->model->sort($sort);
+            if(count($request)>0){
+                $html="";
+                for ($i=0; $i < count($request); $i++) { 
+
+                    $status="";
+                    $btnEdit="";
+                    $btnDelete="";
+                    
+                    if($_SESSION['permitsModule']['u']){
+                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idcategory'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
+                    }
+                    if($_SESSION['permitsModule']['d']){
+                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idcategory'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+                    }
+                    if($request[$i]['status']==1){
+                        $status='<span class="badge me-1 bg-success">Active</span>';
+                    }else{
+                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
+                    }
+                    $html.='
+                        <tr class="item" data-name="'.$request[$i]['name'].'">
+                            <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
+                            <td><strong>Status: </strong>'.$status.'</td>
+                            <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
+                        </tr>
+                    ';
+                }
+                $arrResponse = array("status"=>true,"data"=>$html);
+            }else{
+                $arrResponse = array("status"=>false,"msg"=>"No data");
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
         /*************************SubCategory methods*******************************/
         public function getSubCategories(){
             if($_SESSION['permitsModule']['r']){
@@ -372,6 +446,82 @@
                 $arrResponse = array("data"=>$html);
             }else{
                 $arrResponse = array("data"=>"");
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function searchs($params){
+            $search = strClean($params);
+            $request = $this->model->searchs($params);
+            if(count($request)>0){
+                $html="";
+                for ($i=0; $i < count($request); $i++) { 
+
+                    $status="";
+                    $btnEdit="";
+                    $btnDelete="";
+                    
+                    if($_SESSION['permitsModule']['u']){
+                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idsubcategory'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
+                    }
+                    if($_SESSION['permitsModule']['d']){
+                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idsubcategory'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+                    }
+                    if($request[$i]['status']==1){
+                        $status='<span class="badge me-1 bg-success">Active</span>';
+                    }else{
+                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
+                    }
+                    $html.='
+                        <tr class="item" data-name="'.$request[$i]['name'].'" data-category="'.$request[$i]['category'].'">
+                            <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
+                            <td><strong>Category: </strong>'.$request[$i]['category'].'</td>
+                            <td><strong>Status: </strong>'.$status.'</td>
+                            <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
+                        </tr>
+                    ';
+                }
+                $arrResponse = array("status"=>true,"data"=>$html);
+            }else{
+                $arrResponse = array("status"=>false,"msg"=>"No data");
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function sorts($params){
+            $sort = intval($params);
+            $request = $this->model->sorts($sort);
+            if(count($request)>0){
+                $html="";
+                for ($i=0; $i < count($request); $i++) { 
+
+                    $status="";
+                    $btnEdit="";
+                    $btnDelete="";
+                    
+                    if($_SESSION['permitsModule']['u']){
+                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idsubcategory'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
+                    }
+                    if($_SESSION['permitsModule']['d']){
+                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idsubcategory'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+                    }
+                    if($request[$i]['status']==1){
+                        $status='<span class="badge me-1 bg-success">Active</span>';
+                    }else{
+                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
+                    }
+                    $html.='
+                        <tr class="item" data-name="'.$request[$i]['name'].'" data-category="'.$request[$i]['category'].'">
+                            <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
+                            <td><strong>Category: </strong>'.$request[$i]['category'].'</td>
+                            <td><strong>Status: </strong>'.$status.'</td>
+                            <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
+                        </tr>
+                    ';
+                }
+                $arrResponse = array("status"=>true,"data"=>$html);
+            }else{
+                $arrResponse = array("status"=>false,"msg"=>"No data");
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();

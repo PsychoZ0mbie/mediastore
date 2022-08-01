@@ -80,7 +80,7 @@
             return $return;
         }
         public function selectCategories(){
-            $sql = "SELECT * FROM category ORDER BY idcategory ASC";       
+            $sql = "SELECT * FROM category ORDER BY idcategory DESC";       
             $request = $this->select_all($sql);
             return $request;
         }
@@ -88,6 +88,20 @@
             $this->intIdCategory = $id;
             $sql = "SELECT * FROM category WHERE idcategory = $this->intIdCategory";
             $request = $this->select($sql);
+            return $request;
+        }
+        public function search($search){
+            $sql = "SELECT * FROM category WHERE name LIKE '%$search%'";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function sort($sort){
+            $option="DESC";
+            if($sort == 2){
+                $option = " ASC"; 
+            }
+            $sql = "SELECT * FROM category ORDER BY idcategory $option ";
+            $request = $this->select_all($sql);
             return $request;
         }
         /*************************SubCategory methods*******************************/
@@ -167,7 +181,7 @@
                     FROM subcategory s
                     INNER JOIN category c
                     ON c.idcategory = s.categoryid
-                    ORDER BY idsubcategory ASC";       
+                    ORDER BY idsubcategory DESC";       
             $request = $this->select_all($sql);
             return $request;
         }
@@ -175,6 +189,44 @@
             $this->intIdSubCategory = $id;
             $sql = "SELECT * FROM subcategory WHERE idsubcategory = $this->intIdSubCategory";
             $request = $this->select($sql);
+            return $request;
+        }
+        public function searchs($search){
+            $sql = "SELECT  
+                    s.idsubcategory,
+                    s.name,
+                    s.categoryid,
+                    s.status,
+                    c.idcategory,
+                    c.name as category,
+                    c.status
+                    FROM subcategory s
+                    INNER JOIN category c
+                    ON c.idcategory = s.categoryid
+                    WHERE s.name LIKE '%$search%' || c.name LIKE '%$search%'
+                    ORDER BY idsubcategory DESC
+                    ";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function sorts($sort){
+            $option="DESC";
+            if($sort == 2){
+                $option = " ASC"; 
+            }
+            $sql = "SELECT  
+                    s.idsubcategory,
+                    s.name,
+                    s.categoryid,
+                    s.status,
+                    c.idcategory,
+                    c.name as category,
+                    c.status
+                    FROM subcategory s
+                    INNER JOIN category c
+                    ON c.idcategory = s.categoryid 
+                    ORDER BY idsubcategory $option ";
+            $request = $this->select_all($sql);
             return $request;
         }
     }

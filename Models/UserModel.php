@@ -178,6 +178,64 @@
             $request = $this->select_all($sql);
             return $request;
         }
+        public function search($search){
+            $sql = "SELECT 
+            p.idperson,
+            p.image,
+            p.firstname,
+            p.lastname,
+            p.email,
+            p.phone,
+            p.roleid,
+            DATE_FORMAT(p.date, '%d/%m/%Y') as date,
+            p.status,
+            r.idrole,
+            r.name as role
+            FROM person p
+            INNER JOIN role r
+            ON r.idrole = p.roleid 
+            WHERE r.name LIKE '%$search%' || p.firstname LIKE '%$search%' 
+            ||  p.lastname LIKE '%$search%' ||  p.email LIKE '%$search%' 
+            ||  p.phone LIKE '%$search%'
+            ORDER BY idperson DESC";
+
+            $request = $this->select_all($sql);
+            if(count($request)>0){
+                for ($i=0; $i < count($request) ; $i++) { 
+                    $request[$i]['image'] = media()."/images/uploads/".$request[$i]['image'];
+                }
+            }
+            return $request;
+        }
+        public function sort($sort){
+            $option="DESC";
+            if($sort == 2){
+                $option = " ASC"; 
+            }
+            $sql = "SELECT 
+                    p.idperson,
+                    p.image,
+                    p.firstname,
+                    p.lastname,
+                    p.email,
+                    p.phone,
+                    p.roleid,
+                    DATE_FORMAT(p.date, '%d/%m/%Y') as date,
+                    p.status,
+                    r.idrole,
+                    r.name as role
+                    FROM person p
+                    INNER JOIN role r
+                    ON r.idrole = p.roleid 
+                    ORDER BY idperson $option";
+            $request = $this->select_all($sql);
+            if(count($request)>0){
+                for ($i=0; $i < count($request) ; $i++) { 
+                    $request[$i]['image'] = media()."/images/uploads/".$request[$i]['image'];
+                }
+            }
+            return $request;
+        }
         /*************************Profile methods*******************************/
         public function updateProfile(int $idUser, string $strName,string $strLastName, string $strPicture, string $intPhone,string $strAddress, 
             int $intCountry, int $intState,int $intCity,string $strEmail, string $strPassword){

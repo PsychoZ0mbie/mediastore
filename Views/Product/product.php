@@ -5,9 +5,22 @@
     <div class="container-lg">
         <div class="card">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12 mt-3">
+                <div class="row mb-3">
+                    <div class="col-md-6 mt-3">
                         <input class="form-control" type="search" placeholder="Search" aria-label="Search" id="search" name="search">
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <div class="row">
+                            <div class="col-md-3 d-flex align-items-center text-end">
+                                <span>Order by: </span>
+                            </div>
+                            <div class="col-md-9">
+                                <select class="form-control" aria-label="Default select example" id="sortBy" name="sortBy" required>
+                                    <option value="1">Latest</option>
+                                    <option value="2">Oldest</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="scroll-y">

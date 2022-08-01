@@ -248,5 +248,95 @@
             }
             die();
         }
+        public function search($params){
+            $search = strClean($params);
+            $request = $this->model->search($params);
+            if(count($request)>0){
+                $html="";
+                for ($i=0; $i < count($request); $i++) { 
+
+                    $btnEdit="";
+                    $btnDelete="";
+                    $btnView = '<button class="btn btn-info m-1" type="button" title="Watch" data-id="'.$request[$i]['idperson'].'" name="btnView"><i class="fas fa-eye"></i></button>';
+                    
+                    if($_SESSION['permitsModule']['u'] && $request[$i]['roleid'] != 1 || $_SESSION['idUser'] == 1){
+                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idperson'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
+                    }
+                    if($_SESSION['permitsModule']['d'] && $request[$i]['roleid'] != 1 || $_SESSION['idUser'] == 1){
+                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idperson'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+                    }
+                    if($request[$i]['status']==1){
+                        $status='<span class="badge me-1 bg-success">Active</span>';
+                    }else{
+                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
+                    }
+
+                    $html.='
+                        <tr class="item">
+                            <td>
+                                <img src="'.$request[$i]['image'].'">
+                            </td>
+                            <td><strong>First name: </strong>'.$request[$i]['firstname'].'</td>
+                            <td><strong>Last name: </strong>'.$request[$i]['lastname'].'</td>
+                            <td><strong>Email: </strong>'.$request[$i]['email'].'</td>
+                            <td><strong>Phone: </strong>'.$request[$i]['phone'].'</td>
+                            <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
+                            <td><strong>Status: </strong>'.$status.'</td>
+                            <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
+                        </tr>
+                    ';
+                }
+                $arrResponse = array("status"=>true,"data"=>$html);
+            }else{
+                $arrResponse = array("status"=>false,"msg"=>"No data");
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function sort($params){
+            $sort = intval($params);
+            $request = $this->model->sort($sort);
+            if(count($request)>0){
+                $html="";
+                for ($i=0; $i < count($request); $i++) { 
+
+                    $btnEdit="";
+                    $btnDelete="";
+                    $btnView = '<button class="btn btn-info m-1" type="button" title="Watch" data-id="'.$request[$i]['idperson'].'" name="btnView"><i class="fas fa-eye"></i></button>';
+                    
+                    if($_SESSION['permitsModule']['u'] && $request[$i]['roleid'] != 1 || $_SESSION['idUser'] == 1){
+                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idperson'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
+                    }
+                    if($_SESSION['permitsModule']['d'] && $request[$i]['roleid'] != 1 || $_SESSION['idUser'] == 1){
+                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idperson'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+                    }
+                    if($request[$i]['status']==1){
+                        $status='<span class="badge me-1 bg-success">Active</span>';
+                    }else{
+                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
+                    }
+
+                    $html.='
+                        <tr class="item">
+                            <td>
+                                <img src="'.$request[$i]['image'].'">
+                            </td>
+                            <td><strong>First name: </strong>'.$request[$i]['firstname'].'</td>
+                            <td><strong>Last name: </strong>'.$request[$i]['lastname'].'</td>
+                            <td><strong>Email: </strong>'.$request[$i]['email'].'</td>
+                            <td><strong>Phone: </strong>'.$request[$i]['phone'].'</td>
+                            <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
+                            <td><strong>Status: </strong>'.$status.'</td>
+                            <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
+                        </tr>
+                    ';
+                }
+                $arrResponse = array("status"=>true,"data"=>$html);
+            }else{
+                $arrResponse = array("status"=>false,"msg"=>"No data");
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
     }
 ?>

@@ -76,7 +76,7 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"No hay datos");
+                    $arrResponse = array("status"=>false,"msg"=>"No data");
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }else{
@@ -175,6 +175,54 @@
                 header("location: ".base_url());
                 die(); 
             }
+            die();
+        }
+        public function search($params){
+            $search = strClean($params);
+            $request = $this->model->search($params);
+            if(count($request)>0){
+                $html="";
+                for ($i=0; $i < count($request); $i++) { 
+                    $html.='
+                        <tr class="item">
+                            <td>'.$request[$i]['name'].'</td>
+                            <td class="item-btn">
+                                <button class="btn btn-secondary" type="button" title="Permits" data-id="'.$request[$i]['idrole'].'" name="btnPermit"><i class="fas fa-key"></i></button>
+                                <button class="btn btn-success" type="button" title="Edit" data-id="'.$request[$i]['idrole'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>
+                                <button class="btn btn-danger" type="button" title="Delete" data-id="'.$request[$i]['idrole'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button> 
+                            </td>
+                        </tr>
+                    ';
+                }
+                $arrResponse = array("status"=>true,"data"=>$html);
+            }else{
+                $arrResponse = array("status"=>false,"msg"=>"No data");
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function sort($params){
+            $sort = intval($params);
+            $request = $this->model->sort($sort);
+            if(count($request)>0){
+                $html="";
+                for ($i=0; $i < count($request); $i++) { 
+                    $html.='
+                        <tr class="item">
+                            <td>'.$request[$i]['name'].'</td>
+                            <td class="item-btn">
+                                <button class="btn btn-secondary" type="button" title="Permits" data-id="'.$request[$i]['idrole'].'" name="btnPermit"><i class="fas fa-key"></i></button>
+                                <button class="btn btn-success" type="button" title="Edit" data-id="'.$request[$i]['idrole'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>
+                                <button class="btn btn-danger" type="button" title="Delete" data-id="'.$request[$i]['idrole'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button> 
+                            </td>
+                        </tr>
+                    ';
+                }
+                $arrResponse = array("status"=>true,"data"=>$html);
+            }else{
+                $arrResponse = array("status"=>false,"msg"=>"No data");
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
     }

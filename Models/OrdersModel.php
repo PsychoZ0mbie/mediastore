@@ -98,11 +98,20 @@
             $request = $this->delete($sql);
             return $request;
         }
-        /*public function selectCategory($id){
-            $this->intIdCategory = $id;
-            $sql = "SELECT * FROM category WHERE idcategory = $this->intIdCategory";
-            $request = $this->select($sql);
+        public function search($search){
+            $sql = "SELECT * ,DATE_FORMAT(date, '%d/%m/%Y') as date FROM orderdata 
+                    WHERE idtransaction LIKE '%$search%' || idorder LIKE '%$search%'";
+            $request = $this->select_all($sql);
             return $request;
-        }*/
+        }
+        public function sort($sort){
+            $option="DESC";
+            if($sort == 2){
+                $option = " ASC"; 
+            }
+            $sql = "SELECT * ,DATE_FORMAT(date, '%d/%m/%Y') as date FROM orderdata ORDER BY idorder $option ";
+            $request = $this->select_all($sql);
+            return $request;
+        }
     }
 ?>

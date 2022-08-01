@@ -382,5 +382,111 @@
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
+        public function search($params){
+            $search = strClean($params);
+            $request = $this->model->search($params);
+            if(count($request)>0){
+                $html="";
+                for ($i=0; $i < count($request); $i++) { 
+
+                    $status="";
+                    $btnView = '<button class="btn btn-info m-1" type="button" title="Watch" data-id="'.$request[$i]['idproduct'].'" name="btnView"><i class="fas fa-eye"></i></button>';
+                    $btnEdit="";
+                    $btnDelete="";
+                    $price = formatNum($request[$i]['price']);
+                    if($request[$i]['discount']>0){
+                        $discount = '<span class="text-success">'.$request[$i]['discount'].'% OFF</span>';
+                    }else{
+                        $discount = '<span class="text-danger">No discount</span>';
+                    }
+                    if($_SESSION['permitsModule']['u']){
+                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idproduct'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
+                    }
+                    if($_SESSION['permitsModule']['d']){
+                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idproduct'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+                    }
+                    if($request[$i]['status']==1){
+                        $status='<span class="badge me-1 bg-success">Active</span>';
+                    }else{
+                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
+                    }
+                    $html.='
+                        <tr class="item" data-name="'.$request[$i]['name'].'"  data-category="'.$request[$i]['category'].'" data-subcategory="'.$request[$i]['subcategory'].'">
+                            <td>
+                                <img src="'.$request[$i]['image'].'" class="rounded">
+                            </td>
+                            <td><strong>Reference: </strong>'.$request[$i]['reference'].'</td>
+                            <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
+                            <td><strong>Category: </strong>'.$request[$i]['category'].'</td>
+                            <td><strong>Subcategory: </strong>'.$request[$i]['subcategory'].'</td>
+                            <td><strong>Price: </strong>'.$price.'</td>
+                            <td><strong>Discount: </strong>'.$discount.'</td>
+                            <td><strong>Quantity: </strong>'.$request[$i]['stock'].'</td>
+                            <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
+                            <td><strong>Status: </strong>'.$status.'</td>
+                            <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
+                        </tr>
+                    ';
+                }
+                $arrResponse = array("status"=>true,"data"=>$html);
+            }else{
+                $arrResponse = array("status"=>false,"msg"=>"No data");
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function sort($params){
+            $sort = intval($params);
+            $request = $this->model->sort($sort);
+            if(count($request)>0){
+                $html="";
+                for ($i=0; $i < count($request); $i++) { 
+
+                    $status="";
+                    $btnView = '<button class="btn btn-info m-1" type="button" title="Watch" data-id="'.$request[$i]['idproduct'].'" name="btnView"><i class="fas fa-eye"></i></button>';
+                    $btnEdit="";
+                    $btnDelete="";
+                    $price = formatNum($request[$i]['price']);
+                    if($request[$i]['discount']>0){
+                        $discount = '<span class="text-success">'.$request[$i]['discount'].'% OFF</span>';
+                    }else{
+                        $discount = '<span class="text-danger">No discount</span>';
+                    }
+                    if($_SESSION['permitsModule']['u']){
+                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idproduct'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
+                    }
+                    if($_SESSION['permitsModule']['d']){
+                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idproduct'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+                    }
+                    if($request[$i]['status']==1){
+                        $status='<span class="badge me-1 bg-success">Active</span>';
+                    }else{
+                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
+                    }
+                    $html.='
+                        <tr class="item" data-name="'.$request[$i]['name'].'"  data-category="'.$request[$i]['category'].'" data-subcategory="'.$request[$i]['subcategory'].'">
+                            <td>
+                                <img src="'.$request[$i]['image'].'" class="rounded">
+                            </td>
+                            <td><strong>Reference: </strong>'.$request[$i]['reference'].'</td>
+                            <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
+                            <td><strong>Category: </strong>'.$request[$i]['category'].'</td>
+                            <td><strong>Subcategory: </strong>'.$request[$i]['subcategory'].'</td>
+                            <td><strong>Price: </strong>'.$price.'</td>
+                            <td><strong>Discount: </strong>'.$discount.'</td>
+                            <td><strong>Quantity: </strong>'.$request[$i]['stock'].'</td>
+                            <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
+                            <td><strong>Status: </strong>'.$status.'</td>
+                            <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
+                        </tr>
+                    ';
+                }
+                $arrResponse = array("status"=>true,"data"=>$html);
+            }else{
+                $arrResponse = array("status"=>false,"msg"=>"No data");
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
     }
 ?>
