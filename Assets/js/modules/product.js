@@ -23,7 +23,7 @@ export default class Product{
                     <div class="modal-body">
                         <form id="formFile" name="formFile">
                             <div class="row scrolly" id="upload-multiple">
-                                <div class="col-md-3">
+                                <div class="col-4">
                                     <div class="mb-3 upload-images">
                                         <label for="txtImg" class="text-primary text-center d-flex justify-content-center align-items-center">
                                             <div>
@@ -180,10 +180,14 @@ export default class Product{
                 document.querySelector("#subcategoryList").innerHTML = objData.data;
             });
         });
+
+        setTinymce("#txtDescription");
+
         let flag = true;
         form.addEventListener("submit",function(e){
             e.preventDefault();
             e.stopPropagation();
+            tinymce.triggerSave();
             let strName = document.querySelector("#txtName").value;
             let intDiscount = document.querySelector("#txtDiscount").value;
             let intPrice = document.querySelector("#txtPrice").value;
@@ -269,6 +273,8 @@ export default class Product{
                 flag = false;
             }
         },false);
+
+
     }
     viewItem(id){
         let url = base_url+"/Product/getProduct";
@@ -359,7 +365,7 @@ export default class Product{
                     <div class="modal-body">
                         <form id="formFile" name="formFile">
                             <div class="row scrolly" id="upload-multiple">
-                                <div class="col-md-3">
+                                <div class="col-4">
                                     <div class="mb-3 upload-images">
                                         <label for="txtImg" class="text-primary text-center d-flex justify-content-center align-items-center">
                                             <div>
@@ -466,6 +472,9 @@ export default class Product{
         formFile.reset();
         let formData = new FormData();
         formData.append("idProduct",id);
+
+        setTinymce("#txtDescription");
+
         request(base_url+"/Product/getProduct",formData,"post").then(function(objData){
             let status = document.querySelectorAll("#statusList option");
             let images = objData.data.image;
@@ -488,7 +497,7 @@ export default class Product{
             if(images[0]!=""){
                 for (let i = 0; i < images.length; i++) {
                     let div = document.createElement("div");
-                    div.classList.add("col-md-3","upload-image","mb-3");
+                    div.classList.add("col-4","upload-image","mb-3");
                     div.setAttribute("data-name",images[i]['name']);
                     div.innerHTML = `
                             <img>
@@ -683,4 +692,30 @@ export default class Product{
             }
         });
     }
+}
+function setTinymce(selectorId){
+    tinymce.remove();
+    document.addEventListener('focusin', (e) => {
+        if (e.target.closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
+            e.stopImmediatePropagation();
+        }
+    });
+
+    tinymce.init({
+        relative_urls: 0,
+        remove_script_host: 0,
+        selector: selectorId,
+        height: 400,
+        plugins: [
+            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+            'insertdatetime', 'media', 'table', 'help', 'wordcount'
+        ],
+        toolbar: 'undo redo | blocks | ' +
+        'bold italic backcolor | alignleft aligncenter ' +
+        'alignright alignjustify | bullist numlist outdent indent | ' +
+        'removeformat | help',
+        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'   
+    });
+    
 }

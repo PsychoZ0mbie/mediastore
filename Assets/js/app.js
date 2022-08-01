@@ -8,11 +8,7 @@ import Product from "./modules/product.js";
 import Coupon from "./modules/coupon.js";
 import Orders from "./modules/orders.js";
 
-document.addEventListener('focusin', (e) => {
-    if (e.target.closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
-        e.stopImmediatePropagation();
-    }
-});
+
 /*************************Dashboard Page*******************************/
 if(document.querySelector("#dashboard")){
 }
@@ -299,23 +295,6 @@ if(document.querySelector("#product")){
         btnNew.addEventListener("click",function(){
             item.addItem();
         });
-        /*tinymce.triggerSave();
-        tinymce.init({
-            relative_urls: 0,
-            remove_script_host: 0,
-            selector: '#txtDescription',
-            height: 300,
-            plugins: [
-                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                'insertdatetime', 'media', 'table', 'help', 'wordcount'
-            ],
-            toolbar: 'undo redo | blocks | ' +
-            'bold italic backcolor | alignleft aligncenter ' +
-            'alignright alignjustify | bullist numlist outdent indent | ' +
-            'removeformat | help',
-            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'   
-        });*/
     }
 
     window.addEventListener("DOMContentLoaded",function() {
