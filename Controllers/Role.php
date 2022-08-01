@@ -32,6 +32,18 @@
                         if($idRol == 0){
                             $option = 1;
                             $request = $this->model->insertRole($strName);
+                            if($request>0){
+                                $modules = $this->model->selectModules();
+                                $roleid = $request;
+                                for ($i=0; $i < count($modules) ; $i++) { 
+                                    $idModule = $modules[$i]['idmodule'];
+                                    $r = 0;
+                                    $w = 0;
+                                    $u = 0;
+                                    $d = 0;
+                                    $request = $this->model->insertPermits($roleid,$idModule,$r,$w,$u,$d);
+                                }
+                            }
                         }else{
                             $option = 2;
                             $request = $this->model->updateRole($idRol,$strName);
