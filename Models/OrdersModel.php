@@ -65,7 +65,7 @@
             $request = $this->select($sql);
             if(!empty($request)){
                 //$objData = $request['paypaldata'];
-                $urlRefund = "https://api.sandbox.paypal.com/v2/payments/captures/".$this->intIdTransaction."/refund";
+                $urlRefund = URLPAYPAL."/v2/payments/captures/".$this->intIdTransaction."/refund";
                 $objData = curlConnectionPost($urlRefund,"application/json",getTokenPaypal());
                 if(isset($objData->status) && $objData->status =="COMPLETED"){
                     $idorder = $request['idorder'];

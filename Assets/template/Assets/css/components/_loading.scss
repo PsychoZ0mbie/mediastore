@@ -45,5 +45,15 @@
         align-items: center;
         color:#424242;
         font-size: 20px;
+        animation: textAnim 2s linear infinite;
+        @keyframes textAnim {
+            0%{
+                color:#424242; 
+            }50%{
+                color:#fff;
+            }100%{
+                color:#424242;
+            }
+        }
     }
 }
