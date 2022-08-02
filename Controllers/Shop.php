@@ -820,7 +820,7 @@
                                 $orderInfo = $this->getOrder($requestOrder);
                                 $orderInfo['coupon'] = $dataCoupon;
                                 $dataEmailOrden = array(
-                                    'asunto' => "Your order is N -".$requestOrder,
+                                    'asunto' => "An order has been generated",
                                     'email_usuario' => $_SESSION['userData']['email'], 
                                     'email_remitente'=>EMAIL_REMITENTE,
                                     'email_copia' => EMAIL_REMITENTE,

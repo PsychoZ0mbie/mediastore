@@ -20,7 +20,7 @@
                     </div>
                 </div>
             </div>-->
-            <?php if($_SESSION['userData']['roleid'] != 2){?>
+            <?php if($_SESSION['userData']['roleid'] != 2 && $_SESSION['permitsModule']['r']){?>
             <div class="col-md-3">
                 <div class="card mb-4 position-relative" style="--cui-card-cap-bg: #321fdb">
                     <div class="card-header position-relative d-flex justify-content-center align-items-center">
@@ -90,6 +90,7 @@
                 </div>
             </div>
         </div>
+        <?php if($_SESSION['userData']['roleid'] != 2 && $_SESSION['permitsModule']['r']){?>
         <div class="card mb-4">
             <div class="card-body">
                 <figure class="highcharts-figure"><div id="salesMonth"></div></figure>
@@ -100,6 +101,7 @@
                 <figure class="highcharts-figure"><div id="salesYear"></div></figure>
             </div>
         </div>
+        <?php }?>
         <div class="card mb-4">
             <div class="card-body">
                 <div class="row">
@@ -155,7 +157,7 @@
                                     <td><?=$product['name']?></td>
                                     <td><?=formatNum($product['price'])?></td>
                                     <td><?=$product['discount']?>%</td>
-                                    <td><a href="<?=base_url()."/shop/product/".$product['route']?>" class="text-dark"><i class="fas fa-eye"></i></a></td>
+                                    <td><a href="<?=base_url()."/shop/product/".$product['route']?>" target="_blank" class="text-dark"><i class="fas fa-eye"></i></a></td>
                                 </tr>
                                 <?php } }else{?>
                                 <tr>
@@ -173,106 +175,106 @@
 
 <?php footerAdmin($data)?>     
 <script>
-    Highcharts.chart('salesMonth', {
-    chart: {
-        type: 'line'
-    },
-    title: {
-        text: 'Sales from <?=$data['salesMonth']['month']." ".$data['salesMonth']['year']?>'
-    },
-    subtitle: {
-        text: 'Total: <?=formatNum($data['salesMonth']['total'])?>'
-    },
-    xAxis: {
-        categories: [
-            <?php
-                
-                for ($i=0; $i < count($sales) ; $i++) { 
-                    echo $sales[$i]['day'].",";
-                }
-            ?>
-        ]
-    },
-    yAxis: {
-        title: {
-            text: ''
-        }
-    },
-    plotOptions: {
-        line: {
-            dataLabels: {
-                enabled: true
+    if(document.querySelector("#salesMonth")){
+        Highcharts.chart('salesMonth', {
+            chart: {
+                type: 'line'
             },
-            enableMouseTracking: false
-        }
-    },
-    series: [{
-        name: '',
-        data: [
-            <?php
-                
-                for ($i=0; $i < count($sales) ; $i++) { 
-                    echo $sales[$i]['total'].",";
+            title: {
+                text: 'Sales from <?=$data['salesMonth']['month']." ".$data['salesMonth']['year']?>'
+            },
+            subtitle: {
+                text: 'Total: <?=formatNum($data['salesMonth']['total'])?>'
+            },
+            xAxis: {
+                categories: [
+                    <?php
+                        
+                        for ($i=0; $i < count($sales) ; $i++) { 
+                            echo $sales[$i]['day'].",";
+                        }
+                    ?>
+                ]
+            },
+            yAxis: {
+                title: {
+                    text: ''
                 }
-            ?>
-        ]
-    }]
-});
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [{
+                name: '',
+                data: [
+                    <?php
+                        
+                        for ($i=0; $i < count($sales) ; $i++) { 
+                            echo $sales[$i]['total'].",";
+                        }
+                    ?>
+                ]
+            }]
+        });
+        Highcharts.chart('salesYear', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Sales from <?=$salesYear[0]['year']?>'
+            },
+            subtitle: {
+                text: 'Total: <?=formatNum($data['salesYear']['total'])?>'
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    rotation: -45,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: 'Sales: <b>{point.y:.0f} '+MD+'</b>'
+            },
+            series: [{
+                name: 'Population',
+                data: [
+                    <?php
+                        for ($i=0; $i < count($salesYear) ; $i++) { 
+                            echo '["'.$salesYear[$i]['month'].'"'.",".''.$salesYear[$i]['sale'].'],';
+                        }    
+                    ?>
+                    //['Shanghai', 24.2]
+                ],
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    color: '#FFFFFF',
+                    align: 'center',
+                    y: 0, // 10 pixels down from the top
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji'
+                    }
+                }
+            }]
+        });
+    }
 </script> 
- <script>
-    Highcharts.chart('salesYear', {
-    chart: {
-        type: 'column'
-    },
-    title: {
-        text: 'Sales from <?=$salesYear[0]['year']?>'
-    },
-    subtitle: {
-        text: 'Total: <?=formatNum($data['salesYear']['total'])?>'
-    },
-    xAxis: {
-        type: 'category',
-        labels: {
-            rotation: -45,
-            style: {
-                fontSize: '13px',
-                fontFamily: 'Verdana, sans-serif'
-            }
-        }
-    },
-    yAxis: {
-        min: 0,
-        title: {
-            text: ''
-        }
-    },
-    legend: {
-        enabled: false
-    },
-    tooltip: {
-        pointFormat: 'Sales: <b>{point.y:.0f} '+MD+'</b>'
-    },
-    series: [{
-        name: 'Population',
-        data: [
-            <?php
-                for ($i=0; $i < count($salesYear) ; $i++) { 
-                    echo '["'.$salesYear[$i]['month'].'"'.",".''.$salesYear[$i]['sale'].'],';
-                }    
-            ?>
-            //['Shanghai', 24.2]
-        ],
-        dataLabels: {
-            enabled: true,
-            rotation: 0,
-            color: '#FFFFFF',
-            align: 'center',
-            y: 0, // 10 pixels down from the top
-            style: {
-                fontSize: '13px',
-                fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji'
-            }
-        }
-    }]
-});
- </script>
