@@ -87,7 +87,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="<?=base_url()?>/orders">
                                     <svg class="nav-icon">
-                                        <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-dollar"></use>
+                                        <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-money"></use>
                                     </svg> 
                                     Orders<span class="badge badge-sm bg-info ms-auto"></span>
                                 </a>
