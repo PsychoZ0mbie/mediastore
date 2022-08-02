@@ -1521,8 +1521,8 @@ function addProduct(elements){
             };
 
             runTime();
-            request(base_url+"/shop/currentCart","","get").then(function(objData){
-                btnCheckoutPop.addEventListener("click",function(){
+            btnCheckoutPop.addEventListener("click",function(){
+                request(base_url+"/shop/currentCart","","get").then(function(objData){
                     if(objData.status){
                         window.location.href=base_url+"/shop/checkout";
                     }else{
@@ -1530,6 +1530,7 @@ function addProduct(elements){
                     }
                 });
             });
+            
             request(base_url+"/shop/addCart",formData,"post").then(function(objData){
                 if(objData.status){
                     document.querySelector("#qtyCart").innerHTML=objData.qty;
