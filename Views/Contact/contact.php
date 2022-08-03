@@ -54,6 +54,10 @@
                             <input type="email" class="form-control" id="txtContactEmail" name="txtContactEmail" placeholder="Your email" required>
                         </div>
                         <div class="mb-3">
+                            <label for="txtSubject" class="form-label">Subject</label>
+                            <input type="text" class="form-control" id="txtSubject" name="txtSubject" placeholder="Your subject">
+                        </div>
+                        <div class="mb-3">
                             <label for="txtMessageEmail" class="form-label">Message</label>
                             <textarea class="form-control" id="txtContactMessage" name="txtContactMessage" placeholder="Your message" rows="5" required></textarea>
                         </div>

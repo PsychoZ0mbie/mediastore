@@ -25,6 +25,7 @@
         public function mailbox(){
             if($_SESSION['permitsModule']['r']){
                 $data['inbox'] = $this->getMails();
+                $data['sent'] = $this->getSentMails();
                 $data['page_tag'] = "Mailbox";
                 $data['page_title'] = "Mailbox";
                 $data['page_name'] = "mailbox";
@@ -44,6 +45,24 @@
                     $data['page_title'] = "Message";
                     $data['page_name'] = "message";
                     $this->views->getView($this,"message",$data);
+                }else{
+                    header("location: ".base_url()."/store/mailbox");
+                    die();
+                }
+            }else{
+                header("location: ".base_url());
+                die();
+            }
+        }
+        public function sent($params){
+            if($_SESSION['permitsModule']['r']){
+                if(is_numeric($params)){
+                    $id = intval($params);
+                    $data['message'] = $this->model->selectSentMail($id);
+                    $data['page_tag'] = "Sent message";
+                    $data['page_title'] = "Sent message";
+                    $data['page_name'] = "sent";
+                    $this->views->getView($this,"sent",$data);
                 }else{
                     header("location: ".base_url()."/store/mailbox");
                     die();
@@ -199,20 +218,17 @@
                         $total = 0;
                         $url = base_url()."/store/message/".$request[$i]['id'];
                         if($request[$i]['status'] == 1){
-                            $status="text-secondary";
+                            $status="text-black-50";
                         }else if($request[$i]['status'] == 2){
                             $total++;
                         }
                         $html.='
                         <div class="mail-item '.$status.'">
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between mb-2 flex-wrap position-relative">
                                 <p class="m-0">'.$request[$i]['name'].'</p>
+                                <p class="m-0 mail-subject">'.$request[$i]['subject'].'</p>
                                 <p class="m-0">'.$request[$i]['date'].'</p>
-                            </div>
-                            <div class="position-relative">
                                 <a href="'.$url.'" class="position-absolute w-100 h-100"></a>
-                                <h2 class="fs-5">You have sent a new message.</h2>
-                                <p class="m-0 mail-message">'.$request[$i]['message'].'</p>
                             </div>
                         </div>
                         ';
@@ -253,13 +269,13 @@
         }
         public function sendEmail(){
             if($_POST){
-                if(empty($_POST['txtMessage']) ||  empty($_POST['txtEmail']) || empty($_POST['txtSubject'])){
+                if(empty($_POST['txtMessage']) ||  empty($_POST['txtEmail'])){
                     $arrResponse = array("status"=>false,"msg"=>"Data error");
                 }else{
                     $strMessage = strClean($_POST['txtMessage']);
                     $strEmail = strClean(strtolower($_POST['txtEmail']));
                     $strEmailCC = strClean(strtolower($_POST['txtEmailCC']));
-                    $strSubject = strClean(($_POST['txtSubject']));
+                    $strSubject = $_POST['txtSubject'] !="" ? strClean(($_POST['txtSubject'])) : "You have sent an email.";
                     $request = $this->model->insertMessage($strSubject,$strEmail,$strMessage);
                     if($request>0){
                         $dataEmail = array('email_remitente' => EMAIL_REMITENTE, 
@@ -276,6 +292,34 @@
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }   
             die();
+        }
+        public function getSentMails(){
+            if($_SESSION['permitsModule']['r']){
+                $html="";
+                $request = $this->model->selectSentMails();
+                if(count($request)>0){
+                    for ($i=0; $i < count($request); $i++) { 
+                        $status ="";
+                        $total = 0;
+                        $email = explode("@",$request[$i]['email']);
+                        $url = base_url()."/store/sent/".$request[$i]['id'];
+                        $html.='
+                        <div class="mail-item text-black-50">
+                            <div class="d-flex position-relative justify-content-between mb-2 flex-wrap justify-content-center">
+                                <p class="m-0">'.$email[0].'</p>
+                                <p class="m-0 mail-subject">'.$request[$i]['subject'].'</p>
+                                <p class="m-0">'.$request[$i]['date'].'</p>
+                                <a href="'.$url.'" class="position-absolute w-100 h-100"></a>
+                            </div>
+                        </div>
+                        ';
+                    }
+                    $arrResponse = array("status"=>true,"data"=>$html,"total"=>$total);
+                }else{
+                    $arrResponse = array("status"=>false,"msg"=>"No data");
+                }
+            }
+            return $arrResponse;
         }
     }
 ?>

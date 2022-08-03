@@ -393,10 +393,9 @@ if(document.querySelector("#mailbox")){
         e.preventDefault();
         let strEmail = document.querySelector("#txtEmail");
         let strMessage = document.querySelector("#txtMessage");
-        let strSubject = document.querySelector("#txtSubject");
         let btn = document.querySelector("#btnSubmit");
-        if(strEmail == "" || strMessage =="" || strSubject==""){
-            Swal.fire("Error", "Please fill the field", "error");
+        if(strEmail == "" || strMessage ==""){
+            Swal.fire("Error", "Please fill the fields with (*)", "error");
             return false;
         }
         let formData = new FormData(formEmail);

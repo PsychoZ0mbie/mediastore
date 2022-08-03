@@ -1,15 +1,17 @@
 @import "variable";
 .mail-item{
     max-height: 200px;
-    margin: 15px 10px;
+    margin: 20px 10px;
     h2{
         height: 25px;
         text-overflow:ellipsis;
         overflow: hidden;
     }
+    overflow: hidden;
 }
-.mail-message{
-    max-height: 75px;
-    text-overflow:ellipsis;
+.mail-subject{
+    width: 50%;
+    height: 25px;
+    text-overflow: ellipsis;
     overflow: hidden;
 }

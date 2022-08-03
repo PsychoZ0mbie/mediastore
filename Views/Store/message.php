@@ -1,15 +1,12 @@
 <?php 
-    //dep($data['message']);exit;
     headerAdmin($data);
-    $replies = $data['replies'];
-    
 ?>
 <div id="modalItem"></div>
 <div class="body flex-grow-1 px-3" id="<?=$data['page_name']?>">
     <div class="container-lg">
         <div class="card">
             <div class="card-body"> 
-                <h2 class="fs-5">You have sent a new message</h2>
+                <h2 class="fs-5"><?=$data['message']['subject']?></h2>
                 <div class="d-flex justify-content-between flex-wrap">
                     <p class="m-0"><?=$data['message']['name']." (".$data['message']['email'].")"?></p>
                     <p class="m-0"><?=$data['message']['date']?></p>

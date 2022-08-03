@@ -95,11 +95,21 @@
             $request = $this->select_all($sql);
             return $request;
         }
+        public function selectSentMails(){
+            $sql = "SELECT * ,DATE_FORMAT(date, '%d/%m/%Y') as date FROM sendmessage ORDER BY id DESC";       
+            $request = $this->select_all($sql);
+            return $request;
+        }
         public function selectMail(int $id){
             $sql = "UPDATE contact SET status=? WHERE id = $id";
             $arrData = array(1);
             $request = $this->update($sql,$arrData);
             $sql = "SELECT *, DATE_FORMAT(date, '%d/%m/%Y') as date FROM contact WHERE id=$id";
+            $request = $this->select($sql);
+            return $request;
+        }
+        public function selectSentMail(int $id){
+            $sql = "SELECT *, DATE_FORMAT(date, '%d/%m/%Y') as date FROM sendmessage WHERE id=$id";
             $request = $this->select($sql);
             return $request;
         }

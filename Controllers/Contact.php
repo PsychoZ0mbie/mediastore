@@ -22,13 +22,14 @@
                     $strName = ucwords(strClean($_POST['txtContactName']));
                     $strEmail = strtolower(strClean($_POST['txtContactEmail']));
                     $strMessage = strClean($_POST['txtContactMessage']);
-    
-                    $request = $this->setMessage($strName,$strEmail,$strMessage);
+                    $strSubject = $_POST['txtSubject'] !="" ? strClean(($_POST['txtSubject'])) : "You have sent a new message";
+
+                    $request = $this->setMessage($strName,$strEmail,$strSubject,$strMessage);
                     if($request > 0){
                         $dataEmail = array('email_remitente' => EMAIL_REMITENTE, 
                                                 'email_usuario'=>$strEmail, 
                                                 'email_copia'=>EMAIL_REMITENTE,
-                                                'asunto' =>'You have sent a new message.',
+                                                'asunto' =>$strSubject,
                                                 "message"=>$strMessage,
                                                 'name'=>$strName);
                         sendEmail($dataEmail,'email_contact');

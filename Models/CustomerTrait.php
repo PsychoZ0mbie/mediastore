@@ -19,6 +19,8 @@
         private $strCity;
         private $strAddress;
         private $strPostalCode;
+        private $strSubject;
+        private $strMessage;
 
         public function setCustomerT($strName,$strPicture,$strEmail,$strPassword,$rolid){
             $this->con = new Mysql();
@@ -243,13 +245,15 @@
             }   
             return $arrData;
         }
-        public function setMessage($strName,$strEmail,$strMessage){
+        public function setMessage($strName,$strEmail,$strSubject,$strMessage){
             $this->con = new Mysql();
             $this->strName = $strName;
             $this->strEmail = $strEmail;
+            $this->strSubject = $strSubject;
+            $this->strMessage = $strMessage;
 
-            $sql = "INSERT INTO contact(name,email,message,status) VALUES(?,?,?,?)";
-            $arrData = array($this->strName,$this->strEmail,$strMessage,2);
+            $sql = "INSERT INTO contact(name,email,subject,message,status) VALUES(?,?,?,?,?)";
+            $arrData = array($this->strName,$this->strEmail,$this->strSubject,$strMessage,2);
             $request = $this->con->insert($sql,$arrData);
             return $request;
         }
