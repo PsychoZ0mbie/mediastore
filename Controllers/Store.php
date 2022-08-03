@@ -224,10 +224,16 @@
                         }
                         $html.='
                         <div class="mail-item '.$status.'">
-                            <div class="d-flex justify-content-between mb-2 flex-wrap position-relative">
-                                <p class="m-0">'.$request[$i]['name'].'</p>
-                                <p class="m-0 mail-subject">'.$request[$i]['subject'].'</p>
-                                <p class="m-0">'.$request[$i]['date'].'</p>
+                            <div class="row position-relative">
+                                <div class="col-4">
+                                    <p class="m-0 mail-info">'.$request[$i]['name'].'</p>
+                                </div>
+                                <div class="col-4">
+                                    <p class="mail-info">'.$request[$i]['subject'].'</p>
+                                </div>
+                                <div class="col-4">
+                                    <p class="m-0">'.$request[$i]['date'].'</p>
+                                </div>
                                 <a href="'.$url.'" class="position-absolute w-100 h-100"></a>
                             </div>
                         </div>
@@ -305,10 +311,16 @@
                         $url = base_url()."/store/sent/".$request[$i]['id'];
                         $html.='
                         <div class="mail-item text-black-50">
-                            <div class="d-flex position-relative justify-content-between mb-2 flex-wrap justify-content-center">
-                                <p class="m-0">'.$email[0].'</p>
-                                <p class="m-0 mail-subject">'.$request[$i]['subject'].'</p>
-                                <p class="m-0">'.$request[$i]['date'].'</p>
+                            <div class="row position-relative">
+                                <div class="col-4">
+                                    <p class="m-0 mail-info">'.$email[0].'</p>
+                                </div>
+                                <div class="col-4">
+                                    <p class="mail-info">'.$request[$i]['subject'].'</p>
+                                </div>
+                                <div class="col-4">
+                                    <p class="m-0">'.$request[$i]['date'].'</p>
+                                </div>
                                 <a href="'.$url.'" class="position-absolute w-100 h-100"></a>
                             </div>
                         </div>

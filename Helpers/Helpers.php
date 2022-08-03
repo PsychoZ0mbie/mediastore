@@ -48,6 +48,18 @@
         $num = MS.number_format($num,0,DEC,MIL).MD;
         return $num;
     }
+    function emailNotification(){
+        require_once("Models/StoreModel.php");
+        $obj = new StoreModel();
+        $request = $obj->selectMails();
+        $total = 0;
+        if(!empty($request)){
+            foreach ($request as $email) {
+                if($email['status']!=1)$total++;
+            }
+        }
+        return $total;
+    }
     function sessionUser(int $idpersona){
         require_once("Models/LoginModel.php");
         $objLogin = new LoginModel();

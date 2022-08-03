@@ -1,3 +1,5 @@
+<?php $notification = emailNotification()?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -33,6 +35,22 @@
                             <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/assets/brand/coreui.svg#full"></use>
                         </svg>
                     </a>
+                    <ul class="header-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link position-relative" href="<?=base_url()?>/store/mailbox">
+                                <?php
+                                    $notify ="";
+                                    if($notification>0){
+                                        $notify='<span class="position-absolute top-0 end-0 translate-middle p-1 ms-2 mt-1 bg-danger border border-light rounded-circle"><span class="visually-hidden">New alerts</span></span>';
+                                    }
+                                ?>
+                                <svg class="icon icon-lg">
+                                <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
+                                </svg>
+                                <?=$notify?>
+                            </a>
+                        </li>
+                    </ul>
                     <ul class="header-nav ms-3">
                         <li class="nav-item dropdown">
                             <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -43,13 +61,13 @@
                             <div class="dropdown-menu dropdown-menu-end pt-0">
                                 <a class="dropdown-item" href="<?=base_url()?>/user/profile">
                                     <svg class="icon me-2">
-                                        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-user"></use>
+                                        <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
                                     </svg> Profile
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="<?=base_url()?>/logout">
                                     <svg class="icon me-2">
-                                        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
+                                        <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
                                     </svg> Logout
                                 </a>
                             </div>
