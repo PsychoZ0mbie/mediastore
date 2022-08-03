@@ -6,12 +6,81 @@ import Category from "./modules/category.js";
 import SubCategory from "./modules/subcategory.js";
 import Product from "./modules/product.js";
 import Coupon from "./modules/coupon.js";
-import Mailbox from "./modules/mailbox.js";
 import Orders from "./modules/orders.js";
 
 
 /*************************Dashboard Page*******************************/
 if(document.querySelector("#dashboard")){
+    $('.date-picker').datepicker( {
+        closeText: 'Close',
+        prevText: 'back',
+        nextText: 'next',
+        currentText: 'Today',
+        monthNames: ['1 -', '2 -', '3 -', '4 -', '5 -', '6 -', '7 -', '8 -', '9 -', '10 -', '11 -', '12 -'],
+        monthNamesShort: ['January','February','March','April', 'May','June','July','August','September', 'October','November','Dicember'],
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true,
+        dateFormat: 'MM yy',
+        showDays: false,
+        onClose: function(dateText, inst) {
+            $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+        }
+    });
+
+    
+    let btnSalesMonth = document.querySelector("#btnSalesMonth");
+    let btnSalesYear = document.querySelector("#btnSalesYear");
+    btnSalesMonth.addEventListener("click",function(){
+        let salesMonth = document.querySelector(".salesMonth").value;
+        if(salesMonth==""){
+            Swal.fire("Error", "Please choose a date", "error");
+            return false;
+        }
+        btnSalesMonth.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+        btnSalesMonth.setAttribute("disabled","");
+        let formData = new FormData();
+        formData.append("date",salesMonth);
+        request(base_url+"/dashboard/getSalesMonth",formData,"post").then(function(objData){
+            btnSalesMonth.innerHTML=`<i class="fas fa-search"></i>`;
+            btnSalesMonth.removeAttribute("disabled");
+            $("#salesMonth").html(objData);
+        });
+    });
+    btnSalesYear.addEventListener("click",function(){
+        
+        let salesYear = document.querySelector("#sYear").value;
+        let strYear = salesYear.toString();
+
+        if(salesYear==""){
+            Swal.fire("Error", "Please put a year", "error");
+            document.querySelector("#sYear").value ="";
+            return false;
+        }
+        if(strYear.length>4){
+            Swal.fire("Error", "Date is wrong.", "error");
+            document.querySelector("#sYear").value ="";
+            return false;
+        }
+        btnSalesYear.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+        btnSalesYear.setAttribute("disabled","");
+
+        let formData = new FormData();
+        formData.append("date",salesYear);
+        request(base_url+"/dashboard/getSalesYear",formData,"post").then(function(objData){
+            btnSalesYear.innerHTML=`<i class="fas fa-search"></i>`;
+            btnSalesYear.removeAttribute("disabled");
+            console.log(objData);
+            if(objData.status){
+                $("#salesYear").html(objData.script);
+            }else{
+                Swal.fire("Error", objData.msg, "error");
+                document.querySelector("#sYear").value ="";
+            }
+        });
+    });
+
+    
 }
 /*************************Roles Page*******************************/
 if(document.querySelector("#role")){
@@ -689,52 +758,6 @@ if(document.querySelector("#recovery")){
         }
     });
 }
-/*************************Message Page*******************************/
-if(document.querySelector("#mensaje")){
-
-    let search = document.querySelector("#search");
-    search.addEventListener('input',function() {
-        let elements = document.querySelectorAll(".item");
-        let value = search.value.toLowerCase();
-        for(let i = 0; i < elements.length; i++) {
-            let element = elements[i];
-            let strName = element.getAttribute("data-name").toLowerCase();
-            let strEmail = element.getAttribute("data-email").toLowerCase();
-            let strPhone = element.getAttribute("data-phone").toLowerCase();
-            if(!strName.includes(value) && !strEmail.includes(value) && !strPhone.includes(value)){
-                element.classList.add("d-none");
-            }else{
-                element.classList.remove("d-none");
-            }
-        }
-    })
-
-    let item = new Mensaje();
-    let element = document.querySelector("#listItem");
-    let orderBy = document.querySelector("#orderBy");
-
-    orderBy.addEventListener("change",function(){
-        item.orderItem(element,orderBy.value);
-    });
-
-    window.addEventListener("DOMContentLoaded",function() {
-        item.showItems(element);
-    })
-
-    //buttons
-    if(document.querySelector("#listItem")){
-        let listProduct = document.querySelector("#listItem");
-        listProduct.addEventListener("click",function(e) {
-            let element = e.target;
-            let id = element.getAttribute("data-id");
-            if(element.name == "btnDelete"){
-                item.deleteItem(element,id);
-            }else if(element.name == "btnView"){
-                item.viewItem(id);
-            }
-        });
-    }
-}
 if(document.querySelector("#btnRefund")){
     let item = new Orders();
     let btn = document.querySelector("#btnRefund");
@@ -742,7 +765,6 @@ if(document.querySelector("#btnRefund")){
         item.refund(btn.getAttribute("data-id"));
     });
 }
-
 if(document.querySelector("#btnPrint")){
     let btn = document.querySelector("#btnPrint");
     btn.addEventListener("click",function(){

@@ -15,6 +15,8 @@
         <link href="<?=media()?>/css/icons/font-awesome.min.css">
         <!-- AdminKit CSS file -->
         <link href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/css/style.css" rel="stylesheet">
+        <!-- Plugin-->
+        <link href="<?= media();?>/js/plugins/datepicker/jquery-ui.min.css" rel="stylesheet">
         <!-- My Styles -->
         <link rel="stylesheet" href="<?=media()?>/css/style.css">
     </head>
@@ -31,9 +33,9 @@
                     </button>
                     <a class="header-brand d-md-none" href="#">
                         <i class="" style="width: 118px;height: 46px;"></i>
-                        <svg width="118" height="46" alt="MediaStore Logo">
-                            <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/assets/brand/coreui.svg#full"></use>
-                        </svg>
+                        <div class="fw-bold" width="118" height="46" alt="MediaStore Logo">
+                            <?=NOMBRE_EMPRESA?>
+                        </div>
                     </a>
                     <ul class="header-nav ms-auto">
                         <li class="nav-item">

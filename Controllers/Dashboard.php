@@ -35,5 +35,38 @@
                 die();
             }
         }
+        public function getSalesMonth(){
+            if($_POST){
+                $arrDate = explode(" - ",$_POST['date']);
+                $month = $arrDate[0];
+                $year = $arrDate[1];
+                $request = $this->model->getSalesMonth($year,$month);
+                $request['chart'] = "salespermonth";
+                $script = getFile("Template/Chart/chart",$request);
+                echo json_encode($script,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+        public function getSalesYear(){
+            if($_POST){
+                if(empty($_POST['date'])){
+                    $arrResponse=array("status"=>false,"msg"=>"Data error");
+                }else{
+                    //$year = intval($_POST['date']);
+                    $strYear = strval($_POST['date']);
+                    if(strlen($strYear)>4){
+                        $arrResponse=array("status"=>false,"msg"=>"Date is wrong."); 
+                    }else{
+                        $year = intval($_POST['date']);
+                        $request = $this->model->getSalesYear($year);
+                        $request['chart'] = "salesperyear";
+                        $script = getFile("Template/Chart/chart",$request);
+                        $arrResponse=array("status"=>true,"script"=>$script); 
+                    }
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
     }
 ?>

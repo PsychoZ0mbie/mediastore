@@ -6,7 +6,7 @@
         </div>
         
         <!-- Essential javascripts for application to work-->
-        
+        <script src="<?= media();?>/js/plugins/jquery/jquery.js"></script>
         <script src="<?= media(); ?>/js/bootstrap/popper.min.js?n=1"></script>
         <script src="<?= media(); ?>/js/bootstrap/bootstrap.min.js?n=1"></script>
         <script src="<?= media();?>/js/icons/fontawesome.js"></script>
@@ -21,7 +21,10 @@
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
         <script src="https://code.highcharts.com/modules/export-data.js"></script>
-        
+
+        <!-- Datepicker plugin-->
+        <script src="<?= media();?>/js/plugins/datepicker/jquery-ui.min.js"></script>
+
         <!-- My scripts -->
         <script>
           const base_url = "<?= base_url(); ?>";

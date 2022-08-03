@@ -93,11 +93,23 @@
         <?php if($_SESSION['userData']['roleid'] != 2 && $_SESSION['permitsModule']['r']){?>
         <div class="card mb-4">
             <div class="card-body">
+                <div class="d-flex justify-content-end mb-3">
+                    <div class="d-flex align-items-center">
+                        <input  class="date-picker salesMonth" name="salesMonth" placeholder="Month and year" required>
+                        <button class="btn btn-sm btn-primary" id="btnSalesMonth"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
                 <figure class="highcharts-figure"><div id="salesMonth"></div></figure>
             </div>
         </div>
         <div class="card mb-4">
             <div class="card-body">
+                <div class="d-flex justify-content-end mb-3">
+                    <div class="d-flex align-items-center">
+                        <input type="number" name="salesYear" id="sYear" placeholder="Year" min="2000" max="9999">
+                        <button class="btn btn-sm btn-primary" id="btnSalesYear"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
                 <figure class="highcharts-figure"><div id="salesYear"></div></figure>
             </div>
         </div>
