@@ -992,6 +992,7 @@ if(document.querySelector("#contact")){
                 formContact.reset();
             }else{
                 alert.classList.remove("d-none");
+                alert.classList.replace("alert-success","alert-danger");
                 alert.innerHTML =objData.msg;
             }
         });
