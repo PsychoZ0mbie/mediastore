@@ -243,6 +243,16 @@
             }   
             return $arrData;
         }
+        public function setMessage($strName,$strEmail,$strMessage){
+            $this->con = new Mysql();
+            $this->strName = $strName;
+            $this->strEmail = $strEmail;
+
+            $sql = "INSERT INTO contact(name,email,message,status) VALUES(?,?,?,?)";
+            $arrData = array($this->strName,$this->strEmail,$strMessage,2);
+            $request = $this->con->insert($sql,$arrData);
+            return $request;
+        }
         
     }
     

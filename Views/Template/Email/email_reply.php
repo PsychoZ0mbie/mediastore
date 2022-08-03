@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Nuevo Mensaje</title>
+	<title>New message</title>
 	<style type="text/css">
 		p{
 			font-family: arial;
@@ -79,7 +79,7 @@
 	</style>
 </head>
 <body>
-	<table align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="text-align:center;">
+	<table align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="text-align:left;">
 		<tbody>
 			<tr>
 				<td>
@@ -90,12 +90,9 @@
 			</tr>
 			<tr>
 				<td>
-					<p>Datos del contacto.</p>
-					<p>Nombre: <strong><?= $data['nombre'];?> <?= $data['apellido'];?></strong></p>
-					<p>Email: <strong><?= $data['email_usuario']; ?></strong></p>
-					<p>Telefono: <strong><?= $data['telefono']; ?></strong></p>
-					<p>Mensaje:</p>
-					<p><?= $data['mensaje']; ?></p>
+					<p style="color:#000;margin-top:10px;"><strong>Hello <?= $data['name'];?></strong> </p>
+					<p>Reply:</p>
+					<p><?= $data['message']; ?></p>
 					<p class="x_title_gray"><a href="<?= WEB_EMPRESA; ?>" target="_blanck"><?= WEB_EMPRESA; ?></a></p>
 				</td>
 			</tr>

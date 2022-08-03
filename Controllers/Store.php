@@ -10,6 +10,7 @@
             getPermits(5);
         }
 
+        /*************************Views*******************************/
         public function coupon(){
             if($_SESSION['permitsModule']['r']){
                 $data['page_tag'] = "Coupons";
@@ -21,6 +22,38 @@
                 die();
             }
         }
+        public function mailbox(){
+            if($_SESSION['permitsModule']['r']){
+                $data['inbox'] = $this->getMails();
+                $data['page_tag'] = "Mailbox";
+                $data['page_title'] = "Mailbox";
+                $data['page_name'] = "mailbox";
+                $this->views->getView($this,"mailbox",$data);
+            }else{
+                header("location: ".base_url());
+                die();
+            }
+        }
+        public function message($params){
+            if($_SESSION['permitsModule']['r']){
+                if(is_numeric($params)){
+                    $id = intval($params);
+                    $data['message'] = $this->model->selectMail($id);
+                    $data['replies'] = $this->model->selectReplies($id);
+                    $data['page_tag'] = "Message";
+                    $data['page_title'] = "Message";
+                    $data['page_name'] = "message";
+                    $this->views->getView($this,"message",$data);
+                }else{
+                    header("location: ".base_url()."/store/mailbox");
+                    die();
+                }
+            }else{
+                header("location: ".base_url());
+                die();
+            }
+        }
+        /*************************Coupon methods*******************************/
         public function getCoupons(){
             if($_SESSION['permitsModule']['r']){
                 $html="";
@@ -153,6 +186,95 @@
                 header("location: ".base_url());
                 die();
             }
+            die();
+        }
+        /*************************Mailbox methods*******************************/
+        public function getMails(){
+            if($_SESSION['permitsModule']['r']){
+                $html="";
+                $request = $this->model->selectMails();
+                if(count($request)>0){
+                    for ($i=0; $i < count($request); $i++) { 
+                        $status ="";
+                        $total = 0;
+                        $url = base_url()."/store/message/".$request[$i]['id'];
+                        if($request[$i]['status'] == 1){
+                            $status="text-secondary";
+                        }else if($request[$i]['status'] == 2){
+                            $total++;
+                        }
+                        $html.='
+                        <div class="mail-item '.$status.'">
+                            <div class="d-flex justify-content-between">
+                                <p class="m-0">'.$request[$i]['name'].'</p>
+                                <p class="m-0">'.$request[$i]['date'].'</p>
+                            </div>
+                            <div class="position-relative">
+                                <a href="'.$url.'" class="position-absolute w-100 h-100"></a>
+                                <h2 class="fs-5">You have sent a new message.</h2>
+                                <p class="m-0 mail-message">'.$request[$i]['message'].'</p>
+                            </div>
+                        </div>
+                        ';
+                    }
+                    $arrResponse = array("status"=>true,"data"=>$html,"total"=>$total);
+                }else{
+                    $arrResponse = array("status"=>false,"msg"=>"No data");
+                }
+            }
+            return $arrResponse;
+        }
+        public function setReply(){
+            if($_POST){
+                if(empty($_POST['txtMessage']) || empty($_POST['idMessage']) || empty($_POST['txtEmail']) || empty($_POST['txtName'])){
+                    $arrResponse = array("status"=>false,"msg"=>"Data error");
+                }else{
+                    $strMessage = strClean($_POST['txtMessage']);
+                    $idMessage = intval($_POST['idMessage']);
+                    $strEmail = strClean(strtolower($_POST['txtEmail']));
+                    $strName = strClean(ucwords($_POST['txtName']));
+                    $request = $this->model->insertReply($strMessage,$idMessage);
+
+                    if($request>0){
+                        $dataEmail = array('email_remitente' => EMAIL_REMITENTE, 
+                                                'email_usuario'=>$strEmail,
+                                                'asunto' =>'Replying your message.',
+                                                "message"=>$strMessage,
+                                                'name'=>$strName);
+                        sendEmail($dataEmail,'email_reply');
+                        $arrResponse = array("status"=>true,"msg"=>"Replied"); 
+                    }else{
+                        $arrResponse = array("status"=>false,"msg"=>"An error has ocurred, try again.");
+                    }
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+        public function sendEmail(){
+            if($_POST){
+                if(empty($_POST['txtMessage']) ||  empty($_POST['txtEmail']) || empty($_POST['txtSubject'])){
+                    $arrResponse = array("status"=>false,"msg"=>"Data error");
+                }else{
+                    $strMessage = strClean($_POST['txtMessage']);
+                    $strEmail = strClean(strtolower($_POST['txtEmail']));
+                    $strEmailCC = strClean(strtolower($_POST['txtEmailCC']));
+                    $strSubject = strClean(($_POST['txtSubject']));
+                    $request = $this->model->insertMessage($strSubject,$strEmail,$strMessage);
+                    if($request>0){
+                        $dataEmail = array('email_remitente' => EMAIL_REMITENTE, 
+                                                'email_copia'=>$strEmailCC,
+                                                'email_usuario'=>$strEmail,
+                                                'asunto' =>$strSubject,
+                                                "message"=>$strMessage);
+                        sendEmail($dataEmail,'email_sent');
+                        $arrResponse = array("status"=>true,"msg"=>"Message has been sent."); 
+                    }else{
+                        $arrResponse = array("status"=>false,"msg"=>"An error has ocurred, try again.");
+                    }
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }   
             die();
         }
     }

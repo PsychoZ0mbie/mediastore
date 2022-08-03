@@ -38,8 +38,8 @@
 	const REMITENTE_PASSWORD = "da197023";
 	
 	const NOMBRE_EMPRESA = "MediaStore";
-	const DIRECCION = "Colombia, Villavicencio/Meta, Cra 36 #15a-03 Barrio Nuevo Ricaurte";
-	const TELEFONO = "(+57)3108714741";
+	const DIRECCION = "1234 Street Name, City, US";
+	const TELEFONO = "+1 123123123123";
 	const WEB_EMPRESA = "http://localhost/mediastore";
 
 	//Paypal data
@@ -52,8 +52,8 @@
 	const KEY = "ecommerce";
 	const METHOD = "AES-128-ECB";
 
-	//mercadopago
-	const COMISION = 1.04;
-	const TASA = 900;
-	const IVA = 0.19;
+	//SOCIAL NETWORKS
+	const FACEBOOK="https://www.facebook.com";
+	const INSTAGRAM = "https://www.instagram.com";
+	const TWITTER = "https://www.twitter.com";
 ?>

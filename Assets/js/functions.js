@@ -25,6 +25,32 @@ function uploadImg(img,location){
         document.querySelector(location).setAttribute("src",route);
     }
 }
+function setTinymce(selectorId){
+    tinymce.remove();
+    document.addEventListener('focusin', (e) => {
+        if (e.target.closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
+            e.stopImmediatePropagation();
+        }
+    });
+
+    tinymce.init({
+        relative_urls: 0,
+        remove_script_host: 0,
+        selector: selectorId,
+        height: 400,
+        plugins: [
+            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+            'insertdatetime', 'media', 'table', 'help', 'wordcount'
+        ],
+        toolbar: 'undo redo | blocks | ' +
+        'bold italic backcolor | alignleft aligncenter ' +
+        'alignright alignjustify | bullist numlist outdent indent | ' +
+        'removeformat | help',
+        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'   
+    });
+    
+}
 function uploadMultipleImg(img,parent){
     let value = img.value;
     let files = img.files;

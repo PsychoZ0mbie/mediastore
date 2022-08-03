@@ -4,6 +4,10 @@
 		private $strCode;
         private $intDiscount;
 		private $intStatus;
+        private $strMessage;
+        private $intIdMessage;
+        private $strEmail;
+        private $strSubject;
 
         public function __construct(){
             parent::__construct();
@@ -85,6 +89,43 @@
             $request = $this->select($sql);
             return $request;
         }
-        
+        /*************************Mailbox methods*******************************/
+        public function selectMails(){
+            $sql = "SELECT * ,DATE_FORMAT(date, '%d/%m/%Y') as date FROM contact ORDER BY id DESC";       
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function selectMail(int $id){
+            $sql = "UPDATE contact SET status=? WHERE id = $id";
+            $arrData = array(1);
+            $request = $this->update($sql,$arrData);
+            $sql = "SELECT *, DATE_FORMAT(date, '%d/%m/%Y') as date FROM contact WHERE id=$id";
+            $request = $this->select($sql);
+            return $request;
+        }
+        public function selectReplies(int $id){
+            $sql = "SELECT *,DATE_FORMAT(date, '%d/%m/%Y') as date FROM contactreply WHERE contactid=$id";
+            $request = $this->select_all($sql);
+            return $request;
+        }
+        public function insertReply($strMessage,$idMessage){
+            $this->strMessage = $strMessage;
+            $this->intIdMessage = $idMessage;
+
+            $sql = "INSERT INTO contactreply(contactid,reply) VALUES(?,?)";
+            $arrData = array($this->intIdMessage,$this->strMessage);
+            $request = $this->insert($sql,$arrData);
+            return $request;
+        }
+        public function insertMessage($strSubject,$strEmail,$strMessage){
+            $this->strMessage = $strMessage;
+            $this->strEmail = $strEmail;
+            $this->strSubject = $strSubject;
+
+            $sql = "INSERT INTO sendmessage(email,subject,message) VALUES(?,?,?)";
+            $arrData = array($this->strEmail,$this->strSubject,$this->strMessage);
+            $request = $this->insert($sql,$arrData);
+            return $request;
+        }
     }
 ?>
