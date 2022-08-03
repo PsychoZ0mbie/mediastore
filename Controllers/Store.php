@@ -211,15 +211,15 @@
         public function getMails(){
             if($_SESSION['permitsModule']['r']){
                 $html="";
+                $total = 0;
                 $request = $this->model->selectMails();
                 if(count($request)>0){
                     for ($i=0; $i < count($request); $i++) { 
                         $status ="";
-                        $total = 0;
                         $url = base_url()."/store/message/".$request[$i]['id'];
                         if($request[$i]['status'] == 1){
                             $status="text-black-50";
-                        }else if($request[$i]['status'] == 2){
+                        }else{
                             $total++;
                         }
                         $html.='

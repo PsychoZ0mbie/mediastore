@@ -105,8 +105,15 @@
                                     </svg> Store
                                 </a>
                                 <ul class="nav-group-items">
+                                    <?php 
+                                    $notification = "";
+                                    if(!empty($data['inbox']['total'])){
+                                        $notification = '<span class="badge badge-sm bg-danger ms-auto">'.$data['inbox']['total'].'</span>';
+                                    }
+                                    
+                                    ?>
                                     <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/coupon"><span class="nav-icon"></span> Coupons</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/mailbox"><span class="nav-icon"></span> Mailbox</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/mailbox"><span class="nav-icon"></span> Mailbox <?=$notification?></a></li>
                                     <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/suscribers"><span class="nav-icon"></span> Suscribers</a></li>
                                     <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/polities"><span class="nav-icon"></span> polities</a></li>
                                 </ul>
