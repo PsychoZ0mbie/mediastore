@@ -117,7 +117,7 @@
         <div class="card mb-4">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6 mb-4">
+                    <div class="col-lg-6 mb-4">
                         <h4 class="mb-4">Last orders</h4>
                         <table class="table">
                             <thead>
@@ -149,7 +149,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-md-6 mb-4">
+                    <div class="col-lg-6 mb-4">
                         <h4 class="mb-4">Last products</h4>
                         <table class="table">
                             <thead>
