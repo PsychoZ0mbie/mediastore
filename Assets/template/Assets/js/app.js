@@ -226,57 +226,107 @@ window.addEventListener("load",function(){
     filterPrice();
     /***************************Popup suscribe********************************/
     if(document.querySelector("#modalPoup")){
-        setTimeout(function(){
-            let modal="";
-            let modalPopup = document.querySelector("#modalPoup");
-            let timer;
-            modal= `
-                    <div class="modal fade" id="modalSuscribe">
-                        <div class="modal-dialog modal-lg modal-dialog-centered ">
-                            <div class="modal-content">
-                                <div class="d-flex justify-content-end">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="container mb-3 p-4 pe-5 ps-5">
-                                    <form id="formModalSuscribe" class="mb-3">
-                                        <h2 class="t-p">MEDIASTORE</h2>
-                                        <h2 class="fs-5">Suscribe to our newsletter and get a 15% discount coupon</h2>
-                                        <p>Receive updates on new arrivals, special offers and our promotions</p>
-                                        <div class="mb-3">
-                                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Your email" required>
+        request(base_url+"/shop/statusCouponSuscriber","","get").then(function(data){
+            let discount = data.discount;
+            if(data.status){
+                setTimeout(function(){
+                    let modal="";
+                    let modalPopup = document.querySelector("#modalPoup");
+                    let timer;
+                    modal= `
+                            <div class="modal fade" id="modalSuscribe">
+                                <div class="modal-dialog modal-lg modal-dialog-centered ">
+                                    <div class="modal-content">
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <button type="submit" class="btn btnc-primary">Suscribe</button>
-                                    </form>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="delPopup">
-                                        <label class="form-check-label" for="flexCheckDefault">
-                                            Don't show this popup again
-                                        </label>
+                                        <div class="container mb-3 p-4 pe-5 ps-5">
+                                            <form id="formModalSuscribe" class="mb-3">
+                                                <h2 class="t-p">${COMPANY}</h2>
+                                                <h2 class="fs-5">Subscribe to our newsletter and get a ${discount}% discount coupon</h2>
+                                                <p>Receive updates on new arrivals, special offers and our promotions</p>
+                                                <div class="mb-3">
+                                                    <input type="email" class="form-control" id="txtEmailModalSuscribe" name="txtEmailSuscribe" placeholder="Your email" required>
+                                                </div>
+                                                <div class="alert alert-danger d-none" id="alertModalSuscribe" role="alert"></div>
+                                                <button type="submit" class="btn btnc-primary" id="btnModalSuscribe">Suscribe</button>
+                                            </form>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="delPopup">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Don't show this popup again
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    `;
-            modalPopup.innerHTML = modal;
-            let modalView = new bootstrap.Modal(document.querySelector("#modalSuscribe"));
-            modalView.show();
-            document.querySelector("#modalSuscribe").addEventListener("hidden.bs.modal",function(){
-                if(document.querySelector("#delPopup").checked){
-                    window.clearTimeout(timer);
-                    modalView.hide();
-                    modalPopup.innerHTML = "";
-                }else{
-                    window.clearTimeout(timer);
-                    const runTime = function(){
-                        timer=setInterval(function(){
-                            modalView.show();
-                        },60000);
-                    }
-                    runTime();
-                }
-            });
-        },30000);
+                            `;
+                    modalPopup.innerHTML = modal;
+                    let modalView = new bootstrap.Modal(document.querySelector("#modalSuscribe"));
+                    modalView.show();
+                    document.querySelector("#modalSuscribe").addEventListener("hidden.bs.modal",function(){
+                        if(document.querySelector("#delPopup").checked){
+                            window.clearTimeout(timer);
+                            modalView.hide();
+                            modalPopup.innerHTML = "";
+                        }else{
+                            window.clearTimeout(timer);
+                            const runTime = function(){
+                                timer=setInterval(function(){
+                                    modalView.show();
+                                },60000);
+                            }
+                            runTime();
+                        }
+                    });
+                     let formModalSuscribe = document.querySelector("#formModalSuscribe");
+                     formModalSuscribe.addEventListener("submit",function(e){
+                        e.preventDefault();
+                        let btn = document.querySelector("#btnModalSuscribe");
+                        let strEmail = document.querySelector("#txtEmailModalSuscribe").value;
+                        let formData = new FormData(formModalSuscribe);
+                        let alert = document.querySelector("#alertModalSuscribe");
+                        if(strEmail ==""){
+                            alert.classList.remove("d-none");
+                            alert.innerHTML = "Please, fill the field";
+                            return false;
+                        }
+                        if(!fntEmailValidate(strEmail)){
+                            let html = ` Your email is incorrect, it is only allowed:
+                            <ul class="m-0 mt-1">
+                                <li>@hotmail.com</li>
+                                <li>@outlook.com</li>
+                                <li>@yahoo.com</li>
+                                <li>@live.com</li>
+                                <li>@gmail.com</li>
+                            </ul>
+                            `;
+                            alert.classList.remove("d-none");
+                            alert.innerHTML = html;
+                            return false;
+                        }
+                        btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;    
+                        btn.setAttribute("disabled","");
+                        
+                        request(base_url+"/shop/setSuscriber",formData,"post").then(function(objData){
+                            btn.innerHTML="Suscribe";    
+                            btn.removeAttribute("disabled");
+                            if(objData.status){
+                                window.clearTimeout(timer);
+                                modalView.hide();
+                                //modalPopup.innerHTML = "";
+                            }else{
+                                alert.classList.remove("d-none");
+                                alert.innerHTML = objData.msg;
+                            }
+                        });
+                        
+                     });
+                },30000);
+            }
+        });
+        
     }
 });
 window.addEventListener("DOMContentLoaded",function(){
@@ -945,6 +995,50 @@ if(document.querySelector("#checkout")){
                 alertOrder.innerHTML = objData.msg;
             }
         });
+    });
+}
+if(document.querySelector("#formSuscriber")){
+    let formSuscribe = document.querySelector("#formSuscriber");
+    formSuscribe.addEventListener("submit",function(e){
+    e.preventDefault();
+    let btn = document.querySelector("#btnSuscribe");
+    let strEmail = document.querySelector("#txtEmailSuscribe").value;
+    let formData = new FormData(formSuscribe);
+    let alert = document.querySelector("#alertSuscribe");
+    if(strEmail ==""){
+        alert.classList.remove("d-none");
+        alert.innerHTML = "Please, fill the field";
+        return false;
+    }
+    if(!fntEmailValidate(strEmail)){
+        let html = ` Your email is incorrect, it is only allowed:
+        <ul class="m-0 mt-1">
+            <li>@hotmail.com</li>
+            <li>@outlook.com</li>
+            <li>@yahoo.com</li>
+            <li>@live.com</li>
+            <li>@gmail.com</li>
+        </ul>
+        `;
+        alert.classList.remove("d-none");
+        alert.innerHTML = html;
+        return false;
+    }
+    btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;    
+    btn.setAttribute("disabled","");
+    
+    request(base_url+"/shop/setSuscriber",formData,"post").then(function(objData){
+        btn.innerHTML="Suscribe";    
+        btn.removeAttribute("disabled");
+        if(objData.status){
+            alert.classList.add("d-none");
+            formSuscribe.reset();
+        }else{
+            alert.classList.remove("d-none");
+            alert.innerHTML = objData.msg;
+        }
+    });
+    
     });
 }
 /***************************Contact page****************************** */

@@ -257,6 +257,28 @@
             $request = $this->con->insert($sql,$arrData);
             return $request;
         }
+        public function setSuscriberT($strEmail){
+            $this->con = new Mysql();
+            $this->strEmail = $strEmail;
+            $return ="";
+            $sql = "SELECT * FROM suscriber WHERE email = '$strEmail'";
+            $request = $this->con->select($sql);
+            if(empty($request)){
+                $sql = "INSERT INTO suscriber(email) VALUES(?)";
+                $arrData = array($strEmail);
+                $request = $this->con->insert($sql,$arrData);
+                $return = $request;
+            }else{
+                $return = "exists";
+            }
+            return $return;
+        }
+        public function statusCouponSuscriberT(){
+            $this->con = new Mysql();
+            $sql = "SELECT * FROM coupon WHERE id = 1 AND status = 1 AND discount > 0";
+            $request = $this->con->select($sql);
+            return $request;
+        }
         
     }
     

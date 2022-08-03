@@ -257,18 +257,21 @@
             <?php }?>
         </section>
     </main>
+    <?php if(!empty($data['couponSubscriber'])){?>
     <section>
         <div class="main-suscribe mt-5 mb-5">
-            <form>
-                <h2 class="t-w text-center mb-3"><strong>Suscribe now and get a 15% discount coupon</strong></h2>
+            <form id="formSuscriber">
+                <h2 class="t-w text-center mb-3"><strong>Suscribe now and get a <?=$data['couponSubscriber']['discount']?>% discount coupon</strong></h2>
                 <p class="t-w text-center">Receive updates on new arrivals, special offers and our promotions</p>
                 <div class="mb-3">
-                    <input type="email" class="form-control text-center" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email">
+                    <input type="email" class="form-control text-center" id="txtEmailSuscribe" name="txtEmailSuscribe" aria-describedby="emailHelp" placeholder="Enter your email">
                 </div>
-                <button type="submit" class="btn btn-primary btnc-primary w-100">Suscribe</button>
+                <div class="alert alert-danger d-none" id="alertSuscribe" role="alert"></div>
+                <button type="submit" class="btn btn-primary btnc-primary w-100" id="btnSuscribe">Subscribe</button>
             </form>
         </div>
     </section>
+    <?php }?>
 <?php
     footerPage($data);
 ?>

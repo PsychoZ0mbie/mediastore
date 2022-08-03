@@ -2,8 +2,9 @@
     
     require_once("Models/ProductTrait.php");
     require_once("Models/CategoryTrait.php");
+    require_once("Models/CustomerTrait.php");
     class Home extends Controllers{
-        use ProductTrait, CategoryTrait;
+        use ProductTrait, CategoryTrait, CustomerTrait;
         public function __construct(){
             session_start();
             parent::__construct();
@@ -17,6 +18,7 @@
             $data['category2'] = $this->getCategories2T("7,8,9");
             $data['products'] = $this->getProductsT(8);
             $data['popProducts'] = $this->getPopularProductsT(8);
+            $data['couponSubscriber'] = $this->statusCouponSuscriberT();
             $data['page_name'] = "home";
             $this->views->getView($this,"home",$data);
         }

@@ -57,6 +57,7 @@
         const base_url = "<?= base_url(); ?>";
         const MS = "<?=MS;?>";
         const MD = "<?=MD?>";
+        const COMPANY = "<?=NOMBRE_EMPRESA?>";
     </script>
     <!------------------------------------Plugins--------------------------->
     <script src="<?=media();?>/js/plugins/sweetalert.js"></script>

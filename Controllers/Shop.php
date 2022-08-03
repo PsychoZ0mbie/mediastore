@@ -415,7 +415,7 @@
             die();
         }
         
-        /******************************Set customer************************************/
+        /******************************Customer methods************************************/
         public function validCustomer(){
             if($_POST){
 				if(empty($_POST['txtSignName']) || empty($_POST['txtSignEmail']) || empty($_POST['txtSignPassword'])){
@@ -482,7 +482,42 @@
 			}
 			die();
 		}
-
+        public function setSuscriber(){
+            if($_POST){
+                if(empty($_POST['txtEmailSuscribe'])){
+                    $arrResponse = array("status"=>false,"msg"=>"Data error");
+                }else{
+                    $strEmail = strClean(strtolower($_POST['txtEmailSuscribe']));
+                    $request = $this->setSuscriberT($strEmail);
+                    if($request>0){
+                        $request = $this->statusCouponSuscriberT();
+                        $dataEmail = array('email_remitente' => EMAIL_REMITENTE, 
+                                                'email_usuario'=>$strEmail,
+                                                'asunto' =>'You have subscribed on '.NOMBRE_EMPRESA,
+                                                "code"=>$request['code'],
+                                                "discount"=>$request['discount']);
+                        sendEmail($dataEmail,'email_suscriber');
+                        $arrResponse = array("status"=>true,"msg"=>"Subscribed");
+                    }else if($request=="exists"){
+                        $arrResponse = array("status"=>false,"msg"=>"You have subscribed before.");
+                    }else{
+                        $arrResponse = array("status"=>false,"msg"=>"Error has ocurred, try again.");
+                    }
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+        public function statusCouponSuscriber(){
+            $request = $this->statusCouponSuscriberT();
+            if(!empty($request)){
+                $arrResponse = array("status"=>true,"discount"=>$request['discount']);
+            }else{
+                $arrResponse = array("status"=>false,"msg"=>"Coupon doesn't exists or is inactive");
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
         /******************************Reviews methods************************************/
         public function setReview(){
             if($_POST){
