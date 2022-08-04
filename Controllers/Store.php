@@ -109,11 +109,11 @@
                         }
                         $html.='
                             <tr class="item" data-name="'.$request[$i]['code'].'">
-                                <td><strong>Code: </strong>'.$request[$i]['code'].'</td>
-                                <td><strong>Discount: </strong>'.$request[$i]['discount'].'%</td>
-                                <td><strong>Status: </strong>'.$status.'</td>
-                                <td><strong>Date created: </strong>'.$request[$i]['date'].'</td>
-                                <td><strong>Date updated: </strong>'.$request[$i]['dateupdate'].'</td>
+                                <td>'.$request[$i]['code'].'</td>
+                                <td>'.$request[$i]['discount'].'%</td>
+                                <td>'.$status.'</td>
+                                <td>'.$request[$i]['date'].'</td>
+                                <td>'.$request[$i]['dateupdate'].'</td>
                                 <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
                             </tr>
                         ';
