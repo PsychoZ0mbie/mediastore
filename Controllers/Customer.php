@@ -13,7 +13,7 @@
         public function customer(){
             if($_SESSION['permitsModule']['r']){
                 $data['page_tag'] = "Customer";
-                $data['page_title'] = "Customer";
+                $data['page_title'] = "Customers";
                 $data['page_name'] = "customer";
                 $this->views->getView($this,"customer",$data);
             }else{
