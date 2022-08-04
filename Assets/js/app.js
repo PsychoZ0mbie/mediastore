@@ -509,6 +509,10 @@ if(document.querySelector("#message")){
     });
 
 }
+//Subscribers page
+if(document.querySelector("#subscribers")){
+    
+}
 /*************************Profile Page*******************************/
 if(document.querySelector("#profile")){
 
@@ -771,4 +775,10 @@ if(document.querySelector("#btnPrint")){
         if(document.querySelector("#btnRefund"))document.querySelector("#btnRefund").classList.add("d-none");
         printDiv(document.querySelector("#orderInfo"));
     });
+}
+if(document.querySelector("#exportExcel")){
+    document.querySelector("#exportExcel").addEventListener("click",function(){
+        let id = document.querySelector("#exportExcel").getAttribute('data-name');
+        exportToExcel(id);
+    })
 }

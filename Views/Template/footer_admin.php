@@ -24,7 +24,7 @@
 
         <!-- Datepicker plugin-->
         <script src="<?= media();?>/js/plugins/datepicker/jquery-ui.min.js"></script>
-
+        <script src="<?= media();?>/js/plugins/sheetjs/sheetjs.js"></script>
         <!-- My scripts -->
         <script>
           const base_url = "<?= base_url(); ?>";

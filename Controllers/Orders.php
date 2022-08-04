@@ -79,22 +79,22 @@
 
                             $html.='
                                 <tr class="item">
-                                    <td><strong>Id: </strong>'.$request[$i]['idorder'].'</td>
-                                    <td><strong>Transaction: </strong>'.$request[$i]['idtransaction'].'</td>
-                                    <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
-                                    <td><strong>Amount: </strong>'.formatNum($request[$i]['amount']).'</td>
-                                    <td><strong>Status: </strong>'.$request[$i]['status'].'</td>
+                                    <td>'.$request[$i]['idorder'].'</td>
+                                    <td>'.$request[$i]['idtransaction'].'</td>
+                                    <td>'.$request[$i]['date'].'</td>
+                                    <td>'.formatNum($request[$i]['amount']).'</td>
+                                    <td>'.$request[$i]['status'].'</td>
                                     <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
                                 </tr>
                             ';
                         }elseif($_SESSION['idUser'] == $request[$i]['personid']){
                             $html.='
                             <tr class="item">
-                                <td><strong>Id: </strong>'.$request[$i]['idorder'].'</td>
-                                <td><strong>Transaction: </strong>'.$request[$i]['idtransaction'].'</td>
-                                <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
-                                <td><strong>Amount: </strong>'.formatNum($request[$i]['amount']).'</td>
-                                <td><strong>Status: </strong>'.$request[$i]['status'].'</td>
+                                <td>'.$request[$i]['idorder'].'</td>
+                                <td>'.$request[$i]['idtransaction'].'</td>
+                                <td>'.$request[$i]['date'].'</td>
+                                <td>'.formatNum($request[$i]['amount']).'</td>
+                                <td>'.$request[$i]['status'].'</td>
                                 <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
                             </tr>
                         ';
@@ -189,22 +189,22 @@
 
                         $html.='
                             <tr class="item">
-                                <td><strong>Id: </strong>'.$request[$i]['idorder'].'</td>
-                                <td><strong>Transaction: </strong>'.$request[$i]['idtransaction'].'</td>
-                                <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
-                                <td><strong>Amount: </strong>'.formatNum($request[$i]['amount']).'</td>
-                                <td><strong>Status: </strong>'.$request[$i]['status'].'</td>
+                                <td>'.$request[$i]['idorder'].'</td>
+                                <td>'.$request[$i]['idtransaction'].'</td>
+                                <td>'.$request[$i]['date'].'</td>
+                                <td>'.formatNum($request[$i]['amount']).'</td>
+                                <td>'.$request[$i]['status'].'</td>
                                 <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
                             </tr>
                         ';
                     }elseif($_SESSION['idUser'] == $request[$i]['personid']){
                         $html.='
                         <tr class="item">
-                            <td><strong>Id: </strong>'.$request[$i]['idorder'].'</td>
-                            <td><strong>Transaction: </strong>'.$request[$i]['idtransaction'].'</td>
-                            <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
-                            <td><strong>Amount: </strong>'.formatNum($request[$i]['amount']).'</td>
-                            <td><strong>Status: </strong>'.$request[$i]['status'].'</td>
+                            <td>'.$request[$i]['idorder'].'</td>
+                            <td>'.$request[$i]['idtransaction'].'</td>
+                            <td>'.$request[$i]['date'].'</td>
+                            <td>'.formatNum($request[$i]['amount']).'</td>
+                            <td>'.$request[$i]['status'].'</td>
                             <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
                         </tr>
                     ';
@@ -235,22 +235,22 @@
 
                         $html.='
                             <tr class="item">
-                                <td><strong>Id: </strong>'.$request[$i]['idorder'].'</td>
-                                <td><strong>Transaction: </strong>'.$request[$i]['idtransaction'].'</td>
-                                <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
-                                <td><strong>Amount: </strong>'.formatNum($request[$i]['amount']).'</td>
-                                <td><strong>Status: </strong>'.$request[$i]['status'].'</td>
+                                <td>'.$request[$i]['idorder'].'</td>
+                                <td>'.$request[$i]['idtransaction'].'</td>
+                                <td>'.$request[$i]['date'].'</td>
+                                <td>'.formatNum($request[$i]['amount']).'</td>
+                                <td>'.$request[$i]['status'].'</td>
                                 <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
                             </tr>
                         ';
                     }elseif($_SESSION['idUser'] == $request[$i]['personid']){
                         $html.='
                         <tr class="item">
-                            <td><strong>Id: </strong>'.$request[$i]['idorder'].'</td>
-                            <td><strong>Transaction: </strong>'.$request[$i]['idtransaction'].'</td>
-                            <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
-                            <td><strong>Amount: </strong>'.formatNum($request[$i]['amount']).'</td>
-                            <td><strong>Status: </strong>'.$request[$i]['status'].'</td>
+                            <td>'.$request[$i]['idorder'].'</td>
+                            <td>'.$request[$i]['idtransaction'].'</td>
+                            <td>'.$request[$i]['date'].'</td>
+                            <td>'.formatNum($request[$i]['amount']).'</td>
+                            <td>'.$request[$i]['status'].'</td>
                             <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
                         </tr>
                     ';

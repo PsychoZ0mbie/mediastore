@@ -56,15 +56,15 @@
                                 <td>
                                     <img src="'.$request[$i]['image'].'" class="rounded">
                                 </td>
-                                <td><strong>Reference: </strong>'.$request[$i]['reference'].'</td>
-                                <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
-                                <td><strong>Category: </strong>'.$request[$i]['category'].'</td>
-                                <td><strong>Subcategory: </strong>'.$request[$i]['subcategory'].'</td>
-                                <td><strong>Price: </strong>'.$price.'</td>
-                                <td><strong>Discount: </strong>'.$discount.'</td>
-                                <td><strong>Quantity: </strong>'.$request[$i]['stock'].'</td>
-                                <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
-                                <td><strong>Status: </strong>'.$status.'</td>
+                                <td>'.$request[$i]['reference'].'</td>
+                                <td>'.$request[$i]['name'].'</td>
+                                <td>'.$request[$i]['category'].'</td>
+                                <td>'.$request[$i]['subcategory'].'</td>
+                                <td>'.$price.'</td>
+                                <td>'.$discount.'</td>
+                                <td>'.$request[$i]['stock'].'</td>
+                                <td>'.$request[$i]['date'].'</td>
+                                <td>'.$status.'</td>
                                 <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
                             </tr>
                         ';
@@ -415,15 +415,15 @@
                             <td>
                                 <img src="'.$request[$i]['image'].'" class="rounded">
                             </td>
-                            <td><strong>Reference: </strong>'.$request[$i]['reference'].'</td>
-                            <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
-                            <td><strong>Category: </strong>'.$request[$i]['category'].'</td>
-                            <td><strong>Subcategory: </strong>'.$request[$i]['subcategory'].'</td>
-                            <td><strong>Price: </strong>'.$price.'</td>
-                            <td><strong>Discount: </strong>'.$discount.'</td>
-                            <td><strong>Quantity: </strong>'.$request[$i]['stock'].'</td>
-                            <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
-                            <td><strong>Status: </strong>'.$status.'</td>
+                            <td>'.$request[$i]['reference'].'</td>
+                            <td>'.$request[$i]['name'].'</td>
+                            <td>'.$request[$i]['category'].'</td>
+                            <td>'.$request[$i]['subcategory'].'</td>
+                            <td>'.$price.'</td>
+                            <td>'.$discount.'</td>
+                            <td>'.$request[$i]['stock'].'</td>
+                            <td>'.$request[$i]['date'].'</td>
+                            <td>'.$status.'</td>
                             <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
                         </tr>
                     ';
@@ -468,15 +468,15 @@
                             <td>
                                 <img src="'.$request[$i]['image'].'" class="rounded">
                             </td>
-                            <td><strong>Reference: </strong>'.$request[$i]['reference'].'</td>
-                            <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
-                            <td><strong>Category: </strong>'.$request[$i]['category'].'</td>
-                            <td><strong>Subcategory: </strong>'.$request[$i]['subcategory'].'</td>
-                            <td><strong>Price: </strong>'.$price.'</td>
-                            <td><strong>Discount: </strong>'.$discount.'</td>
-                            <td><strong>Quantity: </strong>'.$request[$i]['stock'].'</td>
-                            <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
-                            <td><strong>Status: </strong>'.$status.'</td>
+                            <td>'.$request[$i]['reference'].'</td>
+                            <td>'.$request[$i]['name'].'</td>
+                            <td>'.$request[$i]['category'].'</td>
+                            <td>'.$request[$i]['subcategory'].'</td>
+                            <td>'.$price.'</td>
+                            <td>'.$discount.'</td>
+                            <td>'.$request[$i]['stock'].'</td>
+                            <td>'.$request[$i]['date'].'</td>
+                            <td>'.$status.'</td>
                             <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
                         </tr>
                     ';

@@ -137,5 +137,11 @@
             $request = $this->insert($sql,$arrData);
             return $request;
         }
+        /*************************Subscribers methods*******************************/
+        public function selectSubscribers(){
+            $sql = "SELECT *, DATE_FORMAT(date, '%d/%m/%Y') as date FROM suscriber";
+            $request = $this->select_all($sql);
+            return $request;
+        }
     }
 ?>

@@ -49,13 +49,13 @@
                                     <td>
                                         <img src="'.$request[$i]['image'].'">
                                     </td>
-                                    <td><strong>First name: </strong>'.$request[$i]['firstname'].'</td>
-                                    <td><strong>Last name: </strong>'.$request[$i]['lastname'].'</td>
-                                    <td><strong>Email: </strong>'.$request[$i]['email'].'</td>
-                                    <td><strong>Phone: </strong>'.$request[$i]['phone'].'</td>
-                                    <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
-                                    <td><strong>Role: </strong>'.$request[$i]['role'].'</td>
-                                    <td><strong>Status: </strong>'.$status.'</td>
+                                    <td>'.$request[$i]['firstname'].'</td>
+                                    <td>'.$request[$i]['lastname'].'</td>
+                                    <td>'.$request[$i]['email'].'</td>
+                                    <td>'.$request[$i]['phone'].'</td>
+                                    <td>'.$request[$i]['date'].'</td>
+                                    <td>'.$request[$i]['role'].'</td>
+                                    <td>'.$status.'</td>
                                     <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
                                 </tr>
                             ';
@@ -296,13 +296,13 @@
                                 <td>
                                     <img src="'.$request[$i]['image'].'">
                                 </td>
-                                <td><strong>First name: </strong>'.$request[$i]['firstname'].'</td>
-                                <td><strong>Last name: </strong>'.$request[$i]['lastname'].'</td>
-                                <td><strong>Email: </strong>'.$request[$i]['email'].'</td>
-                                <td><strong>Phone: </strong>'.$request[$i]['phone'].'</td>
-                                <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
-                                <td><strong>Role: </strong>'.$request[$i]['role'].'</td>
-                                <td><strong>Status: </strong>'.$status.'</td>
+                                <td>'.$request[$i]['firstname'].'</td>
+                                <td>'.$request[$i]['lastname'].'</td>
+                                <td>'.$request[$i]['email'].'</td>
+                                <td>'.$request[$i]['phone'].'</td>
+                                <td>'.$request[$i]['date'].'</td>
+                                <td>'.$request[$i]['role'].'</td>
+                                <td>'.$status.'</td>
                                 <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
                             </tr>
                         ';
@@ -342,13 +342,13 @@
                                 <td>
                                     <img src="'.$request[$i]['image'].'">
                                 </td>
-                                <td><strong>First name: </strong>'.$request[$i]['firstname'].'</td>
-                                <td><strong>Last name: </strong>'.$request[$i]['lastname'].'</td>
-                                <td><strong>Email: </strong>'.$request[$i]['email'].'</td>
-                                <td><strong>Phone: </strong>'.$request[$i]['phone'].'</td>
-                                <td><strong>Date: </strong>'.$request[$i]['date'].'</td>
-                                <td><strong>Role: </strong>'.$request[$i]['role'].'</td>
-                                <td><strong>Status: </strong>'.$status.'</td>
+                                <td>'.$request[$i]['firstname'].'</td>
+                                <td>'.$request[$i]['lastname'].'</td>
+                                <td>'.$request[$i]['email'].'</td>
+                                <td>'.$request[$i]['phone'].'</td>
+                                <td>'.$request[$i]['date'].'</td>
+                                <td>'.$request[$i]['role'].'</td>
+                                <td>'.$status.'</td>
                                 <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
                             </tr>
                         ';

@@ -72,6 +72,18 @@
                 die();
             }
         }
+        public function subscribers(){
+            if($_SESSION['permitsModule']['r']){
+                $data['page_tag'] = "Subscribers";
+                $data['page_title'] = "Subscribers";
+                $data['page_name'] = "subscribers";
+                $data['subscribers'] = $this->model->selectSubscribers();
+                $this->views->getView($this,"subscribers",$data);
+            }else{
+                header("location: ".base_url());
+                die();
+            }
+        }
         /*************************Coupon methods*******************************/
         public function getCoupons(){
             if($_SESSION['permitsModule']['r']){

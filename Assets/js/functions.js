@@ -25,6 +25,10 @@ function uploadImg(img,location){
         document.querySelector(location).setAttribute("src",route);
     }
 }
+function exportToExcel(id){
+    var wb = XLSX.utils.table_to_book(document.getElementById(id));
+    XLSX.writeFile(wb, id+".xlsx");
+}
 function setTinymce(selectorId){
     tinymce.remove();
     document.addEventListener('focusin', (e) => {

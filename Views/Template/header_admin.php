@@ -8,14 +8,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-        
+        <meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
         <title><?=$data['page_title']?></title>
         <script src="<?= media();?>/js/plugins/tinymce/tinymce.min.js"></script>
         <!-- Font Awesome 5-->
         <link href="<?=media()?>/css/icons/font-awesome.min.css">
         <!-- AdminKit CSS file -->
         <link href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/css/style.css" rel="stylesheet">
-        <!-- Plugin-->
+        <!-- Datepicker-->
         <link href="<?= media();?>/js/plugins/datepicker/jquery-ui.min.css" rel="stylesheet">
         <!-- My Styles -->
         <link rel="stylesheet" href="<?=media()?>/css/style.css">

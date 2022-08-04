@@ -58,8 +58,8 @@
                         }
                         $html.='
                             <tr class="item" data-name="'.$request[$i]['name'].'">
-                                <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
-                                <td><strong>Status: </strong>'.$status.'</td>
+                                <td>'.$request[$i]['name'].'</td>
+                                <td>'.$status.'</td>
                                 <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
                             </tr>
                         ';
@@ -235,8 +235,8 @@
                     }
                     $html.='
                         <tr class="item" data-name="'.$request[$i]['name'].'">
-                            <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
-                            <td><strong>Status: </strong>'.$status.'</td>
+                            <td>'.$request[$i]['name'].'</td>
+                            <td>'.$status.'</td>
                             <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
                         </tr>
                     ';
@@ -272,8 +272,8 @@
                     }
                     $html.='
                         <tr class="item" data-name="'.$request[$i]['name'].'">
-                            <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
-                            <td><strong>Status: </strong>'.$status.'</td>
+                            <td>'.$request[$i]['name'].'</td>
+                            <td>'.$status.'</td>
                             <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
                         </tr>
                     ';
@@ -310,9 +310,9 @@
                         }
                         $html.='
                             <tr class="item" data-name="'.$request[$i]['name'].'" data-category="'.$request[$i]['category'].'">
-                                <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
-                                <td><strong>Category: </strong>'.$request[$i]['category'].'</td>
-                                <td><strong>Status: </strong>'.$status.'</td>
+                                <td>'.$request[$i]['name'].'</td>
+                                <td>'.$request[$i]['category'].'</td>
+                                <td>'.$status.'</td>
                                 <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
                             </tr>
                         ';
@@ -474,9 +474,9 @@
                     }
                     $html.='
                         <tr class="item" data-name="'.$request[$i]['name'].'" data-category="'.$request[$i]['category'].'">
-                            <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
-                            <td><strong>Category: </strong>'.$request[$i]['category'].'</td>
-                            <td><strong>Status: </strong>'.$status.'</td>
+                            <td>'.$request[$i]['name'].'</td>
+                            <td>'.$request[$i]['category'].'</td>
+                            <td>'.$status.'</td>
                             <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
                         </tr>
                     ';
@@ -512,9 +512,9 @@
                     }
                     $html.='
                         <tr class="item" data-name="'.$request[$i]['name'].'" data-category="'.$request[$i]['category'].'">
-                            <td><strong>Name: </strong>'.$request[$i]['name'].'</td>
-                            <td><strong>Category: </strong>'.$request[$i]['category'].'</td>
-                            <td><strong>Status: </strong>'.$status.'</td>
+                            <td>'.$request[$i]['name'].'</td>
+                            <td>'.$request[$i]['category'].'</td>
+                            <td>'.$status.'</td>
                             <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
                         </tr>
                     ';
