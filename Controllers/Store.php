@@ -99,7 +99,7 @@
                         if($_SESSION['permitsModule']['u']){
                             $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['id'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
                         }
-                        if($_SESSION['permitsModule']['d']){
+                        if($_SESSION['permitsModule']['d'] && $request[$i]['id'] != 1){
                             $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['id'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                         }
                         if($request[$i]['status']==1){

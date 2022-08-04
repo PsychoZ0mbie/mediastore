@@ -75,13 +75,17 @@
                 $request = $this->model->selectRoles();
                 if(count($request)>0){
                     for ($i=0; $i < count($request); $i++) { 
+                        $delete = '<button class="btn btn-danger" type="button" title="Delete" data-id="'.$request[$i]['idrole'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+                        if($request[$i]['idrole'] == 1 || $request[$i]['idrole']==2){
+                            $delete='';
+                        }
                         $html.='
                             <tr class="item" data-name="'.$request[$i]['name'].'">
                                 <td>'.$request[$i]['name'].'</td>
                                 <td class="item-btn">
                                     <button class="btn btn-secondary" type="button" title="Permits" data-id="'.$request[$i]['idrole'].'" name="btnPermit"><i class="fas fa-key"></i></button>
                                     <button class="btn btn-success" type="button" title="Edit" data-id="'.$request[$i]['idrole'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>
-                                    <button class="btn btn-danger" type="button" title="Delete" data-id="'.$request[$i]['idrole'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button> 
+                                    '.$delete.' 
                                 </td>
                             </tr>
                         ';
@@ -195,13 +199,17 @@
             if(count($request)>0){
                 $html="";
                 for ($i=0; $i < count($request); $i++) { 
+                    $delete = '<button class="btn btn-danger" type="button" title="Delete" data-id="'.$request[$i]['idrole'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+                    if($request[$i]['idrole'] == 1 || $request[$i]['idrole']==2){
+                        $delete='';
+                    }
                     $html.='
-                        <tr class="item">
+                        <tr class="item" data-name="'.$request[$i]['name'].'">
                             <td>'.$request[$i]['name'].'</td>
                             <td class="item-btn">
                                 <button class="btn btn-secondary" type="button" title="Permits" data-id="'.$request[$i]['idrole'].'" name="btnPermit"><i class="fas fa-key"></i></button>
                                 <button class="btn btn-success" type="button" title="Edit" data-id="'.$request[$i]['idrole'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>
-                                <button class="btn btn-danger" type="button" title="Delete" data-id="'.$request[$i]['idrole'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button> 
+                                '.$delete.' 
                             </td>
                         </tr>
                     ';
@@ -219,13 +227,17 @@
             if(count($request)>0){
                 $html="";
                 for ($i=0; $i < count($request); $i++) { 
+                    $delete = '<button class="btn btn-danger" type="button" title="Delete" data-id="'.$request[$i]['idrole'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
+                    if($request[$i]['idrole'] == 1 || $request[$i]['idrole']==2){
+                        $delete='';
+                    }
                     $html.='
-                        <tr class="item">
+                        <tr class="item" data-name="'.$request[$i]['name'].'">
                             <td>'.$request[$i]['name'].'</td>
                             <td class="item-btn">
                                 <button class="btn btn-secondary" type="button" title="Permits" data-id="'.$request[$i]['idrole'].'" name="btnPermit"><i class="fas fa-key"></i></button>
                                 <button class="btn btn-success" type="button" title="Edit" data-id="'.$request[$i]['idrole'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>
-                                <button class="btn btn-danger" type="button" title="Delete" data-id="'.$request[$i]['idrole'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button> 
+                                '.$delete.' 
                             </td>
                         </tr>
                     ';
