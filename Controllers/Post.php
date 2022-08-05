@@ -54,7 +54,7 @@
 
                         $status="";
                         $btnView = '<button class="btn btn-info m-1 text-white" type="button" title="Watch" data-id="'.$request[$i]['idarticle'].'" name="btnView"><i class="fas fa-eye"></i></button>';
-                        $btnGlobe = '<a href="'.base_url().'/blog/article/'.$request[$i]['route'].'" class="btn btn-primary m-1 text-white" title="Watch on website"><i class="fas fa-globe"></i></a>';
+                        $btnGlobe = '<a href="'.base_url().'/blog/article/'.$request[$i]['route'].'" target="_blank" class="btn btn-primary m-1 text-white" title="Watch on website"><i class="fas fa-globe"></i></a>';
                         $btnEdit="";
                         $btnDelete="";
                         if($_SESSION['permitsModule']['u']){
