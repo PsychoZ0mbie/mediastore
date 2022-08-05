@@ -31,6 +31,7 @@
                     for ($i=0; $i < count($request); $i++) { 
 
                         $status="";
+                        $btnGlobe = '<a href="'.base_url().'/shop/product/'.$request[$i]['route'].'" target="_blank" class="btn btn-primary m-1 text-white" title="Watch on website"><i class="fas fa-globe"></i></a>';
                         $btnView = '<button class="btn btn-info m-1" type="button" title="Watch" data-id="'.$request[$i]['idproduct'].'" name="btnView"><i class="fas fa-eye"></i></button>';
                         $btnEdit="";
                         $btnDelete="";
@@ -65,7 +66,7 @@
                                 <td>'.$request[$i]['stock'].'</td>
                                 <td>'.$request[$i]['date'].'</td>
                                 <td>'.$status.'</td>
-                                <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
+                                <td class="item-btn">'.$btnGlobe.$btnView.$btnEdit.$btnDelete.'</td>
                             </tr>
                         ';
                     }
@@ -390,6 +391,7 @@
                 for ($i=0; $i < count($request); $i++) { 
 
                     $status="";
+                    $btnGlobe = '<a href="'.base_url().'/shop/product/'.$request[$i]['route'].'" target="_blank" class="btn btn-primary m-1 text-white" title="Watch on website"><i class="fas fa-globe"></i></a>';
                     $btnView = '<button class="btn btn-info m-1" type="button" title="Watch" data-id="'.$request[$i]['idproduct'].'" name="btnView"><i class="fas fa-eye"></i></button>';
                     $btnEdit="";
                     $btnDelete="";
@@ -424,7 +426,7 @@
                             <td>'.$request[$i]['stock'].'</td>
                             <td>'.$request[$i]['date'].'</td>
                             <td>'.$status.'</td>
-                            <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
+                            <td class="item-btn">'.$btnGlobe.$btnView.$btnEdit.$btnDelete.'</td>
                         </tr>
                     ';
                 }
@@ -443,6 +445,7 @@
                 for ($i=0; $i < count($request); $i++) { 
 
                     $status="";
+                    $btnGlobe = '<a href="'.base_url().'/shop/product/'.$request[$i]['route'].'" target="_blank" class="btn btn-primary m-1 text-white" title="Watch on website"><i class="fas fa-globe"></i></a>';
                     $btnView = '<button class="btn btn-info m-1" type="button" title="Watch" data-id="'.$request[$i]['idproduct'].'" name="btnView"><i class="fas fa-eye"></i></button>';
                     $btnEdit="";
                     $btnDelete="";
@@ -477,7 +480,7 @@
                             <td>'.$request[$i]['stock'].'</td>
                             <td>'.$request[$i]['date'].'</td>
                             <td>'.$status.'</td>
-                            <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
+                            <td class="item-btn">'.$btnGlobe.$btnView.$btnEdit.$btnDelete.'</td>
                         </tr>
                     ';
                 }
