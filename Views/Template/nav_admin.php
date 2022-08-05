@@ -122,6 +122,24 @@
                             <?php 
                                 }
                             ?>
+                            <?php 
+                                if($_SESSION['permit'][7]['r']){
+                            ?>
+                            <li class="nav-group">
+                                <a class="nav-link nav-group-toggle" href="#">
+                                    <svg class="nav-icon">
+                                        <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
+                                    </svg> Blog
+                                </a>
+                                <ul class="nav-group-items">
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/post/category"><span class="nav-icon"></span> Categories</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/post/subcategory"><span class="nav-icon"></span> Subcategories</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/post/articles"><span class="nav-icon"></span> Articles</a></li>
+                                </ul>
+                            </li>
+                            <?php 
+                                }
+                            ?>
                             <li class="nav-item mt-5">
                                 <a class="nav-link" href="<?=base_url()?>/user/profile">
                                     <svg class="nav-icon">

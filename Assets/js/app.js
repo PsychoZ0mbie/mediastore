@@ -7,6 +7,9 @@ import SubCategory from "./modules/subcategory.js";
 import Product from "./modules/product.js";
 import Coupon from "./modules/coupon.js";
 import Orders from "./modules/orders.js";
+import blogCategory from "./modules/blogcategory.js";
+import blogSubCategory from "./modules/blogsubcategory.js";
+import Blog from "./modules/blog.js";
 
 
 /*************************Dashboard Page*******************************/
@@ -509,8 +512,155 @@ if(document.querySelector("#message")){
     });
 
 }
-//Subscribers page
-if(document.querySelector("#subscribers")){
+
+/*************************Blog Page*******************************/
+//Category page
+if(document.querySelector("#blogcategory")){
+    document.querySelector("#btnNew").classList.remove("d-none");
+    let search = document.querySelector("#search");
+    let sort = document.querySelector("#sortBy");
+    let element = document.querySelector("#listItem");
+    let item = new blogCategory();
+
+    search.addEventListener('input',function() {
+        request(base_url+"/post/searchc/"+search.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+
+    sort.addEventListener("change",function(){
+        request(base_url+"/post/sortc/"+sort.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+
+    if(document.querySelector("#btnNew")){
+        let btnNew = document.querySelector("#btnNew");
+        btnNew.addEventListener("click",function(){
+            item.addItem();
+        });
+    }
+
+    window.addEventListener("DOMContentLoaded",function() {
+        item.showItems(element);
+    })
+
+    element.addEventListener("click",function(e) {
+        let element = e.target;
+        let id = element.getAttribute("data-id");
+        if(element.name == "btnDelete"){
+            item.deleteItem(id);
+        }else if(element.name == "btnEdit"){
+            item.editItem(id);
+        }
+    });
+    
+}
+//Subcategory page
+if(document.querySelector("#blogsubcategory")){
+    document.querySelector("#btnNew").classList.remove("d-none");
+    let search = document.querySelector("#search");
+    let sort = document.querySelector("#sortBy");
+    let element = document.querySelector("#listItem");
+    let item = new blogSubCategory();
+    
+    search.addEventListener('input',function() {
+        request(base_url+"/post/searchs/"+search.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+
+    sort.addEventListener("change",function(){
+        request(base_url+"/post/sorts/"+sort.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+    
+    if(document.querySelector("#btnNew")){
+        let btnNew = document.querySelector("#btnNew");
+        btnNew.addEventListener("click",function(){
+            item.addItem();
+        });
+    }
+
+    window.addEventListener("DOMContentLoaded",function() {
+        item.showItems(element);
+    })
+
+    element.addEventListener("click",function(e) {
+        let element = e.target;
+        let id = element.getAttribute("data-id");
+        if(element.name == "btnDelete"){
+            item.deleteItem(id);
+        }else if(element.name == "btnEdit"){
+            item.editItem(id);
+        }
+    });
+    
+}
+if(document.querySelector("#articles")){
+    document.querySelector("#btnNew").classList.remove("d-none");
+    let search = document.querySelector("#search");
+    let sort = document.querySelector("#sortBy");
+    let element = document.querySelector("#listItem");
+    let item = new Blog();
+    search.addEventListener('input',function() {
+        request(base_url+"/post/search/"+search.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    })
+    sort.addEventListener("change",function(){
+        request(base_url+"/post/sort/"+sort.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+
+    if(document.querySelector("#btnNew")){
+        let btnNew = document.querySelector("#btnNew");
+        btnNew.addEventListener("click",function(){
+            item.addItem();
+        });
+    }
+
+    window.addEventListener("DOMContentLoaded",function() {
+        item.showItems(element);
+    })
+
+    element.addEventListener("click",function(e) {
+        let element = e.target;
+        let id = element.getAttribute("data-id");
+        if(element.name == "btnDelete"){
+            item.deleteItem(id);
+        }else if(element.name == "btnView"){
+            item.viewItem(id);
+        }else if(element.name == "btnEdit"){
+            item.editItem(id);
+        }
+    });
     
 }
 /*************************Profile Page*******************************/
