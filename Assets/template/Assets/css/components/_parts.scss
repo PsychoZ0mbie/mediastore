@@ -64,53 +64,11 @@
     list-style: none;
     padding: 0;
     padding-top: 10px;
-    .comment-block{
-        position: relative;
-        padding: 0 0 5px 144px;
-        margin-bottom: 30px;
-        min-height: 200px;
-        .comment-img{
-            position: absolute;
-            width: 120px;
-            left: 0;
-            top:0;
-            img{
-                height: 120px;
-                width: 100%;
-            }
-        }
-        .comment-feedb{
-            h3{
-                font-size: 20px;
-                padding-left: 50px;
-                position: relative;
-                &::before{
-                    content:" ";
-                    position: absolute;
-                    width: 45px;
-                    height: 2px;
-                    top: 50%;
-                    left: 0;
-                    background-color: #000;
-                }
-            }
-        }
-        .comment-answer{
-            height: 0;
-            margin-top: 10px;
-            padding-left:40px;
-            position: relative;
-            transition: all 0.3s;
-            overflow: hidden;
-            &::before{
-                content:" ";
-                position: absolute;
-                left: 20px;
-                height: 100%;
-                width: 5px;
-                background-color: $first-color;
-            }
-            
+    .comment-info{
+        height: 50px;
+        img{
+            border-radius: 50%;
+            height: 100%;
         }
     }
 }

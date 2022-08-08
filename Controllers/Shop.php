@@ -90,95 +90,6 @@
                 die();
             }
         }
-        /*public function getProductSort($params){
-            $arrParams = explode(",",$params);
-            $category="";
-            $subcategory="";
-            $option =0;
-            $html="";
-            //dep($arrParams);exit;
-            if(is_numeric($arrParams[0])==1){  
-                $option = $arrParams[0];
-                $request = $this->getProductSortT($category,$subcategory,$option,$arrParams[1]);
-            }else{
-                if(count($arrParams)==3){
-                    $category = strClean($arrParams[0]);
-                    $subcategory = strClean($arrParams[1]);
-                    $option = $arrParams[2];
-                    $request = $this->getProductSortT($category,$subcategory,$option,1);
-                }else{
-                    $category = strClean($arrParams[0]);
-                    $option = $arrParams[1];
-                    $request = $this->getProductSortT($category,$subcategory,$option,1);
-                }
-            }
-            //dep($request['data']);exit;
-            for ($i=0; $i < count($request['data']) ; $i++) { 
-                $idProduct = openssl_encrypt($request['data'][$i]['idproduct'],METHOD,KEY);
-                $favorite = '';
-                $routeP = base_url()."/shop/product/".$request['data'][$i]['route'];
-                $routeC = base_url()."/shop/category/".$request['data'][$i]['routec'];
-                $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($request['data'][$i]['price']).'</strong></p>';
-                $btnAdd ='<button type="button" class="btn btn-primary product-card-add">Add to cart</a>';
-                $discount="";
-                $rate="";
-                if($request['data'][$i]['favorite']== 0){
-                    $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
-                }else{
-                    $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
-                }
-                if($request['data'][$i]['status'] == 1 && $request['data'][$i]['stock']>0){
-                    if($request['data'][$i]['discount']>0){
-                        $price = '<p class="m-0 fs-5 product-price"><strong>'.formatNum($request['data'][$i]['priceDiscount']).'</strong><span>'.formatNum($request['data'][$i]['price']).'</span></p>';
-                        $discount ='<p class="product-discount">-'.$request['data'][$i]['discount'].'%</p>';
-                    }
-                }else if($request['data'][$i]['status'] == 1 && $request['data'][$i]['stock']==0){
-                    $btnAdd="";
-                    $price='<p class="m-0 fs-5 product-price text-danger">Sold out</p>';
-                }else{
-                    $btnAdd ="";
-                    $price="";
-                }
-                for ($j=0; $j < 5; $j++) { 
-                    if($request['data'][$i]['rate']!=null && $j >= intval($request['data'][$i]['rate'])){
-                        $rate.='<i class="far me-1 fa-star"></i>';
-                    }else if($request['data'][$i]['rate']==null){
-                        $rate.='<i class="far me-1 fa-star"></i>';
-                    }else{
-                        $rate.='<i class="fas me-1 fa-star"></i>';
-                    }
-                }
-                $html .='
-                <div class="col-lg-4 col-md-6 product-item" data-id="'.$idProduct.'" data-price="'.$request['data'][$i]['price'].'" data-rate="'.$request['data'][$i]['rate'].'">
-                    <div class="product-card">
-                        '.$discount.'
-                        <div class="product-img">
-                            <img src="'.$request['data'][$i]['url'].'" alt="'.$request['data'][$i]['name'].'">
-                            '.$btnAdd.'
-                        </div>
-                        <div class="product-info">
-                            <a class="m-0 product-category fw-bold" href="'.$routeC.'">'.$request['data'][$i]['category'].'</a>
-                            <a href="'.$routeP.'">
-                                <h3 class="product-title fw-bold">'.$request['data'][$i]['name'].'</h3>
-                                '.$price.'
-                            </a>
-                        </div>
-                        <div class="product-rate">
-                        '.$rate.'
-                        </div>
-                        <div class="product-btns">
-                        '.$favorite.'
-                            <button type="button" class="btn quickView pe-2 ps-2"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></button>
-                        </div>
-                    </div>
-                </div>
-                ';
-            }
-            
-            $arrResponse = array("html"=>$html,"total"=>$request['total']);
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-            die();
-        }*/
         /******************************Cart methods************************************/
         public function addCart(){
             //dep($_POST);exit;
@@ -545,14 +456,17 @@
                             $rate = $this->getRate($idProduct);
                             $html="";
                             for ($i=0; $i < count($reviews); $i++) { 
-    
+                                $display="";
+                                if($i >= 4 ){
+                                    $display = "d-none";
+                                }
                                 $image = media()."/images/uploads/".$reviews[$i]['image'];
                                 $name = $reviews[$i]['firstname']." ".$reviews[$i]['lastname'];
                                 $rateComment ="";
                                 $options="";
-                                if($_SESSION['idUser'] == $reviews[$i]['personid']){
-                                    $options='<a href="#formReview" data-id="'.$reviews[$i]['id'].'" onclick="editReview('.$reviews[$i]['id'].')" title="edit" class="btn text-dark editComment"><i class="fas fa-pen"></i></a>
-                                    <button type="button" class="btn text-dark" onclick="deleteReview('.$reviews[$i]['id'].')" title="delete"><i class="fas fa-trash"></i></button>';
+                                if(isset($_SESSION['login']) && $_SESSION['idUser'] == $reviews[$i]['personid']){
+                                    $options='<a href="#formReview" data-id="'.$reviews[$i]['id'].'" onclick="editReview('.$reviews[$i]['id'].')" title="edit" class="p-0 me-2 btn text-dark editComment"><i class="fas fa-pen"></i></a>
+                                    <button type="button" class="btn text-dark p-0" onclick="deleteReview('.$reviews[$i]['id'].')" title="delete"><i class="fas fa-trash"></i></button>';
                                 }
                                 for ($j = 0; $j < 5; $j++) {
                                     if($j >= intval($reviews[$i]['rate'])){
@@ -561,26 +475,37 @@
                                         $rateComment.='<i class="fas fa-star"></i>';
                                     }
                                 }
-    
+            
                                 $html.='
-                                <li class="comment-block" data-name="'.$name.'">
-                                    <div class="comment-img">
-                                        <img src="'.$image.'?>" alt="'.$name.'">
-                                        <div class="product-rate text-center mt-2 mb-2">'.$rateComment.'</div>
-                                        <p class="text-center fw-bold">'.$reviews[$i]['date'].'</p>
-                                    </div>
-                                    <div class="comment-feedb">
-                                        <p>'.$reviews[$i]['description'].'</p>
-                                        <div class="d-flex justify-content-between flex-wrap">
-                                            <h3>'.$name.'</h3>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                '.$options.'
+                                <li class="comment-block '.$display.'">
+                                    <div class="row mb-2">
+                                        <div class="col-12">
+                                            <div class="comment-info d-flex justify-content-between">
+                                                <div class="d-flex justify-content-start">
+                                                    <div class="comment-img me-1">
+                                                        <img src="'.$image.'" alt="'.$name.'">
+                                                    </div>
+                                                    <div>
+                                                        <p class="m-0">'.$name.'</p>
+                                                        <p class="m-0 text-secondary">'.$reviews[$i]['date'].'</p>
+                                                    </div>
+                                                </div>
+                                                <div class="product-rate text-end m-0">
+                                                    '.$rateComment.'
+                                                    <div>
+                                                        '.$options.'
+                                                    </div>
+                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="col-12 mt-1">
+                                            <p>'.$reviews[$i]['description'].'</p>
                                         </div>
                                     </div>
                                 </li>
                                 ';
                             }
+                            $html.='<button type="button" class="btn t-p" id="showMore">Show more</button>';
                             $arrResponse = array("status"=>true,"msg"=>"Your review has been shared.","html"=>$html,"rate"=>$rate);
                         }else if(is_array($request)){
                             $arrResponse = array("status"=>false,"msg"=>"You have already shared your review before. Edit it if you want.","id"=>$request['id']);
@@ -612,14 +537,17 @@
                         $rate = $this->getRate($idProduct);
                         $html="";
                         for ($i=0; $i < count($reviews); $i++) { 
-
+                            $display="";
+                            if($i >= 4 ){
+                                $display = "d-none";
+                            }
                             $image = media()."/images/uploads/".$reviews[$i]['image'];
                             $name = $reviews[$i]['firstname']." ".$reviews[$i]['lastname'];
                             $rateComment ="";
                             $options="";
-                            if($_SESSION['idUser'] == $reviews[$i]['personid']){
-                                $options='<a href="#formReview" data-id="'.$reviews[$i]['id'].'" onclick="editReview('.$reviews[$i]['id'].')" title="edit" class="btn text-dark editComment"><i class="fas fa-pen"></i></a>
-                                <button type="button" class="btn text-dark" onclick="deleteReview('.$reviews[$i]['id'].')" title="delete"><i class="fas fa-trash"></i></button>';
+                            if(isset($_SESSION['login']) && $_SESSION['idUser'] == $reviews[$i]['personid']){
+                                $options='<a href="#formReview" data-id="'.$reviews[$i]['id'].'" onclick="editReview('.$reviews[$i]['id'].')" title="edit" class="p-0 me-2 btn text-dark editComment"><i class="fas fa-pen"></i></a>
+                                <button type="button" class="btn text-dark p-0" onclick="deleteReview('.$reviews[$i]['id'].')" title="delete"><i class="fas fa-trash"></i></button>';
                             }
                             for ($j = 0; $j < 5; $j++) {
                                 if($j >= intval($reviews[$i]['rate'])){
@@ -628,26 +556,37 @@
                                     $rateComment.='<i class="fas fa-star"></i>';
                                 }
                             }
-
+        
                             $html.='
-                            <li class="comment-block" data-name="'.$name.'">
-                                <div class="comment-img">
-                                    <img src="'.$image.'?>" alt="'.$name.'">
-                                    <div class="product-rate text-center mt-2 mb-2">'.$rateComment.'</div>
-                                    <p class="text-center fw-bold">'.$reviews[$i]['date'].'</p>
-                                </div>
-                                <div class="comment-feedb">
-                                    <p>'.$reviews[$i]['description'].'</p>
-                                    <div class="d-flex justify-content-between flex-wrap">
-                                        <h3>'.$name.'</h3>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            '.$options.'
+                            <li class="comment-block '.$display.'">
+                                <div class="row mb-2">
+                                    <div class="col-12">
+                                        <div class="comment-info d-flex justify-content-between">
+                                            <div class="d-flex justify-content-start">
+                                                <div class="comment-img me-1">
+                                                    <img src="'.$image.'" alt="'.$name.'">
+                                                </div>
+                                                <div>
+                                                    <p class="m-0">'.$name.'</p>
+                                                    <p class="m-0 text-secondary">'.$reviews[$i]['date'].'</p>
+                                                </div>
+                                            </div>
+                                            <div class="product-rate text-end m-0">
+                                                '.$rateComment.'
+                                                <div>
+                                                    '.$options.'
+                                                </div>
+                                            </div>
                                         </div>
+                                    </div>
+                                    <div class="col-12 mt-1">
+                                        <p>'.$reviews[$i]['description'].'</p>
                                     </div>
                                 </div>
                             </li>
                             ';
                         }
+                        $html.='<button type="button" class="btn t-p" id="showMore">Show more</button>';
                         $arrResponse = array("status"=>true,"msg"=>"Your review has been updated.","html"=>$html,"rate"=>$rate);
                     }else{
                         $arrResponse = array("status"=>false,"msg"=>"Error, try again.");
@@ -666,14 +605,17 @@
                 $rate = $this->getRate($idProduct);
                 $html="";
                 for ($i=0; $i < count($reviews); $i++) { 
-
+                    $display="";
+                    if($i >= 4 ){
+                        $display = "d-none";
+                    }
                     $image = media()."/images/uploads/".$reviews[$i]['image'];
                     $name = $reviews[$i]['firstname']." ".$reviews[$i]['lastname'];
                     $rateComment ="";
                     $options="";
-                    if($_SESSION['idUser'] == $reviews[$i]['personid']){
-                        $options='<a href="#formReview" data-id="'.$reviews[$i]['id'].'" onclick="editReview('.$reviews[$i]['id'].')" title="edit" class="btn text-dark editComment"><i class="fas fa-pen"></i></a>
-                        <button type="button" class="btn text-dark" onclick="deleteReview('.$reviews[$i]['id'].')" title="delete"><i class="fas fa-trash"></i></button>';
+                    if(isset($_SESSION['login']) && $_SESSION['idUser'] == $reviews[$i]['personid']){
+                        $options='<a href="#formReview" data-id="'.$reviews[$i]['id'].'" onclick="editReview('.$reviews[$i]['id'].')" title="edit" class="p-0 me-2 btn text-dark editComment"><i class="fas fa-pen"></i></a>
+                        <button type="button" class="btn text-dark p-0" onclick="deleteReview('.$reviews[$i]['id'].')" title="delete"><i class="fas fa-trash"></i></button>';
                     }
                     for ($j = 0; $j < 5; $j++) {
                         if($j >= intval($reviews[$i]['rate'])){
@@ -684,24 +626,35 @@
                     }
 
                     $html.='
-                    <li class="comment-block" data-name="'.$name.'">
-                        <div class="comment-img">
-                            <img src="'.$image.'?>" alt="'.$name.'">
-                            <div class="product-rate text-center mt-2 mb-2">'.$rateComment.'</div>
-                            <p class="text-center fw-bold">'.$reviews[$i]['date'].'</p>
-                        </div>
-                        <div class="comment-feedb">
-                            <p>'.$reviews[$i]['description'].'</p>
-                            <div class="d-flex justify-content-between flex-wrap">
-                                <h3>'.$name.'</h3>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    '.$options.'
+                    <li class="comment-block '.$display.'">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <div class="comment-info d-flex justify-content-between">
+                                    <div class="d-flex justify-content-start">
+                                        <div class="comment-img me-1">
+                                            <img src="'.$image.'" alt="'.$name.'">
+                                        </div>
+                                        <div>
+                                            <p class="m-0">'.$name.'</p>
+                                            <p class="m-0 text-secondary">'.$reviews[$i]['date'].'</p>
+                                        </div>
+                                    </div>
+                                    <div class="product-rate text-end m-0">
+                                        '.$rateComment.'
+                                        <div>
+                                            '.$options.'
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="col-12 mt-1">
+                                <p>'.$reviews[$i]['description'].'</p>
                             </div>
                         </div>
                     </li>
                     ';
                 }
+                $html.='<button type="button" class="btn t-p" id="showMore">Show more</button>';
                 $arrResponse = array("status"=>true,"msg"=>"Review has been deleted.","html"=>$html,"rate"=>$rate);
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -725,14 +678,17 @@
                 $html="";
 
                 for ($i=0; $i < count($reviews); $i++) { 
-
+                    $display="";
+                    if($i >= 4 ){
+                        $display = "d-none";
+                    }
                     $image = media()."/images/uploads/".$reviews[$i]['image'];
                     $name = $reviews[$i]['firstname']." ".$reviews[$i]['lastname'];
                     $rateComment ="";
                     $options="";
-                    if($_SESSION['idUser'] == $reviews[$i]['personid']){
-                        $options='<a href="#formReview" data-id="'.$reviews[$i]['id'].'" onclick="editReview('.$reviews[$i]['id'].')" title="edit" class="btn text-dark editComment"><i class="fas fa-pen"></i></a>
-                        <button type="button" class="btn text-dark" onclick="deleteReview('.$reviews[$i]['id'].')" title="delete"><i class="fas fa-trash"></i></button>';
+                    if(isset($_SESSION['login']) && $_SESSION['idUser'] == $reviews[$i]['personid']){
+                        $options='<a href="#formReview" data-id="'.$reviews[$i]['id'].'" onclick="editReview('.$reviews[$i]['id'].')" title="edit" class="p-0 me-2 btn text-dark editComment"><i class="fas fa-pen"></i></a>
+                        <button type="button" class="btn text-dark p-0" onclick="deleteReview('.$reviews[$i]['id'].')" title="delete"><i class="fas fa-trash"></i></button>';
                     }
                     for ($j = 0; $j < 5; $j++) {
                         if($j >= intval($reviews[$i]['rate'])){
@@ -743,38 +699,106 @@
                     }
 
                     $html.='
-                    <li class="comment-block" data-name="'.$name.'">
-                        <div class="comment-img">
-                            <img src="'.$image.'?>" alt="'.$name.'">
-                            <div class="product-rate text-center mt-2 mb-2">'.$rateComment.'</div>
-                            <p class="text-center fw-bold">'.$reviews[$i]['date'].'</p>
-                        </div>
-                        <div class="comment-feedb">
-                            <p>'.$reviews[$i]['description'].'</p>
-                            <div class="d-flex justify-content-between flex-wrap">
-                                <h3>'.$name.'</h3>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    '.$options.'
+                    <li class="comment-block '.$display.'">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <div class="comment-info d-flex justify-content-between">
+                                    <div class="d-flex justify-content-start">
+                                        <div class="comment-img me-1">
+                                            <img src="'.$image.'" alt="'.$name.'">
+                                        </div>
+                                        <div>
+                                            <p class="m-0">'.$name.'</p>
+                                            <p class="m-0 text-secondary">'.$reviews[$i]['date'].'</p>
+                                        </div>
+                                    </div>
+                                    <div class="product-rate text-end m-0">
+                                        '.$rateComment.'
+                                        <div>
+                                            '.$options.'
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="col-12 mt-1">
+                                <p>'.$reviews[$i]['description'].'</p>
                             </div>
                         </div>
                     </li>
                     ';
                 }
+                $html.='<button type="button" class="btn t-p" id="showMore">Show more</button>';
+                $arrResponse = array("status"=>true,"msg"=>"Review has been deleted.","html"=>$html,"rate"=>$rate);
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();  
+        }
+        public function searchReviews(){
+            if($_POST){
+
+                $idProduct = intval(openssl_decrypt($_POST['idProduct'],METHOD,KEY));
+                $search = strClean($_POST['strSearch']);
+                $reviews = $this->getSearchReviewsT($idProduct,$search);
+                $rate = $this->getRate($idProduct);
+                $html="";
+
+                for ($i=0; $i < count($reviews); $i++) { 
+                    $display="";
+                    if($i >= 4 ){
+                        $display = "d-none";
+                    }
+                    $image = media()."/images/uploads/".$reviews[$i]['image'];
+                    $name = $reviews[$i]['firstname']." ".$reviews[$i]['lastname'];
+                    $rateComment ="";
+                    $options="";
+                    if(isset($_SESSION['login']) && $_SESSION['idUser'] == $reviews[$i]['personid']){
+                        $options='<a href="#formReview" data-id="'.$reviews[$i]['id'].'" onclick="editReview('.$reviews[$i]['id'].')" title="edit" class="p-0 me-2 btn text-dark editComment"><i class="fas fa-pen"></i></a>
+                        <button type="button" class="btn text-dark p-0" onclick="deleteReview('.$reviews[$i]['id'].')" title="delete"><i class="fas fa-trash"></i></button>';
+                    }
+                    for ($j = 0; $j < 5; $j++) {
+                        if($j >= intval($reviews[$i]['rate'])){
+                            $rateComment.='<i class="far fa-star"></i>';
+                        }else{
+                            $rateComment.='<i class="fas fa-star"></i>';
+                        }
+                    }
+
+                    $html.='
+                    <li class="comment-block '.$display.'">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <div class="comment-info d-flex justify-content-between">
+                                    <div class="d-flex justify-content-start">
+                                        <div class="comment-img me-1">
+                                            <img src="'.$image.'" alt="'.$name.'">
+                                        </div>
+                                        <div>
+                                            <p class="m-0">'.$name.'</p>
+                                            <p class="m-0 text-secondary">'.$reviews[$i]['date'].'</p>
+                                        </div>
+                                    </div>
+                                    <div class="product-rate text-end m-0">
+                                        '.$rateComment.'
+                                        <div>
+                                            '.$options.'
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-1">
+                                <p>'.$reviews[$i]['description'].'</p>
+                            </div>
+                        </div>
+                    </li>
+                    ';
+                }
+                $html.='<button type="button" class="btn t-p" id="showMore">Show more</button>';
                 $arrResponse = array("status"=>true,"msg"=>"Review has been deleted.","html"=>$html,"rate"=>$rate);
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();  
         }
         /******************************Checkout methods************************************/
-        /*public function setDetailTemp(){
-            $idsession = session_id();
-            $arrOrder = array("idcustomer" =>$_SESSION['idUser'],
-                                "idtransaction" => $idsession,
-                                "products" => $_SESSION['arrCart']
-                                );
-            $this->insertDetailTemp($arrOrder);
-        }*/
         public function checkData(){
             if($_POST){
                 if(empty($_POST['txtNameOrder']) || empty($_POST['txtLastNameOrder']) || empty($_POST['txtEmailOrder']) || 

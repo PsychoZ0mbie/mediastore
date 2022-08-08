@@ -253,7 +253,11 @@
                     <ul class="comment-list mt-3">
                         <?php 
                             if(!empty($reviews)){
+                                $display = "";
                                 for ($i=0; $i < count($reviews) ; $i++) { 
+                                    if($i >= 4 ){
+                                        $display = "d-none";
+                                    }
                                     $image = media()."/images/uploads/".$reviews[$i]['image'];
                                     $name = $reviews[$i]['firstname']." ".$reviews[$i]['lastname'];
                                     $rateComment ="";
@@ -267,29 +271,39 @@
 
                             
                         ?>
-                        <li class="comment-block" data-name="<?=$name?>">
-                            <div class="comment-img">
-                                <img src="<?=$image?>" alt="<?=$name?>">
-                                <div class="product-rate text-center mt-2 mb-2">
-                                    <?=$rateComment?>
-                                </div>
-                                <p class="text-center fw-bold"><?=$reviews[$i]['date']?></p>
-                            </div>
-                            <div class="comment-feedb">
-                                <p><?=$reviews[$i]['description']?></p>
-                                <div class="d-flex justify-content-between flex-wrap">
-                                    <h3><?=$name?></h3>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <?php if(isset($_SESSION['login']) && $_SESSION['idUser'] == $reviews[$i]['personid']){ ?>
-                                        <a href="#formReview" data-id="<?=$reviews[$i]['id']?>" onclick="editReview(<?=$reviews[$i]['id']?>)" title="edit" class="btn text-dark editComment"><i class="fas fa-pen"></i></a>
-                                        <button type="button" class="btn text-dark" onclick="deleteReview(<?=$reviews[$i]['id']?>)" title="delete"><i class="fas fa-trash"></i></button>
-                                        <?php }?>
+                        <li class="comment-block <?=$display?>">
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <div class="comment-info d-flex justify-content-between">
+                                        <div class="d-flex justify-content-start">
+                                            <div class="comment-img me-1">
+                                                <img src="<?=$image?>" alt="<?=$name?>">
+                                            </div>
+                                            <div>
+                                                <p class="m-0"><?=$name?></p>
+                                                <p class="m-0 text-secondary"><?=$reviews[$i]['date']?></p>
+                                            </div>
+                                        </div>
+                                        <div class="product-rate text-end m-0">
+                                            <?=$rateComment?>
+                                            <div>
+                                                <?php if(isset($_SESSION['login']) && $_SESSION['idUser'] == $reviews[$i]['personid']){ ?>
+                                                <a href="#formReview" data-id="<?=$reviews[$i]['id']?>" onclick="editReview(<?=$reviews[$i]['id']?>)" title="edit" class="btn text-dark editComment p-0 me-2"><i class="fas fa-pen"></i></a>
+                                                <button type="button" class="btn text-dark p-0" onclick="deleteReview(<?=$reviews[$i]['id']?>)" title="delete"><i class="fas fa-trash"></i></button>
+                                                <?php }?>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="col-12 mt-1">
+                                    <p><?=$reviews[$i]['description']?></p>
                                 </div>
                             </div>
                         </li>
                         <?php } }?>
+                        <button type="button" class="btn t-p" id="showMore">Show more</button>
                     </ul>
+                    
                     <div class="d-flex justify-content-center mb-3">
                         <form id="formReview" class="w-100">
                             <input type="hidden" name="idReview" id="idReview" value="">
@@ -317,7 +331,7 @@
         </div>
         <section>
             <div class="container">
-                <h3 class="t-p"><strong>RELATED PRODUCTS</strong></h3>
+                <h3 class="t-p"><strong>MORE PRODUCTS</strong></h3>
                 <div class="row mt-5">
                 <?php
                     for ($i=0; $i < count($products) ; $i++) { 

@@ -356,34 +356,6 @@ if(document.querySelector(".addFilter")){
         document.querySelector(".filter-options-overlay").style.display="block";
     });
 }
-/***************************Comment****************************** */
-if(document.querySelector(".comment-list")){
-    let btnAnswer = document.querySelectorAll(".btnAnswer");
-    let answer = document.querySelectorAll(".comment-answer");
-    let stars = document.querySelectorAll(".review-rate button");
-    for (let i = 0; i < btnAnswer.length; i++) {
-        let btn = btnAnswer[i];
-        btn.addEventListener("click",function(){
-
-            answer[i].classList.toggle("active");
-            btn.classList.toggle("active");
-    
-            if(btn.classList.contains("active")){
-                answer[i].style.height=`auto`;
-                let height = `${answer[i].clientHeight}px`;
-                answer[i].style.height=`0px`;
-                setTimeout(function(){
-                    answer[i].style.height = height;
-                },0);
-                btn.innerHTML =`Hide answer <i class="fas fa-angle-up"></i>`;
-            }else{
-                answer[i].style.height=`0px`;
-                btn.innerHTML =`Show answer <i class="fas fa-angle-down"></i>`;
-            }
-            
-        });
-    }
-}
 
 /***************************Product Page****************************** */
 if(document.querySelector("#product")){
@@ -399,21 +371,33 @@ if(document.querySelector("#product")){
     let formReview = document.querySelector("#formReview");
     let search = document.querySelector("#searchReview");
     let sortReview = document.querySelector("#sortReviews");
-    
+    showMore(document.querySelectorAll(".comment-block"));
     /***************************Product Page Events****************************** */
     
     search.addEventListener('input',function() {
-    let elements = document.querySelectorAll(".comment-block");
-    let value = search.value.toLowerCase();
-        for(let i = 0; i < elements.length; i++) {
-            let element = elements[i];
-            let strName = element.getAttribute("data-name").toLowerCase();
-            if(!strName.includes(value)){
-                element.classList.add("d-none");
-            }else{
-                element.classList.remove("d-none");
+        let idProduct = document.querySelector("#idProduct").value;
+        let strSearch = search.value;
+        let formData = new FormData();
+
+        formData.append("idProduct",idProduct);
+        formData.append("strSearch",strSearch);
+        request(base_url+"/shop/searchReviews",formData,"post").then(function(objData){
+            let rate = objData.rate;
+            let rateStars ="";
+
+            for (let i = 0; i < 5; i++) {
+                if(i >= parseInt(rate.rate)){
+                    rateStars+='<i class="far fa-star"></i>';
+                }else{
+                    rateStars+='<i class="fas fa-star"></i>';
+                }
             }
-        }
+
+            document.querySelector(".comment-list").innerHTML= objData.html;
+            document.querySelectorAll(".product-rate")[0].innerHTML= rateStars+` (${rate.total} reviews)`;
+            document.querySelectorAll(".product-rate")[1].innerHTML= rateStars;
+            showMore(document.querySelectorAll(".comment-block"));
+        });
     });
 
     sortReview.addEventListener("change",function(){
@@ -438,24 +422,7 @@ if(document.querySelector("#product")){
             document.querySelector(".comment-list").innerHTML= objData.html;
             document.querySelectorAll(".product-rate")[0].innerHTML= rateStars+` (${rate.total} reviews)`;
             document.querySelectorAll(".product-rate")[1].innerHTML= rateStars;
-            document.querySelector("#pills-reviews-tab").innerHTML=`Reviews (${rate.total})`;
-
-            document.querySelector("#avgRate").innerHTML = `${parseFloat(rate.rate).toFixed(1)}<span class="fs-6">/ 5</span>`;
-            document.querySelectorAll(".progress-bar")[0].style.width=`${(rate.five/rate.total)*100}%`;
-            document.querySelectorAll(".progress-bar")[0].ariaValueNow = (rate.five/rate.total)*100;
-            document.querySelectorAll(".progress-bar")[1].style.width=`${(rate.four/rate.total)*100}%`;
-            document.querySelectorAll(".progress-bar")[1].ariaValueNow = (rate.four/rate.total)*100;
-            document.querySelectorAll(".progress-bar")[2].style.width=`${(rate.three/rate.total)*100}%`;
-            document.querySelectorAll(".progress-bar")[2].ariaValueNow = (rate.three/rate.total)*100;
-            document.querySelectorAll(".progress-bar")[3].style.width=`${(rate.two/rate.total)*100}%`;
-            document.querySelectorAll(".progress-bar")[3].ariaValueNow = (rate.two/rate.total)*100;
-            document.querySelectorAll(".progress-bar")[4].style.width=`${(rate.one/rate.total)*100}%`;
-            document.querySelectorAll(".progress-bar")[4].ariaValueNow = (rate.one/rate.total)*100;
-            document.querySelectorAll(".review-stars span")[0].innerHTML =`(${rate.five})`;
-            document.querySelectorAll(".review-stars span")[1].innerHTML =`(${rate.four})`;
-            document.querySelectorAll(".review-stars span")[2].innerHTML =`(${rate.three})`;
-            document.querySelectorAll(".review-stars span")[3].innerHTML =`(${rate.two})`;
-            document.querySelectorAll(".review-stars span")[4].innerHTML =`(${rate.one})`;
+            showMore(document.querySelectorAll(".comment-block"));
         });
     });
 
@@ -1896,4 +1863,20 @@ function displayBtns(items,rows,current,paginationbtns,max){
         }
     }
     paginationbtns.innerHTML = html;
+}
+function showMore(elements){
+    let btn = document.querySelector("#showMore");
+    let currentElement = 0;
+    btn.addEventListener("click",function(){
+        currentElement++;
+        //console.log(currentElement);
+        for (let i = currentElement; i < currentElement+4; i++) {
+            if(elements[i]){
+                elements[i].classList.remove("d-none");
+            }
+            if(i >= elements.length){
+                document.querySelector("#showMore").classList.add("d-none");
+            }
+        }
+    })
 }

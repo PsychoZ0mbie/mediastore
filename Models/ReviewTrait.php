@@ -58,7 +58,7 @@
             $this->intRate = $intRate;
             $this->intIdReview = $intIdReview;
 
-            $sql = "UPDATE productrate SET productid=?,personid=?,description=?,rate=? WHERE id = $this->intIdReview";
+            $sql = "UPDATE productrate SET productid=?,personid=?,description=?,rate=?, date_updated=NOW() WHERE id = $this->intIdReview";
             $arrData = array($this->intIdProduct,$this->intIdPerson,$this->strReview,$this->intRate);
             $request = $this->con->update($sql,$arrData);
             return $request;
@@ -71,7 +71,7 @@
                     $option = " AND r.rate >= 4";
                 }
             }else{
-                $option = " ORDER BY r.rate DESC";
+                $option = " ORDER BY r.id DESC";
             }
             $this->con = new Mysql();
             $this->intIdProduct = $id;
@@ -84,10 +84,30 @@
                     p.image,
                     p.firstname,
                     p.lastname,
-                    DATE_FORMAT(r.date, '%d/%m/%Y') as date
+                    DATE_FORMAT(r.date_updated, '%d/%m/%Y') as date
                     FROM productrate r
                     INNER JOIN person p, product pr
                     WHERE p.idperson = r.personid AND pr.idproduct = r.productid AND pr.idproduct = $this->intIdProduct $option";
+            $request = $this->con->select_all($sql);
+            return $request;
+        }
+        public function getSearchReviewsT($id,$search){
+            $this->con = new Mysql();
+            $this->intIdProduct = $id;
+            $sql = "SELECT 
+                    r.id,
+                    r.personid,
+                    r.description,
+                    r.rate,
+                    p.idperson,
+                    p.image,
+                    p.firstname,
+                    p.lastname,
+                    DATE_FORMAT(r.date_updated, '%d/%m/%Y') as date
+                    FROM productrate r
+                    INNER JOIN person p, product pr
+                    WHERE p.idperson = r.personid AND pr.idproduct = r.productid AND pr.idproduct = $this->intIdProduct AND p.firstname LIKE '%$search%'
+                    OR  p.idperson = r.personid AND pr.idproduct = r.productid AND pr.idproduct = $this->intIdProduct AND p.lastname LIKE '%$search%'";
             $request = $this->con->select_all($sql);
             return $request;
         }
