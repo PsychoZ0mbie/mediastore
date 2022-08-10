@@ -1060,6 +1060,46 @@ if(document.querySelector("#contact")){
 
     });
 }
+/***************************Article page****************************** */
+if(document.querySelector("#article")){
+    let formComment = document.querySelector("#formComment");
+    showMore(document.querySelectorAll(".comment-block"),4,document.querySelector("#showMore"));
+    formComment.addEventListener("submit",function(e){
+        e.preventDefault();
+        let formData = new FormData(formComment);
+        let strComment = document.querySelector("#txtDescription").value;
+        let alert = document.querySelector("#alertComment");
+        let addComment = document.querySelector("#addComment");
+        if(strComment ==""){
+            alert.classList.remove("d-none");
+            alert.classList.replace("alert-warning","alert-danger");
+            alert.innerHTML = "Please write your comment.";
+            return false;
+        }
+        addComment.setAttribute("disabled","disabled");
+        addComment.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+        request(base_url+"/blog/setComment",formData,"post").then(function(objData){
+            addComment.removeAttribute("disabled");
+            addComment.innerHTML="Post comment";
+            if(objData.status){
+                alert.classList.add("d-none");
+                document.querySelector("#txtDescription").value="";
+                document.querySelector(".comment-list").innerHTML= objData.html;
+                document.querySelector("#totalComments").innerHTML =`Comments (${objData.total})`;
+                //showMore(document.querySelectorAll(".comment-block"),4,document.querySelector("#showMore"));
+            }else if(objData.login == false){
+                alert.classList.remove("d-none");
+                alert.classList.replace("alert-warning","alert-danger");
+                alert.innerHTML = objData.msg;
+                openLoginModal();
+            }else{
+                alert.classList.remove("d-none");
+                alert.classList.replace("alert-warning","alert-danger");
+                alert.innerHTML = objData.msg;
+            }
+        });
+    });
+}
 /***************************Essentials Functions****************************** */
 function openLoginModal(){
     let modalItem = document.querySelector("#modalLogin");
@@ -1864,13 +1904,144 @@ function displayBtns(items,rows,current,paginationbtns,max){
     }
     paginationbtns.innerHTML = html;
 }
-function showMore(elements){
-    let btn = document.querySelector("#showMore");
+function editComment(id,element){
+    if(document.querySelector("#formReplyComment"))document.querySelector("#formReplyComment").remove();
+    let html = `<form id="formReplyComment" class="mt-2 mb-2">
+                        <input type="hidden" name="idComment" id="idCommentReply" value="${id}">
+                        <textarea class="form-control" id="txtDescriptionReply" name="txtDescription" rows="3" placeholder="Your comment"></textarea>
+                        <button type="submit" class="btn btnc-primary mt-2" id="editComment">Reply</button>
+                    </form>`;
+    element.innerHTML=html;
+    request(base_url+"/blog/getComment/"+id,"","get").then(function(objData){
+        let formEditComment = document.querySelector("#formReplyComment");
+        document.querySelector("#idCommentReply").value=objData.data.idcomment;
+        document.querySelector("#txtDescriptionReply").value=objData.data.description;
+        let idArticle = document.querySelector("#idArticle").value;
+        formEditComment.addEventListener("submit",function(e){
+            e.preventDefault();
+            let strDescription = document.querySelector("#txtDescriptionReply").value;
+            if(strDescription ==""){
+                return false;
+            }
+            let formData = new FormData(formEditComment);
+            formData.append('idArticle',idArticle);
+            request(base_url+"/blog/setComment",formData,"post").then(function(objData){
+                if(objData.status){
+                    document.querySelector(".comment-list").innerHTML = objData.html;
+                    document.querySelector("#totalComments").innerHTML =`Comments (${objData.total})`;
+                }
+            });
+        });
+        
+    });
+}
+function deleteComment(id){
+    let idArticle = document.querySelector("#idArticle").value;
+    let formData = new FormData();
+    formData.append("idArticle",idArticle);
+    formData.append("idComment",id);
+    request(base_url+"/blog/delComment",formData,"post").then(function(objData){
+        if(objData.status){
+            document.querySelector(".comment-list").innerHTML= objData.html;
+            document.querySelector("#totalComments").innerHTML =`Comments (${objData.total})`;
+            //showMore(document.querySelectorAll(".comment-block"),4);
+        }
+    });
+}
+function replyComment(id,element){
+    if(document.querySelector("#formReplyComment"))document.querySelector("#formReplyComment").remove();
+    let html = `<form id="formReplyComment" class="mt-2 mb-2">
+                        <input type="hidden" name="idComment" id="idCommentReply" value="${id}">
+                        <textarea class="form-control" id="txtDescriptionReply" name="txtDescription" rows="3" placeholder="Your comment"></textarea>
+                        <button type="submit" class="btn btnc-primary mt-2" id="editComment">Reply</button>
+                    </form>`;
+    element.innerHTML=html;
+    let formReplyComment = document.querySelector("#formReplyComment");
+    formReplyComment.addEventListener("submit",function(e){
+        e.preventDefault();
+        let strDescription = document.querySelector("#txtDescriptionReply").value;
+        if(strDescription ==""){
+            return false;
+        }
+        let idArticle = document.querySelector("#idArticle").value;
+        let formData = new FormData(formReplyComment);
+        formData.append("idArticle",idArticle);
+        request(base_url+"/blog/setReply",formData,"post").then(function(objData){
+            if(objData.status){
+                document.querySelector(".comment-list").innerHTML= objData.html;
+                document.querySelector("#totalComments").innerHTML =`Comments (${objData.total})`;
+            }
+        });
+    });
+}
+function showReplies(btn,element){
+    if(element.className.includes("d-none")){
+        element.classList.remove("d-none");
+        btn.innerHTML = "Hide replies";
+    }else{
+        element.classList.add("d-none");
+        btn.innerHTML = "Show replies";
+    }
+}
+function editReply(id,element){
+    if(document.querySelector("#formReplyComment"))document.querySelector("#formReplyComment").remove();
+    let html = `<form id="formReplyComment" class="mt-2">
+                        <input type="hidden" name="idReply" id="idReply" value="${id}">
+                        <textarea class="form-control" id="txtDescriptionReply" name="txtDescription" rows="3" placeholder="Your comment"></textarea>
+                        <button type="submit" class="btn btnc-primary mt-2" id="editComment">Update</button>
+                    </form>`;
+    element.innerHTML=html;
+    request(base_url+"/blog/getReply/"+id,"","get").then(function(objData){
+        
+        let formEditComment = document.querySelector("#formReplyComment");
+        let idArticle = document.querySelector("#idArticle").value;
+        document.querySelector("#txtDescriptionReply").value=objData.data.description;
+        
+        formEditComment.addEventListener("submit",function(e){
+            e.preventDefault();
+            let strDescription = document.querySelector("#txtDescriptionReply").value;
+            if(strDescription ==""){
+                return false;
+            }
+            let formData = new FormData(formEditComment);
+            formData.append('idArticle',idArticle);
+            request(base_url+"/blog/setReply",formData,"post").then(function(objData){
+                if(objData.status){
+                    document.querySelector(".comment-list").innerHTML = objData.html;
+                    document.querySelector("#totalComments").innerHTML =`Comments (${objData.total})`;
+                }
+            });
+        });
+        
+    });
+}
+function deleteReply(id){
+    let idArticle = document.querySelector("#idArticle").value;
+    let formData = new FormData();
+    formData.append("idArticle",idArticle);
+    formData.append("idReply",id);
+    request(base_url+"/blog/delReply",formData,"post").then(function(objData){
+        if(objData.status){
+            document.querySelector(".comment-list").innerHTML= objData.html;
+            document.querySelector("#totalComments").innerHTML =`Comments (${objData.total})`;
+            //showMore(document.querySelectorAll(".comment-block"),4);
+        }
+    });
+}
+function showMore(elements,max=null,handler){
     let currentElement = 0;
-    btn.addEventListener("click",function(){
-        currentElement++;
-        //console.log(currentElement);
-        for (let i = currentElement; i < currentElement+4; i++) {
+    
+    if(max!=null){
+        if(elements.length >= max){
+            handler.classList.remove("d-none");
+            for (let i = max; i < elements.length; i++) {
+                elements[i].classList.add("d-none");
+            }
+        }
+    }
+    handler.addEventListener("click",function(){
+        currentElement+=max;
+        for (let i = currentElement; i < currentElement+max; i++) {
             if(elements[i]){
                 elements[i].classList.remove("d-none");
             }
@@ -1878,5 +2049,6 @@ function showMore(elements){
                 document.querySelector("#showMore").classList.add("d-none");
             }
         }
+        
     })
 }

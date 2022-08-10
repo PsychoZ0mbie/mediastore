@@ -2,7 +2,11 @@
     require_once("Libraries/Core/Mysql.php");
     trait BlogTrait{
         private $con;
-        private $intIdProduct;
+        private $intIdArticle;
+        private $intIdUser;
+        private $strDescription;
+        private $intIdComment;
+        private $intIdReply;
 
         public function getCategoriesT(){
             $this->con=new Mysql();
@@ -186,129 +190,139 @@
             $request = $this->con->select($sql);
             return $request;
         }
-        public function getProductsFavorites($id){
-            $this->con=new Mysql();
+        public function getTotalCommentsT($id){
+            $this->con = new Mysql();
+            $this->intIdArticle = $id;
+            $sql="SELECT COUNT(*) AS total FROM blogcomments WHERE articleid= $this->intIdArticle";
+            $request = $this->con->select($sql);
+            return $request['total'];
+        }
+        public function getCommentsT($id){
+            $this->con = new Mysql();
+            $this->intIdArticle = $id;
             $sql = "SELECT 
-                p.idproduct,
-                p.categoryid,
-                p.subcategoryid,
-                p.reference,
-                p.name,
-                p.description,
-                p.price,
-                p.discount,
-                p.description,
-                p.stock,
-                p.status,
-                p.route,
-                c.idcategory,
-                c.name as category,
-                c.route as routec,
-                s.idsubcategory,
-                s.categoryid,
-                s.name as subcategory
-            FROM product p
-            INNER JOIN category c, subcategory s, wishlist w
-            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory 
-            AND p.idproduct = w.productid AND w.personid = $id AND w.status = 1";
+                    c.idcomment,
+                    c.personid,
+                    c.articleid,
+                    c.description,
+                    p.idperson,
+                    p.image,
+                    p.firstname,
+                    p.lastname,
+                    DATE_FORMAT(c.date_created, '%d/%m/%Y') as date,
+                    DATE_FORMAT(c.date_updated, '%d/%m/%Y') as dateupdated
+                    FROM blogcomments c
+                    INNER JOIN person p, article a
+                    WHERE p.idperson = c.personid AND a.idarticle = c.articleid AND a.idarticle = $this->intIdArticle ORDER BY c.idcomment DESC";
             $request = $this->con->select_all($sql);
-            if(count($request)> 0){
-                for ($i=0; $i < count($request); $i++) { 
-
-                    $request[$i]['priceDiscount'] =  $request[$i]['price']-($request[$i]['price']*($request[$i]['discount']*0.01));
-                    $request[$i]['price'] = $request[$i]['price'];
-                    $request[$i]['favorite'] = 0;
-
-                    $idProduct = $request[$i]['idproduct'];
-
-                    $sqlImg = "SELECT * FROM productimage WHERE productid = $idProduct";
-                    $requestImg =  $this->con->select_all($sqlImg);
-
-                    if(count($requestImg)>0){
-                        $request[$i]['url'] = media()."/images/uploads/".$requestImg[0]['name'];
-                        $request[$i]['image'] = $requestImg[0]['name'];
-                    }else{
-                        $request[$i]['image'] = media()."/images/uploads/image.png";
-                    }
+            if(count($request)>0){
+                for ($i=0; $i < count($request) ; $i++) { 
+                    $idComment = $request[$i]['idcomment'];
+                    $sqlReply = "SELECT 
+                                r.idreply,
+                                r.commentid,
+                                r.personid,
+                                r.description,
+                                DATE_FORMAT(r.date_created, '%d/%m/%Y') as date,
+                                DATE_FORMAT(r.date_updated, '%d/%m/%Y') as dateupdated,
+                                p.firstname,
+                                p.lastname
+                                FROM blogreplies r
+                                INNER JOIN blogcomments c, person p
+                                WHERE r.commentid = c.idcomment AND r.personid = p.idperson AND r.commentid = $idComment";
+                    $requestReply = $this->con->select_all($sqlReply);
+                    $request[$i]['replies'] = $requestReply;
                 }
             }
             return $request;
         }
-        public function addWishListT($idProduct,$idUser){
+        public function setCommentT($idArticle,$idUser,$strDescription){
+            $this->intIdArticle = $idArticle;
+            $this->intIdUser = $idUser;
+            $this->strDescription = $strDescription;
             $this->con = new Mysql();
-            $sql = "SELECT * FROM wishlist WHERE productid = $idProduct AND personid = $idUser";
-            $request = $this->con->select_all($sql);
-            $return ="";
-            if(empty($request)){
-                $sql = "INSERT INTO wishlist (productid,personid,status) VALUE(?,?,?)";
-                $array = array($idProduct,$idUser,1);
-                $request = $this->con->insert($sql,$array);
-                $return =$request;
-            }else{
-                $return ="exists";
-            }
-            return $return;
+
+            $sql="INSERT INTO blogcomments(personid,articleid,description) VALUES(?,?,?)";
+            $arrData = array($this->intIdUser,$this->intIdArticle,$this->strDescription);
+            $request = $this->con->insert($sql,$arrData);
+            return $request;
         }
-        public function delWishListT($idProduct,$idUser){
+        public function getRepliesT($idComment){
+            $this->intIdComment = $idComment;
+            $sql = "SELECT 
+                        r.idreply,
+                        r.commentid,
+                        r.personid,
+                        r.description,
+                        DATE_FORMAT(r.date_created, '%d/%m/%Y') as date,
+                        DATE_FORMAT(r.date_updated, '%d/%m/%Y') as dateupdated,
+                        p.firstname,
+                        p.lastname
+                        FROM blogreplies r
+                        INNER JOIN blogcomments c, person p
+                        WHERE r.commentid = c.idcomment AND r.personid = p.idperson AND r.commentid = $this->intIdComment";
+            $request = $this->con->select_all($sql);
+            return $request;
+        }
+        public function setReplyT($idComment,$idUser,$strDescription){
+            $this->intIdComment = $idComment;
+            $this->intIdUser = $idUser;
+            $this->strDescription = $strDescription;
             $this->con = new Mysql();
-            $sql = "DELETE FROM wishlist WHERE productid=$idProduct AND personid = $idUser";
+
+            $sql="INSERT INTO blogreplies(commentid,personid,description) VALUES(?,?,?)";
+            $arrData = array($this->intIdComment,$this->intIdUser,$this->strDescription);
+            $request = $this->con->insert($sql,$arrData);
+            return $request;
+        }
+        public function updateCommentT(int $idComment, string $strDescription){
+            $this->intIdComment = $idComment;
+            $this->strDescription = $strDescription;
+            $this->con = new Mysql();
+
+            $sql = "UPDATE blogcomments SET description=?, date_updated=NOW() WHERE idcomment = $this->intIdComment";
+            $arrData=array($this->strDescription);
+            $request=$this->con->update($sql,$arrData);
+            return $request;
+        }
+        public function getCommentT($id){
+            $this->intIdComment = $id;
+            $this->con = new Mysql();
+            $sql="SELECT idcomment,description FROM blogcomments WHERE idcomment = $this->intIdComment";
+            $request = $this->con->select($sql);
+            return $request;
+        }
+        public function getReplyT($id){
+            $this->intIdReply = $id;
+            $this->con = new Mysql();
+            $sql="SELECT idreply,description FROM blogreplies WHERE idreply = $this->intIdReply";
+            $request = $this->con->select($sql);
+            return $request;
+        }
+        public function deleteCommentT($id){
+            $this->intIdComment = $id;
+            $this->con = new Mysql();
+            $sql ="DELETE FROM blogcomments WHERE idcomment = $this->intIdComment";
             $request = $this->con->delete($sql);
             return $request;
         }
-        public function getProductsSearchT($search){
-            $this->con=new Mysql();
-            $sql = "SELECT 
-                p.idproduct,
-                p.categoryid,
-                p.subcategoryid,
-                p.reference,
-                p.name,
-                p.description,
-                p.price,
-                p.discount,
-                p.description,
-                p.stock,
-                p.status,
-                p.route,
-                c.idcategory,
-                c.name as category,
-                c.route as routec,
-                s.idsubcategory,
-                s.categoryid,
-                s.name as subcategory
-            FROM product p
-            INNER JOIN category c, subcategory s
-            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND
-            p.name LIKE  '%$search%' || c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND
-            c.name LIKE  '%$search%' || c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND
-            s.name LIKE '%$search%'
-            ";
-            $request = $this->con->select_all($sql);
-            if(count($request)> 0){
-                for ($i=0; $i < count($request); $i++) { 
-
-                    $request[$i]['priceDiscount'] =  $request[$i]['price']-($request[$i]['price']*($request[$i]['discount']*0.01));
-                    $request[$i]['price'] = $request[$i]['price'];
-
-                    $idProduct = $request[$i]['idproduct'];
-
-                    $sqlRate = "SELECT AVG(rate) as rate FROM productrate WHERE productid = $idProduct";
-                    $sqlImg = "SELECT * FROM productimage WHERE productid = $idProduct";
-                    $requestImg =  $this->con->select_all($sqlImg);
-                    $requestRate =  $this->con->select($sqlRate);
-                    $request[$i]['rate'] = $requestRate['rate'];
-
-                    if(count($requestImg)>0){
-                        $request[$i]['url'] = media()."/images/uploads/".$requestImg[0]['name'];
-                        $request[$i]['image'] = $requestImg[0]['name'];
-                    }else{
-                        $request[$i]['image'] = media()."/images/uploads/image.png";
-                    }
-                }
-            }
-            //dep($request);exit;
+        public function deleteReplyT($id){
+            $this->intIdReply = $id;
+            $this->con = new Mysql();
+            $sql ="DELETE FROM blogreplies WHERE idreply = $this->intIdReply";
+            $request = $this->con->delete($sql);
             return $request;
         }
+        public function updateReply(int $id,String $description){
+            $this->con = new Mysql();
+            $this->intIdReply = $id;
+            $this->strDescription = $description;
+            $sql = "UPDATE blogreplies SET description=?, date_updated=NOW() WHERE idreply = $this->intIdReply";
+            $arrData = array($this->strDescription);
+            $request = $this->con->update($sql,$arrData);
+            return $request;
+        }
+
     }
     
 ?>
