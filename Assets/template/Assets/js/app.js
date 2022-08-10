@@ -371,7 +371,7 @@ if(document.querySelector("#product")){
     let formReview = document.querySelector("#formReview");
     let search = document.querySelector("#searchReview");
     let sortReview = document.querySelector("#sortReviews");
-    showMore(document.querySelectorAll(".comment-block"));
+    showMore(document.querySelectorAll(".comment-block"),4,document.querySelector("#showMore"));
     /***************************Product Page Events****************************** */
     
     search.addEventListener('input',function() {
@@ -396,7 +396,6 @@ if(document.querySelector("#product")){
             document.querySelector(".comment-list").innerHTML= objData.html;
             document.querySelectorAll(".product-rate")[0].innerHTML= rateStars+` (${rate.total} reviews)`;
             document.querySelectorAll(".product-rate")[1].innerHTML= rateStars;
-            showMore(document.querySelectorAll(".comment-block"));
         });
     });
 
@@ -422,7 +421,6 @@ if(document.querySelector("#product")){
             document.querySelector(".comment-list").innerHTML= objData.html;
             document.querySelectorAll(".product-rate")[0].innerHTML= rateStars+` (${rate.total} reviews)`;
             document.querySelectorAll(".product-rate")[1].innerHTML= rateStars;
-            showMore(document.querySelectorAll(".comment-block"));
         });
     });
 
@@ -609,7 +607,6 @@ if(document.querySelector("#product")){
                 document.querySelectorAll(".review-stars span")[2].innerHTML =`(${rate.three})`;
                 document.querySelectorAll(".review-stars span")[3].innerHTML =`(${rate.two})`;
                 document.querySelectorAll(".review-stars span")[4].innerHTML =`(${rate.one})`;
-
             }else if(objData.login == false){
                 alert.classList.remove("d-none");
                 alert.classList.replace("alert-warning","alert-danger");

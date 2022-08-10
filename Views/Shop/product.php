@@ -84,6 +84,7 @@
         <div class="container mt-4 mb-4">
             <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Home</a></li>
                   <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/shop">Shop</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Product</li>
                   <li class="breadcrumb-item active" aria-current="page"><?=$product['name']?></li>
@@ -251,57 +252,8 @@
                         </div>
                     </div>
                     <ul class="comment-list mt-3">
-                        <?php 
-                            if(!empty($reviews)){
-                                $display = "";
-                                for ($i=0; $i < count($reviews) ; $i++) { 
-                                    if($i >= 4 ){
-                                        $display = "d-none";
-                                    }
-                                    $image = media()."/images/uploads/".$reviews[$i]['image'];
-                                    $name = $reviews[$i]['firstname']." ".$reviews[$i]['lastname'];
-                                    $rateComment ="";
-                                    for ($j = 0; $j < 5; $j++) {
-                                        if($j >= intval($reviews[$i]['rate'])){
-                                            $rateComment.='<i class="far fa-star"></i>';
-                                        }else{
-                                            $rateComment.='<i class="fas fa-star"></i>';
-                                        }
-                                    }
-
-                            
-                        ?>
-                        <li class="comment-block <?=$display?>">
-                            <div class="row mb-2">
-                                <div class="col-12">
-                                    <div class="comment-info d-flex justify-content-between">
-                                        <div class="d-flex justify-content-start">
-                                            <div class="comment-img me-1">
-                                                <img src="<?=$image?>" alt="<?=$name?>">
-                                            </div>
-                                            <div>
-                                                <p class="m-0"><?=$name?></p>
-                                                <p class="m-0 text-secondary"><?=$reviews[$i]['date']?></p>
-                                            </div>
-                                        </div>
-                                        <div class="product-rate text-end m-0">
-                                            <?=$rateComment?>
-                                            <div>
-                                                <?php if(isset($_SESSION['login']) && $_SESSION['idUser'] == $reviews[$i]['personid']){ ?>
-                                                <a href="#formReview" data-id="<?=$reviews[$i]['id']?>" onclick="editReview(<?=$reviews[$i]['id']?>)" title="edit" class="btn text-dark editComment p-0 me-2"><i class="fas fa-pen"></i></a>
-                                                <button type="button" class="btn text-dark p-0" onclick="deleteReview(<?=$reviews[$i]['id']?>)" title="delete"><i class="fas fa-trash"></i></button>
-                                                <?php }?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 mt-1">
-                                    <p><?=$reviews[$i]['description']?></p>
-                                </div>
-                            </div>
-                        </li>
-                        <?php } }?>
-                        <button type="button" class="btn t-p" id="showMore">Show more</button>
+                        <?=$reviews['html']?>
+                        <button type="button" class="btn t-p d-none" id="showMore">Show more</button>
                     </ul>
                     
                     <div class="d-flex justify-content-center mb-3">

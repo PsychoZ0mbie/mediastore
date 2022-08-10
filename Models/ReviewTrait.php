@@ -63,8 +63,8 @@
             $request = $this->con->update($sql,$arrData);
             return $request;
         }
-        public function getReviewsT($id,$option){
-            if($option !=""){
+        public function getReviewsT($id,$option=null){
+            if($option !=null){
                 if($option == 1){
                     $option = " ORDER BY r.id DESC";
                 }else{
@@ -84,11 +84,13 @@
                     p.image,
                     p.firstname,
                     p.lastname,
-                    DATE_FORMAT(r.date_updated, '%d/%m/%Y') as date
+                    DATE_FORMAT(r.date, '%d/%m/%Y') as date,
+                    DATE_FORMAT(r.date_updated, '%d/%m/%Y') as dateupdated
                     FROM productrate r
                     INNER JOIN person p, product pr
                     WHERE p.idperson = r.personid AND pr.idproduct = r.productid AND pr.idproduct = $this->intIdProduct $option";
             $request = $this->con->select_all($sql);
+            //dep($request);exit;
             return $request;
         }
         public function getSearchReviewsT($id,$search){
@@ -103,11 +105,12 @@
                     p.image,
                     p.firstname,
                     p.lastname,
-                    DATE_FORMAT(r.date_updated, '%d/%m/%Y') as date
+                    DATE_FORMAT(r.date, '%d/%m/%Y') as date,
+                    DATE_FORMAT(r.date_updated, '%d/%m/%Y') as dateupdated
                     FROM productrate r
                     INNER JOIN person p, product pr
                     WHERE p.idperson = r.personid AND pr.idproduct = r.productid AND pr.idproduct = $this->intIdProduct AND p.firstname LIKE '%$search%'
-                    OR  p.idperson = r.personid AND pr.idproduct = r.productid AND pr.idproduct = $this->intIdProduct AND p.lastname LIKE '%$search%'";
+                    OR  p.idperson = r.personid AND pr.idproduct = r.productid AND pr.idproduct = $this->intIdProduct AND p.lastname LIKE '%$search%' ORDER BY p.idperson DESC";
             $request = $this->con->select_all($sql);
             return $request;
         }
