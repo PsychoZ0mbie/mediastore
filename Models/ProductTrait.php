@@ -283,15 +283,16 @@
                 c.route as routec,
                 s.idsubcategory,
                 s.categoryid,
-                s.name as subcategory,
-                r.productid
+                s.name as subcategory
             FROM product p
-            INNER JOIN category c, subcategory s, productrate r
-            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND r.productid = p.idproduct
-            ORDER BY r.rate DESC $cant
+            INNER JOIN category c, subcategory s
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory
+            ORDER BY p.idproduct
             ";
             //dep($sql);exit;
             $request = $this->con->select_all($sql);
+            $arrProducts = array();
+            //dep($request);exit;
             if(count($request)){
                 for ($i=0; $i < count($request); $i++) { 
 
@@ -313,7 +314,7 @@
                     $sqlImg = "SELECT * FROM productimage WHERE productid = $idProduct";
                     $requestImg =  $this->con->select_all($sqlImg);
                     $requestRate =  $this->con->select($sqlRate);
-                    $request[$i]['rate'] = $requestRate['rate'];
+                    $request[$i]['rate'] = $requestRate['rate'] !="" ? $requestRate['rate'] : 0;
 
                     if(count($requestImg)>0){
                         $request[$i]['url'] = media()."/images/uploads/".$requestImg[0]['name'];
@@ -321,9 +322,13 @@
                     }else{
                         $request[$i]['image'] = media()."/images/uploads/image.png";
                     }
+                    if($request[$i]['rate']>=4){
+                        array_push($arrProducts,$request[$i]);
+                    }
+                    
                 }
             }
-            return $request;
+            return $arrProducts;
         }
         public function getProductT(int $idProduct){
             $this->con=new Mysql();
