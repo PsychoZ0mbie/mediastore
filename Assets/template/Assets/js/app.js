@@ -1144,7 +1144,7 @@ function openLoginModal(){
                                         <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-lock"></i></div>
                                         <input type="password" class="form-control" id="txtSignPassword" name="txtSignPassword" placeholder="Password" required></textarea>
                                     </div>
-                                    <p>By registering on our website, you agree to our <a href="#">privacy and use policies</a>.</p>
+                                    <p>By registering on our website, you agree to our <a href="${base_url}/polities">privacy and use policies</a>.</p>
                                     <div class="d-flex justify-content-end mb-3 t-p" >
                                         <div class="c-p loginBtn">Already have an account? login</div>
                                     </div>

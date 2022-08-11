@@ -8,6 +8,9 @@
         private $intIdMessage;
         private $strEmail;
         private $strSubject;
+        private $intIdPage;
+        private $strDescription;
+        private $strName;
 
         public function __construct(){
             parent::__construct();
@@ -141,6 +144,22 @@
         public function selectSubscribers(){
             $sql = "SELECT *, DATE_FORMAT(date, '%d/%m/%Y') as date FROM suscriber";
             $request = $this->select_all($sql);
+            return $request;
+        }
+        /*************************Pages methods*******************************/
+        public function selectPage(int $intIdPage){
+            $this->intIdPage = $intIdPage;
+            $sql = "SELECT *,DATE_FORMAT(date_created, '%d/%m/%Y') as datecreated,DATE_FORMAT(date_updated, '%d/%m/%Y') as dateupdated  FROM pages WHERE id = $this->intIdPage";
+            $request = $this->select($sql);
+            return $request;
+        }
+        public function updatePage(int $intIdPage,string $strName, string $strDescription){
+            $this->intIdPage = $intIdPage;
+            $this->strDescription = $strDescription;
+            $this->strName = $strName;
+            $sql = "UPDATE pages SET name=?,description=?, date_updated=NOW() WHERE id = $this->intIdPage";
+            $arrData = array($this->strName,$this->strDescription);
+            $request = $this->update($sql,$arrData);
             return $request;
         }
     }

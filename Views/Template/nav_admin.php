@@ -116,6 +116,8 @@
                                     <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/coupon"><span class="nav-icon"></span> Coupons</a></li>
                                     <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/mailbox"><span class="nav-icon"></span> Mailbox <?=$emails?></a></li>
                                     <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/subscribers"><span class="nav-icon"></span> Subscribers</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/about"><span class="nav-icon"></span> About us</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/policies"><span class="nav-icon"></span> Policies</a></li>
                                 </ul>
                             </li>
                             <?php 

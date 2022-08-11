@@ -29,19 +29,22 @@ function exportToExcel(id){
     var wb = XLSX.utils.table_to_book(document.getElementById(id));
     XLSX.writeFile(wb, id+".xlsx");
 }
-function setTinymce(selectorId){
+function setTinymce(selectorId,height=null){
     tinymce.remove();
     document.addEventListener('focusin', (e) => {
         if (e.target.closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
             e.stopImmediatePropagation();
         }
     });
+    if(height==null){
+        height = 400;
+    }
 
     tinymce.init({
         relative_urls: 0,
         remove_script_host: 0,
         selector: selectorId,
-        height: 400,
+        height: height,
         plugins: [
             'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
             'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
@@ -51,7 +54,7 @@ function setTinymce(selectorId){
         'bold italic backcolor | alignleft aligncenter ' +
         'alignright alignjustify | bullist numlist outdent indent | ' +
         'removeformat | help',
-        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'   
+        force_br_newlines : false
     });
     
 }

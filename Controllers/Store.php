@@ -84,6 +84,21 @@
                 die();
             }
         }
+        public function about(){
+            $data['page_tag'] = "About";
+			$data['page_title'] = "About us";
+			$data['page_name'] = "page";
+            $data['page'] = $this->model->selectPage(1);
+            $this->views->getView($this,"about",$data);
+        }
+        public function policies(){
+            $data['page_tag'] = "Policies";
+			$data['page_title'] = "Policies";
+			$data['page_name'] = "page";
+            $data['page'] = $this->model->selectPage(2);
+            //dep($data['page']);exit;
+            $this->views->getView($this,"policies",$data);
+        }
         /*************************Coupon methods*******************************/
         public function getCoupons(){
             if($_SESSION['permitsModule']['r']){
@@ -344,6 +359,29 @@
                 }
             }
             return $arrResponse;
+        }
+        /*************************Pages methods*******************************/
+        public function updatePage(){
+            //dep($_POST);
+            if($_POST){
+                if(empty($_POST['txtDescription']) || empty($_POST['txtName'])){
+                    $arrResponse = array("status"=>false,"msg"=>"Data error");
+                }else{
+                    $id = intval($_POST['idPage']);
+                    $strDescription = $_POST['txtDescription'];
+                    $strName = strClean($_POST['txtName']);
+                    $request = $this->model->updatePage($id,$strName,$strDescription);
+                    //dep($this->model->selectPage($id));exit;
+
+                    if($request>0){
+                        $arrResponse = array("status"=>true,"msg"=>"Page has been updated."); 
+                    }else{
+                        $arrResponse = array("status"=>false,"msg"=>"Page cannot be updated, try again.");
+                    }
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
         }
     }
 ?>
