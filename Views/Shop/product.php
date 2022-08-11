@@ -87,7 +87,6 @@
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Home</a></li>
                   <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/shop">Shop</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Product</li>
                   <li class="breadcrumb-item active" aria-current="page"><?=$product['name']?></li>
                 </ol>
             </nav>

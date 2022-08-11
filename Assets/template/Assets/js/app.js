@@ -1381,8 +1381,12 @@ function quickModal(elements){
                 //btn.innerHTML = `<i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i>`;
                 if(objData.status){
 
+
+                    
+
                     let product = objData.data;
                     let images = product['image'];
+                    let urlShare = base_url+"/shop/product/"+product['route'];
                     let favorite = "";
                     let imagesHtml="";
                     let discount="";
@@ -1398,6 +1402,14 @@ function quickModal(elements){
                         <button type="button" class="ms-3" data-id="${product['idproduct']}" id="viewProductAddModal"><i class="fas fa-shopping-cart me-2"></i> Add</button>
                     </div>
                     `;
+
+                    document.querySelector('meta[property="og:description"]').setAttribute("content", product['shortdescription']);
+                    document.querySelector('meta[property="og:title"]').setAttribute("content", product['name']);
+                    document.querySelector('meta[property="og:url"]').setAttribute("content", base_url+"/shop/product/"+product['route']);
+                    document.querySelector('meta[property="og:image"]').setAttribute("content", images[0]['url']);
+                    document.querySelector('meta[name="twitter:site"]').setAttribute("content", base_url+"/shop/product/"+product['route']);
+
+
                     if(product['rate'].length>0){
                         ratetotal = product['rate'][0]['total'];
                     }
@@ -1484,10 +1496,10 @@ function quickModal(elements){
                                             </div>
                                             <div class="d-flex align-items-center mt-4">
                                                 <ul class="product-social">
-                                                    <li title="Facebook"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                                    <li title="Twitter"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                                    <li title="Linkedin"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                                    <li title="Telegram"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
+                                                    <li title="Share on facebook"><a href="#" onclick="window.open('http://www.facebook.com/sharer.php?u=${urlShare}&t=${product['name']}','share','toolbar=0,status=0,width=650,height=450')"><i class="fab fa-facebook-f"></i></a></li>
+                                                    <li title="Share on twitter"><a href="#" onclick="window.open('https://twitter.com/intent/tweet?text=${product['name']}&url=${urlShare}&hashtags=${SHAREDHASH}','share','toolbar=0,status=0,width=650,height=450')"><i class="fab fa-twitter"></i></a></li>
+                                                    <li title="Share on linkedin"><a href="#" onclick="window.open('http://www.linkedin.com/shareArticle?url=${urlShare}','share','toolbar=0,status=0,width=650,height=450')"><i class="fab fa-linkedin-in"></i></a></li>
+                                                    <li title="Share on whatsapp"><a href="#" onclick="window.open('https://api.whatsapp.com/send?text=${urlShare}','share','toolbar=0,status=0,width=650,height=450')"><i class="fab fa-whatsapp"></i></a></li>
                                                 </ul>
                                                 ${favorite}
                                             </div>

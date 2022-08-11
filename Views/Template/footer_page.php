@@ -52,6 +52,7 @@
         const MS = "<?=MS;?>";
         const MD = "<?=MD?>";
         const COMPANY = "<?=NOMBRE_EMPRESA?>";
+        const SHAREDHASH ="<?=SHAREDHASH?>";
     </script>
     <!------------------------------------Plugins--------------------------->
     <script src="<?=media();?>/js/plugins/sweetalert.js"></script>
