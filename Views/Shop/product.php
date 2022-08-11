@@ -4,6 +4,7 @@
     $reviews = $data['reviews'];
     $product = $data['product'];
     $products = $data['products'];
+    $urlShare = base_url()."/shop/product/".$product['route'];
     //dep($product['reviews']);
     $status="";
     $rate = "";
@@ -135,10 +136,10 @@
                     </div>
                     <div class="d-flex align-items-center mt-4">
                         <ul class="product-social">
-                            <li title="Share on facebook"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                            <li title="Share on twitter"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                            <li title="Share on linkedin"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                            <li title="Share on telegram"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
+                            <li title="Share on facebook"><a href="#" onclick="window.open('http://www.facebook.com/sharer.php?u=<?=$urlShare?>&t=<?=$product['name'];?>','share','toolbar=0,status=0,width=650,height=450')"><i class="fab fa-facebook-f"></i></a></li>
+                            <li title="Share on twitter"><a href="#" onclick="window.open('https://twitter.com/intent/tweet?text=<?=$product['name'];?>&url=<?=$urlShare?>&hashtags=<?=SHAREDHASH?>','share','toolbar=0,status=0,width=650,height=450')"><i class="fab fa-twitter"></i></a></li>
+                            <li title="Share on linkedin"><a href="#" onclick="window.open('http://www.linkedin.com/shareArticle?url=<?=$urlShare?>','share','toolbar=0,status=0,width=650,height=450')"><i class="fab fa-linkedin-in"></i></a></li>
+                            <li title="Share on whatsapp"><a href="#" onclick="window.open('https://api.whatsapp.com/send?text=<?=$urlShare?>','share','toolbar=0,status=0,width=650,height=450')"><i class="fab fa-whatsapp"></i></a></li>
                         </ul>
                         <?=$favorite?>
                     </div>

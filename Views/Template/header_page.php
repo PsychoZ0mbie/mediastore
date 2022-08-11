@@ -3,6 +3,19 @@
     $qtyCart = 0;
     $total = 0;
     $arrProducts = array();
+
+    $title = NOMBRE_EMPRESA;
+    $urlWeb = base_url();
+    $urlImg ="";
+    $description =DESCRIPCION;
+    //dep($data['product']);exit;
+    if(!empty($data['product'])){
+        $urlWeb = base_url()."/shop/product/".$data['product']['route'];
+        $urlImg = $data['product']['image'][0];
+        $title = $data['product']['name'];
+        $description = $data['product']['shortdescription'];
+    }
+
     if(isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){
         $arrProducts = $_SESSION['arrCart'];
         foreach ($arrProducts as $product) {
@@ -21,7 +34,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title><?=$data['page_title']?></title>
+
+    <meta property="fb:app_id"          content="1234567890" /> 
+    <meta property="og:locale" 		content='es_ES'/>
+    <meta property="og:type"        content="article" />
+    <meta property="og:site_name"	content="<?= NOMBRE_EMPRESA; ?>"/>
+    <meta property="og:description" content="<?=$description?>"/>
+    <meta property="og:title"       content="<?= $title; ?>" />
+    <meta property="og:url"         content="<?= $urlWeb; ?>" />
+    <meta property="og:image"       content="<?= $urlImg; ?>" />
+    <meta name="twitter:card" content="summary"></meta>
+    <meta name="twitter:site" content="<?= $urlWeb; ?>"></meta>
+    <meta name="twitter:creator" content="<?= NOMBRE_EMPRESA; ?>"></meta>
+    <link rel="canonical" href="<?= $urlWeb?>"/>
 
     <!------------------------------------Frameworks--------------------------->
     <link rel="stylesheet" href="<?=media();?>/css/bootstrap/bootstrap.min.css">

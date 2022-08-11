@@ -23,8 +23,8 @@
 	const DEC = ","; // Decimales;
 	const MIL = ".";//Millares;
 	const ENVIO =0;
-	const DESCRIPCION = "";
-	const SHAREDHASH ="";
+	const DESCRIPCION = "Lorem ipsum dolor sit amet consectetur adipiscing elit tempor, natoque aptent metus purus nostra fames commodo, venenatis justo himenaeos ultrices congue varius magna.";
+	const SHAREDHASH ="mediastore";
 	//Datos envio de correo produccion
 	/*const NOMBRE_REMITENTE= "Buhos Marquetería & Galería";
 	const EMAIL_REMITENTE = "info@buhosmarqueteriaygaleria.co";
