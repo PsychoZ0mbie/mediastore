@@ -32,10 +32,11 @@
                     <a href="<?=base_url()?>/contact" class="text-decoration-none text-dark m-0 d-block">Contact us</a>
                     <a href="<?=base_url()?>/policies" class="text-decoration-none text-dark m-0 d-block">Policies</a>
                 </div>
+                <?php if(!empty($data['couponSubscriber'])){?>
                 <div class="col-md-3 mb-3">
                     <h4 class="fs-5">NEWSLETTER</h4>
                     <p>Subscribe to our newsletter and get a 15% discount coupon. <br><br>Receive updates on new arrivals, special offers and our promotions</p>
-                    <form id="formSuscribe">
+                    <form id="formSuscriber">
                         <div class="mb-3">
                             <input type="email" class="form-control" id="txtEmailSuscribe" name="txtEmailSuscribe" placeholder="Your email" required="">
                         </div>
@@ -43,6 +44,7 @@
                         <button type="submit" class="btn btnc-primary" id="btnSuscribe">Suscribe</button>
                     </form>
                 </div>
+                <?php }?>
             </div>
             <div class="row text-center">
                 <p class="mb-0">Copyright © 2022 Código Energizado</p>

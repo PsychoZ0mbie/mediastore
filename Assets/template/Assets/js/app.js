@@ -1049,6 +1049,51 @@ if(document.querySelector("#article")){
         });
     });
 }
+if(document.querySelector("#formSuscriber")){
+    let formSuscribe = document.querySelector("#formSuscriber");
+    formSuscribe.addEventListener("submit",function(e){
+    e.preventDefault();
+    let btn = document.querySelector("#btnSuscribe");
+    let strEmail = document.querySelector("#txtEmailSuscribe").value;
+    let formData = new FormData(formSuscribe);
+    let alert = document.querySelector("#alertSuscribe");
+    if(strEmail ==""){
+        alert.classList.remove("d-none");
+        alert.innerHTML = "Please, fill the field";
+        return false;
+    }
+    if(!fntEmailValidate(strEmail)){
+        let html = ` Your email is incorrect, it is only allowed:
+        <ul class="m-0 mt-1">
+            <li>@hotmail.com</li>
+            <li>@outlook.com</li>
+            <li>@yahoo.com</li>
+            <li>@live.com</li>
+            <li>@gmail.com</li>
+        </ul>
+        `;
+        alert.classList.remove("d-none");
+        alert.innerHTML = html;
+        return false;
+    }
+    btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;    
+    btn.setAttribute("disabled","");
+    
+    request(base_url+"/shop/setSuscriber",formData,"post").then(function(objData){
+        btn.innerHTML="Suscribe";    
+        btn.removeAttribute("disabled");
+        if(objData.status){
+            alert.classList.add("d-none");
+            formSuscribe.reset();
+        }else{
+            alert.classList.remove("d-none");
+            alert.innerHTML = objData.msg;
+        }
+    });
+    
+    });
+}
+
 /***************************Essentials Functions****************************** */
 function openLoginModal(){
     let modalItem = document.querySelector("#modalLogin");
