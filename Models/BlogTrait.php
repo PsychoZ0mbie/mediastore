@@ -8,7 +8,7 @@
         private $intIdComment;
         private $intIdReply;
 
-        public function getCategoriesT(){
+        public function getBlogCategoriesT(){
             $this->con=new Mysql();
             $sql = "SELECT * FROM blogcategory WHERE status = 1 ORDER BY name ";       
             $request = $this->con->select_all($sql);

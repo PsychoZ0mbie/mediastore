@@ -89,7 +89,7 @@
                                         $routeP = base_url()."/blog/article/".$recPosts[$index]['route'];
                                 ?>
                                 <div class="featured-item">
-                                    <div class="row">
+                                    <article class="row">
                                         <?php
                                             $routeImg = media()."/images/uploads/category.jpg";
                                             if($recPosts[$index]['picture'] !=""){
@@ -105,7 +105,7 @@
                                             </div>
                                             <p><?=$recPosts[$index]['date']?></p>
                                         </div>
-                                    </div>
+                                    </article>
                                 </div>
 
                                 <?php $index++; }else{ break;} }?>
@@ -130,7 +130,7 @@
                                 $imgPost = media()."/images/uploads/".$posts[$i]['picture'];
                             }
                     ?>
-                    <div class="col-lg-4 col-md-6 mb-3 product-item">
+                    <article class="col-lg-4 col-md-6 mb-3 product-item">
                         <div class="card">
                             <img src="<?=$imgPost?>" style="height:200px;" alt="<?=$posts[$i]['name']?>">
                             <div class="card-body" style="height:180px;">
@@ -141,7 +141,7 @@
                                 <a href="<?=$routePosts?>" class="btn btnc-primary mt-1">Read more</a>
                             </div>
                         </div>
-                    </div>
+                        </article>
                     <?php }?>
                 </div>
                 <div class="pagination">

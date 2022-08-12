@@ -5,6 +5,7 @@
     $categories2 = $data['category2'];
     $products = $data['products'];
     $popProducts = $data['popProducts'];
+    $recPosts = $data['recPosts'];
     //dep($products);exit;
 ?>
     <div id="modalItem"></div>
@@ -253,22 +254,35 @@
             </div>
             <?php }?>
         </section>
-    </main>
-    <?php if(!empty($data['couponSubscriber'])){?>
-    <section>
-        <div class="main-suscribe mt-5 mb-5">
-            <form id="formSuscriber">
-                <h2 class="t-w text-center mb-3"><strong>Suscribe now and get a <?=$data['couponSubscriber']['discount']?>% discount coupon</strong></h2>
-                <p class="t-w text-center">Receive updates on new arrivals, special offers and our promotions</p>
-                <div class="mb-3">
-                    <input type="email" class="form-control text-center" id="txtEmailSuscribe" name="txtEmailSuscribe" aria-describedby="emailHelp" placeholder="Enter your email">
+        <section class="container mb-5">
+            <?php if(!empty($recPosts)){?>
+                <div class="row mt-5">
+                    <h3 class="t-p mb-3"><strong>LATEST POSTS</strong></h3>
+                    <?php 
+                    for ($i=0; $i < count($recPosts) ; $i++) { 
+                        $routePosts = base_url()."/blog/article/".$recPosts[$i]['route'];
+                        $imgPost =media()."/images/uploads/category.jpg";
+                        if($recPosts[$i]['picture'] !=""){
+                            $imgPost = media()."/images/uploads/".$recPosts[$i]['picture'];
+                        }
+                    ?>
+                    <div class="col-lg-4 col-md-6 mb-3 product-item">
+                        <div class="card">
+                            <img src="<?=$imgPost?>" style="height:200px;" alt="<?=$recPosts[$i]['name']?>">
+                            <div class="card-body" style="height:180px;">
+                                <a href="<?=$routePosts?>" class="text-decoration-none text-dark" style="height:50px;"><h2 class="card-title fs-5" ><?=$recPosts[$i]['name']?></h5></a>
+                                <div class="card-text overflow-hidden" style="height:50px;">
+                                    <?=$recPosts[$i]['description']?>
+                                </div>
+                                <a href="<?=$routePosts?>" class="btn btnc-primary mt-1">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php } ?>
                 </div>
-                <div class="alert alert-danger d-none" id="alertSuscribe" role="alert"></div>
-                <button type="submit" class="btn btn-primary btnc-primary w-100" id="btnSuscribe">Subscribe</button>
-            </form>
-        </div>
-    </section>
-    <?php }?>
+                <?php } ?>
+        </section>
+    </main>
 <?php
     footerPage($data);
 ?>

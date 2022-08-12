@@ -119,7 +119,6 @@ inputSearch.addEventListener("input",function(){
         
     });
 })
-
 if(document.querySelector("#logout")){
     let logout = document.querySelector("#logout");
     logout.addEventListener("click",function(e){
@@ -332,7 +331,6 @@ window.addEventListener("load",function(){
 window.addEventListener("DOMContentLoaded",function(){
     loading.classList.remove("d-none");
 })
-
 /***************************Filter****************************** */
 if(document.querySelector(".addFilter")){
     let featured = document.querySelector(".featured-container-items");
@@ -356,7 +354,6 @@ if(document.querySelector(".addFilter")){
         document.querySelector(".filter-options-overlay").style.display="block";
     });
 }
-
 /***************************Product Page****************************** */
 if(document.querySelector("#product")){
     let decrement = document.querySelector(".decrement");
@@ -627,7 +624,6 @@ if(document.querySelector("#product")){
         });
     });
 }
-
 /***************************Cart Page****************************** */
 if(document.querySelector("#cart")){
     btnSearch.classList.add("d-none");
@@ -959,50 +955,6 @@ if(document.querySelector("#checkout")){
                 alertOrder.innerHTML = objData.msg;
             }
         });
-    });
-}
-if(document.querySelector("#formSuscriber")){
-    let formSuscribe = document.querySelector("#formSuscriber");
-    formSuscribe.addEventListener("submit",function(e){
-    e.preventDefault();
-    let btn = document.querySelector("#btnSuscribe");
-    let strEmail = document.querySelector("#txtEmailSuscribe").value;
-    let formData = new FormData(formSuscribe);
-    let alert = document.querySelector("#alertSuscribe");
-    if(strEmail ==""){
-        alert.classList.remove("d-none");
-        alert.innerHTML = "Please, fill the field";
-        return false;
-    }
-    if(!fntEmailValidate(strEmail)){
-        let html = ` Your email is incorrect, it is only allowed:
-        <ul class="m-0 mt-1">
-            <li>@hotmail.com</li>
-            <li>@outlook.com</li>
-            <li>@yahoo.com</li>
-            <li>@live.com</li>
-            <li>@gmail.com</li>
-        </ul>
-        `;
-        alert.classList.remove("d-none");
-        alert.innerHTML = html;
-        return false;
-    }
-    btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;    
-    btn.setAttribute("disabled","");
-    
-    request(base_url+"/shop/setSuscriber",formData,"post").then(function(objData){
-        btn.innerHTML="Suscribe";    
-        btn.removeAttribute("disabled");
-        if(objData.status){
-            alert.classList.add("d-none");
-            formSuscribe.reset();
-        }else{
-            alert.classList.remove("d-none");
-            alert.innerHTML = objData.msg;
-        }
-    });
-    
     });
 }
 /***************************Contact page****************************** */
@@ -1380,10 +1332,6 @@ function quickModal(elements){
                 btn.removeAttribute("disabled");
                 //btn.innerHTML = `<i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i>`;
                 if(objData.status){
-
-
-                    
-
                     let product = objData.data;
                     let images = product['image'];
                     let urlShare = base_url+"/shop/product/"+product['route'];

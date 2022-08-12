@@ -18,7 +18,7 @@
             $data['page_name'] = "blog";
             $data['recPosts'] = $this->getRecentPostsT(9);
             $data['posts'] = $this->getArticlesT();
-            $data['categories'] = $this->getCategoriesT();
+            $data['categories'] = $this->getBlogCategoriesT();
             $this->views->getView($this,"blog",$data);
         }
         public function category($params){
@@ -36,13 +36,13 @@
             $data['page_tag'] = NOMBRE_EMPRESA;
             $data['page_title'] = "Blog | ".NOMBRE_EMPRESA;
             $data['page_name'] = "category";
-            $data['categories'] = $this->getCategoriesT();
+            $data['categories'] = $this->getBlogCategoriesT();
             $data['routec'] = $category;
             $data['routes'] = $subcategory;
             $data['total'] = $this->getTotalArticlesT($category,$subcategory);
             $data['posts'] = $this->getArticlesCategoryT($category,$subcategory,1);
             $data['recPosts'] = $this->getRecentPostsT(9);
-            $data['categories'] = $this->getCategoriesT();
+            $data['categories'] = $this->getBlogCategoriesT();
             $this->views->getView($this,"category",$data);
         }
         public function article($params){
@@ -52,7 +52,7 @@
             $data['article'] = $this->getArticlePageT($params);
             $data['relPosts'] = $this->getRelatedPostsT(3,$data['article']['categoryid']);
             $data['recPosts'] = $this->getRecentPostsT(9);
-            $data['categories'] = $this->getCategoriesT();
+            $data['categories'] = $this->getBlogCategoriesT();
             $data['comments'] = $this->getComments($data['article']['idarticle']);
             //$data['articles'] = $this->getProductsRandT(4);
             $data['page_title'] =$data['article']['name']." | ".NOMBRE_EMPRESA;
