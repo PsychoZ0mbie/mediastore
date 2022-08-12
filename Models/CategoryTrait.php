@@ -29,6 +29,16 @@
             $request = $this->con->select_all($sql);
             return $request;
         }
+        public function getRecCategoriesT(int $qty=null){
+            $q="";
+            if($qty!=null){
+                $q=" LIMIT $qty";
+            }
+            $this->con=new Mysql();
+            $sql = "SELECT idcategory,picture,name,status,route FROM category WHERE status = 1 AND idcategory ORDER BY idcategory DESC LIMIT $qty";       
+            $request = $this->con->select_all($sql);
+            return $request;
+        }
     }
     
 ?>

@@ -6,7 +6,7 @@
     $products = $data['products'];
     $popProducts = $data['popProducts'];
     $recPosts = $data['recPosts'];
-    //dep($products);exit;
+    //dep($slider);exit;
 ?>
     <div id="modalItem"></div>
     <div id="modalPoup"></div>
@@ -30,32 +30,20 @@
                 <div class="carousel-inner">
                 <?php
                     for ($i=0; $i < count($slider) ; $i++) { 
-                        $route = base_url()."/shop/product/".$slider[$i]['route'];
-                        $routeC = base_url()."/shop/category/".$slider[$i]['routec'];
+                        $active="";
                         if($i == 0){
+                            $active="active";
+                        }
                 ?>
-                <div class="carousel-item active">
-                    <img src="<?=$slider[$i]['url']?>" alt="<?=$slider[$i]['name']?>">
+                <div class="carousel-item <?=$active?>">
+                    <img src="<?=media()."/images/uploads/".$slider[$i]['picture']?>" alt="<?=$slider[$i]['name']?>">
                     <div class="carousel-info">
-                        <h2><a href="<?=$routeC?>" class="text-decoration-none t-p"><?=$slider[$i]['category']?></a></h2>
-                        <h3>GET THE <?=$slider[$i]['name']?> </h3>
-                        <h4>With <strong class="t-p"><?=$slider[$i]['discount']?>%</strong> discount!</h4>
-                        <p class="mb-3"><strong><?=$slider[$i]['priceDiscount']?></strong> <span><?=$slider[$i]['price']?></span></p>
-                        <a href="<?=$route?>" class="btnc btnc-primary">Shop Now</a>
+                        <span>New Collection</span>
+                        <h2><?=$slider[$i]['name']?></h2>
+                        <a href="<?=base_url()."/shop/category/".$slider[$i]['route']?>" class="btn btnc-primary fs-5">Shop Now</a>
                     </div>
                 </div>
-                <?php }else{ ?>
-                <div class="carousel-item">
-                    <img src="<?=$slider[$i]['url']?>" alt="<?=$slider[$i]['name']?>">
-                    <div class="carousel-info">
-                        <h2><a href="<?=$routeC?>" class="text-decoration-none t-p"><?=$slider[$i]['category']?></a></h2>
-                        <h3>GET THE <?=$slider[$i]['name']?> </h3>
-                        <h4>With <strong class="t-p"><?=$slider[$i]['discount']?>%</strong> discount!</h4>
-                        <p class="mb-3"><strong><?=$slider[$i]['priceDiscount']?></strong> <span><?=$slider[$i]['price']?></span></p>
-                        <a href="<?=$route?>" class="btnc btnc-primary">Shop Now</a>
-                    </div>
-                </div>
-                <?php } }?>
+                <?php  }?>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>

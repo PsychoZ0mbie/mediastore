@@ -6,91 +6,36 @@
         
         img{
             height: 100%;
-            width: 60%;
-            object-fit: cover;
-            position: absolute;
-            right:-9000px;
-            object-position: 0 100px;
-            mix-blend-mode: multiply;
+            width: 100%;
+            filter: brightness(0.9);
         }
         .carousel-info{
             position: absolute;
             top:50%;
-            left: 20%;
-            transform: translate(-20%,-50%);
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background-color: rgba(0, 0, 0, 0.3);
+            text-align: center;
+            min-width: 400px;
+            padding: 20px;
+            border-radius: 20px;
             
             h2{
-                position: relative;
-                left:-5000px;
-                margin-bottom: 20px;
-                font-size: 25px;
-                color:$first-color;
+                margin-bottom: 30px;
+                font-size: 60px;
+                color:$third-color;
                 font-style: oblique;
             }
-            h3{
-                position: relative;
-                left:-5000px;
-                font-size: 40px;
-                color:$second-color;
-                font-weight: bold;
-            }
-            h4{
-                position: relative;
-                left:-5000px;
-                font-size: 50px;
-                color:$second-color;
-                margin-bottom: 20px;
-                font-weight: bold;
-            }
-            p{
-                position: relative;
-                left:-5000px;
-                color:$first-color;
-                font-weight: bold;
-                font-size: 40px;
-                span{
-                    text-decoration: line-through;
-                    font-size: 30px;
-                    color:$second-color;
-                }
-            }
-            a{
-                position: relative;
-                left:-5000px;
+            span{
                 font-size: 25px;
-            }
-        }
-    }
-    .carousel-item.active{
-        img{
-            right:0;
-            transition: 1s;
-        }
-        .carousel-info{
-            h2{
-                left: 0;
-                transition: 0.5s;
-            }
-            h3{
-                left: 0;
-                transition: 1s;
-            }
-            h4{
-                left: 0;
-                transition: 1.5s;
-            }
-            p{
-                left: 0;
-                transition: 1.5s;
+                color:$third-color;
+                font-weight: bold;
             }
             a{
-                left: 0;
-                transition: 2s;
+                font-size: 25px;
+                border-radius: 50px;
             }
         }
-    }
-    @keyframes carouselImg {
-        
     }
 }
 .category{
