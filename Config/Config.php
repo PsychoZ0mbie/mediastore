@@ -9,11 +9,11 @@
 	const DB_CHARSET = "utf8";*/
 
 	/*Heroku host */
-	const DB_HOST = "ec2-34-203-182-65.compute-1.amazonaws.com";
+	const DB_HOST = "us-cdbr-east-06.cleardb.net";
 	const BASE_URL = "https://mediastoredp.herokuapp.com";
-	const DB_NAME = "db1dqm1nu1mv8g";
-	const DB_USER = "wlwovyyjndwdob";
-	const DB_PASSWORD = "eafd00f569100b1be35645f2b6828a438f9ec758837616c145fa9e8e57b7418d";
+	const DB_NAME = "heroku_d39e714b9d4ae63";
+	const DB_USER = "b56226f8d281f1";
+	const DB_PASSWORD = "701c21a8";
 	const DB_CHARSET = "utf8";
 	
 	date_default_timezone_set('America/Bogota');
