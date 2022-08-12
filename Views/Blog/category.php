@@ -147,7 +147,7 @@
                         <div class="card">
                             <img src="<?=$imgPost?>" style="height:200px;" alt="<?=$posts[$i]['name']?>">
                             <div class="card-body" style="height:180px;">
-                                <a href="<?=$routePosts?>" class="text-decoration-none text-dark" style="height:50px;"><h2 class="card-title fs-5" ><?=$posts[$i]['name']?></h5></a>
+                                <a href="<?=$routePosts?>" class="text-decoration-none text-dark "><h2 class="card-title fs-5 overflow-hidden" style="height:50px;"><?=$posts[$i]['name']?></h2></a>
                                 <div class="card-text overflow-hidden" style="height:50px;">
                                     <?=$posts[$i]['description']?>
                                 </div>

@@ -178,6 +178,7 @@
             a.route,
             c.idcategory,
             c.name as category,
+            c.route as routec,
             s.idsubcategory,
             s.categoryid,
             s.name as subcategory,

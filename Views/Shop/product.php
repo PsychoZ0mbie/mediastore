@@ -5,7 +5,6 @@
     $product = $data['product'];
     $products = $data['products'];
     $urlShare = base_url()."/shop/product/".$product['route'];
-    //dep($product['reviews']);
     $status="";
     $rate = "";
     $price ='<p class="fs-3"><strong>'.formatNum($product['price']).'</strong></p>';
@@ -87,6 +86,7 @@
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Home</a></li>
                   <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/shop">Shop</a></li>
+                  <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()."/shop/category/".$product['routec']?>"><?=$product['category']?></a></li>
                   <li class="breadcrumb-item active" aria-current="page"><?=$product['name']?></li>
                 </ol>
             </nav>

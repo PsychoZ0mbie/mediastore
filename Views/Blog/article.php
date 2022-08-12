@@ -11,7 +11,9 @@
     <div class="container">
         <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Home</a></li>
                 <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/blog">Blog</a></li>
+                <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()."/blog/category/".$article['routec']?>"><?=$article['category']?></a></li>
                 <li class="breadcrumb-item active" aria-current="page"><?=$article['name']?></li>
             </ol>
         </nav>
@@ -181,7 +183,7 @@
                             <div class="card">
                                 <img src="<?=$imgPost?>" style="height:200px;" alt="<?=$relPosts[$i]['name']?>">
                                 <div class="card-body" style="height:180px;">
-                                    <a href="<?=$routePosts?>" class="text-decoration-none text-dark" style="height:50px;"><h2 class="card-title fs-5" ><?=$relPosts[$i]['name']?></h5></a>
+                                    <a href="<?=$routePosts?>" class="text-decoration-none text-dark "><h2 class="card-title fs-5 overflow-hidden" style="height:50px;"><?=$relPosts[$i]['name']?></h2></a>
                                     <div class="card-text overflow-hidden" style="height:50px;">
                                         <?=$relPosts[$i]['description']?>
                                     </div>
