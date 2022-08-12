@@ -1,5 +1,6 @@
 <?php
     headerPage($data);
+    
     $slider = $data['slider'];
     $categories1 = $data['category1'];
     $categories2 = $data['category2'];

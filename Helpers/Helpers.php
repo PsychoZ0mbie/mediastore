@@ -79,6 +79,18 @@
         $code = bin2hex(random_bytes(3));;
         return $code;
     }
+    function statusCoupon(){
+        require_once("Models/CustomerTrait.php");
+        class CouponSt{
+            use CustomerTrait;
+            public function getStatusCoupon(){
+                return $this->statusCouponSuscriberT();
+            }
+
+        }
+        $s = new CouponSt();
+        return array("code"=>$s->getStatusCoupon()['code'],"discount"=>$s->getStatusCoupon()['discount']);
+    }
     //Producción
     /*function sendEmail($data,$template){
         $mail = new PHPMailer(true);

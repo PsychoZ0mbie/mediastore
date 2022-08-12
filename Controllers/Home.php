@@ -19,7 +19,6 @@
             $data['category2'] = $this->getCategoriesShowT("7,8,9");
             $data['products'] = $this->getProductsT(8);
             $data['popProducts'] = $this->getPopularProductsT(4);
-            $data['couponSubscriber'] = $this->statusCouponSuscriberT();
             $data['recPosts'] = $this->getRecentPostsT(3);
             $data['page_name'] = "home";
             $this->views->getView($this,"home",$data);

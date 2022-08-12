@@ -1,3 +1,4 @@
+<?php $discount = statusCoupon();?>
 <footer>
         <div class="container p-5 ">
             <div class="row mb-4">
@@ -32,16 +33,17 @@
                     <a href="<?=base_url()?>/contact" class="text-decoration-none text-dark m-0 d-block">Contact us</a>
                     <a href="<?=base_url()?>/policies" class="text-decoration-none text-dark m-0 d-block">Policies</a>
                 </div>
-                <?php if(!empty($data['couponSubscriber'])){?>
+                <?php if(!empty($discount)){ ?>
                 <div class="col-md-3 mb-3">
                     <h4 class="fs-5">NEWSLETTER</h4>
-                    <p>Subscribe to our newsletter and get a 15% discount coupon. <br><br>Receive updates on new arrivals, special offers and our promotions</p>
+                    <p>Subscribe to our newsletter and get a <?=$discount['discount']?>% discount coupon. <br><br>Receive updates on new arrivals, special offers and our promotions</p>
                     <form id="formSuscriber">
                         <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label fw-bold">Email:</label>
                             <input type="email" class="form-control" id="txtEmailSuscribe" name="txtEmailSuscribe" placeholder="Your email" required="">
                         </div>
                         <div class="alert alert-danger d-none" id="alertSuscribe" role="alert"></div>
-                        <button type="submit" class="btn btnc-primary" id="btnSuscribe">Suscribe</button>
+                        <button type="submit" class="btn btnc-primary" id="btnSuscribe">Subscribe</button>
                     </form>
                 </div>
                 <?php }?>
