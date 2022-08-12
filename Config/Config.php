@@ -1,17 +1,19 @@
 <?php
-
-    /*const BASE_URL = "https://buhosmarqueteriaygaleria.co";
-	
-    const DB_HOST = "localhost";
-	const DB_NAME = "u209003010_buhos";
-	const DB_USER = "u209003010_buhos";
-	const DB_PASSWORD = "Buhos.197023";
-	const DB_CHARSET = "utf8";*/
+	/*Local host */
+	/*
 	const DB_HOST = "localhost";
 	const BASE_URL = "http://localhost/mediastore";
 	const DB_NAME = "db_mediastore";
 	const DB_USER = "root";
 	const DB_PASSWORD = "";
+	const DB_CHARSET = "utf8";*/
+
+	/*Heroku host */
+	const DB_HOST = "ec2-34-203-182-65.compute-1.amazonaws.com";
+	const BASE_URL = "https://mediastoredp.herokuapp.com";
+	const DB_NAME = "db1dqm1nu1mv8g";
+	const DB_USER = "wlwovyyjndwdob";
+	const DB_PASSWORD = "eafd00f569100b1be35645f2b6828a438f9ec758837616c145fa9e8e57b7418d";
 	const DB_CHARSET = "utf8";
 	
 	date_default_timezone_set('America/Bogota');
