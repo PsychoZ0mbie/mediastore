@@ -9,6 +9,9 @@ let btnSearch = document.querySelector("#btnSearch");
 let btnCloseSearch = document.querySelector("#btnCloseSearch");
 let inputSearch = document.querySelector("#txtSearch");
 
+document.addEventListener("readystatechange",function(){
+    if(document.readyState =="complete")loading.style.display="none";
+});
 btnCloseSearch.addEventListener("click",function(){
     document.querySelector(".nav-search").classList.remove("nav-search-open");
     document.querySelector(".nav-search").classList.add("nav-search-close");
@@ -216,7 +219,6 @@ if(document.querySelector("#selectSort")){
     });
 }
 window.addEventListener("load",function(){
-    loading.classList.add("d-none");
     if(document.querySelectorAll(".product-btns")){
         addProduct(document.querySelectorAll(".product-img .product-card-add"));
         quickModal(document.querySelectorAll(".product-btns .quickView"));
@@ -328,9 +330,6 @@ window.addEventListener("load",function(){
         
     }
 });
-window.addEventListener("DOMContentLoaded",function(){
-    loading.classList.remove("d-none");
-})
 /***************************Filter****************************** */
 if(document.querySelector(".addFilter")){
     let featured = document.querySelector(".featured-container-items");

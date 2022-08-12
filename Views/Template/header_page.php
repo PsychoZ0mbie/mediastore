@@ -191,7 +191,7 @@
             </div>
         </div>
     </header>
-    <div id="divLoading" class="d-none">
+    <div id="divLoading">
         <div></div>
         <span>Loading...</span>
     </div>
