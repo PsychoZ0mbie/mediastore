@@ -7,12 +7,12 @@
         img{
             height: 100%;
             width: 100%;
-            filter: brightness(0.9);
+            transition: 1s;
         }
         .carousel-info{
             position: absolute;
             top:50%;
-            left: 50%;
+            left: -5000px;
             transform: translate(-50%,-50%);
             background-color: rgba(0, 0, 0, 0.3);
             text-align: center;
@@ -35,6 +35,16 @@
                 font-size: 25px;
                 border-radius: 50px;
             }
+        }
+    }
+    .carousel-item.active{
+        img{
+            filter: brightness(0.9);
+            transition: 1s;
+        }
+        .carousel-info{
+            left: 50%;
+            transition: 1.2s;
         }
     }
 }

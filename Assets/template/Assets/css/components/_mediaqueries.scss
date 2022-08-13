@@ -36,6 +36,29 @@
     }
 }
 @media screen and (max-width: 768px){
+    .main-carousel{
+        .carousel-item{
+            height: 500px;
+            .carousel-info{
+                min-width: 350px;
+                h2{
+                    margin-bottom: 30px;
+                    font-size: 30px;
+                    color:$third-color;
+                    font-style: oblique;
+                }
+                span{
+                    font-size: 25px;
+                    color:$third-color;
+                    font-weight: bold;
+                }
+                a{
+                    font-size: 25px;
+                    border-radius: 50px;
+                }
+            }
+        }
+    }
     .filter-options{
         width: 80%;
     }
