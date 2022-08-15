@@ -1178,6 +1178,7 @@ function openLoginModal(){
     modalItem.innerHTML = modal;
     let modalView = new bootstrap.Modal(document.querySelector("#modalElementLogin"));
     modalView.show();
+    modalView.hide();
 
     let formLogin = document.querySelector("#formLogin");
     let formReset = document.querySelector("#formReset");
@@ -1359,6 +1360,10 @@ function openLoginModal(){
                 swal("Error",objData.msg,"error");
             }
         });
+    });
+
+    document.querySelector("#modalElementLogin").addEventListener("hide.bs.modal",function(){
+        //document.querySelector("#modalElementLogin").remove();
     });
 }
 function quickModal(elements){
@@ -1674,15 +1679,7 @@ function addProduct(elements){
             };
 
             runTime();
-            btnCheckoutPop.addEventListener("click",function(){
-                request(base_url+"/shop/currentCart","","get").then(function(objData){
-                    if(objData.status){
-                        window.location.href=base_url+"/shop/checkout";
-                    }else{
-                        openLoginModal();
-                    }
-                });
-            });
+            
             
             request(base_url+"/shop/addCart",formData,"post").then(function(objData){
                 if(objData.status){
@@ -1718,6 +1715,15 @@ function addProduct(elements){
             });
         });
     }
+    btnCheckoutPop.addEventListener("click",function(){
+        request(base_url+"/shop/currentCart","","get").then(function(objData){
+            if(objData.status){
+                window.location.href=base_url+"/shop/checkout";
+            }else{
+                openLoginModal();
+            }
+        });
+    });
 }
 function addWishList(){
     if(document.querySelectorAll(".product-btns .addWishList")){
