@@ -29,6 +29,15 @@ function exportToExcel(id){
     var wb = XLSX.utils.table_to_book(document.getElementById(id));
     XLSX.writeFile(wb, id+".xlsx");
 }
+function deleteCityShipp(id){
+    request(base_url+"/store/delShippingCity/"+id,"","get").then(function(objData){
+        if(objData.status){
+            document.querySelector("#listItem").innerHTML = objData.html;
+        }else{
+            Swal.fire("Error",objData.msg,"error");
+        }
+    });
+}
 function setTinymce(selectorId,height=null){
     tinymce.remove();
     document.addEventListener('focusin', (e) => {

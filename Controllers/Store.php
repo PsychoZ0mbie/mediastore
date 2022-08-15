@@ -84,20 +84,43 @@
                 die();
             }
         }
+        public function shipping(){
+            if($_SESSION['permitsModule']['r']){
+                $data['page_tag'] = "Shipping";
+                $data['page_title'] = "Shipping";
+                $data['page_name'] = "shipping";
+                $data['countries'] = $this->model->selectCountries();
+                $data['ShippingCities'] = $this->getShippingCities();
+                $data['flat'] = $this->model->selectFlatRate();
+                $this->views->getView($this,"shipping",$data);
+            }else{
+                header("location: ".base_url());
+                die();
+            }
+        }
         public function about(){
-            $data['page_tag'] = "About";
-			$data['page_title'] = "About us";
-			$data['page_name'] = "page";
-            $data['page'] = $this->model->selectPage(1);
-            $this->views->getView($this,"about",$data);
+            if($_SESSION['permitsModule']['r']){
+                $data['page_tag'] = "About";
+                $data['page_title'] = "About us";
+                $data['page_name'] = "page";
+                $data['page'] = $this->model->selectPage(1);
+                $this->views->getView($this,"about",$data);
+            }else{
+                header("location: ".base_url());
+                die();
+            }
         }
         public function policies(){
-            $data['page_tag'] = "Policies";
-			$data['page_title'] = "Policies";
-			$data['page_name'] = "page";
-            $data['page'] = $this->model->selectPage(2);
-            //dep($data['page']);exit;
-            $this->views->getView($this,"policies",$data);
+            if($_SESSION['permitsModule']['r']){
+                $data['page_tag'] = "Policies";
+                $data['page_title'] = "Policies";
+                $data['page_name'] = "page";
+                $data['page'] = $this->model->selectPage(2);
+                $this->views->getView($this,"policies",$data);
+            }else{
+                header("location: ".base_url());
+                die();
+            }
         }
         /*************************Coupon methods*******************************/
         public function getCoupons(){
@@ -360,6 +383,115 @@
             }
             return $arrResponse;
         }
+        /*************************Shipping methods*******************************/
+        public function setShippingMode(){
+            if($_SESSION['permitsModule']['u']){
+                if($_POST){
+                    $idShipping = intval($_POST['idShipping']);
+                    if($idShipping == 2 && empty($_POST['intValue'])){
+                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                    }else{
+                        $value = !empty($_POST['intValue']) ? intval($_POST['intValue']) : 0;
+                        $request = $this->model->setShippingMode($idShipping, $value);
+                        $arrResponse = array("status"=>true,"msg"=>"Shipping config has been saved.");
+                    }
+                    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                }
+            }
+            die();
+        }
+        public function setShippingCity(){
+            if($_SESSION['permitsModule']['w']){
+                if($_POST){
+                    if(empty($_POST['idCountry']) || empty($_POST['idState']) || empty($_POST['idCity']) || empty($_POST['value'])){
+                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                    }else{
+                        $idCountry = intval($_POST['idCountry']);
+                        $idState = intval($_POST['idState']);
+                        $idCity = intval($_POST['idCity']);
+                        $value = intval($_POST['value']);
+                        $request = $this->model->setShippingCity($idCountry,$idState,$idCity,$value);
+                        if($request>0){
+                            $html = $this->getShippingCities();
+                            $arrResponse = array("status"=>true,"html"=>$html);
+                        }else if($request = "exists"){
+                            $arrResponse = array("status"=>false,"msg"=>"It Already exists, try another."); 
+                        }else{
+                            $arrResponse = array("status"=>false,"msg"=>"An error has ocurred, try again."); 
+                        }
+                    }
+                    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                }
+            }
+            die();
+        }
+        public function getShippingCities(){
+            if($_SESSION['permitsModule']['r']){
+                $request = $this->model->selectShippingCities();
+                //dep($request);exit;
+                $html="";
+                if(!empty($request)){
+                    for ($i=0; $i < count($request); $i++) { 
+                        $delete = "";
+                        if($_SESSION['permitsModule']['d']){
+                            $delete = '<td><button type="button" class="btn btn-sm btn-danger text-white" onclick="deleteCityShipp('.$request[$i]['id'].')"><i class="fas fa-trash-alt" aria-hidden="true"></i></button></td>';
+                        }
+                        $html.= '
+                        <tr>
+                            <td>'.$request[$i]['country'].'</td>
+                            <td>'.$request[$i]['state'].'</td>
+                            <td>'.$request[$i]['city'].'</td>
+                            <td>'.formatNum($request[$i]['value']).'</td>
+                            '.$delete.'
+                        </tr>
+                        ';
+                    }   
+                }
+            }
+            return $html;
+        }
+        public function getSelectCountry($id){
+            $request = $this->model->selectStates($id);
+            $html='<option selected value="0">Select</option>';
+            for ($i=0; $i < count($request) ; $i++) { 
+                $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
+            }
+            echo json_encode($html,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function delShippingCity($id){
+            if($_SESSION['permitsModule']['d']){
+                $id = intval($id);
+                $request = $this->model->delShippingCity($id);
+                if($request=="ok"){
+                    $html = $this->getShippingCities();
+                    $arrResponse = array("status"=>true,"html"=>$html); 
+                }else{
+                    $arrResponse = array("status"=>false,"msg"=>"Error, try again."); 
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+        public function getSelectState($id){
+            $request = $this->model->selectCities($id);
+            $html='<option selected value="0">Select</option>';
+            for ($i=0; $i < count($request) ; $i++) { 
+                $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
+            }
+            echo json_encode($html,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        /*public function getCountries(){
+            $request = $this->selectCountries();
+            $html='<option selected value="0">Select</option>';
+            for ($i=0; $i < count($request) ; $i++) { 
+                $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
+            }
+
+            echo json_encode($html,JSON_UNESCAPED_UNICODE);
+            die();
+        }*/
         /*************************Pages methods*******************************/
         public function updatePage(){
             //dep($_POST);
