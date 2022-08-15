@@ -1653,7 +1653,7 @@ function addProduct(elements){
     let btnAddCart = elements;
     let popup = document.querySelector(".popup");
     let popupClose = document.querySelector(".popup-close"); 
-    let btnCheckoutPop = document.querySelector("#btnCheckOutPopup");
+    
     let timer;
     
     for (let i = 0; i < btnAddCart.length; i++) {
@@ -1715,15 +1715,18 @@ function addProduct(elements){
             });
         });
     }
-    btnCheckoutPop.addEventListener("click",function(){
-        request(base_url+"/shop/currentCart","","get").then(function(objData){
-            if(objData.status){
-                window.location.href=base_url+"/shop/checkout";
-            }else{
-                openLoginModal();
-            }
+    if(document.querySelector("#btnCheckOutPopup")){
+        let btnCheckoutPop = document.querySelector("#btnCheckOutPopup");
+        btnCheckoutPop.addEventListener("click",function(){
+            request(base_url+"/shop/currentCart","","get").then(function(objData){
+                if(objData.status){
+                    window.location.href=base_url+"/shop/checkout";
+                }else{
+                    openLoginModal();
+                }
+            });
         });
-    });
+    }
 }
 function addWishList(){
     if(document.querySelectorAll(".product-btns .addWishList")){
