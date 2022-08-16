@@ -2,7 +2,9 @@
     headerPage($data);
     $qtyCart = 0;
     $total = 0;
+    $subtotal = 0;
     $arrProducts = array();
+    $arrShipping = $data['shipping'];
     if(isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){
         $arrProducts = $_SESSION['arrCart'];
         foreach ($arrProducts as $product) {
@@ -13,6 +15,10 @@
                 $total+=$product['qty']*$product['price'];
             }
         }
+    }
+    $subtotal = $total;
+    if($arrShipping['id']!= 3){
+        $total = $total +$arrShipping['value'];
     }
 ?>
     <main id="cart">
@@ -86,10 +92,25 @@
                     <h3 class="t-p">RESUME</h3>
                     <div class="mb-3 position-relative pb-1 af-b-line">
                         <div class="d-flex justify-content-between mb-3">
-                            <p class="m-0 fw-bold">Subtotal</p>
-                            <p class="m-0" id="subtotal"><?=formatNum($total)?></p>
+                            <p class="m-0 fw-bold">Subtotal:</p>
+                            <p class="m-0" id="subtotal"><?=formatNum($subtotal)?></p>
                         </div>
+                        <p class="m-0 fw-bold">Shipping:</p>
+                        <?php if($arrShipping['id']!=3){?>
                         <div class="d-flex justify-content-between mb-3">
+                            <p class="m-0"><?=$arrShipping['name']?>:</p>
+                            <p class="m-0"><?=formatNum($arrShipping['value'])?></p>
+                        </div>
+                        <?php }else{?>
+                            <label for="exampleFormControlInput1" class="form-label"><?=$arrShipping['name']?>:</label>
+                            <select class="form-select" aria-label="Default select example" id="selectCity" name="selectCity">
+                                <option value ="0" selected>Select a city</option>
+                                <?php for ($i=0; $i < count($arrShipping['cities']); $i++) { ?>
+                                <option value="<?=$arrShipping['cities'][$i]['id']?>"><?=$arrShipping['cities'][$i]['city']." - ".formatNum($arrShipping['cities'][$i]['value'])?></option>
+                                <?php }?>
+                            </select>
+                        <?php }?>
+                        <div class="d-flex justify-content-between mb-3 mt-3">
                             <p class="m-0 fw-bold">Total</p>
                             <p class="m-0 fw-bold" id="totalProducts"><?=formatNum($total)?></p>
                         </div>

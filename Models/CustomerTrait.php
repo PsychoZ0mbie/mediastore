@@ -279,6 +279,40 @@
             $request = $this->con->select($sql);
             return $request;
         }
+        public function selectShippingMode(){
+            $this->con = new Mysql();
+            $sql = "SELECT * FROM shipping WHERE status = 1";
+            $request = $this->con->select($sql);
+            if($request['id'] == 3){
+                $sqlCities = "SELECT
+                sh.id,
+                c.name as country,
+                s.name as state,
+                cy.name as city,
+                sh.value
+                FROM shippingcity sh
+                INNER JOIN countries c, states s, cities cy
+                WHERE c.id = sh.country_id AND s.id = sh.state_id AND cy.id = sh.city_id
+                ORDER BY cy.name ASC";
+                $cities = $this->con->select_all($sqlCities);
+                $request['cities'] = $cities;
+            }
+            return $request;
+        }
+        public function selectShippingCity($id){
+            $this->con = new Mysql();
+            $sql = "SELECT
+            sh.id,
+            c.name as country,
+            s.name as state,
+            cy.name as city,
+            sh.value
+            FROM shippingcity sh
+            INNER JOIN countries c, states s, cities cy
+            WHERE c.id = sh.country_id AND s.id = sh.state_id AND cy.id = sh.city_id AND sh.id = $id ORDER BY cy.name ASC";
+            $request = $this->con->select($sql);
+            return $request;
+        }
         
     }
     

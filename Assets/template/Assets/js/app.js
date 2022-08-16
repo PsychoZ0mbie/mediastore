@@ -653,7 +653,7 @@ if(document.querySelector("#cart")){
                 formData.append("qty",qty);
                 request(base_url+"/shop/updateCart",formData,"post").then(function(objData){
                     if(objData.status){
-                        document.querySelector("#subtotal").innerHTML = objData.total;
+                        document.querySelector("#subtotal").innerHTML = objData.subtotal;
                         document.querySelector("#totalProducts").innerHTML = objData.total;
                         document.querySelectorAll(".totalPerProduct")[i].innerHTML = objData.totalPrice;
                     }
@@ -676,7 +676,7 @@ if(document.querySelector("#cart")){
             formData.append("qty",qty);
             request(base_url+"/shop/updateCart",formData,"post").then(function(objData){
                 if(objData.status){
-                    document.querySelector("#subtotal").innerHTML = objData.total;
+                    document.querySelector("#subtotal").innerHTML = objData.subtotal;
                     document.querySelector("#totalProducts").innerHTML = objData.total;
                     document.querySelectorAll(".totalPerProduct")[i].innerHTML = objData.totalPrice;
                 }
@@ -700,29 +700,26 @@ if(document.querySelector("#cart")){
 
                 request(base_url+"/shop/updateCart",formData,"post").then(function(objData){
                     if(objData.status){
-                        document.querySelector("#subtotal").innerHTML = objData.total;
+                        document.querySelector("#subtotal").innerHTML = objData.subtotal;
                         document.querySelector("#totalProducts").innerHTML = objData.total;
                         document.querySelectorAll(".totalPerProduct")[i].innerHTML = objData.totalPrice;
                     }
                 });
             });
-            
         })
-        
     }
     if(document.querySelectorAll(".table-cart .btn-del")){
         let btns = document.querySelectorAll(".table-cart .btn-del");
         for (let i = 0; i < btns.length; i++) {
             let btn = btns[i];
             btn.addEventListener("click",function(){
-                console.log(btns);
                 let idProduct = inputs[i].getAttribute("data-id");
                 let formData = new FormData();
                 formData.append("idProduct",idProduct);
                 request(base_url+"/shop/delCart",formData,"post").then(function(objData){
                     if(objData.status){
                         btn.parentElement.parentElement.parentElement.remove();
-                        document.querySelector("#subtotal").innerHTML = objData.total;
+                        document.querySelector("#subtotal").innerHTML = objData.subtotal;
                         document.querySelector("#totalProducts").innerHTML = objData.total;
                         if(objData.qty == 0){
                             window.location.reload();
@@ -732,7 +729,17 @@ if(document.querySelector("#cart")){
             })
         }
     }
-    
+    if(document.querySelector("#selectCity")){
+        let select = document.querySelector("#selectCity");
+        select.addEventListener("change",function(){
+            if(select.value == 0){
+                return false;
+            }
+            request(base_url+"/shop/calculateShippingCity/"+select.value,"","get").then(function(objData){
+                document.querySelector("#totalProducts").innerHTML = objData.total;
+            });
+        });
+    }
 }
 /***************************pagination****************************** */
 if(document.querySelector(".pagination")){

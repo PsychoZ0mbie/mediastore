@@ -62,6 +62,8 @@
             $data['page_tag'] = NOMBRE_EMPRESA;
             $data['page_title'] ="My cart | ".NOMBRE_EMPRESA;
             $data['page_name'] = "cart";
+            $data['shipping'] = $this->selectShippingMode();
+            $_SESSION['arrShipping'] = $data['shipping'];
             $this->views->getView($this,"cart",$data); 
         }
         public function checkout(){
@@ -92,8 +94,6 @@
         }
         /******************************Cart methods************************************/
         public function addCart(){
-            //dep($_POST);exit;
-            //unset($_SESSION['arrCart']);exit;
             if($_POST){ 
                 $id = intval(openssl_decrypt($_POST['idProduct'],METHOD,KEY));
                 $qty = intval($_POST['txtQty']);
@@ -189,17 +189,21 @@
                 }
                 sort($arrCart);
                 $_SESSION['arrCart'] = $arrCart;
-                foreach ($_SESSION['arrCart'] as $product) {
-                    $qtyCart += $product['qty'];
-                    if($product['discount']>0){
-                        $total += $product['qty']*($product['price']-($product['price']*($product['discount']*0.01)));
-                    }else{
-                        $total+=$product['qty']*$product['price'];
-                    }
+                foreach ($_SESSION['arrCart'] as $quantity) {
+                    $qtyCart += $quantity['qty'];
                 }
+                if(!empty($_SESSION['arrShipping']['city'])){
+                    $arrTotal = $this->calculateTotal($_SESSION['arrCart'],$_SESSION['arrShipping'],$_SESSION['arrShipping']['city']['id']);
+                }else{
+                    $arrTotal = $this->calculateTotal($_SESSION['arrCart'],$_SESSION['arrShipping']);
+                }
+                
+                $subtotal = $arrTotal['subtotal'];
+                $total = $arrTotal['total'];
                 $arrResponse = array(
                     "status"=>true,
                     "msg"=>"It has been deleted.",
+                    "subtotal"=>formatNum($subtotal),
                     "total"=>formatNum($total),
                     "qty"=>$qtyCart
                 );
@@ -248,13 +252,16 @@
             die();
         }
         public function updateCart(){
-            //dep($_POST);exit;
             if($_POST){
                 $id = $_POST['idProduct'];
+                $total =0;
+                $totalPrice = 0;
+                $subtotal = 0;
+                $arrTotal = array();
                 $qty = intval($_POST['qty']);
+                
                 if($qty > 0){
-                    $total =0;
-                    $totalPrice = 0;
+                    
                     $arrCart = $_SESSION['arrCart'];
                     for ($i=0; $i < count($arrCart) ; $i++) { 
                         if($arrCart[$i]['idproduct'] == $id){
@@ -268,19 +275,28 @@
                         }
                     }
                     $_SESSION['arrCart'] = $arrCart;
-                    foreach ($_SESSION['arrCart'] as $product) {
-                        if($product['discount']>0){
-                            $total += $product['qty']*($product['price']-($product['price']*($product['discount']*0.01)));
-                        }else{
-                            $total+=$product['qty']*$product['price'];
-                        }
+                    if(!empty($_SESSION['arrShipping']['city'])){
+                        $arrTotal = $this->calculateTotal($_SESSION['arrCart'],$_SESSION['arrShipping'],$_SESSION['arrShipping']['city']['id']);
+                    }else{
+                        $arrTotal = $this->calculateTotal($_SESSION['arrCart'],$_SESSION['arrShipping']);
                     }
-                    $arrResponse = array("status"=>true,"total" =>formatNum($total),"totalPrice"=>formatNum($totalPrice));
+
+                    $subtotal = $arrTotal['subtotal'];
+                    $total = $arrTotal['total'];
+
+                    $arrResponse = array("status"=>true,"total" =>formatNum($total),"subtotal"=>formatNum($subtotal),"totalPrice"=>formatNum($totalPrice));
                 }else{
                     $arrResponse = array("status"=>false,"msg" =>"Data error.");
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
+            die();
+        }
+        public function calculateShippingCity($id){
+            $id = intval($id);
+            $info = $this->calculateTotal($_SESSION['arrCart'],$_SESSION['arrShipping'],$id);
+            $arrResponse = array("total"=>formatNum($info['total']));
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
 
@@ -904,6 +920,33 @@
             }
             echo json_encode($html,JSON_UNESCAPED_UNICODE);
             die();
+        }
+        public function calculateTotal($arrProducts,$arrShipping,$idCity =null){
+            $subtotal = 0;
+            $total=0;
+            
+            foreach ($arrProducts as $product) {
+                if($product['discount']>0){
+                    $subtotal += $product['qty']*($product['price']-($product['price']*($product['discount']*0.01)));
+                }else{
+                    $subtotal+=$product['qty']*$product['price'];
+                }
+            }
+            if($idCity != null){
+                for ($i=0; $i < count($arrShipping['cities']) ; $i++) { 
+                    if($arrShipping['cities'][$i]['id'] == $idCity){
+                        $total = $subtotal + $arrShipping['cities'][$i]['value'];
+                        $arrShipping['city'] = $arrShipping['cities'][$i];
+                        $_SESSION['arrShipping'] = $arrShipping;
+                        break;
+                    }
+                }
+            }else{
+                $total = $subtotal+$arrShipping['value'];
+            }
+            
+            $arrTotal = array("subtotal"=>$subtotal,"total"=>$total);
+            return $arrTotal;
         }
     }
 ?>
