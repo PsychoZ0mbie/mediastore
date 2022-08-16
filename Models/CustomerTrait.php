@@ -69,6 +69,7 @@
             $request = $this->con->select_all($sql);
             return $request;
         }
+        /*
         public function setCouponCodeT($idUser,$strCoupon){
             $this->con = new Mysql();
             $this->intIdUser = $idUser;
@@ -91,6 +92,13 @@
                 }
             }
             return $return;
+        }*/
+        public function selectCouponCode($strCoupon){
+            $this->con = new Mysql();
+            $this->strCoupon = $strCoupon;
+            $sql = "SELECT * FROM coupon WHERE code = '$this->strCoupon' AND status = 1";
+            $request = $this->con->select($sql);
+            return $request;
         }
         public function checkCoupon($idUser){
             $this->con = new Mysql();

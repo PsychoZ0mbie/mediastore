@@ -3,7 +3,6 @@
     $total = 0;
     $subtotal = 0;
     $arrProducts = array();
-    $dataCoupon = $data['coupon'];
     
     if(isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){
         $arrProducts = $_SESSION['arrCart'];
@@ -17,13 +16,10 @@
             }
         }
     }
-    if(!empty($dataCoupon)){
-        $total = $total-(($dataCoupon['discount']/100)*$total);
-    }
+    
 ?>
 <script src="https://www.paypal.com/sdk/js?client-id=<?=CLIENT_ID?>&currency=<?=CURRENCY?>"></script>
     <!-- Set up a container element for the button -->
-    
     <script>
       paypal.Buttons({
         // Sets up the transaction when a payment button is clicked
@@ -159,20 +155,7 @@
                         <p class="m-0 fw-bold">Subtotal</p>
                         <p class="m-0"><?=formatNum($subtotal)?></p>
                     </div>
-                    <div class="d-flex justify-content-between mb-3">
-                        <?php if(!empty($dataCoupon)){ ?>
-                            <p><?=$dataCoupon['code']?></p>
-                            <p>-<?=$dataCoupon['discount']?>%</p>
-                        <?php }else{?>
-                        <form id="formCoupon" class="w-100">
-                            <div class="input-group">
-                                <input type="text" id="txtCoupon" name="txtCoupon" class="form-control" placeholder="Your coupon code" aria-label="Coupon code" aria-describedby="button-addon2">
-                                <button class="btn btnc-primary" type="button" id="btnCoupon">+</button>
-                            </div>
-                            <div class="alert alert-danger mt-3 d-none" id="alertCoupon" role="alert"></div>
-                        </form>
-                        <?php }?>
-                    </div>
+                    
                     <div class="d-flex justify-content-between mb-3 position-relative af-b-line">
                         <p class="m-0 fw-bold fs-5">Total</p>
                         <p class="m-0 fw-bold fs-5" id="totalResume"><?=formatNum($total)?></p>

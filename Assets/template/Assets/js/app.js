@@ -641,7 +641,6 @@ if(document.querySelector("#cart")){
             formData.append("idProduct",idProduct);
 
             request(base_url+"/shop/getProduct",formData,"post").then(function(objData){
-                
                 if(input.value <= 1){
                     input.value = 1;
                 }else if(input.value >=objData.data.stock){
@@ -653,7 +652,12 @@ if(document.querySelector("#cart")){
                 formData.append("qty",qty);
                 request(base_url+"/shop/updateCart",formData,"post").then(function(objData){
                     if(objData.status){
-                        document.querySelector("#subtotal").innerHTML = objData.subtotal;
+                        if("subtotalCoupon" in objData){
+                            document.querySelector("#subtotal").innerHTML = objData.subtotalCoupon;
+                            document.querySelector("#subtotalCoupon").innerHTML = objData.subtotal;
+                        }else{
+                            document.querySelector("#subtotal").innerHTML = objData.subtotal;
+                        }
                         document.querySelector("#totalProducts").innerHTML = objData.total;
                         document.querySelectorAll(".totalPerProduct")[i].innerHTML = objData.totalPrice;
                     }
@@ -676,7 +680,12 @@ if(document.querySelector("#cart")){
             formData.append("qty",qty);
             request(base_url+"/shop/updateCart",formData,"post").then(function(objData){
                 if(objData.status){
-                    document.querySelector("#subtotal").innerHTML = objData.subtotal;
+                    if("subtotalCoupon" in objData){
+                        document.querySelector("#subtotal").innerHTML = objData.subtotalCoupon;
+                        document.querySelector("#subtotalCoupon").innerHTML = objData.subtotal;
+                    }else{
+                        document.querySelector("#subtotal").innerHTML = objData.subtotal;
+                    }
                     document.querySelector("#totalProducts").innerHTML = objData.total;
                     document.querySelectorAll(".totalPerProduct")[i].innerHTML = objData.totalPrice;
                 }
@@ -700,7 +709,12 @@ if(document.querySelector("#cart")){
 
                 request(base_url+"/shop/updateCart",formData,"post").then(function(objData){
                     if(objData.status){
-                        document.querySelector("#subtotal").innerHTML = objData.subtotal;
+                        if("subtotalCoupon" in objData){
+                            document.querySelector("#subtotal").innerHTML = objData.subtotalCoupon;
+                            document.querySelector("#subtotalCoupon").innerHTML = objData.subtotal;
+                        }else{
+                            document.querySelector("#subtotal").innerHTML = objData.subtotal;
+                        }
                         document.querySelector("#totalProducts").innerHTML = objData.total;
                         document.querySelectorAll(".totalPerProduct")[i].innerHTML = objData.totalPrice;
                     }
@@ -737,6 +751,38 @@ if(document.querySelector("#cart")){
             }
             request(base_url+"/shop/calculateShippingCity/"+select.value,"","get").then(function(objData){
                 document.querySelector("#totalProducts").innerHTML = objData.total;
+            });
+        });
+    }
+    if(document.querySelector("#btnCoupon")){
+        let btnCoupon = document.querySelector("#btnCoupon");
+        btnCoupon.addEventListener("click",function(){
+            let strCoupon = document.querySelector("#txtCoupon").value;
+            if(strCoupon ==""){
+                alertCoupon.innerHTML="Please put your coupon code.";
+                alertCoupon.classList.remove("d-none");
+                return false;
+            }
+            btnCoupon.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+            btnCoupon.setAttribute("disabled","");
+    
+            let formData = new FormData(formCoupon);
+            request(base_url+"/shop/setCouponCode",formData,"post").then(function(objData){
+                btnCoupon.innerHTML=`+`;
+                btnCoupon.removeAttribute("disabled");
+                if(objData.status){
+                    window.location.reload();
+                }else{
+                    alertCoupon.innerHTML=objData.msg;
+                    alertCoupon.classList.remove("d-none");
+                }
+            });
+        })
+    }
+    if(document.querySelector("#removeCoupon")){
+        document.querySelector("#removeCoupon").addEventListener("click",function(){
+            request(base_url+"/shop/delCouponCode","","get").then(function(objData){
+                window.location.reload();
             });
         });
     }
@@ -861,34 +907,7 @@ if(document.querySelector("#checkout")){
             intCity.innerHTML = objData;
         });
     });
-    if(document.querySelector("#btnCoupon")){
-        let btnCoupon = document.querySelector("#btnCoupon");
-        btnCoupon.addEventListener("click",function(){
-            let strCoupon = document.querySelector("#txtCoupon").value;
-            if(strCoupon ==""){
-                alertCoupon.innerHTML="Please put your coupon code.";
-                alertCoupon.classList.remove("d-none");
-                return false;
-            }
-            btnCoupon.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
-            btnCoupon.setAttribute("disabled","");
     
-            let formData = new FormData(formCoupon);
-            request(base_url+"/shop/setCouponCode",formData,"post").then(function(objData){
-                btnCoupon.innerHTML=`+`;
-                btnCoupon.removeAttribute("disabled");
-                if(objData.status){
-                    formCoupon.parentElement.innerHTML=`
-                        <p>${objData.data['code']}</p>
-                        <p>-${objData.data['discount']}%</p>`;
-                    document.querySelector("#totalResume").innerHTML=objData.data['total'];
-                }else{
-                    alertCoupon.innerHTML=objData.msg;
-                    alertCoupon.classList.remove("d-none");
-                }
-            });
-        })
-    }
     checkData.addEventListener("click",function(){
         let strName = document.querySelector("#txtNameOrder").value;
         let strLastName = document.querySelector("#txtLastNameOrder").value;

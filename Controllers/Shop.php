@@ -63,7 +63,14 @@
             $data['page_title'] ="My cart | ".NOMBRE_EMPRESA;
             $data['page_name'] = "cart";
             $data['shipping'] = $this->selectShippingMode();
+            
+            //$data['coupon'] = $this->checkCoupon($_SESSION['idUser']);
             $_SESSION['arrShipping'] = $data['shipping'];
+            if(!empty($_SESSION['arrShipping']['city'])){
+                $data['total'] = $this->calculateTotal($_SESSION['arrCart'],$_SESSION['arrShipping'],$_SESSION['arrShipping']['city']['id']);
+            }else{
+                $data['total'] = $this->calculateTotal($_SESSION['arrCart'],$_SESSION['arrShipping']);
+            }
             $this->views->getView($this,"cart",$data); 
         }
         public function checkout(){
@@ -72,7 +79,7 @@
                 $data['page_tag'] = NOMBRE_EMPRESA;
                 $data['page_title'] ="Checkout | ".NOMBRE_EMPRESA;
                 $data['page_name'] = "checkout";
-                $data['coupon'] = $this->checkCoupon($_SESSION['idUser']);
+                
                 $this->views->getView($this,"checkout",$data); 
             }else{
                 header("location: ".base_url());
@@ -283,8 +290,12 @@
 
                     $subtotal = $arrTotal['subtotal'];
                     $total = $arrTotal['total'];
+                    if($arrTotal['subtotalCoupon']> 0){
+                        $arrResponse = array("status"=>true,"total" =>formatNum($total),"subtotal"=>formatNum($subtotal),"totalPrice"=>formatNum($totalPrice),"subtotalCoupon"=>formatNum($arrTotal['subtotalCoupon']));
+                    }else{
+                        $arrResponse = array("status"=>true,"total" =>formatNum($total),"subtotal"=>formatNum($subtotal),"totalPrice"=>formatNum($totalPrice));
+                    }
 
-                    $arrResponse = array("status"=>true,"total" =>formatNum($total),"subtotal"=>formatNum($subtotal),"totalPrice"=>formatNum($totalPrice));
                 }else{
                     $arrResponse = array("status"=>false,"msg" =>"Data error.");
                 }
@@ -299,7 +310,27 @@
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
-
+        public function setCouponCode(){
+            if($_POST){
+                if(empty($_POST['txtCoupon'])){
+                    $arrResponse = array("status"=>false,"msg"=>"Data error"); 
+                }else{
+                    $strCoupon = strClean(strtoupper($_POST['txtCoupon']));
+                    $request = $this->selectCouponCode($strCoupon);
+                    if(!empty($request)){
+                        $_SESSION['couponInfo'] = $request;
+                        $arrResponse = array("status"=>true); 
+                    }else{
+                        $arrResponse = array("status"=>false,"msg"=>"Coupon doesn't exists or is inactive."); 
+                    }
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+        public function delCouponCode(){
+            unset($_SESSION['couponInfo']);
+        }
         /******************************wishlist methods************************************/
         public function addWishList(){
             if($_POST){
@@ -708,40 +739,7 @@
             }
             die();
         }
-        public function setCouponCode(){
-            if($_POST){
-                if(empty($_POST['txtCoupon'])){
-                    $arrResponse = array("status"=>false,"msg"=>"Data error"); 
-                }else{
-                    $idUser = $_SESSION['idUser'];
-                    $strCoupon = strClean(strtoupper($_POST['txtCoupon']));
-                    $request = $this->setCouponCodeT($idUser,$strCoupon);
-                    if(is_array($request)){
-                        $total=0;
-                        $arrProducts = $_SESSION['arrCart'];
-                        foreach ($arrProducts as $product) {
-                            if($product['discount']>0){
-                                $total += $product['qty']*($product['price']-($product['price']*($product['discount']*0.01)));
-                            }else{
-                                $total+=$product['qty']*$product['price'];
-                            }
-                        }
-                        //$_SESSION['couponData']['data'] = $request;
-                       // $_SESSION['couponData']['idUser'] = $_SESSION['idUser'];
-                        $total = $total-(($request['discount']/100)*$total);
-                        $request['total'] = formatNum($total);
-                        $arrResponse=array("status"=>true,"data"=>$request);
-
-                    }else if($request==""){
-                        $arrResponse = array("status"=>false,"msg"=>"Coupon doesn't exists or it's inactive."); 
-                    }else if($request =="exists"){
-                        $arrResponse = array("status"=>false,"msg"=>"You have already used your coupon before."); 
-                    }
-                }
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-            }
-            die();
-        }
+        
         public function getCountries(){
             $request = $this->selectCountries();
             $html="";
@@ -924,7 +922,7 @@
         public function calculateTotal($arrProducts,$arrShipping,$idCity =null){
             $subtotal = 0;
             $total=0;
-            
+            $subtotalCoupon=0;
             foreach ($arrProducts as $product) {
                 if($product['discount']>0){
                     $subtotal += $product['qty']*($product['price']-($product['price']*($product['discount']*0.01)));
@@ -932,6 +930,11 @@
                     $subtotal+=$product['qty']*$product['price'];
                 }
             }
+            if(isset($_SESSION['couponInfo'])){
+                $subtotalCoupon = $subtotal;
+                $subtotal = $subtotal - ($subtotal * ($_SESSION['couponInfo']['discount']/100));
+            }
+            
             if($idCity != null){
                 for ($i=0; $i < count($arrShipping['cities']) ; $i++) { 
                     if($arrShipping['cities'][$i]['id'] == $idCity){
@@ -945,7 +948,7 @@
                 $total = $subtotal+$arrShipping['value'];
             }
             
-            $arrTotal = array("subtotal"=>$subtotal,"total"=>$total);
+            $arrTotal = array("subtotal"=>$subtotal,"total"=>$total,"subtotalCoupon" =>$subtotalCoupon);
             return $arrTotal;
         }
     }

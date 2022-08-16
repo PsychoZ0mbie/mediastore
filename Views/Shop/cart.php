@@ -1,25 +1,12 @@
 <?php
     headerPage($data);
     $qtyCart = 0;
-    $total = 0;
-    $subtotal = 0;
+    $total = $data['total']['total'];
+    $subtotal = $data['total']['subtotalCoupon'] >0 ? $data['total']['subtotalCoupon'] : $data['total']['subtotal'];
+    $subtotalCoupon = $data['total']['subtotal'];
     $arrProducts = array();
     $arrShipping = $data['shipping'];
-    if(isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){
-        $arrProducts = $_SESSION['arrCart'];
-        foreach ($arrProducts as $product) {
-            $qtyCart += $product['qty'];
-            if($product['discount']>0){
-                $total += $product['qty']*($product['price']-($product['price']*($product['discount']*0.01)));
-            }else{
-                $total+=$product['qty']*$product['price'];
-            }
-        }
-    }
-    $subtotal = $total;
-    if($arrShipping['id']!= 3){
-        $total = $total +$arrShipping['value'];
-    }
+
 ?>
     <main id="cart">
         <div class="container">
@@ -29,7 +16,7 @@
                   <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
                 </ol>
             </nav>
-            <?php if(isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){?>
+            <?php if(isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){ $arrProducts = $_SESSION['arrCart'];?>
             <div class="row mb-5">
                 <div class="col-lg-8 mt-5">
                     <table class="table table-borderless text-center table-cart">
@@ -43,7 +30,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                        <?php 
+                            <?php 
                                 for ($i=0; $i <count($arrProducts) ; $i++) { 
                                     $discount="";
                                     $price="";
@@ -86,7 +73,20 @@
                           </tr>
                           <?php }?>
                         </tbody>
-                      </table>
+                    </table>
+                    <?php if(!isset($_SESSION['couponInfo'])){?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form id="formCoupon">
+                                <div class="input-group">
+                                    <input type="text" id="txtCoupon" name="txtCoupon" class="form-control" placeholder="Your coupon code" aria-label="Coupon code" aria-describedby="button-addon2">
+                                    <button class="btn btnc-primary" type="button" id="btnCoupon">+</button>
+                                </div>
+                                <div class="alert alert-danger mt-3 d-none" id="alertCoupon" role="alert"></div>
+                            </form>
+                        </div>
+                    </div>
+                    <?php }?>
                 </div>
                 <div class="col-lg-4 mt-5 ">
                     <h3 class="t-p">RESUME</h3>
@@ -95,6 +95,22 @@
                             <p class="m-0 fw-bold">Subtotal:</p>
                             <p class="m-0" id="subtotal"><?=formatNum($subtotal)?></p>
                         </div>
+                        <?php if(isset($_SESSION['couponInfo'])){?>
+                        
+                        <div class="mb-3">
+                            <p class="m-0 fw-bold">Coupon:</p>
+                            <div class="d-flex justify-content-between ">
+                                <p class="m-0"><?=$_SESSION['couponInfo']['code']?></p>
+                                <p class="m-0">-<?=$_SESSION['couponInfo']['discount']?>%</p>
+                            </div>
+                            <button type="button" class="btn t-p p-0" id="removeCoupon">Remove coupon</button>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <p class="m-0 fw-bold">Subtotal:</p>
+                            <p class="m-0" id="subtotalCoupon"><?=formatNum($subtotalCoupon)?></p>
+                        </div>
+                        <?php }?>
+                        
                         <p class="m-0 fw-bold">Shipping:</p>
                         <?php if($arrShipping['id']!=3){?>
                         <div class="d-flex justify-content-between mb-3">
