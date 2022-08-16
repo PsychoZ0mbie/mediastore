@@ -780,9 +780,28 @@ if(document.querySelector("#cart")){
         })
     }
     if(document.querySelector("#removeCoupon")){
-        document.querySelector("#removeCoupon").addEventListener("click",function(){
+        let btn = document.querySelector("#removeCoupon");
+        btn.addEventListener("click",function(){
             request(base_url+"/shop/delCouponCode","","get").then(function(objData){
                 window.location.reload();
+            });
+        });
+    }
+    if(document.querySelector("#checkCity")){
+        let btn = document.querySelector("#checkCity");
+        btn.addEventListener("click",function(){
+            let id = document.querySelector("#selectCity").value;
+            btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+            btn.setAttribute("disabled","");
+            request(base_url+"/shop/checkShippingCity/"+id,"","get").then(function(objData){
+                btn.innerHTML=`Checkout`;
+                btn.removeAttribute("disabled");
+                if(objData.status){
+                    window.location.href = base_url+"/shop/checkout";
+                }else{
+                    document.querySelector("#alertCity").classList.remove("d-none");
+                    document.querySelector("#alertCity").innerHTML = objData.msg;
+                }
             });
         });
     }

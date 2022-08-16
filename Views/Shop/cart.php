@@ -135,8 +135,14 @@
                         <input type="text" class="form-control" placeholder="Coupon code" aria-label="Coupon code" aria-describedby="button-addon2">
                         <button class="btn btnc-primary" type="button" id="button-addon2">+</button>
                     </div>-->
-                    <?php if(isset($_SESSION['login']) && isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){ ?>
+                    <?php if(isset($_SESSION['login']) && isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){ 
+                        if($arrShipping['id']!=3){
+                    ?>
                     <a href="<?=base_url()?>/shop/checkout" class="mb-3 w-100 btn btnc-primary">Checkout</a>
+                    <?php }else{ ?>
+                        <div class="alert alert-danger d-none" id="alertCity"></div>
+                        <button type="button" id="checkCity" class="mb-3 w-100 btn btnc-primary">Checkout</button>
+                    <?php }?>
                     <?php }else{ ?>
                     <button type="button" onclick="openLoginModal();" class="mb-3 w-100 btn btnc-primary">Checkout</button>
                     <?php }?>

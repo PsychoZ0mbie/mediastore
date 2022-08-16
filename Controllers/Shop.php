@@ -310,6 +310,17 @@
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
+        public function checkShippingCity($id){
+            $id = intval($id);
+            $request = $this->selectShippingCity($id);
+            if(!empty($request)){
+                $arrResponse = array("status"=>true);
+            }else{
+                $arrResponse = array("status"=>false,"msg"=>"Please, select a city.");
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
         public function setCouponCode(){
             if($_POST){
                 if(empty($_POST['txtCoupon'])){
