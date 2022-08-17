@@ -2,7 +2,11 @@
 
 $order = $data['order']['order'];
 $detail = $data['order']['detail'];
-$coupon = $data['order']['coupon'];
+$amountData= $data['order']['amountData'];
+$totalInfo = $amountData['totalInfo'];
+$subtotal =$totalInfo['total']['subtotalCoupon'] >0 ? $totalInfo['total']['subtotalCoupon'] : $totalInfo['total']['subtotal'];
+$subtotalCoupon = $totalInfo['total']['subtotal'];
+
  ?>
 
 <!DOCTYPE html>
@@ -112,16 +116,33 @@ $coupon = $data['order']['coupon'];
 			?>
 		  </tbody>
 		  <tfoot>
+				<?php if($totalInfo['total']['subtotalCoupon'] >0) {?>
 		  		<tr>
 		  			<th colspan="3" class="text-right">Subtotal:</th>
 		  			<td class="text-right"><?= formatNum($subtotal)?></td>
 		  		</tr>
-				<?php if(!empty($coupon)){?>
 				<tr>
 		  			<th colspan="3" class="text-right">Coupon discount:</th>
-		  			<td class="text-right"><?=$coupon['discount']?>%</td>
+		  			<td class="text-right"><?=$amountData['couponInfo']['code']." - ".$amountData['couponInfo']['discount']?>%</td>
+		  		</tr>
+				<tr>
+		  			<th colspan="3" class="text-right">Subtotal:</th>
+		  			<td class="text-right"><?= formatNum($subtotalCoupon)?></td>
+		  		</tr>
+				<?php }else{?>
+				<tr>
+		  			<th colspan="3" class="text-right">Subtotal:</th>
+		  			<td class="text-right"><?= formatNum($subtotal)?></td>
 		  		</tr>
 				<?php }?>
+				<tr>
+		  			<th colspan="3" class="text-right">Shipping - <?= $totalInfo['shipping']['name']?></th>
+					<?php if($totalInfo['shipping']['id'] == 3){?>
+		  			<td class="text-right"><?= $totalInfo['shipping']['city']['city']." - ".formatNum($totalInfo['shipping']['city']['value'])?></td>
+					<?php }else{ ?>
+						<td class="text-right"><?= formatNum($totalInfo['shipping']['value'])?></td>
+					<?php }?>
+		  		</tr>
 		  		<tr>
 		  			<th colspan="3" class="text-right">Total:</th>
 		  			<td class="text-right"><?= formatNum($order['amount'])?></td>
@@ -129,7 +150,6 @@ $coupon = $data['order']['coupon'];
 		  </tfoot>
 		</table>
 		<div class="text-center">
-			<p>We will contact you soon to organize the delivery</p>
 			<h4>Thank you for your purchase!</h4>			
 		</div>
 	</div>									

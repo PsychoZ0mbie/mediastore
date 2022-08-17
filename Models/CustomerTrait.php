@@ -21,6 +21,7 @@
         private $strPostalCode;
         private $strSubject;
         private $strMessage;
+        
 
         public function setCustomerT($strName,$strPicture,$strEmail,$strPassword,$rolid){
             $this->con = new Mysql();
@@ -105,26 +106,19 @@
             $this->intIdUser = $idUser;
             $sql = "SELECT * FROM usedcoupon WHERE personid = $this->intIdUser AND status = 1";
             $request = $this->con->select($sql);
-            $data=array();
             if(!empty($request)){
-                $id = $request['couponid'];
-                $code = $request['code'];
-                $sql = "SELECT * FROM coupon WHERE code = '$code' AND status = 1";
-                $request = $this->con->select($sql);
-                if(!empty($request)){
-                    $data['id'] = $id;
-                    $data['code'] = $code;
-                    $data['discount']=$request['discount'];
-                }
+                $request = false;
+            }else{
+                $request = true;
             }
-            return $data;
+            return $request;
         }
-        public function updateCoupon($idUser,$code){
+        public function setCoupon($idCoupon,$idUser,$code){
             $this->con = new Mysql();
             $this->intIdUser = $idUser;
-            $sql = "UPDATE usedcoupon SET status=? WHERE personid = $this->intIdUser AND code = '$code'";
-            $arrData = array(2);
-            $request = $this->con->update($sql,$arrData);
+            $sql = "INSERT INTO usedcoupon(couponid,personid,code) VALUE(?,?,?)";
+            $arrData = array($idCoupon,$this->intIdUser,$code);
+            $request = $this->con->insert($sql,$arrData);
             return;
         }
         /*public function insertDetailTemp(array $arrOrder){
@@ -164,8 +158,8 @@
                 }
             }
         }*/
-        public function insertOrder($idUser,$idTransaction,$dataPaypal,$firstname,$lastname,$email,$phone,$country,$state,$city,$address,
-        $postalCode,$note,$total,$idCoupon,$status){
+        public function insertOrder($idUser,$idTransaction,$dataPaypal,$amountData,$firstname,$lastname,$email,$phone,$country,$state,$city,$address,
+        $postalCode,$note,$total,$status){
 
             $this->con = new Mysql();
             $this->strIdTransaction = $idTransaction;
@@ -180,11 +174,12 @@
             $this->strPostalCode = $postalCode;
             $this->strAddress=$address;
 
-            $sql ="INSERT INTO orderdata(personid,idtransaction,paypaldata,firstname,lastname,email,phone,address,country,state,city,postalcode,note,amount,couponid,status) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sql ="INSERT INTO orderdata(personid,idtransaction,paypaldata,amountdata,firstname,lastname,email,phone,address,country,state,city,postalcode,note,amount,status) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $arrData = array(
                 $this->intIdUser, 
                 $this->strIdTransaction,
                 $dataPaypal,
+                $amountData,
                 $this->strFirstName,
                 $this->strLastName,
                 $this->strEmail,
@@ -196,7 +191,6 @@
                 $this->strPostalCode,
                 $note,
                 $total,
-                $idCoupon,
                 $status);
             $request = $this->con->insert($sql,$arrData);
             return $request;

@@ -3,7 +3,7 @@
     $total = $data['total']['total'];
     $subtotal = $data['total']['subtotalCoupon'] >0 ? $data['total']['subtotalCoupon'] : $data['total']['subtotal'];
     $subtotalCoupon = $data['total']['subtotal'];
-    $arrShipping = $_SESSION['arrShipping'];
+    $arrShipping = $data['arrShipping'];
 ?>
 <script src="https://www.paypal.com/sdk/js?client-id=<?=CLIENT_ID?>&currency=<?=CURRENCY?>"></script>
     <!-- Set up a container element for the button -->
@@ -48,6 +48,7 @@
         <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/shop">Shop</a></li>
+                <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/shop/cart">Shopping cart</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Checkout</li>
             </ol>
         </nav>
@@ -150,6 +151,9 @@
                             <p class="m-0"><?=$_SESSION['couponInfo']['code']?></p>
                             <p class="m-0">-<?=$_SESSION['couponInfo']['discount']?>%</p>
                         </div>
+                        <?php if(!$_SESSION['couponInfo']['status']){?>
+                            <p class="m-0 text-danger">You have used this coupon before.</p>
+                        <?php }?>
                     </div>
                     <div class="d-flex justify-content-between mb-3 position-relative af-b-line">
                         <p class="m-0 fw-bold">Subtotal</p>

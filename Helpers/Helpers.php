@@ -89,7 +89,11 @@
 
         }
         $s = new CouponSt();
-        return array("code"=>$s->getStatusCoupon()['code'],"discount"=>$s->getStatusCoupon()['discount']);
+        $arrStatus = array();
+        if(!empty($s->getStatusCoupon())){
+            $arrStatus = array("code"=>$s->getStatusCoupon()['code'],"discount"=>$s->getStatusCoupon()['discount']);
+        }
+        return $arrStatus;
     }
     //Producción
     /*function sendEmail($data,$template){
