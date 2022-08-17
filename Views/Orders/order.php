@@ -6,7 +6,6 @@ $amountData = json_decode($order['amountdata'],true);
 $totalInfo = $amountData['totalInfo'];
 $subtotal =$totalInfo['total']['subtotalCoupon'] >0 ? $totalInfo['total']['subtotalCoupon'] : $totalInfo['total']['subtotal'];
 $subtotalCoupon = $totalInfo['total']['subtotal'];
-dep($amountData);
 $total=0;
 ?>
 
