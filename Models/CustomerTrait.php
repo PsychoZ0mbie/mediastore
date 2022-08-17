@@ -101,10 +101,10 @@
             $request = $this->con->select($sql);
             return $request;
         }
-        public function checkCoupon($idUser){
+        public function checkCoupon($idUser,$idCoupon){
             $this->con = new Mysql();
             $this->intIdUser = $idUser;
-            $sql = "SELECT * FROM usedcoupon WHERE personid = $this->intIdUser AND status = 1";
+            $sql = "SELECT * FROM usedcoupon WHERE personid = $this->intIdUser AND couponid = $idCoupon";
             $request = $this->con->select($sql);
             if(!empty($request)){
                 $request = false;

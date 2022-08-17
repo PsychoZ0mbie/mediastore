@@ -136,9 +136,9 @@ $subtotalCoupon = $totalInfo['total']['subtotal'];
 		  		</tr>
 				<?php }?>
 				<tr>
-		  			<th colspan="3" class="text-right">Shipping - <?= $totalInfo['shipping']['name']?></th>
+		  			<th colspan="3" class="text-right">Shipping</th>
 					<?php if($totalInfo['shipping']['id'] == 3){?>
-		  			<td class="text-right"><?= $totalInfo['shipping']['city']['city']." - ".formatNum($totalInfo['shipping']['city']['value'])?></td>
+		  			<td class="text-right"><?=formatNum($totalInfo['shipping']['city']['value'])?></td>
 					<?php }else{ ?>
 						<td class="text-right"><?= formatNum($totalInfo['shipping']['value'])?></td>
 					<?php }?>

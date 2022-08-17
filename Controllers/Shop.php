@@ -95,7 +95,7 @@
                     }
                 }
                 if(isset($_SESSION['couponInfo'])){
-                    if(!$this->checkCoupon($_SESSION['idUser'])){
+                    if(!$this->checkCoupon($_SESSION['idUser'],$_SESSION['couponInfo']['id'])){
                         $_SESSION['couponInfo']['status'] = false;
                     }
                 }
