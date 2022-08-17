@@ -4,6 +4,7 @@
     $categories = $data['categories'];
     $recPosts = $data['recPosts'];
     $relPosts = $data['relPosts'];
+    $urlShare = base_url()."/blog/article/".$article['route'];
     //$comments=$data['comments'];
     //dep($data['comments']);exit;
 ?>
@@ -146,10 +147,10 @@
                     <div class="d-flex justify-content-between position-relative af-t-line mt-4 mb-4" id="sharePost">
                         <div class="mt-2"><i class="fas fa-share"></i> Share this post</div>
                         <div class="mt-2">
-                            <a href="#" title="Share on facebook" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" title="Share on linkedin" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" title="Share on twitter" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-twitter"></i></i></a>
-                            <a href="#" title="Share on telegram" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-telegram-plane"></i></i></a>
+                            <a href="#" onclick="window.open('http://www.facebook.com/sharer.php?u=<?=$urlShare?>&t=<?=$article['name'];?>','share','toolbar=0,status=0,width=650,height=450')" title="Share on facebook" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" onclick="window.open('https://twitter.com/intent/tweet?text=<?=$article['name'];?>&url=<?=$urlShare?>&hashtags=<?=SHAREDHASH?>','share','toolbar=0,status=0,width=650,height=450')" title="Share on linkedin" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-twitter"></i></a>
+                            <a href="#" onclick="window.open('http://www.linkedin.com/shareArticle?url=<?=$urlShare?>','share','toolbar=0,status=0,width=650,height=450')" title="Share on twitter" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" onclick="window.open('https://api.whatsapp.com/send?text=<?=$urlShare?>','share','toolbar=0,status=0,width=650,height=450')" title="Share on whatsapp" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-whatsapp"></i></a>
                         </div>
                     </div>
                     <ul class="comment-list mt-3">
