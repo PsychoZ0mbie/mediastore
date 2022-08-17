@@ -30,7 +30,6 @@
                     }
                     $data['orderdata'] = $this->model->selectOrder($idOrder,$idPerson);
                     $data['orderdetail'] = $this->model->selectOrderDetail($idOrder);
-                    $data['coupon'] = $this->model->selectCoupon($data['orderdata']['couponid']);
                     $data['page_tag'] = "Order";
                     $data['page_title'] = "Order";
                     $data['page_name'] = "order";

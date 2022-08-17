@@ -2,7 +2,11 @@
 headerAdmin($data);
 $order = $data['orderdata'];
 $detail = $data['orderdetail'];
-$coupon = $data['coupon'];
+$amountData = json_decode($order['amountdata'],true);
+$totalInfo = $amountData['totalInfo'];
+$subtotal =$totalInfo['total']['subtotalCoupon'] >0 ? $totalInfo['total']['subtotalCoupon'] : $totalInfo['total']['subtotal'];
+$subtotalCoupon = $totalInfo['total']['subtotal'];
+dep($amountData);
 $total=0;
 ?>
 
@@ -61,19 +65,36 @@ $total=0;
                             <?php }?>
                         </tbody>
                         <tfoot >
+                        <?php if($totalInfo['total']['subtotalCoupon'] >0) {?>
                             <tr>
                                 <th colspan="3" class="text-end">Subtotal:</th>
-                                <td class="text-center"><?= formatNum($total)?></td>
+                                <td class="text-right"><?= formatNum($subtotal)?></td>
                             </tr>
-                            <?php if(!empty($coupon)){?>
                             <tr>
                                 <th colspan="3" class="text-end">Coupon discount:</th>
-                                <td class="text-center"><?=$coupon['discount']?>%</td>
+                                <td class="text-right"><?=$amountData['couponInfo']['code']." - ".$amountData['couponInfo']['discount']?>%</td>
+                            </tr>
+                            <tr>
+                                <th colspan="3" class="text-end">Subtotal:</th>
+                                <td class="text-right"><?= formatNum($subtotalCoupon)?></td>
+                            </tr>
+                            <?php }else{?>
+                            <tr>
+                                <th colspan="3" class="text-end">Subtotal:</th>
+                                <td class="text-right"><?= formatNum($subtotal)?></td>
                             </tr>
                             <?php }?>
                             <tr>
+                                <th colspan="3" class="text-end">Shipping:</th>
+                                <?php if($totalInfo['shipping']['id'] == 3){?>
+                                <td class="text-right"><?=formatNum($totalInfo['shipping']['city']['value'])?></td>
+                                <?php }else{ ?>
+                                    <td class="text-right"><?= formatNum($totalInfo['shipping']['value'])?></td>
+                                <?php }?>
+                            </tr>
+                            <tr>
                                 <th colspan="3" class="text-end">Total:</th>
-                                <td class="text-center"><?= formatNum($order['amount'])?></td>
+                                <td class="text-right"><?= formatNum($order['amount'])?></td>
                             </tr>
                         </tfoot>
                     </table>
