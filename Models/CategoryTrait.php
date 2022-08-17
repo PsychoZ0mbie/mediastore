@@ -10,7 +10,7 @@
             if(count($request)>0){
                 for ($i=0; $i < count($request) ; $i++) { 
                     $idCategory = $request[$i]['idcategory'];
-                    $sqlSub = "SELECT * FROM subcategory WHERE status = 1 AND categoryid = $idCategory";
+                    $sqlSub = "SELECT * FROM subcategory WHERE categoryid = $idCategory";
                     $requestSub = $this->con->select_all($sqlSub);
                     for ($j=0; $j < count($requestSub) ; $j++) { 
                         $idSubcategory = $requestSub[$j]['idsubcategory'];
@@ -25,7 +25,7 @@
         }
         public function getCategoriesShowT(string $categories){
             $this->con=new Mysql();
-            $sql = "SELECT idcategory,picture,name,status,route FROM category WHERE status = 1 AND idcategory IN ($categories)";       
+            $sql = "SELECT idcategory,picture,name,status,route FROM category WHERE idcategory IN ($categories)";       
             $request = $this->con->select_all($sql);
             return $request;
         }
@@ -35,7 +35,7 @@
                 $q=" LIMIT $qty";
             }
             $this->con=new Mysql();
-            $sql = "SELECT idcategory,picture,name,status,route FROM category WHERE status = 1 AND idcategory ORDER BY idcategory DESC LIMIT $qty";       
+            $sql = "SELECT idcategory,picture,name,status,route FROM category WHERE idcategory ORDER BY idcategory DESC LIMIT $qty";       
             $request = $this->con->select_all($sql);
             return $request;
         }
