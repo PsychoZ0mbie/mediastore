@@ -10,7 +10,7 @@ let btnCloseSearch = document.querySelector("#btnCloseSearch");
 let inputSearch = document.querySelector("#txtSearch");
 
 document.addEventListener("readystatechange",function(){
-    if(document.readyState =="complete")loading.style.display="none";
+    if(document.readyState =="complete")loading.classList.add("d-none");
 });
 btnCloseSearch.addEventListener("click",function(){
     document.querySelector(".nav-search").classList.remove("nav-search-open");

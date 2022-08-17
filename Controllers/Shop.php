@@ -733,17 +733,21 @@
                             $note = $arrInfo['note'];
                             $total = $arrTotal['total'];
 
-                            $amountData['couponInfo'] = $_SESSION['couponInfo'];
+                            if(isset($_SESSION['couponInfo'])){
+                                $amountData['couponInfo'] = $_SESSION['couponInfo'];
+                                if($amountData['couponInfo']['status'] == true){
+                                    $this->setCoupon($amountData['couponInfo']['id'],$idUser,$amountData['couponInfo']['code']);
+                                }
+                                unset($_SESSION['couponInfo']);
+                            }
                             $amountData['totalInfo'] = array("total"=>$arrTotal,"shipping"=>$_SESSION['arrShipping']);
                             $objAmount = json_encode($amountData,true);
 
-                            unset($_SESSION['couponInfo']);
-                            //unset($_SESSION['arrShipping']);
+                            
+                            unset($_SESSION['arrShipping']);
                             //dep($objAmount);exit;
     
-                            if($amountData['couponInfo']['status'] == true){
-                                $this->setCoupon($amountData['couponInfo']['id'],$idUser,$amountData['couponInfo']['code']);
-                            }
+                            
 
                             $requestOrder = $this->insertOrder($idUser,$idTransaction,$dataPaypal,$objAmount,$firstname,$lastname,$email,$phone,$country,$state,$city,$address,
                             $postalCode,$note,$total,$status);

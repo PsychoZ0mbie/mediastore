@@ -26,8 +26,8 @@
             formData.append("data",JSON.stringify(orderData, null, 2));
             loading.classList.remove("d-none");
             request(base_url+"/shop/setOrder",formData,"post").then(function(objData){
-                loading.classList.add("d-none");
                 if(objData.status){
+                    loading.classList.add("d-none");
                     window.location.href=base_url+"/shop/confirm";
                 }
             });
