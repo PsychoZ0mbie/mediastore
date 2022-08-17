@@ -79,7 +79,15 @@
                 $data['page_tag'] = NOMBRE_EMPRESA;
                 $data['page_title'] ="Checkout | ".NOMBRE_EMPRESA;
                 $data['page_name'] = "checkout";
-                
+                if($_SESSION['arrShipping']['id'] == 3 && empty($_SESSION['arrShipping']['city'])){
+                    header("location: ".base_url()."/shop/cart");
+                    die(); 
+                }
+                if(!empty($_SESSION['arrShipping']['city'])){
+                    $data['total'] = $this->calculateTotal($_SESSION['arrCart'],$_SESSION['arrShipping'],$_SESSION['arrShipping']['city']['id']);
+                }else{
+                    $data['total'] = $this->calculateTotal($_SESSION['arrCart'],$_SESSION['arrShipping']);
+                }
                 $this->views->getView($this,"checkout",$data); 
             }else{
                 header("location: ".base_url());

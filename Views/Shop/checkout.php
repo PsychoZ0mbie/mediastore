@@ -1,22 +1,9 @@
 <?php
     headerPage($data);
-    $total = 0;
-    $subtotal = 0;
-    $arrProducts = array();
-    
-    if(isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){
-        $arrProducts = $_SESSION['arrCart'];
-        foreach ($arrProducts as $product) {
-            if($product['discount']>0){
-                $total += $product['qty']*($product['price']-($product['price']*($product['discount']*0.01)));
-                $subtotal += $product['qty']*($product['price']-($product['price']*($product['discount']*0.01)));
-            }else{
-                $total+=$product['qty']*$product['price'];
-                $subtotal+=$product['qty']*$product['price'];
-            }
-        }
-    }
-    
+    $total = $data['total']['total'];
+    $subtotal = $data['total']['subtotalCoupon'] >0 ? $data['total']['subtotalCoupon'] : $data['total']['subtotal'];
+    $subtotalCoupon = $data['total']['subtotal'];
+    $arrShipping = $_SESSION['arrShipping'];
 ?>
 <script src="https://www.paypal.com/sdk/js?client-id=<?=CLIENT_ID?>&currency=<?=CURRENCY?>"></script>
     <!-- Set up a container element for the button -->
@@ -137,6 +124,7 @@
                 <div class="p-4 mb-4">
                     <h2>Resume</h2>
                     <?php 
+                        $arrProducts = $_SESSION['arrCart'];
                         for ($i=0; $i < count($arrProducts) ; $i++) { 
                             $price=0;
                             if($arrProducts[$i]['discount']>0){
@@ -151,11 +139,40 @@
                         <p><?=formatNum($price)?></p>
                     </div>
                     <?php }?>
+                    <?php if(isset($_SESSION['couponInfo'])){?>
+                    <div class="d-flex justify-content-between mb-3">
+                        <p class="m-0 fw-bold">Subtotal:</p>
+                        <p class="m-0" id="subtotalCoupon"><?=formatNum($subtotal)?></p>
+                    </div>
+                    <div class="mb-3">
+                        <p class="m-0 fw-bold">Coupon:</p>
+                        <div class="d-flex justify-content-between ">
+                            <p class="m-0"><?=$_SESSION['couponInfo']['code']?></p>
+                            <p class="m-0">-<?=$_SESSION['couponInfo']['discount']?>%</p>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3 position-relative af-b-line">
+                        <p class="m-0 fw-bold">Subtotal</p>
+                        <p class="m-0"><?=formatNum($subtotalCoupon)?></p>
+                    </div>
+                    <?php }else{?>
                     <div class="d-flex justify-content-between mb-3 position-relative af-b-line">
                         <p class="m-0 fw-bold">Subtotal</p>
                         <p class="m-0"><?=formatNum($subtotal)?></p>
                     </div>
-                    
+                    <?php }?>
+                    <p class="m-0 fw-bold">Shipping:</p>
+                    <?php if($arrShipping['id']!=3){?>
+                    <div class="d-flex justify-content-between mb-3">
+                        <p class="m-0"><?=$arrShipping['name']?></p>
+                        <p class="m-0"><?=formatNum($arrShipping['value'])?></p>
+                    </div>
+                    <?php }else{?>
+                    <div class="d-flex justify-content-between mb-3">
+                        <p class="m-0"><?=$arrShipping['name']." - ".$arrShipping['city']['city']?></p>
+                        <p class="m-0"><?=formatNum($arrShipping['city']['value'])?></p>
+                    </div>
+                    <?php }?>
                     <div class="d-flex justify-content-between mb-3 position-relative af-b-line">
                         <p class="m-0 fw-bold fs-5">Total</p>
                         <p class="m-0 fw-bold fs-5" id="totalResume"><?=formatNum($total)?></p>
