@@ -411,37 +411,39 @@
             AND p.route = '$route'";
 
             $request = $this->con->select($sql);
-            $request['priceDiscount'] =  $request['price']-($request['price']*($request['discount']*0.01));
-            $request['price'] = $request['price'];
-            $request['favorite'] = 0;
-            $idProduct =$request['idproduct'];
-
-            if(isset($_SESSION['login'])){
-                $idUser = $_SESSION['idUser'];
-                $sqlFavorite = "SELECT * FROM wishlist WHERE productid = $idProduct AND personid = $idUser";
-                $requestFavorite = $this->con->select($sqlFavorite);
-                if(!empty($requestFavorite)){
-                    $request['favorite'] = $requestFavorite['status'];
+            if(!empty($request)){
+                $request['priceDiscount'] =  $request['price']-($request['price']*($request['discount']*0.01));
+                $request['price'] = $request['price'];
+                $request['favorite'] = 0;
+                $idProduct =$request['idproduct'];
+    
+                if(isset($_SESSION['login'])){
+                    $idUser = $_SESSION['idUser'];
+                    $sqlFavorite = "SELECT * FROM wishlist WHERE productid = $idProduct AND personid = $idUser";
+                    $requestFavorite = $this->con->select($sqlFavorite);
+                    if(!empty($requestFavorite)){
+                        $request['favorite'] = $requestFavorite['status'];
+                    }
                 }
-            }
-
-            $sqlRate = "SELECT AVG(rate) as rate, COUNT(rate) as total FROM productrate WHERE productid = $idProduct HAVING rate IS NOT NULL";
-            $requestRate =  $this->con->select($sqlRate);
-            //dep($requestRate);exit;
-            if(!empty($requestRate)){
-                $request['rate'] = number_format($requestRate['rate'],1);
-                $request['reviews'] = $requestRate['total'];
-            }else{
-                $request['rate'] = number_format(0,1);
-                $request['reviews'] = 0;
-            }
-            
-            $sqlImg = "SELECT * FROM productimage WHERE productid = $idProduct";
-            $requestImg = $this->con->select_all($sqlImg);
-
-            if(count($requestImg)){
-                for ($i=0; $i < count($requestImg); $i++) { 
-                    $request['image'][$i] = array("url"=>media()."/images/uploads/".$requestImg[$i]['name'],"name"=>$requestImg[$i]['name']);
+    
+                $sqlRate = "SELECT AVG(rate) as rate, COUNT(rate) as total FROM productrate WHERE productid = $idProduct HAVING rate IS NOT NULL";
+                $requestRate =  $this->con->select($sqlRate);
+                //dep($requestRate);exit;
+                if(!empty($requestRate)){
+                    $request['rate'] = number_format($requestRate['rate'],1);
+                    $request['reviews'] = $requestRate['total'];
+                }else{
+                    $request['rate'] = number_format(0,1);
+                    $request['reviews'] = 0;
+                }
+                
+                $sqlImg = "SELECT * FROM productimage WHERE productid = $idProduct";
+                $requestImg = $this->con->select_all($sqlImg);
+    
+                if(count($requestImg)){
+                    for ($i=0; $i < count($requestImg); $i++) { 
+                        $request['image'][$i] = array("url"=>media()."/images/uploads/".$requestImg[$i]['name'],"name"=>$requestImg[$i]['name']);
+                    }
                 }
             }
             return $request;

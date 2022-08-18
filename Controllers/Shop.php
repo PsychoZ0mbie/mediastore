@@ -48,15 +48,26 @@
             $this->views->getView($this,"category",$data);
         }
         public function product($params){
-            $params = strClean($params);
-            $data['page_tag'] = NOMBRE_EMPRESA;
-            $data['page_name'] = "product";
-            $data['product'] = $this->getProductPageT($params);
-            $data['review'] = $this->getRate($data['product']['idproduct']);
-            $data['reviews'] = $this->getReviews($data['product']['idproduct']);
-            $data['products'] = $this->getProductsRandT(4);
-            $data['page_title'] =$data['product']['name']." | ".NOMBRE_EMPRESA;
-            $this->views->getView($this,"product",$data); 
+            if($params!= ""){
+                $params = strClean($params);
+                $data['product'] = $this->getProductPageT($params);
+                if(!empty($data['product'])){
+                    $data['page_tag'] = NOMBRE_EMPRESA;
+                    $data['page_name'] = "product";
+                    $data['review'] = $this->getRate($data['product']['idproduct']);
+                    $data['reviews'] = $this->getReviews($data['product']['idproduct']);
+                    $data['products'] = $this->getProductsRandT(4);
+                    $data['page_title'] =$data['product']['name']." | ".NOMBRE_EMPRESA;
+                    $this->views->getView($this,"product",$data); 
+                }else{
+                    header("location: ".base_url()."/error");
+                    die();
+                }
+               
+            }else{
+                header("location: ".base_url()."/error");
+                die();
+            }
         }
         public function cart(){
             $data['page_tag'] = NOMBRE_EMPRESA;
@@ -408,7 +419,6 @@
             }
             die();
         }
-        
         /******************************Customer methods************************************/
         public function validCustomer(){
             if($_POST){

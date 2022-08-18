@@ -46,17 +46,27 @@
             $this->views->getView($this,"category",$data);
         }
         public function article($params){
-            $params = strClean($params);
-            $data['page_tag'] = NOMBRE_EMPRESA;
-            $data['page_name'] = "article";
-            $data['article'] = $this->getArticlePageT($params);
-            $data['relPosts'] = $this->getRelatedPostsT(3,$data['article']['categoryid']);
-            $data['recPosts'] = $this->getRecentPostsT(9);
-            $data['categories'] = $this->getBlogCategoriesT();
-            $data['comments'] = $this->getComments($data['article']['idarticle']);
-            //$data['articles'] = $this->getProductsRandT(4);
-            $data['page_title'] =$data['article']['name']." | ".NOMBRE_EMPRESA;
-            $this->views->getView($this,"article",$data); 
+            if($params!=""){
+                $params = strClean($params);
+                $data['article'] = $this->getArticlePageT($params);
+                if(!empty($data['article'])){
+                    $data['page_tag'] = NOMBRE_EMPRESA;
+                    $data['page_name'] = "article";
+                    $data['relPosts'] = $this->getRelatedPostsT(3,$data['article']['categoryid']);
+                    $data['recPosts'] = $this->getRecentPostsT(9);
+                    $data['categories'] = $this->getBlogCategoriesT();
+                    $data['comments'] = $this->getComments($data['article']['idarticle']);
+                    //$data['articles'] = $this->getProductsRandT(4);
+                    $data['page_title'] =$data['article']['name']." | ".NOMBRE_EMPRESA;
+                    $this->views->getView($this,"article",$data);
+                }else{
+                    header("location: ".base_url()."/error");
+                    die();
+                }
+            }else{
+                header("location: ".base_url()."/error");
+                die();
+            }
         }
         public function setComment(){
             //dep($_POST);exit;
