@@ -15,6 +15,7 @@
                 $data['page_tag'] = "User";
                 $data['page_title'] = "Users";
                 $data['page_name'] = "user";
+                $data['app'] = "user.js";
                 $this->views->getView($this,"user",$data);
             }else{
                 header("location: ".base_url());
@@ -366,6 +367,7 @@
             $data['page_tag'] = "Profile";
             $data['page_title'] = "Profile";
             $data['page_name'] = "profile";
+            $data['app'] = "profile.js";
             $this->views->getView($this,"profile",$data);
         }
         public function updateProfile(){

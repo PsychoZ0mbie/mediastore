@@ -15,6 +15,7 @@
                 $data['page_tag'] = "Orders";
                 $data['page_title'] = "Orders";
                 $data['page_name'] = "orders";
+                $data['app'] = "orders.js";
                 $this->views->getView($this,"orders",$data);
             }else{
                 header("location: ".base_url());
@@ -53,6 +54,7 @@
                 $data['page_tag'] = "Transaction";
                 $data['page_title'] = "Transaction";
                 $data['page_name'] = "transaction";
+                $data['app'] = "orders.js";
                 $this->views->getView($this,"transaction",$data);
                 
             }else{

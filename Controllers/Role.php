@@ -14,6 +14,7 @@
                 $data['page_tag'] = "Role";
                 $data['page_title'] = "Roles";
                 $data['page_name'] = "role";
+                $data['app'] = "role.js";
                 $this->views->getView($this,"role",$data);
             }else{
                 header("location: ".base_url());

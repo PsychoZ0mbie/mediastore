@@ -33,7 +33,7 @@
         </script>
         
         <script type="text/javascript" src="<?= media(); ?>/js/functions.js"></script>
-        <script type="module" src="<?= media(); ?>/js/app.js"></script>
+        <script src="<?= media(); ?>/js/<?=$data['app']?>"></script>
     </body>
 </html>
     

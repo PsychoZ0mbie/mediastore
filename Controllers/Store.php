@@ -16,6 +16,7 @@
                 $data['page_tag'] = "Coupons";
                 $data['page_title'] = "Coupons";
                 $data['page_name'] = "coupon";
+                $data['app'] = "coupon.js";
                 $this->views->getView($this,"coupon",$data);
             }else{
                 header("location: ".base_url());
@@ -29,6 +30,7 @@
                 $data['page_tag'] = "Mailbox";
                 $data['page_title'] = "Mailbox";
                 $data['page_name'] = "mailbox";
+                $data['app'] = "mailbox.js";
                 $this->views->getView($this,"mailbox",$data);
             }else{
                 header("location: ".base_url());
@@ -44,6 +46,7 @@
                     $data['page_tag'] = "Message";
                     $data['page_title'] = "Message";
                     $data['page_name'] = "message";
+                    $data['app'] = "mailbox.js";
                     $this->views->getView($this,"message",$data);
                 }else{
                     header("location: ".base_url()."/store/mailbox");
@@ -92,6 +95,7 @@
                 $data['countries'] = $this->model->selectCountries();
                 $data['ShippingCities'] = $this->getShippingCities();
                 $data['flat'] = $this->model->selectFlatRate();
+                $data['app'] = "shipping.js";
                 $this->views->getView($this,"shipping",$data);
             }else{
                 header("location: ".base_url());
@@ -104,6 +108,7 @@
                 $data['page_title'] = "About us";
                 $data['page_name'] = "page";
                 $data['page'] = $this->model->selectPage(1);
+                $data['app'] = "pages.js";
                 $this->views->getView($this,"about",$data);
             }else{
                 header("location: ".base_url());
@@ -116,6 +121,7 @@
                 $data['page_title'] = "Policies";
                 $data['page_name'] = "page";
                 $data['page'] = $this->model->selectPage(2);
+                $data['app'] = "pages.js";
                 $this->views->getView($this,"policies",$data);
             }else{
                 header("location: ".base_url());

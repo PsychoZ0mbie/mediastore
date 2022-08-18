@@ -16,6 +16,7 @@
                 $data['page_tag'] = "Product";
                 $data['page_title'] = "Products";
                 $data['page_name'] = "product";
+                $data['app'] = "product.js";
                 $this->views->getView($this,"product",$data);
             }else{
                 header("location: ".base_url());
@@ -213,7 +214,7 @@
             die();
         }
         public function getSelectCategories(){
-            $html="";
+            $html='<option value="0" selected>Select</option>';
             $request = $this->model->selectCategories();
             if(count($request)>0){
                 for ($i=0; $i < count($request); $i++) { 
@@ -229,7 +230,7 @@
         public function getSelectSubcategories(){
             if($_POST){
                 $idCategory = intval(strClean($_POST['idCategory']));
-                $html="";
+                $html='<option value="0" selected>Select</option>';
                 $request = $this->model->selectSubcategories($idCategory);
                 if(count($request)>0){
                     for ($i=0; $i < count($request); $i++) { 

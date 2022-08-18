@@ -1,5 +1,43 @@
-export default class Orders{
-    showItems(element){
+'use strict';
+
+if(document.querySelector("#orders")){
+    let search = document.querySelector("#search");
+    let sort = document.querySelector("#sortBy");
+    let element = document.querySelector("#listItem");
+
+    search.addEventListener('input',function() {
+        request(base_url+"/orders/search/"+search.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+
+    sort.addEventListener("change",function(){
+        request(base_url+"/orders/sort/"+sort.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+
+    window.addEventListener("DOMContentLoaded",function() {
+        showItems(element);
+    })
+
+    element.addEventListener("click",function(e) {
+        let element = e.target;
+        let id = element.getAttribute("data-id");
+        if(element.name == "btnDelete"){
+            deleteItem(id);
+        }
+    });
+
+    function showItems(element){
         let url = base_url+"/Orders/getOrders";
         request(url,"","get").then(function(objData){
             if(objData.status){
@@ -9,17 +47,48 @@ export default class Orders{
             }
         })
     }
-    refund(id){
+    function deleteItem(id){
+        Swal.fire({
+            title:"Are you sure to delete it?",
+            text:"It will delete for ever...",
+            icon: 'warning',
+            showCancelButton:true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText:"Yes, delete",
+            cancelButtonText:"No, cancel"
+        }).then(function(result){
+            if(result.isConfirmed){
+                let url = base_url+"/Orders/delOrder"
+                let formData = new FormData();
+                formData.append("idOrder",id);
+                request(url,formData,"post").then(function(objData){
+                    if(objData.status){
+                        Swal.fire("Deleted",objData.msg,"success");
+                        showItems(element);
+                    }else{
+                        Swal.fire("Error",objData.msg,"error");
+                    }
+                });
+            }
+        });
+    }
+
+}
+if(document.querySelector("#btnRefund")){
+    let btn = document.querySelector("#btnRefund");
+    btn.addEventListener("click",function(){
+        refund(btn.getAttribute("data-id"));
+    });
+    function refund(id){
         let btn = document.querySelector("#btnRefund");
-        btn.innerHTML=`
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Wait...
-        `;
+        btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Wait...`;
         btn.setAttribute("disabled","");
+    
         request(base_url+"/Orders/getTransaction/"+id,"","get").then(function(objData){
             btn.removeAttribute("disabled");
             btn.innerHTML=`<i class="fas fa-undo"></i> Refund`;
-
+    
             if(objData.status){
                 
                 let transaction = objData.data;
@@ -28,7 +97,6 @@ export default class Orders{
                 let grossAmount = transaction.purchase_units[0].payments.captures[0].seller_receivable_breakdown.gross_amount.value;
                 let feeAmount = transaction.purchase_units[0].payments.captures[0].seller_receivable_breakdown.paypal_fee.value;
                 let netAmount = transaction.purchase_units[0].payments.captures[0].seller_receivable_breakdown.net_amount.value;
-                console.log(transaction);
                 let modalItem = document.querySelector("#modalItem");
                 let modal= `
                 <div class="modal fade" id="modalElement">
@@ -79,11 +147,11 @@ export default class Orders{
                     </div>
                 </div>
                 `;
-
+    
                 modalItem.innerHTML = modal;
                 let modalView = new bootstrap.Modal(document.querySelector("#modalElement"));
                 modalView.show();
-
+    
                 let form = document.querySelector("#formItem");
                 form.addEventListener("submit",function(e){
                     e.preventDefault();
@@ -96,10 +164,7 @@ export default class Orders{
                         Swal.fire("Error","Please fill the fields ","error");
                         return false;
                     }
-                    btnRefundConfirm.innerHTML=`
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        Wait...
-                    `;
+                    btnRefundConfirm.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Wait...`;
                     btnRefundConfirm.setAttribute("disabled","");
                     Swal.fire({
                         title:"Are you sure to refund it?",
@@ -133,38 +198,12 @@ export default class Orders{
             }
         });
     }
-    deleteItem(id){
-        Swal.fire({
-            title:"Are you sure to delete it?",
-            text:"It will delete for ever...",
-            icon: 'warning',
-            showCancelButton:true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText:"Yes, delete",
-            cancelButtonText:"No, cancel"
-        }).then(function(result){
-            if(result.isConfirmed){
-                let url = base_url+"/Orders/delOrder"
-                let formData = new FormData();
-                let element = document.querySelector("#listItem");
-                formData.append("idOrder",id);
-                request(url,formData,"post").then(function(objData){
-                    if(objData.status){
-                        Swal.fire("Deleted",objData.msg,"success");
-                        let url = base_url+"/Orders/getOrders";
-                        request(url,"","get").then(function(objData){
-                            if(objData.status){
-                                element.innerHTML = objData.data;
-                            }else{
-                                element.innerHTML = objData.msg;
-                            }
-                        })
-                    }else{
-                        Swal.fire("Error",objData.msg,"error");
-                    }
-                });
-            }
-        });
-    }
 }
+if(document.querySelector("#btnPrint")){
+    let btn = document.querySelector("#btnPrint");
+    btn.addEventListener("click",function(){
+        if(document.querySelector("#btnRefund"))document.querySelector("#btnRefund").classList.add("d-none");
+        printDiv(document.querySelector("#orderInfo"));
+    });
+}
+

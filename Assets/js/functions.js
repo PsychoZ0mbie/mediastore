@@ -29,15 +29,6 @@ function exportToExcel(id){
     var wb = XLSX.utils.table_to_book(document.getElementById(id));
     XLSX.writeFile(wb, id+".xlsx");
 }
-function deleteCityShipp(id){
-    request(base_url+"/store/delShippingCity/"+id,"","get").then(function(objData){
-        if(objData.status){
-            document.querySelector("#listItem").innerHTML = objData.html;
-        }else{
-            Swal.fire("Error",objData.msg,"error");
-        }
-    });
-}
 function setTinymce(selectorId,height=null){
     tinymce.remove();
     document.addEventListener('focusin', (e) => {
@@ -90,7 +81,6 @@ function uploadMultipleImg(img,parent){
     }
     document.querySelector("#formFile").reset();
 }
-
 function formatNum(num,mil){
     let numero = num;
     let format = mil;
@@ -160,7 +150,6 @@ function fntEmailValidate(email){
         return true;
     }
 }
-
 function fntValidText(){
 	let validText = document.querySelectorAll(".validText");
     validText.forEach(function(validText) {
@@ -174,7 +163,6 @@ function fntValidText(){
 		});
 	});
 }
-
 function fntValidNumber(){
 	let validNumber = document.querySelectorAll(".validNumber");
     validNumber.forEach(function(validNumber) {
@@ -188,7 +176,6 @@ function fntValidNumber(){
 		});
 	});
 }
-
 function fntValidEmail(){
 	let validEmail = document.querySelectorAll(".validEmail");
     validEmail.forEach(function(validEmail) {
@@ -202,7 +189,12 @@ function fntValidEmail(){
 		});
 	});
 }
-
+if(document.querySelector("#exportExcel")){
+    document.querySelector("#exportExcel").addEventListener("click",function(){
+        let id = document.querySelector("#exportExcel").getAttribute('data-name');
+        exportToExcel(id);
+    })
+}
 window.addEventListener('load', function() {
 	fntValidText();
 	fntValidEmail(); 

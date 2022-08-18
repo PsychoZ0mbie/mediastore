@@ -16,6 +16,7 @@
                 $data['page_tag'] = "Articles";
                 $data['page_title'] = "Articles";
                 $data['page_name'] = "articles";
+                $data['app'] = "blog.js";
                 $this->views->getView($this,"articles",$data);
             }else{
                 header("location: ".base_url());
@@ -27,6 +28,7 @@
                 $data['page_tag'] = "Category";
                 $data['page_title'] = "Blog Categories";
                 $data['page_name'] = "blogcategory";
+                $data['app'] = "blogcategory.js";
                 $this->views->getView($this,"category",$data);
             }else{
                 header("location: ".base_url());
@@ -38,6 +40,7 @@
                 $data['page_tag'] = "Subcategory";
                 $data['page_title'] = "Blog Subcategories";
                 $data['page_name'] = "blogsubcategory";
+                $data['app'] = "blogsubcategory.js";
                 $this->views->getView($this,"subcategory",$data);
             }else{
                 header("location: ".base_url());
@@ -221,7 +224,7 @@
         public function getSelectSubcategories(){
             if($_POST){
                 $idCategory = intval(strClean($_POST['idCategory']));
-                $html="";
+                $html='<option value="0" selected>Select</option>';
                 $request = $this->model->selectSubcategories($idCategory);
                 if(count($request)>0){
                     for ($i=0; $i < count($request); $i++) { 
@@ -684,7 +687,7 @@
             die();
         }
         public function getSelectCategories(){
-            $html="";
+            $html='<option value="0" selected>Select</option>';
             $request = $this->model->selectCategories();
             if(count($request)>0){
                 for ($i=0; $i < count($request); $i++) { 

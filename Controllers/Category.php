@@ -16,6 +16,7 @@
                 $data['page_tag'] = "Category";
                 $data['page_title'] = "Categories";
                 $data['page_name'] = "category";
+                $data['app'] = "category.js";
                 $this->views->getView($this,"category",$data);
             }else{
                 header("location: ".base_url());
@@ -27,6 +28,7 @@
                 $data['page_tag'] = "Subcategory";
                 $data['page_title'] = "Subcategories";
                 $data['page_name'] = "subcategory";
+                $data['app'] = "subcategory.js";
                 $this->views->getView($this,"subcategory",$data);
             }else{
                 header("location: ".base_url());

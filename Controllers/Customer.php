@@ -15,6 +15,7 @@
                 $data['page_tag'] = "Customer";
                 $data['page_title'] = "Customers";
                 $data['page_name'] = "customer";
+                $data['app'] = "customer.js";
                 $this->views->getView($this,"customer",$data);
             }else{
                 header("location: ".base_url());

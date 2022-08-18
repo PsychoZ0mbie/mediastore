@@ -23,7 +23,7 @@
                 $data['page_tag'] = "Dashboard";
                 $data['page_title'] = "Dashboard";
                 $data['page_name'] = "dashboard";
-
+                $data['app'] = "dashboard.js";
                 $year = date('Y');
                 $month = date('m');
                 $data['salesMonth'] = $this->model->getSalesMonth($year,$month);
