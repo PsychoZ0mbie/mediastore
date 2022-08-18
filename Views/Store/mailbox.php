@@ -43,9 +43,11 @@
                                 <label for="txtMessage" class="form-label">Message: <span class="text-danger">*</span></label>
                                 <textarea class="form-control" id="txtMessage" name="txtMessage" rows="5" placeholder="Click here to reply"></textarea>
                             </div>
+                            <?php if($_SESSION['permitsModule']['w']){?>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary" id="btnSubmit"><i class="fas fa-paper-plane"></i> Send</button>
                             </div>
+                            <?php }?>
                         </form>
                     </div>
                     <div class="tab-pane show active" id="inbox" role="tabpanel" aria-labelledby="inbox-tab">

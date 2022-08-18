@@ -1,9 +1,8 @@
 'use strict';
 
-document.querySelector("#btnNew").classList.remove("d-none");
-
 let element = document.querySelector("#listItem");
 if(document.querySelector("#btnNew")){
+    document.querySelector("#btnNew").classList.remove("d-none");
     let btnNew = document.querySelector("#btnNew");
     btnNew.addEventListener("click",function(){
         addItem();

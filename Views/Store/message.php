@@ -39,9 +39,11 @@
                         <div class="col-6 text-start">
                             <a href="<?=base_url()?>/store/mailbox" class="btn btn-secondary text-white mb-4"><i class="fas fa-arrow-circle-left"></i> back</a>   
                         </div>
+                        <?php if($_SESSION['permitsModule']['w']){?>
                         <div class="col-6 text-end">
                             <button type="submit" id="btnSubmit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Reply</button>
                         </div>
+                        <?php }?>
                     </div>
                 </form>
             </div>

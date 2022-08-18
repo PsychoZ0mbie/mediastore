@@ -16,9 +16,11 @@ headerAdmin($data);
                     <div class="mb-3">
                         <textarea class="form-control" id="txtDescription" name="txtDescription" rows="5"><?=$data['page']['description']?></textarea>
                     </div>
+                    <?php if($_SESSION['permitsModule']['u']){?>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" id="btnSubmit"><i class="far fa-edit"></i> Update</button>
                     </div>
+                    <?php }?>
                 </form>
             </div>
         </div>

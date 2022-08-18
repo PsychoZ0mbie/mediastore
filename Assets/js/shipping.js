@@ -36,44 +36,46 @@ for (let i = 0; i < forms.length; i++) {
         });
     })
 }
-intCountry.addEventListener("change",function(){
-    request(base_url+"/store/getSelectCountry/"+intCountry.value,"","get").then(function(objData){
-        intState.innerHTML = objData;
+if(document.querySelector("#addCity")){
+    intCountry.addEventListener("change",function(){
+        request(base_url+"/store/getSelectCountry/"+intCountry.value,"","get").then(function(objData){
+            intState.innerHTML = objData;
+        });
+        intCity.innerHTML = "";
     });
-    intCity.innerHTML = "";
-});
-intState.addEventListener("change",function(){
-    request(base_url+"/store/getSelectState/"+intState.value,"","get").then(function(objData){
-        intCity.innerHTML = objData;
+    intState.addEventListener("change",function(){
+        request(base_url+"/store/getSelectState/"+intState.value,"","get").then(function(objData){
+            intCity.innerHTML = objData;
+        });
     });
-});
-addCity.addEventListener("click",function(){
-    let idCountry = intCountry.value;
-    let idState = intState.value;
-    let idCity = intCity.value;
-    let value = document.querySelector("#valueCity").value;
-    if(idCountry == 0 || idState == 0 || idCity == 0 || value ==""){
-        Swal.fire("Error","Please fill the fields.","error");
-        return false;
-    }
-    let formData = new FormData();
-    formData.append("idCountry",idCountry);
-    formData.append("idState",idState);
-    formData.append("idCity",idCity);
-    formData.append("value",value);
-    addCity.innerHTML=`
-    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
-    addCity.setAttribute("disabled","");
-    request(base_url+"/store/setShippingCity",formData,"post").then(function(objData){
-        addCity.innerHTML="+";
-        addCity.removeAttribute("disabled");
-        if(objData.status){
-            document.querySelector("#listItem").innerHTML = objData.html;
-        }else{
-            Swal.fire("Error",objData.msg,"error");
+    addCity.addEventListener("click",function(){
+        let idCountry = intCountry.value;
+        let idState = intState.value;
+        let idCity = intCity.value;
+        let value = document.querySelector("#valueCity").value;
+        if(idCountry == 0 || idState == 0 || idCity == 0 || value ==""){
+            Swal.fire("Error","Please fill the fields.","error");
+            return false;
         }
+        let formData = new FormData();
+        formData.append("idCountry",idCountry);
+        formData.append("idState",idState);
+        formData.append("idCity",idCity);
+        formData.append("value",value);
+        addCity.innerHTML=`
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+        addCity.setAttribute("disabled","");
+        request(base_url+"/store/setShippingCity",formData,"post").then(function(objData){
+            addCity.innerHTML="+";
+            addCity.removeAttribute("disabled");
+            if(objData.status){
+                document.querySelector("#listItem").innerHTML = objData.html;
+            }else{
+                Swal.fire("Error",objData.msg,"error");
+            }
+        });
     });
-});
+}
 
 function deleteCityShipp(id){
     request(base_url+"/store/delShippingCity/"+id,"","get").then(function(objData){

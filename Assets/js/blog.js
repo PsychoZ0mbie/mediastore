@@ -1,4 +1,4 @@
-document.querySelector("#btnNew").classList.remove("d-none");
+
 let search = document.querySelector("#search");
 let sort = document.querySelector("#sortBy");
 let element = document.querySelector("#listItem");
@@ -23,6 +23,7 @@ sort.addEventListener("change",function(){
 });
 
 if(document.querySelector("#btnNew")){
+    document.querySelector("#btnNew").classList.remove("d-none");
     let btnNew = document.querySelector("#btnNew");
     btnNew.addEventListener("click",function(){
         addItem();

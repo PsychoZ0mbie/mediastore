@@ -303,56 +303,60 @@
             return $arrResponse;
         }
         public function setReply(){
-            if($_POST){
-                if(empty($_POST['txtMessage']) || empty($_POST['idMessage']) || empty($_POST['txtEmail']) || empty($_POST['txtName'])){
-                    $arrResponse = array("status"=>false,"msg"=>"Data error");
-                }else{
-                    $strMessage = strClean($_POST['txtMessage']);
-                    $idMessage = intval($_POST['idMessage']);
-                    $strEmail = strClean(strtolower($_POST['txtEmail']));
-                    $strName = strClean(ucwords($_POST['txtName']));
-                    $request = $this->model->insertReply($strMessage,$idMessage);
-
-                    if($request>0){
-                        $dataEmail = array('email_remitente' => EMAIL_REMITENTE, 
-                                                'email_usuario'=>$strEmail,
-                                                'asunto' =>'Replying your message.',
-                                                "message"=>$strMessage,
-                                                'name'=>$strName);
-                        sendEmail($dataEmail,'email_reply');
-                        $arrResponse = array("status"=>true,"msg"=>"Replied"); 
+            if($_SESSION['permitsModule']['w']){
+                if($_POST){
+                    if(empty($_POST['txtMessage']) || empty($_POST['idMessage']) || empty($_POST['txtEmail']) || empty($_POST['txtName'])){
+                        $arrResponse = array("status"=>false,"msg"=>"Data error");
                     }else{
-                        $arrResponse = array("status"=>false,"msg"=>"An error has ocurred, try again.");
+                        $strMessage = strClean($_POST['txtMessage']);
+                        $idMessage = intval($_POST['idMessage']);
+                        $strEmail = strClean(strtolower($_POST['txtEmail']));
+                        $strName = strClean(ucwords($_POST['txtName']));
+                        $request = $this->model->insertReply($strMessage,$idMessage);
+    
+                        if($request>0){
+                            $dataEmail = array('email_remitente' => EMAIL_REMITENTE, 
+                                                    'email_usuario'=>$strEmail,
+                                                    'asunto' =>'Replying your message.',
+                                                    "message"=>$strMessage,
+                                                    'name'=>$strName);
+                            sendEmail($dataEmail,'email_reply');
+                            $arrResponse = array("status"=>true,"msg"=>"Replied"); 
+                        }else{
+                            $arrResponse = array("status"=>false,"msg"=>"An error has ocurred, try again.");
+                        }
                     }
+                    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 }
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
             die();
         }
         public function sendEmail(){
-            if($_POST){
-                if(empty($_POST['txtMessage']) ||  empty($_POST['txtEmail'])){
-                    $arrResponse = array("status"=>false,"msg"=>"Data error");
-                }else{
-                    $strMessage = strClean($_POST['txtMessage']);
-                    $strEmail = strClean(strtolower($_POST['txtEmail']));
-                    $strEmailCC = strClean(strtolower($_POST['txtEmailCC']));
-                    $strSubject = $_POST['txtSubject'] !="" ? strClean(($_POST['txtSubject'])) : "You have sent an email.";
-                    $request = $this->model->insertMessage($strSubject,$strEmail,$strMessage);
-                    if($request>0){
-                        $dataEmail = array('email_remitente' => EMAIL_REMITENTE, 
-                                                'email_copia'=>$strEmailCC,
-                                                'email_usuario'=>$strEmail,
-                                                'asunto' =>$strSubject,
-                                                "message"=>$strMessage);
-                        sendEmail($dataEmail,'email_sent');
-                        $arrResponse = array("status"=>true,"msg"=>"Message has been sent."); 
+            if($_SESSION['permitsModule']['w']){
+                if($_POST){
+                    if(empty($_POST['txtMessage']) ||  empty($_POST['txtEmail'])){
+                        $arrResponse = array("status"=>false,"msg"=>"Data error");
                     }else{
-                        $arrResponse = array("status"=>false,"msg"=>"An error has ocurred, try again.");
+                        $strMessage = strClean($_POST['txtMessage']);
+                        $strEmail = strClean(strtolower($_POST['txtEmail']));
+                        $strEmailCC = strClean(strtolower($_POST['txtEmailCC']));
+                        $strSubject = $_POST['txtSubject'] !="" ? strClean(($_POST['txtSubject'])) : "You have sent an email.";
+                        $request = $this->model->insertMessage($strSubject,$strEmail,$strMessage);
+                        if($request>0){
+                            $dataEmail = array('email_remitente' => EMAIL_REMITENTE, 
+                                                    'email_copia'=>$strEmailCC,
+                                                    'email_usuario'=>$strEmail,
+                                                    'asunto' =>$strSubject,
+                                                    "message"=>$strMessage);
+                            sendEmail($dataEmail,'email_sent');
+                            $arrResponse = array("status"=>true,"msg"=>"Message has been sent."); 
+                        }else{
+                            $arrResponse = array("status"=>false,"msg"=>"An error has ocurred, try again.");
+                        }
                     }
-                }
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-            }   
+                    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                }   
+            }
             die();
         }
         public function getSentMails(){
@@ -500,24 +504,25 @@
         }*/
         /*************************Pages methods*******************************/
         public function updatePage(){
-            //dep($_POST);
-            if($_POST){
-                if(empty($_POST['txtDescription']) || empty($_POST['txtName'])){
-                    $arrResponse = array("status"=>false,"msg"=>"Data error");
-                }else{
-                    $id = intval($_POST['idPage']);
-                    $strDescription = $_POST['txtDescription'];
-                    $strName = strClean($_POST['txtName']);
-                    $request = $this->model->updatePage($id,$strName,$strDescription);
-                    //dep($this->model->selectPage($id));exit;
-
-                    if($request>0){
-                        $arrResponse = array("status"=>true,"msg"=>"Page has been updated."); 
+            if($_SESSION['permitsModule']['u']){
+                if($_POST){
+                    if(empty($_POST['txtDescription']) || empty($_POST['txtName'])){
+                        $arrResponse = array("status"=>false,"msg"=>"Data error");
                     }else{
-                        $arrResponse = array("status"=>false,"msg"=>"Page cannot be updated, try again.");
+                        $id = intval($_POST['idPage']);
+                        $strDescription = $_POST['txtDescription'];
+                        $strName = strClean($_POST['txtName']);
+                        $request = $this->model->updatePage($id,$strName,$strDescription);
+                        //dep($this->model->selectPage($id));exit;
+
+                        if($request>0){
+                            $arrResponse = array("status"=>true,"msg"=>"Page has been updated."); 
+                        }else{
+                            $arrResponse = array("status"=>false,"msg"=>"Page cannot be updated, try again.");
+                        }
                     }
+                    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 }
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
             die();
         }

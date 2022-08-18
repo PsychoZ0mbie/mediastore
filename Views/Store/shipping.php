@@ -1,6 +1,5 @@
 <?php 
     headerAdmin($data);
-    //dep($data['countries']);exit;
 ?>
 <div id="modalItem"></div>
 <div class="body flex-grow-1 px-3" id="<?=$data['page_name']?>">
@@ -26,9 +25,11 @@
                             <p>Give free shipping to your buyers at your own cost. Recommended to gain customer fidelity and increase your sales.</p>
                             <form>
                                 <input type="hidden" class="idShipping" name="idShipping" value="1">
+                                <?php if($_SESSION['permitsModule']['u']){?>
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-primary btnShipping">Save</button>
                                 </div>
+                                <?php }?>
                             </form>
                         </div>
                     </div>
@@ -42,9 +43,11 @@
                                     <label for="intValue" class="form-label">Shipping value</label>
                                     <input type="number" class="form-control" id="intValue" name="intValue" value="<?=$data['flat']?>" placeholder="<?=MS." 0 ".MD?>">
                                 </div>
+                                <?php if($_SESSION['permitsModule']['u']){?>
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-primary btnShipping">Save</button>
                                 </div>
+                                <?php }?>
                             </form>
                         </div>
                     </div>
@@ -54,6 +57,7 @@
                             <p>You can put a shipping cost depending of the country, state and city.</p>
                             <form>
                                 <input type="hidden" class="idShipping" name="idShipping" value="3">
+                                <?php if($_SESSION['permitsModule']['w']){?>
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="mb-3">
@@ -91,7 +95,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+                                <?php }?>
                                 <div class="scroll-y ps-2 pe-2">
                                     <table class="table text-center items align-middle">
                                         <tbody id="listItem">
@@ -101,9 +105,11 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <?php if($_SESSION['permitsModule']['u']){?>
                                 <div class="text-end mt-3">
                                     <button type="submit" class="btn btn-primary btnShipping">Save</button>
                                 </div>
+                                <?php }?>
                             </form>
                         </div>
                     </div>
