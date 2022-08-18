@@ -169,10 +169,9 @@
             return $request;
         }
         /*************************Category methods*******************************/
-        public function insertCategory(string $strName, int $intStatus,string $strRoute){
+        public function insertCategory(string $strName, string $strRoute){
 
 			$this->strName = $strName;
-			$this->intStatus = $intStatus;
 			$this->strRoute = $strRoute;
 			$return = 0;
 
@@ -181,8 +180,8 @@
 			$request = $this->select_all($sql);
 
 			if(empty($request)){ 
-				$query_insert  = "INSERT INTO blogcategory(name,status,route) VALUES(?,?,?)";
-	        	$arrData = array($this->strName,$this->intStatus,$this->strRoute);
+				$query_insert  = "INSERT INTO blogcategory(name,route) VALUES(?,?)";
+	        	$arrData = array($this->strName,$this->strRoute);
 	        	$request_insert = $this->insert($query_insert,$arrData);
 	        	$return = $request_insert;
 			}else{
@@ -190,18 +189,17 @@
 			}
 	        return $return;
 		}
-        public function updateCategory(int $intIdCategory,string $strName,int $intStatus,string $strRoute){
+        public function updateCategory(int $intIdCategory,string $strName,string $strRoute){
             $this->intIdCategory = $intIdCategory;
             $this->strName = $strName;
-			$this->intStatus = $intStatus;
 
 			$sql = "SELECT * FROM blogcategory WHERE name = '{$this->strName}' AND idcategory != $this->intIdCategory";
 			$request = $this->select_all($sql);
 
 			if(empty($request)){
 
-                $sql = "UPDATE blogcategory SET name=?, status=?, route=? WHERE idcategory = $this->intIdCategory";
-                $arrData = array($this->strName,$this->intStatus,$this->strRoute);
+                $sql = "UPDATE blogcategory SET name=?, route=? WHERE idcategory = $this->intIdCategory";
+                $arrData = array($this->strName,$this->strRoute);
 				$request = $this->update($sql,$arrData);
 			}else{
 				$request = "exist";
@@ -248,21 +246,19 @@
             return $request;
         }
         /*************************SubCategory methods*******************************/
-        public function insertSubCategory(int $intIdCategory ,string $strName, int $intStatus,string $strRoute){
+        public function insertSubCategory(int $intIdCategory ,string $strName,string $strRoute){
             $this->intIdCategory = $intIdCategory;
 			$this->strName = $strName;
-			$this->intStatus = $intStatus;
 			$this->strRoute = $strRoute;
 
 			$return = 0;
 			$sql = "SELECT * FROM blogsubcategory WHERE name = '{$this->strName}' AND categoryid = $this->intIdCategory";
 			$request = $this->select_all($sql);
 			if(empty($request)){
-				$query_insert  = "INSERT INTO blogsubcategory(categoryid,name,status,route) VALUES(?,?,?,?)";  
+				$query_insert  = "INSERT INTO blogsubcategory(categoryid,name,route) VALUES(?,?,?)";  
 	        	$arrData = array(
                     $this->intIdCategory,
                     $this->strName,
-                    $this->intStatus,
                     $this->strRoute
         		);
 	        	$request_insert = $this->insert($query_insert,$arrData);
@@ -272,11 +268,10 @@
 			}
 	        return $return;
 		}
-        public function updateSubCategory(int $intIdSubCategory,int $intIdCategory, string $strName,int $intStatus,string $strRoute){
+        public function updateSubCategory(int $intIdSubCategory,int $intIdCategory, string $strName,string $strRoute){
             $this->intIdSubCategory = $intIdSubCategory;
             $this->intIdCategory = $intIdCategory;
             $this->strName = $strName;
-			$this->intStatus = $intStatus;
 			$this->strRoute = $strRoute;
 
 			$sql = "SELECT * FROM blogsubcategory WHERE name = '{$this->strName}' AND idsubcategory != $this->intIdSubCategory AND categoryid = $this->intIdCategory";
@@ -284,11 +279,10 @@
 
 			if(empty($request)){
 
-                $sql = "UPDATE blogsubcategory SET categoryid=?,name=?, status=?, route=? WHERE idsubcategory = $this->intIdSubCategory";
+                $sql = "UPDATE blogsubcategory SET categoryid=?,name=?, route=? WHERE idsubcategory = $this->intIdSubCategory";
                 $arrData = array(
                     $this->intIdCategory,
                     $this->strName,
-                    $this->intStatus,
                     $this->strRoute
                 );
 				$request = $this->update($sql,$arrData);
@@ -317,10 +311,8 @@
                     s.idsubcategory,
                     s.name,
                     s.categoryid,
-                    s.status,
                     c.idcategory,
-                    c.name as category,
-                    c.status
+                    c.name as category
                     FROM blogsubcategory s
                     INNER JOIN blogcategory c
                     ON c.idcategory = s.categoryid
@@ -339,10 +331,8 @@
                     s.idsubcategory,
                     s.name,
                     s.categoryid,
-                    s.status,
                     c.idcategory,
-                    c.name as category,
-                    c.status
+                    c.name as category
                     FROM blogsubcategory s
                     INNER JOIN blogcategory c
                     ON c.idcategory = s.categoryid
@@ -361,10 +351,8 @@
                     s.idsubcategory,
                     s.name,
                     s.categoryid,
-                    s.status,
                     c.idcategory,
-                    c.name as category,
-                    c.status
+                    c.name as category
                     FROM blogsubcategory s
                     INNER JOIN blogcategory c
                     ON c.idcategory = s.categoryid 

@@ -72,13 +72,6 @@ function addItem(){
                             <label for="txtName" class="form-label">Name <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="txtName" name="txtName" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="typeList" class="form-label">Status <span class="text-danger">*</span></label>
-                            <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
-                                <option value="1">Active</option>
-                                <option value="2">Inactive</option>
-                            </select>
-                        </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Add</button>
                             <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
@@ -99,10 +92,9 @@ function addItem(){
         e.preventDefault();
 
         let strName = document.querySelector("#txtName").value;
-        let intStatus = document.querySelector("#statusList").value;
         let idCategory = document.querySelector("#idCategory").value;
 
-        if(strName == "" || intStatus == ""){
+        if(strName == ""){
             Swal.fire("Error","All fields marked with (*) are required","error");
             return false;
         }
@@ -147,13 +139,6 @@ function editItem(id){
                                 <label for="txtName" class="form-label">Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="txtName" name="txtName" value="${objData.data.name}" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="typeList" class="form-label">Status <span class="text-danger">*</span></label>
-                                <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
-                                    <option value="1">Active</option>
-                                    <option value="2">Inactive</option>
-                                </select>
-                            </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary" id="btnAdd">Update</button>
                                 <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
@@ -180,10 +165,9 @@ function editItem(id){
             e.preventDefault();
 
             let strName = document.querySelector("#txtName").value;
-            let intStatus = document.querySelector("#statusList").value;
             let idCategory = document.querySelector("#idCategory").value;
 
-            if(strName == "" || intStatus == ""){
+            if(strName == ""){
                 Swal.fire("Error","All fields marked with (*) are required","error");
                 return false;
             }

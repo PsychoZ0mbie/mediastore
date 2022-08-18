@@ -330,7 +330,6 @@
                 if(count($request)>0){
                     for ($i=0; $i < count($request); $i++) { 
 
-                        $status="";
                         $btnEdit="";
                         $btnDelete="";
                         
@@ -340,15 +339,10 @@
                         if($_SESSION['permitsModule']['d']){
                             $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idcategory'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                         }
-                        if($request[$i]['status']==1){
-                            $status='<span class="badge me-1 bg-success">Active</span>';
-                        }else{
-                            $status='<span class="badge me-1 bg-danger">Inactive</span>';
-                        }
+
                         $html.='
                             <tr class="item" data-name="'.$request[$i]['name'].'">
                                 <td>'.$request[$i]['name'].'</td>
-                                <td>'.$status.'</td>
                                 <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
                             </tr>
                         ';
@@ -391,12 +385,11 @@
         public function setCategory(){
             if($_SESSION['permitsModule']['r']){
                 if($_POST){
-                    if(empty($_POST['txtName']) || empty($_POST['statusList'])){
+                    if(empty($_POST['txtName'])){
                         $arrResponse = array("status" => false, "msg" => 'Data error');
                     }else{ 
                         $idCategory = intval($_POST['idCategory']);
                         $strName = ucwords(strClean($_POST['txtName']));
-                        $intStatus = intval(strClean($_POST['statusList']));
                         $route = str_replace(" ","-",$strName);
                         $route = str_replace("?","",$route);
                         $route = strtolower(str_replace("¿","",$route));
@@ -407,12 +400,12 @@
                         if($idCategory == 0){
                             if($_SESSION['permitsModule']['w']){
                                 $option = 1;
-                                $request= $this->model->insertCategory($strName, $intStatus, $route);
+                                $request= $this->model->insertCategory($strName,$route);
                             }
                         }else{
                             if($_SESSION['permitsModule']['u']){
                                 $option = 2;
-                                $request = $this->model->updateCategory($idCategory,$strName,$intStatus,$route);  
+                                $request = $this->model->updateCategory($idCategory,$strName,$route);  
                             }
                         }
                         if($request > 0 ){
@@ -468,7 +461,6 @@
                 $html="";
                 for ($i=0; $i < count($request); $i++) { 
 
-                    $status="";
                     $btnEdit="";
                     $btnDelete="";
                     
@@ -478,15 +470,9 @@
                     if($_SESSION['permitsModule']['d']){
                         $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idcategory'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                     }
-                    if($request[$i]['status']==1){
-                        $status='<span class="badge me-1 bg-success">Active</span>';
-                    }else{
-                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
-                    }
                     $html.='
                         <tr class="item" data-name="'.$request[$i]['name'].'">
                             <td>'.$request[$i]['name'].'</td>
-                            <td>'.$status.'</td>
                             <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
                         </tr>
                     ';
@@ -505,7 +491,6 @@
                 $html="";
                 for ($i=0; $i < count($request); $i++) { 
 
-                    $status="";
                     $btnEdit="";
                     $btnDelete="";
                     
@@ -515,15 +500,9 @@
                     if($_SESSION['permitsModule']['d']){
                         $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idcategory'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                     }
-                    if($request[$i]['status']==1){
-                        $status='<span class="badge me-1 bg-success">Active</span>';
-                    }else{
-                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
-                    }
                     $html.='
                         <tr class="item" data-name="'.$request[$i]['name'].'">
                             <td>'.$request[$i]['name'].'</td>
-                            <td>'.$status.'</td>
                             <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
                         </tr>
                     ';
@@ -543,7 +522,6 @@
                 if(count($request)>0){
                     for ($i=0; $i < count($request); $i++) { 
 
-                        $status="";
                         $btnEdit="";
                         $btnDelete="";
                         
@@ -553,16 +531,10 @@
                         if($_SESSION['permitsModule']['d']){
                             $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idsubcategory'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                         }
-                        if($request[$i]['status']==1){
-                            $status='<span class="badge me-1 bg-success">Active</span>';
-                        }else{
-                            $status='<span class="badge me-1 bg-danger">Inactive</span>';
-                        }
                         $html.='
                             <tr class="item" data-name="'.$request[$i]['name'].'" data-category="'.$request[$i]['category'].'">
                                 <td>'.$request[$i]['name'].'</td>
                                 <td>'.$request[$i]['category'].'</td>
-                                <td>'.$status.'</td>
                                 <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
                             </tr>
                         ';
@@ -604,13 +576,12 @@
         public function setSubCategory(){
             if($_SESSION['permitsModule']['r']){
                 if($_POST){
-                    if(empty($_POST['txtName']) ||empty($_POST['categoryList'])|| empty($_POST['statusList'])){
+                    if(empty($_POST['txtName']) ||empty($_POST['categoryList'])){
                         $arrResponse = array("status" => false, "msg" => 'Data error.');
                     }else{ 
                         $idSubCategory = intval($_POST['idSubCategory']);
                         $strName = ucwords(strClean($_POST['txtName']));
                         $idCategory = intval(strClean($_POST['categoryList']));
-                        $intStatus = intval(strClean($_POST['statusList']));
                         $route = str_replace(" ","-",$strName);
                         $route = str_replace("?","",$route);
                         $route = strtolower(str_replace("¿","",$route));
@@ -620,23 +591,12 @@
                             if($_SESSION['permitsModule']['w']){
 
                                 $option = 1;
-                                $request= $this->model->insertSubCategory(
-                                    $idCategory,
-                                    $strName, 
-                                    $intStatus, 
-                                    $route
-                                );
+                                $request= $this->model->insertSubCategory($idCategory,$strName,$route);
                             }
                         }else{
                             if($_SESSION['permitsModule']['u']){
                                 $option = 2;
-                                $request = $this->model->updateSubCategory(
-                                    $idSubCategory, 
-                                    $idCategory,
-                                    $strName, 
-                                    $intStatus, 
-                                    $route
-                                );
+                                $request = $this->model->updateSubCategory($idSubCategory, $idCategory,$strName, $route);
                             }
                         }
                         if($request > 0 ){
@@ -707,7 +667,6 @@
                 $html="";
                 for ($i=0; $i < count($request); $i++) { 
 
-                    $status="";
                     $btnEdit="";
                     $btnDelete="";
                     
@@ -717,16 +676,10 @@
                     if($_SESSION['permitsModule']['d']){
                         $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idsubcategory'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                     }
-                    if($request[$i]['status']==1){
-                        $status='<span class="badge me-1 bg-success">Active</span>';
-                    }else{
-                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
-                    }
                     $html.='
                         <tr class="item" data-name="'.$request[$i]['name'].'" data-category="'.$request[$i]['category'].'">
                             <td>'.$request[$i]['name'].'</td>
                             <td>'.$request[$i]['category'].'</td>
-                            <td>'.$status.'</td>
                             <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
                         </tr>
                     ';
@@ -745,7 +698,6 @@
                 $html="";
                 for ($i=0; $i < count($request); $i++) { 
 
-                    $status="";
                     $btnEdit="";
                     $btnDelete="";
                     
@@ -755,16 +707,10 @@
                     if($_SESSION['permitsModule']['d']){
                         $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idsubcategory'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                     }
-                    if($request[$i]['status']==1){
-                        $status='<span class="badge me-1 bg-success">Active</span>';
-                    }else{
-                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
-                    }
                     $html.='
                         <tr class="item" data-name="'.$request[$i]['name'].'" data-category="'.$request[$i]['category'].'">
                             <td>'.$request[$i]['name'].'</td>
                             <td>'.$request[$i]['category'].'</td>
-                            <td>'.$status.'</td>
                             <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
                         </tr>
                     ';

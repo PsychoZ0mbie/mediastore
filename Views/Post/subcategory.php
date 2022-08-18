@@ -30,7 +30,6 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Category</th>
-                                <th>Status</th>
                                 <th>Options</th>
                             </tr>
                         </thead>

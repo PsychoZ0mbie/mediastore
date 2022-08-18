@@ -81,15 +81,6 @@ function addItem(){
                                     <select class="form-control" aria-label="Default select example" id="categoryList" name="categoryList" required></select>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <label for="statusList" class="form-label">Status <span class="text-danger">*</span></label>
-                                    <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
-                                        <option value="1">Active</option>
-                                        <option value="2">Inactive</option>
-                                    </select>
-                                </div>
-                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Add</button>
@@ -115,11 +106,10 @@ function addItem(){
         e.preventDefault();
 
         let strName = document.querySelector("#txtName").value;
-        let intStatus = document.querySelector("#statusList").value;
         let idSubCategory = document.querySelector("#idSubCategory").value;
         let idCategory = document.querySelector("#categoryList").value;
 
-        if(strName == "" || intStatus == "" || idCategory == ""){
+        if(strName == "" || idCategory == ""){
             Swal.fire("Error","All fields marked with (*) are required","error");
             return false;
         }
@@ -172,15 +162,6 @@ function editItem(id){
                                     <select class="form-control" aria-label="Default select example" id="categoryList" name="categoryList" required></select>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <label for="statusList" class="form-label">Status <span class="text-danger">*</span></label>
-                                    <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
-                                        <option value="1">Active</option>
-                                        <option value="2">Inactive</option>
-                                    </select>
-                                </div>
-                            </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary" id="btnAdd">Add</button>
                                 <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
@@ -194,12 +175,7 @@ function editItem(id){
 
         modalItem.innerHTML = modal;
         let modalView = new bootstrap.Modal(document.querySelector("#modalElement"));
-        let status = document.querySelectorAll("#statusList option");
-        for (let i = 0; i < status.length; i++) {
-            if(status[i].value == objData.data.status){
-                status[i].setAttribute("selected",true);
-            }
-        }
+
         url = base_url+"/post/getSelectCategories";
         request(url,"","get").then(function(html){
             document.querySelector("#categoryList").innerHTML = html.data;
@@ -217,11 +193,10 @@ function editItem(id){
             e.preventDefault();
 
             let strName = document.querySelector("#txtName").value;
-            let intStatus = document.querySelector("#statusList").value;
             let idSubCategory = document.querySelector("#idSubCategory").value;
             let idCategory = document.querySelector("#categoryList").value;
 
-            if(strName == "" || intStatus == "" || idCategory == ""){
+            if(strName == "" || idCategory == ""){
                 Swal.fire("Error","All fields marked with (*) are required","error");
                 return false;
             }
