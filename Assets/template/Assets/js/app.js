@@ -937,9 +937,8 @@ if(document.querySelector("#checkout")){
         const btnPaypal = document.querySelector("#paypal-button-container");
         
         
-        if(strName=="" || strLastName=="" || strEmail =="" || strPhone =="" || strAddress=="" || countryList.value=="" || stateList.value =="" || cityList.value==""){
+        if(strName=="" || strLastName=="" || strEmail =="" || strPhone =="" || strAddress=="" || countryList.value==0 || stateList.value ==0 || cityList.value==0){
             
-            console.log("hola");
             alertOrder.classList.remove("d-none");
             btnPaypal.classList.add("d-none");
             alertOrder.innerHTML =`Please, fill the fields with (<span class="text-danger">*</span>)`;

@@ -800,7 +800,7 @@
         }
         public function getCountries(){
             $request = $this->selectCountries();
-            $html="";
+            $html='<option value="0" selected>Select</option>';
             for ($i=0; $i < count($request) ; $i++) { 
                 $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
             }
@@ -810,7 +810,7 @@
         }
         public function getSelectCountry($id){
             $request = $this->selectStates($id);
-            $html="";
+            $html='<option value="0" selected>Select</option>';
             for ($i=0; $i < count($request) ; $i++) { 
                 $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
             }
@@ -819,7 +819,7 @@
         }
         public function getSelectState($id){
             $request = $this->selectCities($id);
-            $html="";
+            $html='<option value="0" selected>Select</option>';
             for ($i=0; $i < count($request) ; $i++) { 
                 $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
             }

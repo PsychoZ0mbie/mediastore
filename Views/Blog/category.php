@@ -20,6 +20,21 @@
     //dep($recPosts);exit;
     
 ?>
+<div id="modalItem"></div>
+<div class="popup">
+    <div class="popup-close">X</div>
+    <div class="popup-info">
+        <img src="" alt="">
+        <div class="h-100">
+            <a href="product.html">Product 1</a>
+            <p>Has been added to your cart</p>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center text-center mt-3">
+        <a href="<?=base_url()?>/shop/cart" class="btnc w-50 p-1 btnc-primary me-4">View Cart</a>
+        <div class="btnc w-50 h-100 p-1 btnc-primary c-p" id="btnCheckOutPopup">Checkout</div>
+    </div>
+</div>
 <main class="addFilter">
     <div class="container">
         <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">

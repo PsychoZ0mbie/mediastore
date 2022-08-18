@@ -419,7 +419,7 @@
                         $intState,
                         $intCity,
                         $strEmail,
-                        $strPassword,
+                        $strPassword
                     );
                         
                     if($request_user > 0 ){
