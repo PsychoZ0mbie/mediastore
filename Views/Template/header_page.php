@@ -39,7 +39,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="description" content="<?=DESCRIPCION?>">
+    <meta name="author" content="<?=NOMBRE_EMPRESA?>" />
+    <meta name="copyright" content="<?=NOMBRE_EMPRESA?>"/>
+    <meta name="robots" content="index,follow"/>
+    
     <title><?=$data['page_title']?></title>
 
     <meta property="fb:app_id"          content="1234567890" /> 
