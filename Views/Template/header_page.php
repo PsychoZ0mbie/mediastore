@@ -43,7 +43,6 @@
     <meta name="author" content="<?=NOMBRE_EMPRESA?>" />
     <meta name="copyright" content="<?=NOMBRE_EMPRESA?>"/>
     <meta name="robots" content="index,follow"/>
-    
     <title><?=$data['page_title']?></title>
 
     <meta property="fb:app_id"          content="1234567890" /> 
