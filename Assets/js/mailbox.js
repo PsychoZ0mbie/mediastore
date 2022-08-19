@@ -2,10 +2,11 @@
 
 if(document.querySelector("#mailbox")){
     setTinymce("#txtMessage");
-    tinymce.triggerSave();
+    
     let formEmail = document.querySelector("#formEmail");
     formEmail.addEventListener("submit",function(e){
         e.preventDefault();
+        tinymce.triggerSave();
         let strEmail = document.querySelector("#txtEmail");
         let strMessage = document.querySelector("#txtMessage");
         let btn = document.querySelector("#btnSubmit");
@@ -22,21 +23,20 @@ if(document.querySelector("#mailbox")){
             if(objData.status){
                 window.location.reload();
             }else{
-                Swal.fire("Message", objData.msg, "success");
+                Swal.fire("Error", objData.msg, "error");
             }
         });
     });
 }
 
-if(document.querySelector("#message")){
+if(document.querySelector("#message") && document.querySelector("#formReply")){
     setTinymce("#txtMessage");
-    tinymce.triggerSave();
-
     let formReply = document.querySelector("#formReply");
     formReply.addEventListener("submit",function(e){
         e.preventDefault();
+        tinymce.triggerSave();
         let btn = document.querySelector("#btnSubmit");
-        let strMessage = document.querySelector("#txtMessage");
+        let strMessage = document.querySelector("#txtMessage").value;
         if(strMessage ==""){
             Swal.fire("Error", "Please fill the field", "error");
             return false;
@@ -50,9 +50,34 @@ if(document.querySelector("#message")){
             if(objData.status){
                 window.location.reload();
             }else{
-                Swal.fire("Message", objData.msg, "success");
+                Swal.fire("Error", objData.msg, "error");
             }
         });
     });
 
+}
+function delMail(id,option){
+    Swal.fire({
+        title:"Are you sure to delete it?",
+        text:"It will delete for ever...",
+        icon: 'warning',
+        showCancelButton:true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText:"Yes, delete",
+        cancelButtonText:"No, cancel"
+    }).then(function(result){
+        if(result.isConfirmed){
+            let formData = new FormData();
+            formData.append("id",id);
+            formData.append("option",option);
+            request(base_url+"/Store/delMail",formData,"post").then(function(objData){
+                if(objData.status){
+                    window.location.reload();
+                }else{
+                    Swal.fire("Error",objData.msg,"error");
+                }
+            });
+        }
+    });
 }

@@ -112,7 +112,7 @@
             $sql = "UPDATE contact SET status=? WHERE id = $id";
             $arrData = array(1);
             $request = $this->update($sql,$arrData);
-            $sql = "SELECT *, DATE_FORMAT(date, '%d/%m/%Y') as date FROM contact WHERE id=$id";
+            $sql = "SELECT *, DATE_FORMAT(date, '%d/%m/%Y') as date, DATE_FORMAT(date_updated, '%d/%m/%Y') as dateupdated FROM contact WHERE id=$id";
             $request = $this->select($sql);
             return $request;
         }
@@ -121,18 +121,12 @@
             $request = $this->select($sql);
             return $request;
         }
-        public function selectReplies(int $id){
-            $sql = "SELECT *,DATE_FORMAT(date, '%d/%m/%Y') as date FROM contactreply WHERE contactid=$id";
-            $request = $this->select_all($sql);
-            return $request;
-        }
-        public function insertReply($strMessage,$idMessage){
+        public function updateMessage($strMessage,$idMessage){
             $this->strMessage = $strMessage;
             $this->intIdMessage = $idMessage;
-
-            $sql = "INSERT INTO contactreply(contactid,reply) VALUES(?,?)";
-            $arrData = array($this->intIdMessage,$this->strMessage);
-            $request = $this->insert($sql,$arrData);
+            $sql = "UPDATE contact SET reply=?, date_updated=NOW() WHERE id = $this->intIdMessage";
+            $arrData = array($this->strMessage);
+            $request = $this->update($sql,$arrData);
             return $request;
         }
         public function insertMessage($strSubject,$strEmail,$strMessage){
@@ -143,6 +137,16 @@
             $sql = "INSERT INTO sendmessage(email,subject,message) VALUES(?,?,?)";
             $arrData = array($this->strEmail,$this->strSubject,$this->strMessage);
             $request = $this->insert($sql,$arrData);
+            return $request;
+        }
+        public function delEmail($id,$option){
+            $sql ="";
+            if($option == 1){
+                $sql = "DELETE FROM contact WHERE id =$id";
+            }else{
+                $sql = "DELETE FROM sendmessage WHERE id =$id";
+            }
+            $request = $this->delete($sql);
             return $request;
         }
         /*************************Subscribers methods*******************************/

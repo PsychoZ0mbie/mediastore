@@ -1,10 +1,14 @@
 <?php 
     headerAdmin($data);
-    $inbox = $data['inbox'];
+    $inbox = array();
     $sent = $data['sent'];
-    $total ='('.$inbox['total'].')';
-    if($inbox['total'] != 0){
-        $total = '<span class="badge bg-danger">'.$inbox['total'].'</span>';
+    $total ="";
+    if($data['inbox']['status']){
+        $inbox = $data['inbox'];
+        $total ='('.$inbox['total'].')';
+        if($inbox['total'] != 0){
+            $total = '<span class="badge bg-danger">'.$inbox['total'].'</span>';
+        }
     }
 ?>
 <div id="modalItem"></div>
@@ -52,11 +56,11 @@
                     </div>
                     <div class="tab-pane show active" id="inbox" role="tabpanel" aria-labelledby="inbox-tab">
                         <div class="scroll-y">
-                            <?php if($inbox['status']){?>
+                            <?php if(isset($inbox['total'])){?>
                                 <?=$inbox['data']?>
                             <?php }else{?>
                                 <div class="mail-item d-flex justify-content-center align-items-center">
-                                    <p class="m-0"><?=$inbox['msg']?></p>
+                                    <p class="m-0">No data</p>
                                 </div>
                             <?php }?>
                         </div>

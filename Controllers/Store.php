@@ -42,7 +42,6 @@
                 if(is_numeric($params)){
                     $id = intval($params);
                     $data['message'] = $this->model->selectMail($id);
-                    $data['replies'] = $this->model->selectReplies($id);
                     $data['page_tag'] = "Message";
                     $data['page_title'] = "Message";
                     $data['page_name'] = "message";
@@ -292,6 +291,7 @@
                                 </div>
                                 <a href="'.$url.'" class="position-absolute w-100 h-100"></a>
                             </div>
+                            <button type="button" class="btn" onclick="delMail('.$request[$i]['id'].',1)"><i class="fas fa-trash-alt"></i></button>
                         </div>
                         ';
                     }
@@ -312,7 +312,7 @@
                         $idMessage = intval($_POST['idMessage']);
                         $strEmail = strClean(strtolower($_POST['txtEmail']));
                         $strName = strClean(ucwords($_POST['txtName']));
-                        $request = $this->model->insertReply($strMessage,$idMessage);
+                        $request = $this->model->updateMessage($strMessage,$idMessage);
     
                         if($request>0){
                             $dataEmail = array('email_remitente' => EMAIL_REMITENTE, 
@@ -383,6 +383,7 @@
                                 </div>
                                 <a href="'.$url.'" class="position-absolute w-100 h-100"></a>
                             </div>
+                            <button type="button" class="btn" onclick="delMail('.$request[$i]['id'].',2)"><i class="fas fa-trash-alt"></i></button>
                         </div>
                         ';
                     }
@@ -392,6 +393,24 @@
                 }
             }
             return $arrResponse;
+        }
+        public function delMail(){
+            if($_SESSION['permitsModule']['d']){
+                if($_POST){
+                    $id = intval($_POST['id']);
+                    $option = intval($_POST['option']);
+
+                    $request = $this->model->delEmail($id,$option);
+                    
+                    if($request=="ok"){
+                        $arrResponse = array("status"=>true,"msg"=>"The mail has been deleted."); 
+                    }else{
+                        $arrResponse = array("status"=>false,"msg"=>"Error, try again."); 
+                    }
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
         }
         /*************************Shipping methods*******************************/
         public function setShippingMode(){

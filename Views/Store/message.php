@@ -16,18 +16,21 @@
                 <p><?=$data['message']['message']?></p>
                 <hr>
                 <?php
-                    if(!empty($replies)){
+                    if(!empty($data['message']['reply'])){
                         
                 ?>
-                <label for="" class="fw-bold">Replies:</label>
-                <?php for ($i=0; $i < count($replies) ; $i++) {?>
+                <label for="" class="fw-bold">Reply:</label>
                 <div class="mb-3">
-                    <p class="m-0 mt-2"><?=$replies[$i]['date']?></p>
-                    <p><?=$replies[$i]['reply']?></p>
+                    <p class="m-0 mt-2"><?=$data['message']['dateupdated']?></p>
+                    <p><?=$data['message']['reply']?></p>
                 </div>
-                <?php }?>
                 <hr>
-                <?php }?>
+                <div class="row">
+                    <div class="col-6 text-start">
+                        <a href="<?=base_url()?>/store/mailbox" class="btn btn-secondary text-white mb-4"><i class="fas fa-arrow-circle-left"></i> back</a>   
+                    </div>
+                </div>
+                <?php }else{?>
                 <form id="formReply">
                     <input type="hidden" id="idMessage" name="idMessage" value="<?=$data['message']['id']?>">
                     <input type="hidden" id="txtEmail" name="txtEmail" value="<?=$data['message']['email']?>">
@@ -46,6 +49,7 @@
                         <?php }?>
                     </div>
                 </form>
+                <?php }?>
             </div>
         </div>
     </div>

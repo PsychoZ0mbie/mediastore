@@ -1,5 +1,6 @@
 @import "variable";
 .mail-item{
+    position: relative;
     max-height: 200px;
     margin: 20px 10px;
     h2{
@@ -7,7 +8,19 @@
         text-overflow:ellipsis;
         overflow: hidden;
     }
+    button{
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: none;
+    }
     overflow: hidden;
+    &:hover{
+        button{
+            display: block;
+        }
+    }
 }
 .mail-info{
     height: 25px;
