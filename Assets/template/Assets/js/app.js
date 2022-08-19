@@ -1369,7 +1369,6 @@ function openLoginModal(){
                     modalItem.innerHTML = "";
                 }else{
                     Swal.fire("Error", objData.msg, "error");
-                    document.querySelector('#txtPassword').value = "";
                 }
             });
         }
@@ -1405,7 +1404,6 @@ function openLoginModal(){
                 formConfirmSign.classList.remove("d-none");
             }else{
                 Swal.fire("Error", objData.msg, "error");
-                document.querySelector('#txtPassword').value = "";
             }
         });
     });
@@ -1442,7 +1440,6 @@ function openLoginModal(){
                     
                 }else{
                     Swal.fire("Error", objData.msg, "error");
-                    document.querySelector('#txtCode').value = "";
                 }
             });
         }
@@ -1494,10 +1491,6 @@ function openLoginModal(){
                 swal("Error",objData.msg,"error");
             }
         });
-    });
-
-    document.querySelector("#modalElementLogin").addEventListener("hide.bs.modal",function(){
-        //document.querySelector("#modalElementLogin").remove();
     });
 }
 function quickModal(elements){
