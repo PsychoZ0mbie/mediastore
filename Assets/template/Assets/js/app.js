@@ -1509,11 +1509,11 @@ function quickModal(elements){
             let idProduct = btn.getAttribute("data-id");
             let formData = new FormData();
             formData.append("idProduct",idProduct);
-            //btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
+            btn.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
             btn.setAttribute("disabled","disabled");
             request(base_url+"/shop/getProduct",formData,"post").then(function(objData){
                 btn.removeAttribute("disabled");
-                //btn.innerHTML = `<i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i>`;
+                btn.innerHTML = `<i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i>`;
                 if(objData.status){
                     let product = objData.data;
                     let images = product['image'];

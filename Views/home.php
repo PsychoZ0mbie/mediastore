@@ -256,11 +256,11 @@
                         }
                     ?>
                     <div class="col-lg-4 col-md-6 mb-3 product-item">
-                        <div class="card">
-                            <img src="<?=$imgPost?>" style="height:200px;" alt="<?=$recPosts[$i]['name']?>">
-                            <div class="card-body" style="height:180px;">
-                                <a href="<?=$routePosts?>" class="text-decoration-none text-dark "><h2 class="card-title fs-5 overflow-hidden" style="height:50px;"><?=$recPosts[$i]['name']?></h2></a>
-                                <div class="card-text overflow-hidden" style="height:50px;">
+                        <div class="card card-post">
+                            <img src="<?=$imgPost?>" alt="<?=$recPosts[$i]['name']?>">
+                            <div class="card-body">
+                                <a href="<?=$routePosts?>" class="text-decoration-none text-dark "><h2 class="card-title fs-5 overflow-hidden"><?=$recPosts[$i]['name']?></h2></a>
+                                <div class="card-text overflow-hidden">
                                     <?=$recPosts[$i]['description']?>
                                 </div>
                                 <a href="<?=$routePosts?>" class="btn btnc-primary mt-1">Read more</a>

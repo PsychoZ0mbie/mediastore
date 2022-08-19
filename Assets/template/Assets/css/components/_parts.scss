@@ -1,5 +1,21 @@
 @import "variable";
-
+.card-post{
+    img{
+        max-width: 100%;
+        height: 200px;
+    }
+    .card-body{
+        height: 180px;
+        a{
+            h2{
+                height: 50px;
+            }
+        }
+        div{
+            height: 50px;
+        }
+    }
+}
 .product-cant{
     display: flex;
     justify-content: center;
