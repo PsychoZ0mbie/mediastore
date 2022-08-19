@@ -25,33 +25,19 @@
         $favorite = '<button type="button" class="c-p btn"><i class="far fa-heart product-addwishlist me-1"></i> <a class="c-d">Add to wishlist</a></button>';
     }
     if($product['status'] == 1 && $product['stock']>0){
+        $status ='<p class="text-secondary m-0">Stock: ('.$product['stock'].') units</p>';
         if($product['discount']>0){
             $price = '<p class="m-0 fs-5 product-price"><strong>'.formatNum($product['priceDiscount']).'</strong><span>'.formatNum($product['price']).'</span></p>';
             $discount ='<p class="product-discount">-'.$product['discount'].'%</p>';
         }
     }else if($product['status'] == 1 && $product['stock']==0){
-        $btnAdd="";
+        $status =`<p class="text-danger fw-bold">Sold out.</p>`;
+        $btns="";
         $price='<p class="m-0 fs-5 product-price text-danger">Sold out</p>';
     }else{
-        $btnAdd ="";
-        $price="";
-    }
-    if($product['status']==1 && $product['stock']>0){
-        $status ='<p class="text-secondary m-0">Stock: ('.$product['stock'].') units</p>';
-        if($product['discount']>0){
-            $discount = '<p class="product-discount">-'.$product['discount'].'%</p>';
-            $price = '
-            <p class="m-0 text-decoration-line-through t-p">'.formatNum($product['price']).'</p>
-            <p class="fs-3"><strong>'.formatNum($product['priceDiscount']).'</strong></p>';
-        }
-    }else if($product['stock']==0 && $product['status']==1){
-        $status =`<p class="text-danger fw-bold">Sold out.</p>`;
-        $btns="";  
-        $price= "";  
-    }else{
         $status ='<p class="text-danger fw-bold">Currently unavailable.</p>';
-        $price= "";
-        $btns=""; 
+        $btns ="";
+        $price="";
     }
     for ($i = 0; $i < 5; $i++) {
         if($product['rate']>0 && $i >= intval($product['rate'])){
@@ -62,7 +48,6 @@
             $rate.='<i class="fas fa-star"></i>';
         }
     }
-    //dep($product['routec']);exit;
     
 ?>
     <div id="modalItem"></div>

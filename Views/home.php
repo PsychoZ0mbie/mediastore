@@ -174,12 +174,12 @@
             </div>
         </section>
         <section>
-            <?php if(count($popProducts)){?>
+            <?php if(!empty($popProducts)){?>
             <div class="container">
                 <h3 class="t-p"><strong>TOP RATED</strong></h3>
                 <div class="row mt-5">
                 <?php
-                    for ($i=0; $i < 4 ; $i++) { 
+                    for ($i=0; $i < count($popProducts) ; $i++) { 
                         $idProduct = openssl_encrypt($popProducts[$i]['idproduct'],METHOD,KEY);
                         $favorite = '';
                         $routeP = base_url()."/shop/product/".$popProducts[$i]['route'];

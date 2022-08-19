@@ -444,55 +444,56 @@ if(document.querySelector("#product")){
         inner.scrollBy(100,0);
     });
 
-    //Add to cart
-    addProduct.addEventListener("click",function(){
-        let formData = new FormData();
-        let idProduct = addProduct.getAttribute("data-id");
-        formData.append("idProduct",idProduct);
-        formData.append("txtQty",cant.value);
-        addProduct.setAttribute("disabled",true);
-        addProduct.innerHTML = `
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        `;
-        request(base_url+"/shop/addCart",formData,"post").then(function(objData){
-            
-            if(objData.status){
-                addProduct.innerHTML = `<i class="fas fa-check"></i> Added`;
-                setTimeout(function(){
+    if(document.querySelector("#addProduct")){
+        addProduct.addEventListener("click",function(){
+            let formData = new FormData();
+            let idProduct = addProduct.getAttribute("data-id");
+            formData.append("idProduct",idProduct);
+            formData.append("txtQty",cant.value);
+            addProduct.setAttribute("disabled",true);
+            addProduct.innerHTML = `
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            `;
+            request(base_url+"/shop/addCart",formData,"post").then(function(objData){
+                
+                if(objData.status){
+                    addProduct.innerHTML = `<i class="fas fa-check"></i> Added`;
+                    setTimeout(function(){
+                        addProduct.removeAttribute("disabled");
+                        addProduct.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Add`;
+                    },1000);
+                    document.querySelector("#alert").classList.add("d-none");
+                    document.querySelector("#qtyCart").innerHTML=objData.qty;
+                }else{
                     addProduct.removeAttribute("disabled");
                     addProduct.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Add`;
-                },1000);
-                document.querySelector("#alert").classList.add("d-none");
-                document.querySelector("#qtyCart").innerHTML=objData.qty;
-            }else{
-                addProduct.removeAttribute("disabled");
-                addProduct.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Add`;
-                document.querySelector("#alert").classList.remove("d-none");
-            }
+                    document.querySelector("#alert").classList.remove("d-none");
+                }
+            });
+            
         });
-        
-    });
-
-    //Quantity events
-    cant.addEventListener("change",function(){
-        if(cant.value <= 1){
-            cant.value = 1;
-        }else if(cant.value >= cant.getAttribute("max")){
-            cant.value = product['stock'];
-        }
-    })
-    decrement.addEventListener("click",function(){
-        if(cant.value<=1){
-            return cant.value=1;
-        }
-        cant.value--;
-    });
-    increment.addEventListener("click",function(){
-        if(cant.value>=cant.getAttribute("max")){
-            return cant.value=cant.getAttribute("max");
-        }
-        cant.value++;
-    });
+    
+        //Quantity events
+        cant.addEventListener("change",function(){
+            if(cant.value <= 1){
+                cant.value = 1;
+            }else if(cant.value >= cant.getAttribute("max")){
+                cant.value = product['stock'];
+            }
+        })
+        decrement.addEventListener("click",function(){
+            if(cant.value<=1){
+                return cant.value=1;
+            }
+            cant.value--;
+        });
+        increment.addEventListener("click",function(){
+            if(cant.value>=cant.getAttribute("max")){
+                return cant.value=cant.getAttribute("max");
+            }
+            cant.value++;
+        });
+    }
 
     //Add to wishlist
     btn.addEventListener("click",function(){

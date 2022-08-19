@@ -709,6 +709,8 @@ function editItem(id){
                     }
                     showItems(element);
                 }else{
+                    modalView.hide();
+                    modalItem.innerHTML="";
                     Swal.fire("Error",objData.msg,"error");
                 }
             });

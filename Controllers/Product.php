@@ -161,7 +161,6 @@
                         }else{
                             if($_SESSION['permitsModule']['u']){
                                 $option = 2;
-                                $requestImg = $this->model->deleteImages($idProduct);
                                 $request= $this->model->updateProduct($idProduct,$idCategory,$idSubcategory,$strReference,$strName,$strShortDescription,$strDescription,$intPrice,$intDiscount,$intStock,$intStatus,$route,$photos);
                             }
                         }
@@ -171,6 +170,7 @@
                             if($option == 1){
                                 $arrResponse = array('status' => true, 'msg' => 'Data saved.');
                             }else{
+                                
                                 $arrResponse = array('status' => true, 'msg' => 'Data updated.');
                             }
                         }else if($request == 'exist'){

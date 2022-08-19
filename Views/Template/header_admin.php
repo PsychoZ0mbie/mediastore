@@ -10,6 +10,7 @@
         <meta name="author" content="">
         <meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
         <title><?=$data['page_title']?></title>
+        <link rel ="shortcut icon" href="<?=media();?>/images/uploads/icon.png" sizes="114x114" type="image/png">
         <script src="<?= media();?>/js/plugins/tinymce/tinymce.min.js"></script>
         <!-- Font Awesome 5-->
         <link href="<?=media()?>/css/icons/font-awesome.min.css">

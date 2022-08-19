@@ -6,7 +6,7 @@
 
     $title = NOMBRE_EMPRESA;
     $urlWeb = base_url();
-    $urlImg ="";
+    $urlImg =media()."/images/uploads/logo.png";
     $description =DESCRIPCION;
     //dep($data['article']);exit;
     if(!empty($data['product'])){
@@ -44,6 +44,7 @@
     <meta name="copyright" content="<?=NOMBRE_EMPRESA?>"/>
     <meta name="robots" content="index,follow"/>
     <title><?=$data['page_title']?></title>
+    <link rel ="shortcut icon" href="<?=media();?>/images/uploads/icon.png" sizes="114x114" type="image/png">
 
     <meta property="fb:app_id"          content="1234567890" /> 
     <meta property="og:locale" 		content='es_ES'/>

@@ -83,13 +83,15 @@
 
             $reference="";
             if($this->strReference!=""){
-                $reference = "OR reference = '$this->strReference'";
+                $reference = "OR reference = '$this->strReference' AND name = '{$this->strName}' AND idproduct != $this->intIdProduct";
             }
 
 			$sql = "SELECT * FROM product WHERE name = '{$this->strName}' AND idproduct != $this->intIdProduct $reference";
 			$request = $this->select_all($sql);
 
 			if(empty($request)){
+                $requestImg = $this->deleteImages($this->intIdProduct);
+
                 $sql = "UPDATE product SET categoryid=?, subcategoryid=?, reference=?, name=?, shortdescription=?,description=?, 
                 price=?,discount=?,stock=?,status=?, route=? WHERE idproduct = $this->intIdProduct";
                 $arrData = array(
