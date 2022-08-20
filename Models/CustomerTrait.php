@@ -21,6 +21,7 @@
         private $strPostalCode;
         private $strSubject;
         private $strMessage;
+        private $intIdProduct;
         
 
         public function setCustomerT($strName,$strPicture,$strEmail,$strPassword,$rolid){
@@ -203,6 +204,7 @@
 
             foreach ($products as $pro) {
                 $price=0;
+                $this->intIdProduct = openssl_decrypt($pro['idproduct'],METHOD,KEY);
                 if($pro['discount']>0){
                     $price = $pro['price']-($pro['price']*($pro['discount']*0.01));
                 }else{
@@ -212,10 +214,15 @@
                         VALUE(?,?,?,?,?,?)";
                 $arrData=array($this->intIdOrder,
                                 $this->intIdUser,
-                                openssl_decrypt($pro['idproduct'],METHOD,KEY),
+                                $this->intIdProduct,
                                 $pro['name'],
                                 $pro['qty'],
                                 $price);
+                $selectProduct = $this->selectProduct($this->intIdProduct);
+                if($selectProduct['stock']>0){
+                    $stock = $selectProduct['stock']-$pro['qty'];
+                    $this->updateStock($this->intIdProduct,$stock);
+                }
                 $request = $this->con->insert($query,$arrData);
             }
             return $request;
@@ -313,6 +320,21 @@
             INNER JOIN countries c, states s, cities cy
             WHERE c.id = sh.country_id AND s.id = sh.state_id AND cy.id = sh.city_id AND sh.id = $id ORDER BY cy.name ASC";
             $request = $this->con->select($sql);
+            return $request;
+        }
+        public function selectProduct($id){
+            $this->con = new Mysql();
+            $this->intIdProduct = $id;
+            $sql = "SELECT * FROM product WHERE idproduct =$this->intIdProduct";
+            $request = $this->con->select($sql);
+            return $request;
+        }
+        public function updateStock($id,$stock){
+            $this->con = new Mysql();
+            $this->intIdProduct = $id;
+            $sql = "UPDATE product SET stock=? WHERE idproduct = $this->intIdProduct";
+            $arrData = array($stock);
+            $request = $this->con->update($sql,$arrData);
             return $request;
         }
         
