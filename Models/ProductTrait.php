@@ -74,7 +74,7 @@
                 s.name as subcategory
             FROM product p
             INNER JOIN category c, subcategory s
-            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND p.status = 1
             ORDER BY p.idproduct DESC $cant
             ";
             $request = $this->con->select_all($sql);
@@ -138,7 +138,7 @@
                 s.name as subcategory
             FROM product p
             INNER JOIN category c, subcategory s
-            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND p.status = 1
             ORDER BY RAND() $cant
             ";
             $request = $this->con->select_all($sql);
@@ -187,7 +187,7 @@
             $sql = "SELECT COUNT(p.idproduct) as total 
                     FROM product p
                     INNER JOIN category c, subcategory s
-                    WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory $option";
+                    WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND p.status = 1 $option";
             $request = $this->con->select($sql);
             return $request;
         }
@@ -222,7 +222,7 @@
                 s.route as routes
             FROM product p
             INNER JOIN category c, subcategory s
-            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory $option
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND p.status = 1 $option
             ORDER BY p.idproduct
             ";
             $request = $this->con->select_all($sql);
@@ -286,7 +286,7 @@
                 s.name as subcategory
             FROM product p
             INNER JOIN category c, subcategory s
-            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND p.status = 1
             ORDER BY p.idproduct
             ";
             //dep($sql);exit;
@@ -407,7 +407,7 @@
                 s.name as subcategory
             FROM product p
             INNER JOIN category c, subcategory s
-            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory 
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND p.status = 1
             AND p.route = '$route'";
 
             $request = $this->con->select($sql);
@@ -471,7 +471,7 @@
                 s.name as subcategory
             FROM product p
             INNER JOIN category c, subcategory s, wishlist w
-            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory 
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND p.status = 1
             AND p.idproduct = w.productid AND w.personid = $id AND w.status = 1";
             $request = $this->con->select_all($sql);
             if(count($request)> 0){
@@ -541,9 +541,9 @@
             FROM product p
             INNER JOIN category c, subcategory s
             WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND
-            p.name LIKE  '%$search%' || c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND
-            c.name LIKE  '%$search%' || c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND
-            s.name LIKE '%$search%'
+            p.name LIKE  '%$search%' AND p.status = 1 || c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND
+            c.name LIKE  '%$search%' AND p.status = 1 || c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory AND
+            s.name LIKE '%$search%' AND p.status = 1
             ";
             $request = $this->con->select_all($sql);
             if(count($request)> 0){
