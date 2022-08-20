@@ -10,7 +10,7 @@ search.addEventListener('input',function() {
         if(objData.status){
             element.innerHTML = objData.data;
         }else{
-            element.innerHTML = objData.msg;
+            element.innerHTML = objData.data;
         }
     });
 });
@@ -20,7 +20,7 @@ sort.addEventListener("change",function(){
         if(objData.status){
             element.innerHTML = objData.data;
         }else{
-            element.innerHTML = objData.msg;
+            element.innerHTML = objData.data;
         }
     });
 });
@@ -32,10 +32,6 @@ if(document.querySelector("#btnNew")){
         addItem();
     });
 }
-
-window.addEventListener("DOMContentLoaded",function() {
-    showItems(element);
-})
 
 element.addEventListener("click",function(e) {
     let element = e.target;
@@ -49,16 +45,6 @@ element.addEventListener("click",function(e) {
     }
 });
     
-function showItems(element){
-    let url = base_url+"/Product/getProducts";
-    request(url,"","get").then(function(objData){
-        if(objData.status){
-            element.innerHTML = objData.data;
-        }else{
-            element.innerHTML = objData.msg;
-        }
-    })
-}
 function addItem(){
     
     let modalItem = document.querySelector("#modalItem");
@@ -302,7 +288,7 @@ function addItem(){
                     for (let i = 0; i < divImg.length; i++) {
                         divImg[i].remove();
                     }
-                    showItems(element);
+                    element.innerHTML = objData.data;
                 }else{
                     Swal.fire("Error",objData.msg,"error");
                 }
@@ -707,7 +693,7 @@ function editItem(id){
                     for (let i = 0; i < divImg.length; i++) {
                         divImg[i].remove();
                     }
-                    showItems(element);
+                    element.innerHTML = objData.data;
                 }else{
                     modalView.hide();
                     modalItem.innerHTML="";
@@ -738,7 +724,7 @@ function deleteItem(id){
             request(base_url+"/Product/delProduct",formData,"post").then(function(objData){
                 if(objData.status){
                     Swal.fire("Deleted",objData.msg,"success");
-                    showItems(element);
+                    element.innerHTML = objData.data;
                 }else{
                     Swal.fire("Error",objData.msg,"error");
                 }

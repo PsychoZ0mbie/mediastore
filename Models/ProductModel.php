@@ -283,9 +283,11 @@
             return $request;
         }
         public function sort($sort){
-            $option="DESC";
+            $option=" ORDER BY p.idproduct DESC";
             if($sort == 2){
-                $option = " ASC"; 
+                $option = " ORDER BY p.idproduct ASC"; 
+            }else if( $sort == 3){
+                $option = " ORDER BY p.stock ASC"; 
             }
             $sql="SELECT 
                 p.idproduct,
@@ -309,7 +311,7 @@
                 DATE_FORMAT(p.date, '%d/%m/%Y') as date
             FROM product p
             INNER JOIN category c, subcategory s
-            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory ORDER BY p.idproduct $option";
+            WHERE c.idcategory = p.categoryid AND c.idcategory = s.categoryid AND p.subcategoryid = s.idsubcategory $option";
             $request = $this->select_all($sql);
             if(count($request)> 0){
                 for ($i=0; $i < count($request); $i++) { 

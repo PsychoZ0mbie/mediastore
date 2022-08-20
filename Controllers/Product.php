@@ -16,6 +16,7 @@
                 $data['page_tag'] = "Product";
                 $data['page_title'] = "Products";
                 $data['page_name'] = "product";
+                $data['products'] = $this->getProducts();
                 $data['app'] = "product.js";
                 $this->views->getView($this,"product",$data);
             }else{
@@ -24,10 +25,17 @@
             }
         }
         /*************************Product methods*******************************/
-        public function getProducts(){
+        public function getProducts($option=null,$params=null){
             if($_SESSION['permitsModule']['r']){
                 $html="";
-                $request = $this->model->selectProducts();
+                $request="";
+                if($option == 1){
+                    $request = $this->model->search($params);
+                }else if($option == 2){
+                    $request = $this->model->sort($params);
+                }else{
+                    $request = $this->model->selectProducts();
+                }
                 if(count($request)>0){
                     for ($i=0; $i < count($request); $i++) { 
 
@@ -48,13 +56,15 @@
                         if($_SESSION['permitsModule']['d']){
                             $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idproduct'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                         }
-                        if($request[$i]['status']==1){
+                        if($request[$i]['status']==1 && $request[$i]['stock']>0){
                             $status='<span class="badge me-1 bg-success">Active</span>';
-                        }else{
+                        }else if($request[$i]['status']==2){
                             $status='<span class="badge me-1 bg-danger">Inactive</span>';
+                        }else{
+                            $status='<span class="badge me-1 bg-warning">Sold out</span>';
                         }
                         $html.='
-                            <tr class="item" data-name="'.$request[$i]['name'].'"  data-category="'.$request[$i]['category'].'" data-subcategory="'.$request[$i]['subcategory'].'">
+                            <tr class="item">
                                 <td>
                                     <img src="'.$request[$i]['image'].'" class="rounded">
                                 </td>
@@ -73,15 +83,15 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"No data");
+                    $html = '<tr><td colspan="11">No data</td></tr>';
+                    $arrResponse = array("status"=>false,"data"=>$html);
                 }
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }else{
                 header("location: ".base_url());
                 die();
             }
             
-            die();
+            return $arrResponse;
         }
         public function getProduct(){
             if($_SESSION['permitsModule']['r']){
@@ -168,10 +178,11 @@
                             unset($_SESSION['files']);
                             unset($_SESSION['filesInfo']); 
                             if($option == 1){
-                                $arrResponse = array('status' => true, 'msg' => 'Data saved.');
+                                $arrResponse = $this->getProducts();
+                                $arrResponse['msg'] = 'Data saved.';
                             }else{
-                                
-                                $arrResponse = array('status' => true, 'msg' => 'Data updated.');
+                                $arrResponse = $this->getProducts();
+                                $arrResponse['msg'] = 'Data updated';
                             }
                         }else if($request == 'exist'){
                             $arrResponse = array('status' => false, 'msg' => '¡Warning! The product already exists, try another name and reference.');		
@@ -200,7 +211,8 @@
                         }
                         $request = $this->model->deleteProduct($id);
                         if($request=="ok"){
-                            $arrResponse = array("status"=>true,"msg"=>"It has been deleted");
+                            $arrResponse = $this->getProducts();
+                            $arrResponse['msg'] = 'It has been deleted.';
                         }else{
                             $arrResponse = array("status"=>false,"msg"=>"It has not been possible to delete, try again.");
                         }
@@ -385,111 +397,19 @@
             die();
         }
         public function search($params){
-            $search = strClean($params);
-            $request = $this->model->search($params);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-
-                    $status="";
-                    $btnGlobe = '<a href="'.base_url().'/shop/product/'.$request[$i]['route'].'" target="_blank" class="btn btn-primary m-1 text-white" title="Watch on website"><i class="fas fa-globe"></i></a>';
-                    $btnView = '<button class="btn btn-info m-1" type="button" title="Watch" data-id="'.$request[$i]['idproduct'].'" name="btnView"><i class="fas fa-eye"></i></button>';
-                    $btnEdit="";
-                    $btnDelete="";
-                    $price = formatNum($request[$i]['price']);
-                    if($request[$i]['discount']>0){
-                        $discount = '<span class="text-success">'.$request[$i]['discount'].'% OFF</span>';
-                    }else{
-                        $discount = '<span class="text-danger">No discount</span>';
-                    }
-                    if($_SESSION['permitsModule']['u']){
-                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idproduct'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
-                    }
-                    if($_SESSION['permitsModule']['d']){
-                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idproduct'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    }
-                    if($request[$i]['status']==1){
-                        $status='<span class="badge me-1 bg-success">Active</span>';
-                    }else{
-                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
-                    }
-                    $html.='
-                        <tr class="item" data-name="'.$request[$i]['name'].'"  data-category="'.$request[$i]['category'].'" data-subcategory="'.$request[$i]['subcategory'].'">
-                            <td>
-                                <img src="'.$request[$i]['image'].'" class="rounded">
-                            </td>
-                            <td>'.$request[$i]['reference'].'</td>
-                            <td>'.$request[$i]['name'].'</td>
-                            <td>'.$request[$i]['category'].'</td>
-                            <td>'.$request[$i]['subcategory'].'</td>
-                            <td>'.$price.'</td>
-                            <td>'.$discount.'</td>
-                            <td>'.$request[$i]['stock'].'</td>
-                            <td>'.$request[$i]['date'].'</td>
-                            <td>'.$status.'</td>
-                            <td class="item-btn">'.$btnGlobe.$btnView.$btnEdit.$btnDelete.'</td>
-                        </tr>
-                    ';
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $search = strClean($params);
+                $arrResponse = $this->getProducts(1,$params);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function sort($params){
-            $sort = intval($params);
-            $request = $this->model->sort($sort);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-
-                    $status="";
-                    $btnGlobe = '<a href="'.base_url().'/shop/product/'.$request[$i]['route'].'" target="_blank" class="btn btn-primary m-1 text-white" title="Watch on website"><i class="fas fa-globe"></i></a>';
-                    $btnView = '<button class="btn btn-info m-1" type="button" title="Watch" data-id="'.$request[$i]['idproduct'].'" name="btnView"><i class="fas fa-eye"></i></button>';
-                    $btnEdit="";
-                    $btnDelete="";
-                    $price = formatNum($request[$i]['price']);
-                    if($request[$i]['discount']>0){
-                        $discount = '<span class="text-success">'.$request[$i]['discount'].'% OFF</span>';
-                    }else{
-                        $discount = '<span class="text-danger">No discount</span>';
-                    }
-                    if($_SESSION['permitsModule']['u']){
-                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idproduct'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
-                    }
-                    if($_SESSION['permitsModule']['d']){
-                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idproduct'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    }
-                    if($request[$i]['status']==1){
-                        $status='<span class="badge me-1 bg-success">Active</span>';
-                    }else{
-                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
-                    }
-                    $html.='
-                        <tr class="item" data-name="'.$request[$i]['name'].'"  data-category="'.$request[$i]['category'].'" data-subcategory="'.$request[$i]['subcategory'].'">
-                            <td>
-                                <img src="'.$request[$i]['image'].'" class="rounded">
-                            </td>
-                            <td>'.$request[$i]['reference'].'</td>
-                            <td>'.$request[$i]['name'].'</td>
-                            <td>'.$request[$i]['category'].'</td>
-                            <td>'.$request[$i]['subcategory'].'</td>
-                            <td>'.$price.'</td>
-                            <td>'.$discount.'</td>
-                            <td>'.$request[$i]['stock'].'</td>
-                            <td>'.$request[$i]['date'].'</td>
-                            <td>'.$status.'</td>
-                            <td class="item-btn">'.$btnGlobe.$btnView.$btnEdit.$btnDelete.'</td>
-                        </tr>
-                    ';
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $params = intval($params);
+                $arrResponse = $this->getProducts(2,$params);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
     }

@@ -1,5 +1,6 @@
-<?php headerAdmin($data)?>
-
+<?php
+ headerAdmin($data);
+?>
 <div class="body flex-grow-1 px-3" id="<?=$data['page_name']?>">
     <div id="modalItem"></div>
     <div class="container-lg">
@@ -20,6 +21,7 @@
                                 <select class="form-control" aria-label="Default select example" id="sortBy" name="sortBy" required>
                                     <option value="1">Latest</option>
                                     <option value="2">Oldest</option>
+                                    <option value="3">Stock</option>
                                 </select>
                             </div>
                         </div>
@@ -43,7 +45,13 @@
                             </tr>
                         </thead>
                         <tbody id="listItem">
-                            
+                            <?php if($data['products']['status']){?>
+                            <?=$data['products']['data']?>
+                            <?php }else{?>
+                                <tr>
+                                    <td colspan="11"><?=$data['products']['msg']?></td>
+                                </tr>
+                            <?php }?>
                         </tbody>
                     </table>
                 </div>
