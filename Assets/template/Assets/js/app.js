@@ -497,7 +497,7 @@ if(document.querySelector("#product")){
 
     //Add to wishlist
     btn.addEventListener("click",function(){
-        let idProduct = addProduct.getAttribute("data-id");
+        let idProduct = document.querySelector("#idProduct").getAttribute("data-id");
         let formData = new FormData();
         formData.append("idProduct",idProduct);
         btn.classList.toggle("active");

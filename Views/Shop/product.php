@@ -5,6 +5,7 @@
     $product = $data['product'];
     $products = $data['products'];
     $urlShare = base_url()."/shop/product/".$product['route'];
+    $idProductEncrypt= openssl_encrypt($product['idproduct'],METHOD,KEY);
     $status="";
     $rate = "";
     $price ='<p class="fs-3"><strong>'.formatNum($product['price']).'</strong></p>';
@@ -13,14 +14,14 @@
         <div class="decrement"><i class="fas fa-minus"></i></div>
         <input class="cant me-2 ms-2" type="number" min="1" max="'.$product['stock'].'" value="1">
         <div class="increment"><i class="fas fa-plus"></i></div>
-        <button type="button" class="ms-3" data-id="'.openssl_encrypt($product['idproduct'],METHOD,KEY).'" id="addProduct"><i class="fas fa-shopping-cart me-2"></i> Add</button>
+        <button type="button" class="ms-3" data-id="'.$idProductEncrypt.'" id="addProduct"><i class="fas fa-shopping-cart me-2"></i> Add</button>
     </div>
     ';
     $discount="";
     $favorite="";
 
     if($product['favorite']==1){
-        $favorite = '<button type="button" class="c-p btn"><i class="fas fa-heart product-addwishlist me-1 text-danger active"></i> <a href="'.base_url().'/shop/wishlist"class="c-p">Check wishlist</a></button>';
+        $favorite = '<button type="button" class="c-p btn"><i class="fas fa-heart product-addwishlist me-1 text-danger active"></i> <a href="'.base_url().'/wishlist"class="c-p">Check wishlist</a></button>';
     }else{
         $favorite = '<button type="button" class="c-p btn"><i class="far fa-heart product-addwishlist me-1"></i> <a class="c-d">Add to wishlist</a></button>';
     }
@@ -101,6 +102,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 product-data">
+                    <div id="idProduct" class="d-none" data-id="<?=$idProductEncrypt?>"></div>
                     <h1><strong><?=$product['name']?></strong></h1>
                     <div class="product-rate text-start mt-1">
                         <?=$rate?>
