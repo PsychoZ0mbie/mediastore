@@ -68,7 +68,7 @@
             $sql = "SELECT COUNT(a.idarticle) as total 
                     FROM article a
                     INNER JOIN category c, subcategory s
-                    WHERE c.idcategory = a.categoryid AND c.idcategory = s.categoryid AND a.subcategoryid = s.idsubcategory $option";
+                    WHERE c.idcategory = a.categoryid AND c.idcategory = s.categoryid AND a.subcategoryid = s.idsubcategory AND a.status=1 $option";
             $request = $this->con->select($sql);
             return $request;
         }
@@ -99,7 +99,7 @@
                     DATE_FORMAT(a.date_updated, '%d/%m/%Y') as dateupdated
                     FROM article a
                     INNER JOIN blogcategory c, blogsubcategory s
-                    WHERE c.idcategory = a.categoryid AND c.idcategory = s.categoryid AND a.subcategoryid = s.idsubcategory $option
+                    WHERE c.idcategory = a.categoryid AND c.idcategory = s.categoryid AND a.subcategoryid = s.idsubcategory AND a.status=1 $option
                     ORDER BY a.idarticle DESC
             ";
             $request = $this->con->select_all($sql);
@@ -186,7 +186,7 @@
             DATE_FORMAT(a.date_updated, '%d/%m/%Y') as dateupdated
             FROM article a
             INNER JOIN blogcategory c, blogsubcategory s
-            WHERE c.idcategory = a.categoryid AND c.idcategory = s.categoryid AND a.subcategoryid = s.idsubcategory 
+            WHERE c.idcategory = a.categoryid AND c.idcategory = s.categoryid AND a.subcategoryid = s.idsubcategory AND a.status=1
             AND a.route = '$route'";
             $request = $this->con->select($sql);
             return $request;
