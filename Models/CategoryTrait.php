@@ -25,7 +25,7 @@
         }
         public function getCategoriesShowT(string $categories){
             $this->con=new Mysql();
-            $sql = "SELECT idcategory,picture,name,status,route FROM category WHERE idcategory IN ($categories)";       
+            $sql = "SELECT * FROM category WHERE idcategory IN ($categories)";       
             $request = $this->con->select_all($sql);
             return $request;
         }
@@ -35,7 +35,7 @@
                 $q=" LIMIT $qty";
             }
             $this->con=new Mysql();
-            $sql = "SELECT idcategory,picture,name,status,route FROM category WHERE idcategory ORDER BY idcategory DESC LIMIT $qty";       
+            $sql = "SELECT * FROM category WHERE idcategory ORDER BY idcategory DESC LIMIT $qty";       
             $request = $this->con->select_all($sql);
             return $request;
         }

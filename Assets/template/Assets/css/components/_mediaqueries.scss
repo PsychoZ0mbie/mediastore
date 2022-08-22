@@ -38,12 +38,15 @@
         .carousel-item{
             height: 500px;
             .carousel-info{
-                min-width: 350px;
+                //min-width: 350px;
                 h2{
                     margin-bottom: 30px;
                     font-size: 30px;
                     color:$third-color;
                     font-style: oblique;
+                }
+                h3{
+                    font-size: 17px;
                 }
                 span{
                     font-size: 25px;

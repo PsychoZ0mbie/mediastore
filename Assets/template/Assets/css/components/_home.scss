@@ -16,15 +16,19 @@
             transform: translate(-50%,-50%);
             background-color: rgba(0, 0, 0, 0.3);
             text-align: center;
-            min-width: 400px;
+            min-width: 350px;
             padding: 20px;
             border-radius: 20px;
             
             h2{
-                margin-bottom: 30px;
                 font-size: 60px;
                 color:$third-color;
                 font-style: oblique;
+            }
+            h3{
+                color:$third-color;
+                font-size: 20px;
+                margin-bottom: 30px;
             }
             span{
                 font-size: 25px;

@@ -79,6 +79,10 @@ function addItem(){
                             <label for="txtName" class="form-label">Name <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="txtName" name="txtName" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="txtDescription" class="form-label">Description </label>
+                            <textarea class="form-control" id="txtDescription" name="txtDescription" rows="5"></textarea>
+                        </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Add</button>
                             <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
@@ -156,6 +160,10 @@ function editItem(id){
                             <div class="mb-3">
                                 <label for="txtName" class="form-label">Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="txtName" name="txtName" value="${objData.data.name}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtDescription" class="form-label">Description </label>
+                                <textarea class="form-control" id="txtDescription" name="txtDescription" rows="5">${objData.data.description}</textarea>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary" id="btnAdd">Update</button>

@@ -5,15 +5,17 @@
 		private $strName;
         private $strRoute;
         private $strPhoto;
+        private $strDescription;
 
         public function __construct(){
             parent::__construct();
         }
         /*************************Category methods*******************************/
-        public function insertCategory(string $photo,string $strName,string $strRoute){
+        public function insertCategory(string $photo,string $strName, string $strDescription, string $strRoute){
 
 			$this->strName = $strName;
 			$this->strRoute = $strRoute;
+            $this->strDescription = $strDescription;
             $this->strPhoto = $photo;
 			$return = 0;
 
@@ -23,11 +25,12 @@
 
 			if(empty($request))
 			{ 
-				$query_insert  = "INSERT INTO category(picture,name,route) 
-								  VALUES(?,?,?)";
+				$query_insert  = "INSERT INTO category(picture,name,description,route) 
+								  VALUES(?,?,?,?)";
 	        	$arrData = array(
                     $this->strPhoto,
                     $this->strName,
+                    $this->strDescription,
                     $this->strRoute
         		);
 	        	$request_insert = $this->insert($query_insert,$arrData);
@@ -37,21 +40,24 @@
 			}
 	        return $return;
 		}
-        public function updateCategory(int $intIdCategory,string $photo, string $strName,string $strRoute){
+        public function updateCategory(int $intIdCategory,string $photo, string $strName, string $strDescription,string $strRoute){
             $this->intIdCategory = $intIdCategory;
             $this->strName = $strName;
+            $this->strDescription = $strDescription;
 			$this->strRoute = $strRoute;
             $this->strPhoto = $photo;
+            
 
 			$sql = "SELECT * FROM category WHERE name = '{$this->strName}' AND idcategory != $this->intIdCategory";
 			$request = $this->select_all($sql);
 
 			if(empty($request)){
 
-                $sql = "UPDATE category SET picture=?, name=?, route=? WHERE idcategory = $this->intIdCategory";
+                $sql = "UPDATE category SET picture=?, name=?,description=?, route=? WHERE idcategory = $this->intIdCategory";
                 $arrData = array(
                     $this->strPhoto,
                     $this->strName,
+                    $this->strDescription,
                     $this->strRoute
                 );
 				$request = $this->update($sql,$arrData);

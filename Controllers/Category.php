@@ -103,6 +103,7 @@
                     }else{ 
                         $idCategory = intval($_POST['idCategory']);
                         $strName = ucwords(strClean($_POST['txtName']));
+                        $strDescription = strClean($_POST['txtDescription']);
                         $route = str_replace(" ","-",$strName);
                         $route = str_replace("?","",$route);
                         $route = strtolower(str_replace("¿","",$route));
@@ -124,6 +125,7 @@
                                 $request= $this->model->insertCategory(
                                     $photoCategory, 
                                     $strName,
+                                    $strDescription,
                                     $route
                                 );
                             }
@@ -144,6 +146,7 @@
                                     $idCategory, 
                                     $photoCategory,
                                     $strName,
+                                    $strDescription,
                                     $route
                                 );
                             }

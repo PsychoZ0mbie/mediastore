@@ -41,6 +41,7 @@
                     <div class="carousel-info">
                         <span>New Collection</span>
                         <h2><?=$slider[$i]['name']?></h2>
+                        <h3><?=$slider[$i]['description']?></h3>
                         <a href="<?=base_url()."/shop/category/".$slider[$i]['route']?>" class="btn btnc-primary fs-5">Shop Now</a>
                     </div>
                 </div>
