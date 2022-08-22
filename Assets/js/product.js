@@ -59,7 +59,7 @@ function addItem(){
                 <div class="modal-body">
                     <form id="formFile" name="formFile">
                         <div class="row scrolly" id="upload-multiple">
-                            <div class="col-4">
+                            <div class="col-md-3">
                                 <div class="mb-3 upload-images">
                                     <label for="txtImg" class="text-primary text-center d-flex justify-content-center align-items-center">
                                         <div>
@@ -173,44 +173,13 @@ function addItem(){
         }
     }
 
+    setImage(img,parent,1);
+    delImage(parent,1);
+
     request(base_url+"/Product/getSelectCategories","","get").then(function(objData){
         categoryList.innerHTML = objData.data;
     });
 
-    img.addEventListener("change",function(e){
-        if(img.value!=""){
-            let formImg = new FormData(formFile);
-            let url = base_url+"/Product/setImg";
-            
-            uploadMultipleImg(img,parent);
-            formImg.append("id","");
-            request(url,formImg,"post").then(function(objData){});
-        }
-    });
-    parent.addEventListener("click",function(e){
-        if(e.target.className =="deleteImg"){
-            let divImg = document.querySelectorAll(".upload-image");
-            let deleteItem = e.target.parentElement;
-            let nameItem = deleteItem.getAttribute("data-name");
-            let arrDel = [];
-            let imgDel;
-            for (let i = 0; i < divImg.length; i++) {
-                if(divImg[i].getAttribute("data-name")==nameItem){
-                    deleteItem.remove();
-                    imgDel = document.querySelectorAll(".upload-image");
-                }
-            }
-            for (let i = 0; i < imgDel.length; i++) {
-                arrDel.push(imgDel[i].getAttribute("data-name"));
-            }
-            let url = base_url+"/Product/delImg";
-            let formDel = new FormData();
-
-            formDel.append("id","");
-            formDel.append("files",JSON.stringify(arrDel));
-            request(url,formDel,"post").then(function(objData){});
-        }
-    });
     categoryList.addEventListener("change",function(){
         let formData = new FormData();
         formData.append("idCategory",categoryList.value);
@@ -221,7 +190,7 @@ function addItem(){
     });
 
     setTinymce("#txtDescription");
-
+    
     let flag = true;
     form.addEventListener("submit",function(e){
         e.preventDefault();
@@ -299,8 +268,6 @@ function addItem(){
             flag = false;
         }
     },false);
-
-
 }
 function viewItem(id){
     let url = base_url+"/Product/getProduct";
@@ -312,14 +279,12 @@ function viewItem(id){
             let html = "";
             let discount =objData.data.discount;
             let status = objData.data.status;
-            if(images[0]!=""){
-                for (let i = 0; i < images.length; i++) {
-                    html+=`
-                        <div class="col-md-3 upload-image mb-3">
-                            <img src="${images[i]['url']}">
-                        </div>
-                    `;
-                }
+            for (let i = 0; i < images.length; i++) {
+                html+=`
+                    <div class="col-md-3 upload-image mb-3">
+                        <img src="${images[i]['url']}">
+                    </div>
+                `;
             }
             if(discount>0){
                 discount = `<span class="text-success">${discount}% OFF</span>`
@@ -419,7 +384,7 @@ function editItem(id){
                 <div class="modal-body">
                     <form id="formFile" name="formFile">
                         <div class="row scrolly" id="upload-multiple">
-                            <div class="col-4">
+                            <div class="col-md-3">
                                 <div class="mb-3 upload-images">
                                     <label for="txtImg" class="text-primary text-center d-flex justify-content-center align-items-center">
                                         <div>
@@ -540,7 +505,6 @@ function editItem(id){
         document.querySelector("#txtStock").value = objData.data.stock;
         document.querySelector("#txtShortDescription").value=objData.data.shortdescription; 
         document.querySelector("#txtDescription").value=objData.data.description; 
-        //modal.classList.remove("d-none");
 
         for (let i = 0; i < status.length; i++) {
             if(status[i].value == objData.data.status){
@@ -551,7 +515,7 @@ function editItem(id){
         if(images[0]!=""){
             for (let i = 0; i < images.length; i++) {
                 let div = document.createElement("div");
-                div.classList.add("col-4","upload-image","mb-3");
+                div.classList.add("col-md-3","upload-image","mb-3");
                 div.setAttribute("data-name",images[i]['name']);
                 div.innerHTML = `
                         <img>
@@ -587,44 +551,9 @@ function editItem(id){
     });
 
     modalView.show();
-    img.addEventListener("change",function(e){
-        e.stopPropagation();
-        if(img.value!=""){
-            let formImg = new FormData(formFile);
-            let id = document.querySelector("#idProduct").value;
-            uploadMultipleImg(img,parent);
-            formImg.append("id",id);
-            request(base_url+"/Product/setImg",formImg,"post").then(function(objData){});
-        }
-    },false);
-    parent.addEventListener("click",function(e){
-        let flagImg = true;
-        e.stopPropagation();
-        if(e.target.className =="deleteImg"){
-            let deleteItem = e.target.parentElement;
-            let nameItem = deleteItem.getAttribute("data-name");
-            let arrDel = [];
-            let imgDel = [];
-            let divImg = document.querySelectorAll(".upload-image");
-            for (let i = 0; i < divImg.length; i++) {
-                if(divImg[i].getAttribute("data-name") == nameItem){
-                    deleteItem.remove();
-                    imgDel = document.querySelectorAll(".upload-image");
-                    break;
-                }
-            }
-            for (let i = 0; i < imgDel.length; i++) {
-                arrDel.push(imgDel[i].getAttribute("data-name"));
-            }
-            let formDel = new FormData();
-            formDel.append("id",document.querySelector("#idProduct").value);
-            formDel.append("files",JSON.stringify(arrDel));
-            if(flagImg === true){
-                request(base_url+"/Product/delImg",formDel,"post").then(function(objData){formFile.reset();});
-                flagImg = false;
-            }
-        }
-    },false);
+    setImage(img,parent,2);
+    delImage(parent,2);
+
     categoryList.addEventListener("change",function(){
         let formData = new FormData();
         formData.append("idCategory",categoryList.value);
@@ -729,6 +658,49 @@ function deleteItem(id){
                     Swal.fire("Error",objData.msg,"error");
                 }
             });
+        }
+    });
+}
+function setImage(element,parent,option){
+    let formFile = document.querySelector("#formFile");
+    element.addEventListener("change",function(e){
+        if(element.value!=""){
+            let formImg = new FormData(formFile);
+            uploadMultipleImg(element,parent);
+            
+            formImg.append("id","");
+            
+            if(option == 2){
+                let images = document.querySelectorAll(".upload-image").length;
+                formImg.append("images",images);
+                formImg.append("id",document.querySelector("#idProduct").value);  
+            }
+            request(base_url+"/Product/setImg",formImg,"post").then(function(objData){});
+        }
+    });
+}
+function delImage(parent,option){
+    parent.addEventListener("click",function(e){
+        if(e.target.className =="deleteImg"){
+            let divImg = document.querySelectorAll(".upload-image");
+            let deleteItem = e.target.parentElement;
+            let nameItem = deleteItem.getAttribute("data-name");
+            let imgDel;
+            for (let i = 0; i < divImg.length; i++) {
+                if(divImg[i].getAttribute("data-name")==nameItem){
+                    deleteItem.remove();
+                    imgDel = document.querySelectorAll(".upload-image");
+                }
+            }
+            let url = base_url+"/Product/delImg";
+            let formDel = new FormData();
+
+            formDel.append("id","");
+            if(option == 2){
+                formDel.append("id",document.querySelector("#idProduct").value);  
+            }
+            formDel.append("image",nameItem);
+            request(url,formDel,"post").then(function(objData){});
         }
     });
 }

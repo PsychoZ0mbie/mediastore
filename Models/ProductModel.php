@@ -58,7 +58,7 @@
 	        	$request_insert = $this->insert($query_insert,$arrData);
                 for ($i=0; $i < count($photos) ; $i++) { 
                     $sqlImg = "INSERT INTO productimage(productid,name) VALUES(?,?)";
-                    $arrImg = array($request_insert,$photos[$i]['rename']);
+                    $arrImg = array($request_insert,$photos[$i]['re_name']);
                     $requestImg = $this->insert($sqlImg,$arrImg);
                 }
 	        	$return = $request_insert;
@@ -90,7 +90,7 @@
 			$request = $this->select_all($sql);
 
 			if(empty($request)){
-                $requestImg = $this->deleteImages($this->intIdProduct);
+                
 
                 $sql = "UPDATE product SET categoryid=?, subcategoryid=?, reference=?, name=?, shortdescription=?,description=?, 
                 price=?,discount=?,stock=?,status=?, route=? WHERE idproduct = $this->intIdProduct";
@@ -108,10 +108,13 @@
                     $this->strRoute
         		);
 				$request = $this->update($sql,$arrData);
-                for ($i=0; $i < count($photos) ; $i++) { 
-                    $sqlImg = "INSERT INTO productimage(productid,name) VALUES(?,?)";
-                    $arrImg = array($this->intIdProduct,$photos[$i]['rename']);
-                    $requestImg = $this->insert($sqlImg,$arrImg);
+                if(!empty($photos)){
+                    $delImages = $this->deleteImages($this->intIdProduct);
+                    for ($i=0; $i < count($photos) ; $i++) { 
+                        $sqlImg = "INSERT INTO productimage(productid,name) VALUES(?,?)";
+                        $arrImg = array($this->intIdProduct,$photos[$i]['rename']);
+                        $requestImg = $this->insert($sqlImg,$arrImg);
+                    }
                 }
 			}else{
 				$request = "exist";
@@ -121,6 +124,10 @@
 		}
         public function deleteProduct($id){
             $this->intIdProduct = $id;
+            $images = $this->selectImages($this->intIdProduct);
+            for ($i=0; $i < count($images) ; $i++) { 
+                deleteFile($images[$i]['name']);
+            }
             $sql = "DELETE FROM product WHERE idproduct = $this->intIdProduct;SET @autoid :=0; 
             UPDATE productimage SET id = @autoid := (@autoid+1);
             ALTER TABLE productimage Auto_Increment = 1;";
@@ -220,10 +227,36 @@
             $requestImg = $this->select_all($sqlImg);
             if(count($requestImg)){
                 for ($i=0; $i < count($requestImg); $i++) { 
-                    $request['image'][$i] = array("url"=>media()."/images/uploads/".$requestImg[$i]['name'],"name"=>$requestImg[$i]['name']);
+                    $request['image'][$i] = array("url"=>media()."/images/uploads/".$requestImg[$i]['name'],"name"=>$requestImg[$i]['name'],"rename"=>$requestImg[$i]['name']);
                 }
+            }
+            return $request;
+        }
+        public function insertTmpImage(string $name, string $rename){
+            $sql = "INSERT INTO imagetmp(name,re_name) VALUES(?,?)";
+            $arrData = array($name,$rename);
+            $request = $this->insert($sql,$arrData);
+            return $request;
+        }
+        public function deleteTmpImage($rename = null){
+            if($rename != null){
+                $sql = "DELETE FROM imagetmp WHERE re_name = '$rename'; SET @autoid :=0; 
+                UPDATE imagetmp SET id = @autoid := (@autoid+1);
+                ALTER TABLE imagetmp Auto_Increment = 1;";
+                $request = $this->delete($sql);
             }else{
-                $request['image'][0] = "";
+                $sql = "DELETE FROM imagetmp ; SET @autoid :=0; 
+                UPDATE imagetmp SET id = @autoid := (@autoid+1);
+                ALTER TABLE imagetmp Auto_Increment = 1;";
+                $request = $this->delete($sql);
+            }
+            return $request;
+        }
+        public function selectTmpImages(){
+            $sql = "SELECT * FROM imagetmp";
+            $request = $this->select_all($sql);
+            for ($i=0; $i < count($request); $i++) { 
+                $request[$i]['rename'] = $request[$i]['re_name'];
             }
             return $request;
         }
@@ -231,6 +264,9 @@
             $this->intIdProduct = $id;
             $sql = "SELECT * FROM productimage WHERE productid=$this->intIdProduct";
             $request = $this->select_all($sql);
+            for ($i=0; $i < count($request); $i++) { 
+                $request[$i]['rename'] = $request[$i]['name'];
+            }
             return $request;
         }
         public function deleteImages($id){

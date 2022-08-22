@@ -1,6 +1,5 @@
 <?php
     class Product extends Controllers{
-
         public function __construct(){
             session_start();
             if(empty($_SESSION['login'])){
@@ -9,8 +8,8 @@
             }
             parent::__construct();
             getPermits(4);
+            
         }
-        
         public function product(){
             if($_SESSION['permitsModule']['r']){
                 $data['page_tag'] = "Product";
@@ -104,20 +103,12 @@
                         $request = $this->model->selectProduct($id);
                         //dep($request);exit;
                         if(!empty($request)){
+                            $this->model->deleteTmpImage();
                             $request['priceFormat'] = formatNum($request['price']);
-                            $arrFiles = [];
-                            //dep($request['image']);
-                            if($request['image'][0]==""){
-                                $arrFiles = [];
-                            }else{
-                                for ($i=0; $i < count($request['image']) ; $i++) { 
-                                    $arr = array("name"=>$request['image'][$i]['name'],"rename"=>$request['image'][$i]['name']);
-                                    array_push($arrFiles,$arr);
-                                }
+                            $arrImages = $this->model->selectImages($id);
+                            for ($i=0; $i < count($arrImages) ; $i++) { 
+                                $this->model->insertTmpImage($arrImages[$i]['name'],$arrImages[$i]['rename']);
                             }
-                            $_SESSION['filesInfo'] = $arrFiles;
-                            //dep($request['image']); 
-                            //dep($_SESSION['filesInfo']);   
                             $arrResponse = array("status"=>true,"data"=>$request);
                         }else{
                             $arrResponse = array("status"=>false,"msg"=>"No data"); 
@@ -156,12 +147,7 @@
                         $route = strtolower(str_replace("¿","",$route));
                         $route = clear_cadena($route);
 
-                        $photos;
-                        if(isset($_SESSION['files'])){
-                            $photos = $_SESSION['files'];
-                        }else if(isset($_SESSION['filesInfo'])){
-                            $photos = $_SESSION['filesInfo'];
-                        }
+                        $photos = $this->model->selectTmpImages();
                         //dep($photos);
                         if($idProduct == 0){
                             if($_SESSION['permitsModule']['w']){
@@ -175,8 +161,7 @@
                             }
                         }
                         if($request > 0 ){
-                            unset($_SESSION['files']);
-                            unset($_SESSION['filesInfo']); 
+                            $this->model->deleteTmpImage();
                             if($option == 1){
                                 $arrResponse = $this->getProducts();
                                 $arrResponse['msg'] = 'Data saved.';
@@ -205,12 +190,9 @@
                         $arrResponse=array("status"=>false,"msg"=>"Data error");
                     }else{
                         $id = intval($_POST['idProduct']);
-                        $request = $this->model->selectImages($id);
-                        for ($i=0; $i < count($request) ; $i++) { 
-                            deleteFile($request[$i]['name']);
-                        }
                         $request = $this->model->deleteProduct($id);
                         if($request=="ok"){
+                            $this->model->deleteTmpImage();
                             $arrResponse = $this->getProducts();
                             $arrResponse['msg'] = 'It has been deleted.';
                         }else{
@@ -256,143 +238,55 @@
             }
             die();
         }
-        public function setImg(){
-            $arrFiles;
-            $id = intval($_POST['id']);
-            if($id == 0){
-                if(isset($_SESSION['files'])){
-                    $arrFilesInfo = $_SESSION['files'];
-                    $arrFiles = orderFiles($_FILES['txtImg']);
-                    for ($i=0; $i < count($arrFilesInfo) ; $i++) { 
-                        array_unshift($arrFiles,$arrFilesInfo[$i]);
-                    }
-                    $_SESSION['files'] = $arrFiles;
-                }else{
-                    $arrFiles = orderFiles($_FILES['txtImg']);
-                    $_SESSION['files'] = $arrFiles;
-                }
-            }else{
-                if(isset($_SESSION['filesInfo']) && count($_SESSION['filesInfo'])>0){
-                    $arrFiles = $_SESSION['filesInfo'];
-                    $arrNewFiles = orderFiles($_FILES['txtImg']);
-                    for ($i=0; $i < count($arrNewFiles) ; $i++) { 
-                        array_unshift($arrFiles,$arrNewFiles[$i]);
-                    }
-                    unset( $_SESSION['filesInfo']);
-                    $_SESSION['files'] = $arrFiles;   
-                }else if(isset($_SESSION['files']) ){
-                    $arrFilesInfo = $_SESSION['files'];
-                    $arrFiles = orderFiles($_FILES['txtImg']);
-                    for ($i=0; $i < count($arrFilesInfo) ; $i++) { 
-                        array_unshift($arrFiles,$arrFilesInfo[$i]);
-                    }
-                    $_SESSION['files'] = $arrFiles;
-                }else{
-                    $arrFiles = orderFiles($_FILES['txtImg']);
-                    $_SESSION['files'] = $arrFiles;
-                }
-                
+        public function setImg(){ 
+            $arrImages = orderFiles($_FILES['txtImg']);
+            for ($i=0; $i < count($arrImages) ; $i++) { 
+                $request = $this->model->insertTmpImage($arrImages[$i]['name'],$arrImages[$i]['rename']);
             }
-            $arrResponse= array("msg"=>"Imágen cargada");
+            /*
+            if(isset($_SESSION['arrImages'])){
+                $arrImages = $_SESSION['arrImages'];
+                $arrNewImages = orderFiles($_FILES['txtImg']);
+                for ($i=0; $i < count($arrNewImages) ; $i++) { 
+                    array_push($arrImages,$arrNewImages[$i]);
+                }
+                $_SESSION['arrImages'] = $arrImages;
+            }else{
+                if(!empty($_POST['id'])){
+                    $id = intval($_POST['id']);
+                    $images = orderFiles($_FILES['txtImg']);
+                    if(intval($_POST['images'])>1){
+                        $request = $this->model->selectImages($id);
+                        for ($i=0; $i < count($request); $i++) { 
+                            $request[$i]['rename'] = $request[$i]['name'];
+                        }
+                        for ($i=0; $i < count($images); $i++) { 
+                            array_push($request,$images[$i]);
+                        }
+                        $_SESSION['arrImages'] = $request;
+                    }else{
+                        $_SESSION['arrImages'] = $images;
+                    }
+                }else{
+                    $_SESSION['arrImages'] = orderFiles($_FILES['txtImg']);
+                }
+            }
+            */
+            $arrResponse = array("msg"=>"Uploaded");
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function delImg(){
-            $id = intval($_POST['id']);
-            $arrImg = json_decode($_POST['files'],true);
-            //dep($_POST);
-            $arrFiles = [];
-            if($id == 0){
-                if(count($arrImg)>0){
-                    $arrFiles = $_SESSION['files'];
-                    $arrNewFiles =[];
-                    $flag = false;
-                    for ($i=0; $i < count($arrFiles); $i++) { 
-                        for ($j=0; $j < count($arrImg) ; $j++) { 
-                            if($arrImg[$j] == $arrFiles[$i]['name']){
-                                array_push($arrNewFiles,$arrFiles[$i]); // push array into arrNewFils if is true
-                                $flag = false;
-                                break;
-                            }else{
-                                $flag = true;
-                            }
-                        }
-                        if($flag){
-                            deleteFile($arrFiles[$i]['rename']); // delete image if flag is true
-                        }
-                    }
-                    $_SESSION['files'] = $arrNewFiles;
-                }else{
-                    $arrFiles = $_SESSION['files'];
-                    deleteFile($arrFiles[0]['rename']); 
-                    unset($_SESSION['files']); 
-                }
-            }else{
-                if(count($arrImg)>0){
-                    if(isset($_SESSION['filesInfo']) && count($_SESSION['filesInfo'])>0){
-                        $arrFiles = $_SESSION['filesInfo'];
-                        $arrNewFiles =[];
-                        $flag = false;
-                        for ($i=0; $i < count($arrFiles); $i++) { 
-                            for ($j=0; $j < count($arrImg) ; $j++) { 
-                                if($arrImg[$j] == $arrFiles[$i]['name']){
-                                    array_push($arrNewFiles,$arrFiles[$i]); // push array into arrNewFils if is true
-                                    $flag = false;
-                                    break;
-                                }else{
-                                    $flag = true;
-                                }
-                            }
-                            if($flag){
-                                deleteFile($arrFiles[$i]['rename']); // delete image if flag is true
-                            }
-                        }
-                        unset($_SESSION['filesInfo']);
-                        $_SESSION['files'] = $arrNewFiles;
-
-                    }else{
-                        $arrFiles = $_SESSION['files'];
-                        $arrNewFiles =[];
-                        $flag = false;
-                        for ($i=0; $i < count($arrFiles); $i++) { 
-                            for ($j=0; $j < count($arrImg) ; $j++) { 
-                                if($arrImg[$j] == $arrFiles[$i]['name']){
-                                    array_push($arrNewFiles,$arrFiles[$i]); // push array into arrNewFils if is true
-                                    $flag = false;
-                                    break;
-                                }else{
-                                    $flag = true;
-                                }
-                            }
-                            if($flag){
-                                deleteFile($arrFiles[$i]['rename']); // delete image if flag is true
-                            }
-                        }
-                    }
-                    $_SESSION['files'] = $arrNewFiles;
-                }else{
-                    $arrFiles = [];
-                    if(isset($_SESSION['files'])){
-                        $arrFiles = $_SESSION['files'];
-                        unset($_SESSION['files']); 
-                    }else if(isset($_SESSION['filesInfo'])){
-                        $arrFiles = $_SESSION['filesInfo'];
-                        unset($_SESSION['filesInfo']); 
-                    }
-                    //dep($arrFiles);
-                    //dep($arrFiles[0]['rename']);
-                    $request = $this->model->selectImages($id);
-                    deleteFile($arrFiles[0]['rename']);
-                    if(count($request)>0){
-                        $this->model->deleteImages($id);
-                        /*for ($i=0; $i < count($request) ; $i++) { 
-                            deleteFile($request[$i]['name']);
-                        }*/
-                    }
-                    
+            $images = $this->model->selectTmpImages();
+            $image = $_POST['image'];
+            for ($i=0; $i < count($images) ; $i++) { 
+                if($image == $images[$i]['name']){
+                    deleteFile($images[$i]['rename']);
+                    $this->model->deleteTmpImage($images[$i]['rename']);
+                    break;
                 }
             }
-            $arrResponse= array("msg"=>"Imágen eliminada");
+            $arrResponse = array("msg"=>"Deleted");
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -413,4 +307,5 @@
             die();
         }
     }
+
 ?>

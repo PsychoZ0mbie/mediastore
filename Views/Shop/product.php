@@ -4,6 +4,7 @@
     $reviews = $data['reviews'];
     $product = $data['product'];
     $products = $data['products'];
+    //dep($product['image']);exit;
     $urlShare = base_url()."/shop/product/".$product['route'];
     $idProductEncrypt= openssl_encrypt($product['idproduct'],METHOD,KEY);
     $status="";
