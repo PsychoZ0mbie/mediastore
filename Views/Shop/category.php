@@ -215,7 +215,7 @@
                             $routeP = base_url()."/shop/product/".$products[$i]['route'];
                             $routeC = base_url()."/shop/category/".$products[$i]['routec'];
                             $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($products[$i]['price']).'</strong></p>';
-                            $btnAdd ='<button type="button" class="btn btn-primary product-card-add" data-id="'.$idProduct.'">Add to cart</a>';
+                            $btnAdd ='<button type="button" class="btn btn-primary product-card-add" data-id="'.$idProduct.'">Add</a>';
                             $discount="";
                             $rate="";
                             if($products[$i]['favorite']== 0){
@@ -245,7 +245,7 @@
                                 }
                             }
                     ?> 
-                    <div class="col-lg-4 col-md-6 product-item" data-id="<?=$idProduct?>" data-price="<?=$products[$i]['price']?>" data-rate="<?=$products[$i]['rate']?>">
+                    <div class="col-md-3 product-item mb-3" data-id="<?=$idProduct?>" data-price="<?=$products[$i]['price']?>" data-rate="<?=$products[$i]['rate']?>">
                         <div class="product-card">
                             <?=$discount?>
                             <div class="product-img">

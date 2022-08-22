@@ -831,7 +831,7 @@ if(document.querySelector(".pagination")){
     const end = document.querySelector(".pagination-end");
 
     let current = 1;
-    let rows = 9;
+    let rows = 12;
     let max = 3;
 
     displayList(items,listItems,rows,current,paginationbtns,max);
