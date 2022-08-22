@@ -37,7 +37,7 @@
                                 for ($i=0; $i < count($products) ; $i++) { 
                                     $idProduct = openssl_encrypt($products[$i]['idproduct'],METHOD,KEY);
                                     $price ='<p class="m-0 fs-5 t-p"><strong>'.formatNum($products[$i]['price']).'</strong></p>';
-                                    $btnAdd ='<button type="button" class="btn btn-primary product-card-add" data-id="'.$idProduct.'">Add to cart</a>';
+                                    $btnAdd ='<button type="button" class="btn product-card-add border border-dark" data-id="'.$idProduct.'"><i class="fas fa-shopping-cart" aria-hidden="true"></i></button>';
                                     $discount="";
                                     $rate="";
 
@@ -68,7 +68,7 @@
                             <td><?=$price?></td>
                             <td>
                                 <div class="wishlist-actions">
-                                    <button type="button" class="btn me-2 quickView border border-dark" data-id="<?=$idProduct?>">Quick view</button>
+                                    <button type="button" class="btn me-2 quickView border border-dark" data-id="<?=$idProduct?>"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></button>
                                     <?=$btnAdd?>
                                 </div>
                             </td>

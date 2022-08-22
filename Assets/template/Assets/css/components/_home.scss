@@ -7,7 +7,7 @@
         img{
             height: 100%;
             width: 100%;
-            transition: 1s;
+            transition: 0.8s;
         }
         .carousel-info{
             position: absolute;
@@ -40,11 +40,11 @@
     .carousel-item.active{
         img{
             filter: brightness(0.9);
-            transition: 1s;
+            transition: 0.8s;
         }
         .carousel-info{
             left: 50%;
-            transition: 1.2s;
+            transition: 1s;
         }
     }
 }

@@ -1,4 +1,20 @@
 'use strict'
+const activePage = window.location.pathname;
+const desktop = document.querySelectorAll(".navigation a");
+const mobile = document.querySelectorAll(".navigation-mobile a");
+for (let i = 0; i < desktop.length; i++) {
+    if(desktop[i].href.includes(activePage)){
+        desktop[i].parentElement.classList.add("active");
+        break;
+    }
+}
+for (let i = 0; i < mobile.length; i++) {
+    if(mobile[i].href.includes(activePage)){
+        mobile[i].parentElement.classList.add("active");
+        break;
+    }
+}
+
 var loading = document.querySelector("#divLoading");
 /***************************Nav Events****************************** */
 let btnBar = document.querySelector("#btnToggleNav");

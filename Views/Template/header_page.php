@@ -74,45 +74,19 @@
                 <a href="<?=base_url()?>"><strong>MEDIASTORE</strong></a>
             </div>
             <div class="nav-search d-none d-flex">
-                <!--<button type="button" class="btn"><i class="fas fa-search"></i></button>-->
                 <div class="w-100">
                     <input type="text" id="txtSearch" name="txtSearch" placeholder="search something">
-                    <div class="search-items d-none">
-                        <!--<div class="search-item">
-                            <div class="search-item-info">
-                                <div class="search-item-img">
-                                    <img src="http://localhost/mediastore/Assets/images/uploads/product_58b3a46f22b8.png" alt="">
-                                    <div>-30%</div>
-                                </div>
-                                <div class="search-item-data">
-                                    <h2><a href="#" class="text-decoration-none text-dark">Product 1</a></h2>
-                                    <div class="product-rate">
-                                        <i class="fas me-1 fa-star"></i>
-                                        <i class="fas me-1 fa-star"></i>
-                                        <i class="fas me-1 fa-star"></i>
-                                        <i class="fas me-1 fa-star"></i>
-                                        <i class="fas me-1 fa-star"></i>
-                                    </div>
-                                    <p class="m-0 text-dark">$250 US <span class="text-decoration-line-through t-p">$500 US</span></p>
-                                </div>
-                            </div>
-                            <div class="search-item-actions">
-                                <div class="border border-dark quickView c-p"><i class="fas fa-eye"></i></div>
-                                <div class="border border-dark product-card-add c-p"><i class="fas fa-shopping-cart" aria-hidden="true"></i></div>
-                            </div>
-                        </div>-->
-                    </div>
+                    <div class="search-items d-none"></div>
                 </div>
-                
                 <div id="btnCloseSearch">X</div>
             </div>
             <div class="nav-main">
                 <ul>
-                    <li><a href="<?=base_url()?>">Home</a></li>
-                    <li><a href="<?=base_url()?>/shop">Shop</a></li>
-                    <li><a href="<?=base_url()?>/blog">Blog</a></li>
-                    <li><a href="<?=base_url()?>/about">About</a></li>
-                    <li><a href="<?=base_url()?>/contact">Contact</a></li>
+                    <li class="navigation"><a href="<?=base_url()?>/home">Home</a></li>
+                    <li class="navigation"><a href="<?=base_url()?>/shop">Shop</a></li>
+                    <li class="navigation"><a href="<?=base_url()?>/blog">Blog</a></li>
+                    <li class="navigation"><a href="<?=base_url()?>/about">About</a></li>
+                    <li class="navigation"><a href="<?=base_url()?>/contact">Contact</a></li>
                 </ul>
             </div>
             <div class="nav-icons">
@@ -155,11 +129,11 @@
                         <div id="btnCloseNav">X</div>
                     </div>
                     <ul>
-                        <li><a href="<?=base_url()?>">Home</a></li>
-                        <li><a href="<?=base_url()?>/shop">Shop</a></li>
-                        <li><a href="<?=base_url()?>/blog">Blog</a></li>
-                        <li><a href="<?=base_url()?>/about">About</a></li>
-                        <li><a href="<?=base_url()?>/contact">Contact</a></li>
+                        <li class="navigation-mobile"><a href="<?=base_url()?>/home">Home</a></li>
+                        <li class="navigation-mobile"><a href="<?=base_url()?>/shop">Shop</a></li>
+                        <li class="navigation-mobile"><a href="<?=base_url()?>/blog">Blog</a></li>
+                        <li class="navigation-mobile"><a href="<?=base_url()?>/about">About</a></li>
+                        <li class="navigation-mobile"><a href="<?=base_url()?>/contact">Contact</a></li>
                     </ul>
                 </div>
             </div>

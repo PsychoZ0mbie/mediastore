@@ -287,6 +287,12 @@ header{
             }
             
         }
+        li.active{
+            background-color: $first-color;
+            padding-left: 20px;
+            transition: all ease 0.3s;
+        }
+
     }
 }
 .nav-mobile.active{
