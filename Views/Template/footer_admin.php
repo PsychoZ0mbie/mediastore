@@ -1,8 +1,9 @@
-    
-            <footer class="footer">
-                <div>CoreUI Bootstrap Admin Template © 2021 creativeLabs.</div>
-                <div class="ms-auto">Powered by&nbsp; CoreUI UI Components</div>
-            </footer>
+<?php $companyData = getCompanyInfo();?>
+        
+        <footer class="footer">
+            <div>CoreUI Bootstrap Admin Template © 2021 creativeLabs.</div>
+            <div class="ms-auto">Powered by&nbsp; CoreUI UI Components</div>
+        </footer>
         </div>
         
         <!-- Essential javascripts for application to work-->
@@ -28,8 +29,8 @@
         <!-- My scripts -->
         <script>
           const base_url = "<?= base_url(); ?>";
-          const MS = "<?=MS;?>";
-          const MD = "<?=MD?>";
+          const MS = "<?=$companyData['currency']['symbol'];?>";
+          const MD = "<?=$companyData['currency']['code']?>";
         </script>
         
         <script type="text/javascript" src="<?= media(); ?>/js/functions.js"></script>

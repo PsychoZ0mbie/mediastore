@@ -1,7 +1,7 @@
 <!--sidebar-->
   <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
     <div class="sidebar-brand d-none d-md-flex">
-        <a href="<?=base_url()?>" class="fs-4 m-0 text-decoration-none text-white"><?=NOMBRE_EMPRESA?></a>
+        <a href="<?=base_url()?>" class="fs-4 m-0 text-decoration-none text-white"><?=$companyData['name']?></a>
     </div>
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="init">
         <div class="simplebar-wrapper" style="margin: 0px;">
@@ -142,7 +142,20 @@
                             <?php 
                                 }
                             ?>
+                            <?php 
+                                if($_SESSION['idUser']==1){
+                            ?>
                             <li class="nav-item mt-5">
+                                <a class="nav-link" href="<?=base_url()?>/company">
+                                    <svg class="nav-icon">
+                                        <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-storage"></use>
+                                    </svg> Company
+                                </a>
+                            </li>
+                            <?php 
+                                }
+                            ?>
+                            <li class="nav-item">
                                 <a class="nav-link" href="<?=base_url()?>/user/profile">
                                     <svg class="nav-icon">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-user"></use>

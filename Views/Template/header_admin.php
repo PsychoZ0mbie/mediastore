@@ -1,4 +1,7 @@
-<?php $notification = emailNotification()?>
+<?php 
+    $notification = emailNotification();
+    $companyData = getCompanyInfo();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,8 +12,8 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
-        <title><?=$data['page_title']?></title>
-        <link rel ="shortcut icon" href="<?=media();?>/images/uploads/icon.png" sizes="114x114" type="image/png">
+        <title><?=$data['page_title']." | Panel"?></title>
+        <link rel ="shortcut icon" href="<?=media()."/images/uploads/".$companyData['logo']?>" sizes="114x114" type="image/png">
         <script src="<?= media();?>/js/plugins/tinymce/tinymce.min.js"></script>
         <!-- Font Awesome 5-->
         <link href="<?=media()?>/css/icons/font-awesome.min.css">
@@ -35,7 +38,7 @@
                     <a class="header-brand d-md-none" href="#">
                         <i class="" style="width: 118px;height: 46px;"></i>
                         <div class="fw-bold" width="118" height="46" alt="MediaStore Logo">
-                            <?=NOMBRE_EMPRESA?>
+                            <?=$companyData['name']?>
                         </div>
                     </a>
                     <ul class="header-nav ms-auto">

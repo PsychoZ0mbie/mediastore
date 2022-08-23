@@ -6,6 +6,13 @@
     require_once('Libraries/PHPMailer/PHPMailer.php');
     require_once('Libraries/PHPMailer/SMTP.php');
 
+    function getCompanyInfo(){
+        require_once('Models/CompanyModel.php');
+        $con = new CompanyModel();
+        $data = $con->selectCompany();
+        $data['password'] = openssl_encrypt($data['password'],METHOD,KEY);
+        return $data;
+    }
     function base_url(){
         return BASE_URL;
     }
@@ -45,7 +52,8 @@
         return $format;
     }
     function formatNum(int $num){
-        $num = MS.number_format($num,0,DEC,MIL).MD;
+        $companyData = getCompanyInfo();
+        $num = $companyData['currency']['symbol'].number_format($num,0,DEC,MIL)." ".$companyData['currency']['code'];
         return $num;
     }
     function emailNotification(){
@@ -143,6 +151,8 @@
     }*/
     //Pruebas
     function sendEmail($data,$template){
+        $companyData = getCompanyInfo();
+
         $mail = new PHPMailer(true);
         $mail->CharSet = 'UTF-8';
 
@@ -152,8 +162,8 @@
         if(!empty($data['nombreUsuario'])){
             $nombre= $data['nombreUsuario'];
         }
-        $empresa = NOMBRE_REMITENTE;
-        $remitente = $data['email_remitente'];
+        $empresa = $companyData['name'];
+        $remitente = $companyData['email'];
         ob_start();
         require_once("Views/Template/Email/".$template.".php");
         $mensaje = ob_get_clean();
@@ -164,7 +174,7 @@
         $mail->Host       = 'smtp.office365.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true; 
         $mail->Username   = $remitente;
-        $mail->Password   = REMITENTE_PASSWORD;
+        $mail->Password   = openssl_decrypt($companyData['password'],METHOD,KEY);
                                 //Enable SMTP authentication
                              //SMTP username
                                        //SMTP password
