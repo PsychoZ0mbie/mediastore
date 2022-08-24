@@ -17,9 +17,10 @@ $company = $data['company'];
             <div class="card-body">
                 <div id="orderInfo">
                     <div class="d-flex justify-content-between flex-wrap mb-3">
-                        <div class="mb-3 d-flex flex-wrap align-items">
+                        <div class="mb-3 d-flex flex-wrap align-items-center">
                             <img src="<?=media()."/images/uploads/".$company['logo']?>" class="me-2" style="width=100px;height:100px;" alt="">
                             <div>
+                                <p class="m-0 fw-bold"><?=$company['name']?></p>
                                 <p class="m-0"><?=$company['addressfull']?></p>
                                 <p class="m-0">+<?=$company['phonecode']." ".$company['phone']?></p>
                                 <p class="m-0"><?=$company['email']?></p>
