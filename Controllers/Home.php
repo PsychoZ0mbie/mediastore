@@ -12,8 +12,9 @@
         }
 
         public function home(){
-            $data['page_tag'] = NOMBRE_EMPRESA;
-            $data['page_title'] = NOMBRE_EMPRESA;
+            $company = getCompanyInfo();
+            $data['page_tag'] = $company['name'];
+            $data['page_title'] = $company['name'];
             $data['slider'] = $this->getRecCategoriesT(6);
             $data['category1'] = $this->getCategoriesShowT("4,5,6");
             $data['category2'] = $this->getCategoriesShowT("7,8,9");

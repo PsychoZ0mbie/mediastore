@@ -84,7 +84,7 @@
 			<tr>
 				<td>
 					<div class="x_sgwrap x_title_blue">
-						<h1><?= NOMBRE_EMPRESA ?></h1>
+						<h1><?= $data['company']['name'] ?></h1>
 					</div>
 				</td>
 			</tr>
@@ -94,7 +94,6 @@
 						<p>Hello <?= $data['nombreUsuario']; ?></p>
 					</div>
 					<p>Please, enter this code to continue with your registration: <strong><?= $data['codigo']; ?></strong></p>
-					<p class="x_title_gray"><a href="<?= WEB_EMPRESA; ?>" target="_blanck"><?= WEB_EMPRESA; ?></a></p>
 				</td>
 			</tr>
 		</tbody>

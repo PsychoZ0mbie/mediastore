@@ -13,8 +13,9 @@
 
         /******************************Views************************************/
         public function blog(){
-            $data['page_tag'] = NOMBRE_EMPRESA;
-            $data['page_title'] = "Blog | ".NOMBRE_EMPRESA;
+            $company=getCompanyInfo();
+            $data['page_tag'] = $company['name'];
+            $data['page_title'] = "Blog | ".$company['name'];
             $data['page_name'] = "blog";
             $data['recPosts'] = $this->getRecentPostsT(9);
             $data['posts'] = $this->getArticlesT();
@@ -32,9 +33,9 @@
             }else{
                 $category = strClean($arrParams[0]);
             }
-            
-            $data['page_tag'] = NOMBRE_EMPRESA;
-            $data['page_title'] = "Blog | ".NOMBRE_EMPRESA;
+            $company=getCompanyInfo();
+            $data['page_tag'] = $company['name'];
+            $data['page_title'] = "Blog | ".$company['name'];
             $data['page_name'] = "category";
             $data['categories'] = $this->getBlogCategoriesT();
             $data['routec'] = $category;
@@ -50,14 +51,15 @@
                 $params = strClean($params);
                 $data['article'] = $this->getArticlePageT($params);
                 if(!empty($data['article'])){
-                    $data['page_tag'] = NOMBRE_EMPRESA;
+                    $company=getCompanyInfo();
+                    $data['page_tag'] = $company['name'];
                     $data['page_name'] = "article";
                     $data['relPosts'] = $this->getRelatedPostsT(3,$data['article']['categoryid']);
                     $data['recPosts'] = $this->getRecentPostsT(9);
                     $data['categories'] = $this->getBlogCategoriesT();
                     $data['comments'] = $this->getComments($data['article']['idarticle']);
                     //$data['articles'] = $this->getProductsRandT(4);
-                    $data['page_title'] =$data['article']['name']." | ".NOMBRE_EMPRESA;
+                    $data['page_title'] =$data['article']['name']." | ".$company['name'];
                     $this->views->getView($this,"article",$data);
                 }else{
                     header("location: ".base_url()."/error");
@@ -68,6 +70,7 @@
                 die();
             }
         }
+        /******************************Methods************************************/
         public function setComment(){
             //dep($_POST);exit;
             if($_POST){

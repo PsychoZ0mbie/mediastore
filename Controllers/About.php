@@ -8,8 +8,9 @@
         }
 
         public function about(){
-            $data['page_tag'] = "About us | ".NOMBRE_EMPRESA;
-			$data['page_title'] = "About us | ".NOMBRE_EMPRESA;
+            $company=getCompanyInfo();
+            $data['page_tag'] = "About us | ".$company['name'];
+			$data['page_title'] = "About us | ".$company['name'];
 			$data['page_name'] = "about";
             $data['page'] = $this->getPage(1);
             $this->views->getView($this,"about",$data);

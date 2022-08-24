@@ -13,6 +13,38 @@
         $data['password'] = openssl_encrypt($data['password'],METHOD,KEY);
         return $data;
     }
+    function getCredentials(){
+        require_once('Models/CompanyModel.php');
+        $con = new CompanyModel();
+        $data = $con->selectCredentials();
+        return $data;
+    }
+    function getSocialMedia(){
+        require_once('Models/CompanyModel.php');
+        $con = new CompanyModel();
+        $request = $con->selectSocial();
+        $arrSocial = array(
+            array("name"=>"facebook",
+                "link"=>$request['facebook']
+            ),
+            array("name"=>"twitter",
+                "link"=>$request['twitter']
+            ),
+            array("name"=>"youtube",
+                "link"=>$request['youtube']
+            ),
+            array("name"=>"instagram",
+                "link"=>$request['instagram']
+            ),
+            array("name"=>"linkedin",
+                "link"=>$request['linkedin']
+            ),
+            array("name"=>"whatsapp",
+                "link"=>str_replace("+","",$request['whatsapp'])
+            ),
+        );
+        return $arrSocial;
+    }
     function base_url(){
         return BASE_URL;
     }
@@ -212,10 +244,11 @@
         return $arrFiles;
     }
     function getTokenPaypal(){
+        $credentials = getCredentials();
         $payLogin = curl_init(URLPAYPAL."/v1/oauth2/token");
         curl_setopt($payLogin, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($payLogin, CURLOPT_RETURNTRANSFER,TRUE);
-        curl_setopt($payLogin, CURLOPT_USERPWD, CLIENT_ID.":".SECRET);
+        curl_setopt($payLogin, CURLOPT_USERPWD, $credentials['client'].":".$credentials['secret']);
         curl_setopt($payLogin, CURLOPT_POSTFIELDS, "grant_type=client_credentials");
         $result = curl_exec($payLogin);
         $err = curl_error($payLogin);

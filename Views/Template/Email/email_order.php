@@ -6,7 +6,6 @@ $amountData= $data['order']['amountData'];
 $totalInfo = $amountData['totalInfo'];
 $subtotal =$totalInfo['total']['subtotalCoupon'] >0 ? $totalInfo['total']['subtotalCoupon'] : $totalInfo['total']['subtotal'];
 $subtotalCoupon = $totalInfo['total']['subtotal'];
-
  ?>
 
 <!DOCTYPE html>
@@ -48,11 +47,11 @@ $subtotalCoupon = $totalInfo['total']['subtotal'];
 				</td>
 				<td width="33.33%">
 					<div class="text-center">
-						<h4><strong><?= NOMBRE_EMPRESA ?></strong></h4>
+						<h4><strong><?= $data['company']['name'] ?></strong></h4>
 						<p>
-							<?= DIRECCION ?> <br>
-							Phone: <?= TELEFONO ?> <br>
-							Email: <?= EMAIL_REMITENTE ?>
+							<?= $data['company']['addressfull']?> <br>
+							Phone: <?= "+".$data['company']['phonecode']." ".$data['company']['phone'] ?> <br>
+							Email: <?= $data['company']['email'] ?>
 						</p>
 					</div>
 				</td>

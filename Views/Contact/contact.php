@@ -1,5 +1,18 @@
 <?php
     headerPage($data);
+    $company = getCompanyInfo();
+    $social = getSocialMedia();
+
+    $links ="";
+    for ($i=0; $i < count($social) ; $i++) { 
+        if($social[$i]['link']!=""){
+            if($social[$i]['name']=="whatsapp"){
+                $links.='<a href="https://wa.me/'.$social[$i]['link'].'" target="_blank" class="me-3 ms-3 text-dark fs-5"><i class="fab fa-'.$social[$i]['name'].'"></i></a>';
+            }else{
+                $links.='<a href="'.$social[$i]['link'].'" target="_blank" class="me-3 ms-3 text-dark fs-5"><i class="fab fa-'.$social[$i]['name'].'"></i></a>';
+            }
+        }
+    }
 ?>
     <main id="<?=$data['page_name']?>">
         <div class="cover">
@@ -19,21 +32,21 @@
                             <div class="contact-item">
                                 <i class="fas fa-map-marker-alt fs-1 mb-3 t-p"></i>
                                 <p class="fs-6 fw-bold m-0">Our location</p>
-                                <p class="fs-6"><?=DIRECCION?></p>
+                                <p class="fs-6"><?=$company['addressfull']?></p>
                             </div>
                         </div>
                         <div class="col-md-6 contact-info">
                             <div class="contact-item">
                                 <i class="fas fa-phone fs-1 mb-3 t-p"></i>
                                 <p class="fs-6 fw-bold m-0">Our phone</p>
-                                <p class="fs-6"><?=TELEFONO?></p>
+                                <p class="fs-6">+<?=$company['phonecode'].' '.$company['phone']?></p>
                             </div>
                         </div>
                         <div class="col-md-6 contact-info">
                             <div class="contact-item">
                                 <i class="fas fa-envelope fs-1 mb-3 t-p"></i>
                                 <p class="fs-6 fw-bold m-0">Our email</p>
-                                <p class="fs-6"><?=EMAIL_REMITENTE?></p>
+                                <p class="fs-6"><?=$company['email']?></p>
                             </div>
                         </div>
                         <div class="col-md-6 contact-info">
@@ -65,9 +78,7 @@
                         <div>
                             <button type="submit" id="btnMessage" class="btn btnc-primary w-100 mb-2">Submit</button>
                             <div class="d-flex justify-content-center">
-                                <a href="<?=FACEBOOK?>" target="_blank" class="me-3 ms-3 text-dark fs-5"><i class="fab fa-facebook-f"></i></a>
-                                <a href="<?=INSTAGRAM?>" target="_blank" class="me-3 ms-3 text-dark fs-5"><i class="fab fa-instagram"></i></a>
-                                <a href="<?=TWITTER?>" target="_blank" class="me-3 ms-3 text-dark fs-5"><i class="fab fa-twitter"></i></i></a>
+                                <?=$links?>
                             </div>
                         </div>
                     </form>

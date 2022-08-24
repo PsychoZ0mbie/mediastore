@@ -1,13 +1,13 @@
 <?php
-    //unset($_SESSION['arrCart']);exit;
+    $company = getCompanyInfo();
     $qtyCart = 0;
     $total = 0;
     $arrProducts = array();
 
-    $title = NOMBRE_EMPRESA;
+    $title = $company['name'];
     $urlWeb = base_url();
-    $urlImg =media()."/images/uploads/logo.png";
-    $description =DESCRIPCION;
+    $urlImg =media()."/images/uploads/".$company['logo'];
+    $description =$company['description'];
     //dep($data['article']);exit;
     if(!empty($data['product'])){
         $urlWeb = base_url()."/shop/product/".$data['product']['route'];
@@ -39,24 +39,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?=DESCRIPCION?>">
-    <meta name="author" content="<?=NOMBRE_EMPRESA?>" />
-    <meta name="copyright" content="<?=NOMBRE_EMPRESA?>"/>
+    <meta name="description" content="<?=$company['description']?>">
+    <meta name="author" content="<?=$company['name']?>" />
+    <meta name="copyright" content="<?=$company['name']?>"/>
     <meta name="robots" content="index,follow"/>
+    <meta name="keywords" content="<?=$company['keywords']?>"/>
+
     <title><?=$data['page_title']?></title>
     <link rel ="shortcut icon" href="<?=media();?>/images/uploads/icon.png" sizes="114x114" type="image/png">
 
     <meta property="fb:app_id"          content="1234567890" /> 
     <meta property="og:locale" 		content='es_ES'/>
     <meta property="og:type"        content="article" />
-    <meta property="og:site_name"	content="<?= NOMBRE_EMPRESA; ?>"/>
+    <meta property="og:site_name"	content="<?= $company['name']; ?>"/>
     <meta property="og:description" content="<?=$description?>"/>
     <meta property="og:title"       content="<?= $title; ?>" />
     <meta property="og:url"         content="<?= $urlWeb; ?>" />
     <meta property="og:image"       content="<?= $urlImg; ?>" />
     <meta name="twitter:card" content="summary"></meta>
     <meta name="twitter:site" content="<?= $urlWeb; ?>"></meta>
-    <meta name="twitter:creator" content="<?= NOMBRE_EMPRESA; ?>"></meta>
+    <meta name="twitter:creator" content="<?= $company['name']; ?>"></meta>
     <link rel="canonical" href="<?= $urlWeb?>"/>
 
     <!------------------------------------Frameworks--------------------------->
@@ -71,7 +73,7 @@
     <header>
         <nav class="nav-custom">
             <div class="nav-logo">
-                <a href="<?=base_url()?>"><strong>MEDIASTORE</strong></a>
+                <a href="<?=base_url()?>"><strong><?= strtoupper($company['name']); ?></strong></a>
             </div>
             <div class="nav-search d-none d-flex">
                 <div class="w-100">

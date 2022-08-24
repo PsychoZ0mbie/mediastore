@@ -64,8 +64,13 @@
 
 						$url_recovery = base_url().'/login/confirmUser/'.$strEmail.'/'.$token;
 						$requestUpdate = $this->model->setTokenUser($idperson,$token);
-
-						$dataUsuario = array('nombreUsuario'=> $name, 'email_remitente' => EMAIL_REMITENTE, 'email_usuario'=>$strEmail, 'asunto' =>'Recover account','url_recovery' => $url_recovery);
+						$company = getCompanyInfo();
+						$dataUsuario = array(
+							'nombreUsuario'=> $name, 
+							'email_remitente' => $company['email'], 
+							'email_usuario'=>$strEmail, 
+							'company'=>$company,
+							'asunto' =>'Recover account','url_recovery' => $url_recovery);
 
 
 						if($requestUpdate){
@@ -102,11 +107,12 @@
 				if(empty($arrResponse)){
 					header('Location: '.base_url());
 				}else{
-					
+					$company = getCompanyInfo();
 					$data['page_tag'] = "Recovery";
-					$data['page_title'] = NOMBRE_EMPRESA."| Reset password" ;
+					$data['page_title'] = $company['name']."| Reset password" ;
 					$data['email'] = $strEmail;
 					$data['token'] = $strToken;
+					$data['company'] = $company;
 					$data['page_name'] = "recovery";
 					$data['idperson'] = $arrResponse['idperson'];
 					$this->views->getView($this,"recovery",$data);
@@ -133,11 +139,12 @@
 					}else{
 						$strPassword = hash("SHA256",$strPassword);
 						$requestPass = $this->model->insertPassword($idUser, $strPassword);
-
+						$company = getCompanyInfo();
 						if($requestPass){
                             $data['asunto']="Password updated";
                             $data['email_usuario'] = $strEmail;
-                            $data['email_remitente'] = EMAIL_REMITENTE;
+                            $data['email_remitente'] = $company['email'];
+							$data['company'] = $company;
                             $data['password'] = $password;
                             sendEmail($data,"email_passwordUpdated");
 							$arrResponse = array('status' => true, 'msg' => 'Password updated');

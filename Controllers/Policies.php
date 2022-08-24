@@ -8,8 +8,9 @@
         }
 
         public function policies(){
-            $data['page_tag'] = "Policies | ".NOMBRE_EMPRESA;
-			$data['page_title'] = "Policies | ".NOMBRE_EMPRESA;
+            $company=getCompanyInfo();
+            $data['page_tag'] = "Policies | ".$company['name'];
+			$data['page_title'] = "Policies | ".$company['name'];
 			$data['page_name'] = "policies";
             $data['page'] = $this->getPage(2);
             $this->views->getView($this,"policies",$data);

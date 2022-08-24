@@ -313,12 +313,13 @@
                         $strEmail = strClean(strtolower($_POST['txtEmail']));
                         $strName = strClean(ucwords($_POST['txtName']));
                         $request = $this->model->updateMessage($strMessage,$idMessage);
-    
+                        $company=getCompanyInfo();
                         if($request>0){
-                            $dataEmail = array('email_remitente' => EMAIL_REMITENTE, 
+                            $dataEmail = array('email_remitente' => $company['email'], 
                                                     'email_usuario'=>$strEmail,
                                                     'asunto' =>'Replying your message.',
                                                     "message"=>$strMessage,
+                                                    'company'=>$company,
                                                     'name'=>$strName);
                             sendEmail($dataEmail,'email_reply');
                             $arrResponse = array("status"=>true,"msg"=>"Replied"); 
@@ -342,11 +343,13 @@
                         $strEmailCC = strClean(strtolower($_POST['txtEmailCC']));
                         $strSubject = $_POST['txtSubject'] !="" ? strClean(($_POST['txtSubject'])) : "You have sent an email.";
                         $request = $this->model->insertMessage($strSubject,$strEmail,$strMessage);
+                        $company = getCompanyInfo();
                         if($request>0){
-                            $dataEmail = array('email_remitente' => EMAIL_REMITENTE, 
+                            $dataEmail = array('email_remitente' => $company['email'], 
                                                     'email_copia'=>$strEmailCC,
                                                     'email_usuario'=>$strEmail,
                                                     'asunto' =>$strSubject,
+                                                    'company'=>$company,
                                                     "message"=>$strMessage);
                             sendEmail($dataEmail,'email_sent');
                             $arrResponse = array("status"=>true,"msg"=>"Message has been sent."); 

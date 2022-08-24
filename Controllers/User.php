@@ -117,7 +117,7 @@
                         $request_user = "";
                         $photo = "";
                         $photoProfile="";
-    
+                        $company = getCompanyInfo();
                         if($idUser == 0){
                             if($_SESSION['permitsModule']['w']){
 
@@ -191,7 +191,8 @@
                                 $data['nombreUsuario'] = $strName." ".$strLastName;
                                 $data['asunto']="Credentials";
                                 $data['email_usuario'] = $strEmail;
-                                $data['email_remitente'] = EMAIL_REMITENTE;
+                                $data['email_remitente'] = $company['email'];
+                                $data['company'] = $company;
                                 $data['password'] = $password;
                                 sendEmail($data,"email_credentials");
                                 $arrResponse = array('status' => true, 'msg' => 'Data saved. An e-mail has been sent to the user with the credentials.');
@@ -200,7 +201,8 @@
                                     $data['nombreUsuario'] = $strName." ".$strLastName;
                                     $data['asunto']="Credentials";
                                     $data['email_usuario'] = $strEmail;
-                                    $data['email_remitente'] = EMAIL_REMITENTE;
+                                    $data['email_remitente'] = $company['email'];
+                                    $data['company'] = $company;
                                     $data['password'] = $password;
                                     sendEmail($data,"email_passwordUpdated");
                                     $arrResponse = array('status' => true, 'msg' => 'Password has been updated, an email with the new password has been sent.');

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>New message</title>
+	<title>Reply message</title>
 	<style type="text/css">
 		p{
 			font-family: arial;
@@ -84,7 +84,7 @@
 			<tr>
 				<td>
 					<div class="x_sgwrap x_title_blue">
-						<h1><?= NOMBRE_EMPRESA ?></h1>
+						<h1><?= $data['company']['name'] ?></h1>
 					</div>
 				</td>
 			</tr>
@@ -93,7 +93,7 @@
 					<p style="color:#000;margin-top:10px;"><strong>Hello <?= $data['name'];?></strong> </p>
 					<p>Reply:</p>
 					<p><?= $data['message']; ?></p>
-					<p class="x_title_gray"><a href="<?= WEB_EMPRESA; ?>" target="_blanck"><?= WEB_EMPRESA; ?></a></p>
+					<p class="x_title_gray"><a href="<?= BASE_URL; ?>" target="_blanck"><?= BASE_URL; ?></a></p>
 				</td>
 			</tr>
 		</tbody>

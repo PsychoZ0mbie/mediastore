@@ -16,8 +16,9 @@
 
         /******************************Views************************************/
         public function shop(){
-            $data['page_tag'] = NOMBRE_EMPRESA;
-            $data['page_title'] = "Shop | ".NOMBRE_EMPRESA;
+            $company=getCompanyInfo();
+            $data['page_tag'] = $company['name'];
+            $data['page_title'] = "Shop | ".$company['name'];
             $data['page_name'] = "shop";
             $data['categories'] = $this->getCategoriesT();
             $data['products'] = $this->getProductsT("");
@@ -35,9 +36,9 @@
             }else{
                 $category = strClean($arrParams[0]);
             }
-            
-            $data['page_tag'] = NOMBRE_EMPRESA;
-            $data['page_title'] = "Shop | ".NOMBRE_EMPRESA;
+            $company=getCompanyInfo();
+            $data['page_tag'] = $company['name'];
+            $data['page_title'] = "Shop | ".$company['name'];
             $data['page_name'] = "category";
             $data['categories'] = $this->getCategoriesT();
             $data['routec'] = $category;
@@ -52,12 +53,13 @@
                 $params = strClean($params);
                 $data['product'] = $this->getProductPageT($params);
                 if(!empty($data['product'])){
-                    $data['page_tag'] = NOMBRE_EMPRESA;
+                    $company=getCompanyInfo();
+                    $data['page_tag'] = $company['name'];
                     $data['page_name'] = "product";
                     $data['review'] = $this->getRate($data['product']['idproduct']);
                     $data['reviews'] = $this->getReviews($data['product']['idproduct']);
                     $data['products'] = $this->getProductsRandT(4);
-                    $data['page_title'] =$data['product']['name']." | ".NOMBRE_EMPRESA;
+                    $data['page_title'] =$data['product']['name']." | ".$company['name'];
                     $this->views->getView($this,"product",$data); 
                 }else{
                     header("location: ".base_url()."/error");
@@ -70,8 +72,9 @@
             }
         }
         public function cart(){
-            $data['page_tag'] = NOMBRE_EMPRESA;
-            $data['page_title'] ="My cart | ".NOMBRE_EMPRESA;
+            $company=getCompanyInfo();
+            $data['page_tag'] = $company['name'];
+            $data['page_title'] ="My cart | ".$company['name'];
             $data['page_name'] = "cart";
             $data['shipping'] = $this->selectShippingMode();
             
@@ -90,10 +93,12 @@
         }
         public function checkout(){
             if(isset($_SESSION['login']) && isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){
-                //$this->setDetailTemp();
-                $data['page_tag'] = NOMBRE_EMPRESA;
-                $data['page_title'] ="Checkout | ".NOMBRE_EMPRESA;
+                $company=getCompanyInfo();
+                $data['page_tag'] = $company['name'];
+                $data['page_title'] ="Checkout | ".$company['name'];
                 $data['page_name'] = "checkout";
+                $data['credentials'] = getCredentials();
+                $data['company'] = getCompanyInfo();
 
                 if(isset($_SESSION['arrShipping']) && $_SESSION['arrShipping']['id'] == 3 && empty($_SESSION['arrShipping']['city'])){
                     header("location: ".base_url()."/shop/cart");
@@ -125,8 +130,9 @@
         }
         public function confirm(){
             if(isset($_SESSION['orderData'])){
-                $data['page_tag'] = NOMBRE_EMPRESA;
-                $data['page_title'] ="Confirm order | ".NOMBRE_EMPRESA;
+                $company=getCompanyInfo();
+                $data['page_tag'] = $company['name'];
+                $data['page_title'] ="Confirm order | ".$company['name'];
                 $data['page_name'] = "confirm";
                 $data['orderData'] = $_SESSION['orderData'];
                 unset($_SESSION['orderData']);
@@ -427,11 +433,13 @@
                 }else{
                     $strName = ucwords(strClean($_POST['txtSignName']));
                     $strEmail = strtolower(strClean($_POST['txtSignEmail']));
+                    $company = getCompanyInfo();
                     $code = code(); 
                     $dataUsuario = array('nombreUsuario'=> $strName, 
-                                        'email_remitente' => EMAIL_REMITENTE, 
+                                        'email_remitente' => $company['email'], 
                                         'email_usuario'=>$strEmail, 
-                                        'asunto' =>'Verification code - '.NOMBRE_REMITENTE,
+                                        'company' =>$company,
+                                        'asunto' =>'Verification code - '.$company['name'],
                                         'codigo' => $code);
                     $_SESSION['code'] = $code;
                     $sendEmail = sendEmail($dataUsuario,'email_validData');
@@ -493,12 +501,14 @@
                 }else{
                     $strEmail = strClean(strtolower($_POST['txtEmailSuscribe']));
                     $request = $this->setSuscriberT($strEmail);
+                    $company = getCompanyInfo();
                     if($request>0){
                         $request = $this->statusCouponSuscriberT();
-                        $dataEmail = array('email_remitente' => EMAIL_REMITENTE, 
+                        $dataEmail = array('email_remitente' => $company['email'], 
                                                 'email_usuario'=>$strEmail,
-                                                'asunto' =>'You have subscribed on '.NOMBRE_EMPRESA,
+                                                'asunto' =>'You have subscribed on '.$company['name'],
                                                 "code"=>$request['code'],
+                                                'company'=>$company,
                                                 "discount"=>$request['discount']);
                         sendEmail($dataEmail,'email_suscriber');
                         $arrResponse = array("status"=>true,"msg"=>"Subscribed");
@@ -753,11 +763,7 @@
                             $amountData['totalInfo'] = array("total"=>$arrTotal,"shipping"=>$_SESSION['arrShipping']);
                             $objAmount = json_encode($amountData,true);
 
-                            
                             unset($_SESSION['arrShipping']);
-                            //dep($objAmount);exit;
-    
-                            
 
                             $requestOrder = $this->insertOrder($idUser,$idTransaction,$dataPaypal,$objAmount,$firstname,$lastname,$email,$phone,$country,$state,$city,$address,
                             $postalCode,$note,$total,$status);
@@ -768,11 +774,13 @@
                                 $request = $this->insertOrderDetail($arrOrder);
                                 $orderInfo = $this->getOrder($requestOrder);
                                 $orderInfo['amountData'] = $amountData;
+                                $company = getCompanyInfo();
                                 $dataEmailOrden = array(
                                     'asunto' => "An order has been generated",
                                     'email_usuario' => $_SESSION['userData']['email'], 
-                                    'email_remitente'=>EMAIL_REMITENTE,
-                                    'email_copia' => EMAIL_REMITENTE,
+                                    'email_remitente'=>$company['email'],
+                                    'company'=>$company,
+                                    'email_copia' => $company['secondary_email'],
                                     'order' => $orderInfo );
 
 								sendEmail($dataEmailOrden,"email_order");

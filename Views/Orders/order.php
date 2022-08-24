@@ -7,6 +7,7 @@ $totalInfo = $amountData['totalInfo'];
 $subtotal =$totalInfo['total']['subtotalCoupon'] >0 ? $totalInfo['total']['subtotalCoupon'] : $totalInfo['total']['subtotal'];
 $subtotalCoupon = $totalInfo['total']['subtotal'];
 $total=0;
+$company = $data['company'];
 ?>
 
 <div class="body flex-grow-1 px-3" id="<?=$data['page_name']?>">
@@ -16,12 +17,14 @@ $total=0;
             <div class="card-body">
                 <div id="orderInfo">
                     <div class="d-flex justify-content-between flex-wrap mb-3">
-                        <div class="mb-3">
-                            <p class="fs-5 fw-bold"><?=NOMBRE_EMPRESA?></p>
-                            <p class="m-0"><?=DIRECCION?></p>
-                            <p class="m-0"><?=TELEFONO?></p>
-                            <p class="m-0"><?=EMAIL_REMITENTE?></p>
-                            <p class="m-0"><?=WEB_EMPRESA?></p>
+                        <div class="mb-3 d-flex flex-wrap align-items">
+                            <img src="<?=media()."/images/uploads/".$company['logo']?>" class="me-2" style="width=100px;height:100px;" alt="">
+                            <div>
+                                <p class="m-0"><?=$company['addressfull']?></p>
+                                <p class="m-0">+<?=$company['phonecode']." ".$company['phone']?></p>
+                                <p class="m-0"><?=$company['email']?></p>
+                                <p class="m-0"><?=BASE_URL?></p>
+                            </div>
                         </div>
                         <div class="text-start">
                             <p class="m-0"><span class="fw-bold">Date: </span><?=$order['date']?></p>
@@ -36,7 +39,7 @@ $total=0;
                             <p class="m-0">Name: <?=$order['firstname']." ".$order['lastname']?></p>
                             <p class="m-0">Phone: <?=$order['phone']?></p>
                             <p class="m-0">Email: <?=$order['email']?></p>
-                            <p class="m-0">Address: <?=$order['country'].", ".$order['state'].", ".$order['city']." ".$order['address']." ".$order['postalcode']?></p>
+                            <p class="m-0">Address: <?=$order['address'].", ".$order['country'].", ".$order['state'].", ".$order['city']."  ".$order['postalcode']?></p>
                             <p class="m-0 fw-bold mt-3">Order note:</p>
                             <p class="m-0"><?=$order['note']?></p> 
                         </div>

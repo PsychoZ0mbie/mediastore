@@ -5,7 +5,7 @@
     $subtotalCoupon = $data['total']['subtotal'];
     $arrShipping = $data['arrShipping'];
 ?>
-<script src="https://www.paypal.com/sdk/js?client-id=<?=CLIENT_ID?>&currency=<?=CURRENCY?>"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=<?=$data['credentials']['client']?>&currency=<?=$data['company']['currency']['code']?>"></script>
     <!-- Set up a container element for the button -->
     <script>
       paypal.Buttons({

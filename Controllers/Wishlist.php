@@ -14,8 +14,9 @@
         }
 
         public function wishlist(){
-            $data['page_tag'] = NOMBRE_EMPRESA;
-            $data['page_title'] = "My wishlist | ".NOMBRE_EMPRESA;;
+            $company=getCompanyInfo();
+            $data['page_tag'] = $company['name'];
+            $data['page_title'] = "My wishlist | ".$company['name'];;
             $data['page_name'] = "wishlist";
             $data['products'] = $this->getProductsFavorites($_SESSION['idUser']);
             $this->views->getView($this,"wishlist",$data);

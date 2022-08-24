@@ -27,8 +27,19 @@
         }
         public function selectCompany(){
             $data = array();
+            $sql ="SELECT 
+                    c.name as country,
+                    s.name as state,
+                    cy.name as city
+                    FROM countries c 
+                    INNER JOIN states s, cities cy, company co
+                    WHERE c.id = co.country AND s.id = co.state AND cy.id = co.city";
+            
             $data = $this->select("SELECT * FROM company");
+            $location = $this->select($sql);
+            $data['addressfull'] = $data['address'].", ".$location['country'].", ".$location['state'].", ".$location['city'];
             $data['currency'] = $this->select("SELECT c.id,c.code, c.symbol FROM currency c INNER JOIN company co WHERE c.id = co.currency");
+            //dep($data);exit;
             return $data;
         }
         public function updateCompany($logo,$strName,$intCurrency,$strCompanyEmail,$strEmail,$strPassword,$intCountry,$intState,$intCity,$strPhone,$strAddress,$strKeywords,$strDescription){

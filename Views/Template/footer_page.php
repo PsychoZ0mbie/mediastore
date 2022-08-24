@@ -1,18 +1,31 @@
-<?php $discount = statusCoupon();?>
+<?php 
+$discount = statusCoupon();
+$company = getCompanyInfo();
+$social = getSocialMedia();
+
+$links ="";
+for ($i=0; $i < count($social) ; $i++) { 
+    if($social[$i]['link']!=""){
+        if($social[$i]['name']=="whatsapp"){
+            $links.='<a href="https://wa.me/'.$social[$i]['link'].'" target="_blank"><i class="fab fa-'.$social[$i]['name'].'"></i></a>';
+        }else{
+            $links.='<a href="'.$social[$i]['link'].'" target="_blank"><i class="fab fa-'.$social[$i]['name'].'"></i></a>';
+        }
+    }
+}
+
+?>
 <footer>
         <div class="container p-5 ">
             <div class="row mb-4">
                 <p class="fs-3">FOLLOW US</p>
                 <div class="footer-social">
-                    <a href="<?=FACEBOOK?>" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                    <a href="<?=INSTAGRAM?>" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="<?=TWITTER?>" target="_blank"><i class="fab fa-twitter"></i></i></a>
+                    <?=$links?>
                 </div>
             </div>
             <div class="row mb-4">
                 <div class="col-md-3 mb-3">
                     <h4 class="fs-5">PAYMENT METHOD</h4>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab tempora corporis dolorum debitis animi harum dolorem illum doloremque quaerat? Similique non facere quaerat cum ad nulla sapiente consectetur corrupti sint.</p>
                     <div>
                         <i class="fs-3 p-2 fab fa-cc-mastercard"></i>
                         <i class="fs-3 p-2 fab fa-cc-discover"></i>
@@ -23,9 +36,9 @@
                 </div>
                 <div class="col-md-3 mb-3">
                     <h4 class="fs-5">CONTACT INFO</h4>
-                    <p class="m-0"><strong>Address</strong>: <?=DIRECCION?></p>
-                    <p class="m-0"><strong>Phone</strong>: <?=TELEFONO?></p>
-                    <p class="m-0"><strong>Email</strong>: <?=EMAIL_REMITENTE?></p>
+                    <p class="m-0"><strong>Address</strong>: <?=$company['addressfull']?></p>
+                    <p class="m-0"><strong>Phone</strong>: +<?=$company['phonecode']." ".$company['phone']?></p>
+                    <p class="m-0"><strong>Email</strong>: <?=$company['email']?></p>
                 </div>
                 <div class="col-md-3 mb-3">
                     <h4 class="fs-5">COMPANY</h4>
@@ -49,16 +62,16 @@
                 <?php }?>
             </div>
             <div class="row text-center">
-                <p class="mb-0">Copyright © 2022 Código Energizado</p>
+                <p class="mb-0">Copyright © 2022 <?=$company['name']?></p>
             </div>
         </div>
     </footer>
     <script>
         const base_url = "<?= base_url(); ?>";
-        const MS = "<?=MS;?>";
-        const MD = "<?=MD?>";
-        const COMPANY = "<?=NOMBRE_EMPRESA?>";
-        const SHAREDHASH ="<?=SHAREDHASH?>";
+        const MS = "<?=$company['currency']['symbol'];?>";
+        const MD = "<?=$company['currency']['code']?>";
+        const COMPANY = "<?=$company['name']?>";
+        const SHAREDHASH ="<?=strtolower(str_replace(" ","",$company['name']))?>";
     </script>
     <!------------------------------------Plugins--------------------------->
     <script src="<?=media();?>/js/plugins/sweetalert.js"></script>

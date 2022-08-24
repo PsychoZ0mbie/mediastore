@@ -8,8 +8,9 @@
         }
 
         public function contact(){
-            $data['page_tag'] = "Contact | ".NOMBRE_EMPRESA;
-			$data['page_title'] = "Contact | ".NOMBRE_EMPRESA;
+            $company=getCompanyInfo();
+            $data['page_tag'] = "Contact | ".$company['name'];
+			$data['page_title'] = "Contact | ".$company['name'];
 			$data['page_name'] = "contact";
             $this->views->getView($this,"contact",$data);
         }
@@ -18,19 +19,19 @@
                 if(empty($_POST['txtContactName']) || empty($_POST['txtContactEmail']) || empty($_POST['txtContactMessage'])){
                     $arrResponse = array("status"=>true,"msg"=>"Data error");
                 }else{
-
                     $strName = ucwords(strClean($_POST['txtContactName']));
                     $strEmail = strtolower(strClean($_POST['txtContactEmail']));
                     $strMessage = strClean($_POST['txtContactMessage']);
                     $strSubject = $_POST['txtSubject'] !="" ? strClean(($_POST['txtSubject'])) : "You have sent a new message";
-
+                    $company = getCompanyInfo();
                     $request = $this->setMessage($strName,$strEmail,$strSubject,$strMessage);
                     if($request > 0){
-                        $dataEmail = array('email_remitente' => EMAIL_REMITENTE, 
+                        $dataEmail = array('email_remitente' => $company['email'], 
                                                 'email_usuario'=>$strEmail, 
-                                                'email_copia'=>EMAIL_REMITENTE,
+                                                'email_copia'=>$company['secondary_email'],
                                                 'asunto' =>$strSubject,
                                                 "message"=>$strMessage,
+                                                "company"=>$company,
                                                 'name'=>$strName);
                         sendEmail($dataEmail,'email_contact');
                         $arrResponse = array("status"=>true,"msg"=>"We have received your message, we will contact you soon.");

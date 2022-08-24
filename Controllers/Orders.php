@@ -34,6 +34,7 @@
                     $data['page_tag'] = "Order";
                     $data['page_title'] = "Order";
                     $data['page_name'] = "order";
+                    $data['company'] = getCompanyInfo();
                     $this->views->getView($this,"order",$data);
                 }else{
                     header("location: ".base_url()."/Orders");
