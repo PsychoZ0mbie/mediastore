@@ -1599,10 +1599,11 @@ function quickModal(elements){
                     if(product['rate'].length>0){
                         ratetotal = product['rate'][0]['total'];
                     }
+
                     for (let i = 0; i < 5; i++) {
-                        if( product['rate'].length>0 &&i >= product['rate'][0]['rate']){
+                        if( product['rate'] != null && i >= parseInt(product['rate'][0]['rate'])){
                             rate+=`<i class="far fa-star"></i>`;
-                        }else if(product['rate'].length == 0){
+                        }else if(product['rate']== null){
                             rate+=`<i class="far fa-star"></i>`;
                         }else{
                             rate+=`<i class="fas fa-star"></i>`;

@@ -3,8 +3,8 @@
 header{
     height: 60px;
     width: 100%;
-    background-color: $first-color;
-    color:$third-color;
+    background-color: #fff;
+    color:#000;
     position: fixed;
     z-index: 1000;
 }
@@ -136,7 +136,14 @@ header{
     transition: 0.2s 0.5s all ease;
     a{
         text-decoration: none;
-        color: $third-color;
+        color: #000;
+        display: flex;
+        align-items: center;
+        img{
+          height: 50px;
+          width: 60px;  
+          margin-right: 10px;
+        }
     }
 }
 .nav-logo.active{
@@ -159,7 +166,7 @@ header{
             position: relative;
             margin-right:50px;
             a{
-                color: $third-color;
+                color: #000;
                 text-decoration: none;
             }
             &::after{
@@ -169,7 +176,7 @@ header{
                 left: 0;
                 height: 4px;
                 width: 0;
-                background-color: $third-color;
+                background-color: $first-color;
                 transition: 0.3s;
             }
             &:hover{
@@ -187,7 +194,7 @@ header{
                 left: 0;
                 height: 4px;
                 width: 100%;
-                background-color: $third-color;
+                background-color: $first-color;
         
             }
         }
@@ -214,7 +221,7 @@ header{
             align-items: center;
             margin-right:20px;
             a{
-                color: $third-color;
+                color: #000;
                 text-decoration: none;
             }
         }

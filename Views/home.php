@@ -165,7 +165,7 @@
                             <div class="more-category-info">
                                 <a href="<?=$route?>"><h3><strong><?=$categories2[$i]['name']?></strong></h3></a>
                                 <p>Browse all our categories</p>
-                                <a href="<?=$route?>" class="btn btn-primary">Shop by <?=$categories2[$i]['name']?></a>
+                                <a href="<?=$route?>" class="btn">Shop by <?=$categories2[$i]['name']?></a>
                                 <div></div>
                             </div>
                         </div>

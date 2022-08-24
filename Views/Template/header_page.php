@@ -46,7 +46,7 @@
     <meta name="keywords" content="<?=$company['keywords']?>"/>
 
     <title><?=$data['page_title']?></title>
-    <link rel ="shortcut icon" href="<?=media();?>/images/uploads/icon.png" sizes="114x114" type="image/png">
+    <link rel ="shortcut icon" href="<?=media()."/images/uploads/".$company['logo']?>" sizes="114x114" type="image/png">
 
     <meta property="fb:app_id"          content="1234567890" /> 
     <meta property="og:locale" 		content='es_ES'/>
@@ -73,7 +73,10 @@
     <header>
         <nav class="nav-custom">
             <div class="nav-logo">
-                <a href="<?=base_url()?>"><strong><?= strtoupper($company['name']); ?></strong></a>
+                <a href="<?=base_url()?>">
+                    <img src="<?=media()."/images/uploads/".$company['logo']?>" alt="<?=$company['name']?>">
+                    <strong><?= $company['name']; ?></strong>
+                </a>
             </div>
             <div class="nav-search d-none d-flex">
                 <div class="w-100">
@@ -103,18 +106,18 @@
                     <?php }?>
                     <li class="nav-icons-qty" title="My cart" id="btnToggleCart">
                         <i class="fas fa-shopping-cart"></i>
-                        <span id="qtyCart"><?=$qtyCart?></span>
+                        <span id="qtyCart" class="text-white"><?=$qtyCart?></span>
                     </li>
                     <?php
                         if(isset($_SESSION['login'])){
                     ?>
                     <div class="dropdown">
-                        <button class="btn btnc-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-user"></i>
                         </button>
-                        <ul class="dropdown-menu t-p" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item  t-p" href="<?=base_url()?>/user/profile" target="__blank">Profile</a></li>
-                            <li id="logout"><a href="#" class="dropdown-item t-p">Logout</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item " href="<?=base_url()?>/user/profile" target="__blank">Profile</a></li>
+                            <li id="logout"><a href="#" class="dropdown-item">Logout</a></li>
                         </ul>
                     </div>
                     <?php }else{ ?>
@@ -127,7 +130,7 @@
             <div class="nav-mobile">
                 <div class="container nav-mobile-main">
                     <div class="nav-logo d-flex justify-content-between align-items m-0">
-                        <strong>MEDIASTORE</strong>
+                        <strong class="t-w"><?= $company['name'];?></strong>
                         <div id="btnCloseNav">X</div>
                     </div>
                     <ul>
