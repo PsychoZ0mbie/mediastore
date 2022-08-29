@@ -50,8 +50,9 @@
                             </div>
                         </div>
                         <div class="col-md-6 contact-info">
-                            <div class="contact-item p-0">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d201877.7344402928!2d-122.3753904!3d37.7586346!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20EE.%20UU.!5e0!3m2!1ses!2sco!4v1656619489035!5m2!1ses!2sco" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <div class="contact-item">
+                                <img src="<?=media()."/images/uploads/".$company['logo']?>" alt="<?=$company['name']?>" width="100px" height="100px">
+                                <p class="fs-6 fw-bold"><?=$company['name']?></p>
                             </div>
                         </div>
                     </div>
@@ -77,9 +78,7 @@
                         <div class="alert alert-danger d-none" id="alertContact" role="alert"></div>
                         <div>
                             <button type="submit" id="btnMessage" class="btn btnc-primary w-100 mb-2">Submit</button>
-                            <div class="d-flex justify-content-center">
-                                <?=$links?>
-                            </div>
+                            
                         </div>
                     </form>
                 </div>

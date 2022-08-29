@@ -1,7 +1,10 @@
 <!--sidebar-->
   <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
     <div class="sidebar-brand d-none d-md-flex">
-        <a href="<?=base_url()?>" class="fs-4 m-0 text-decoration-none text-white"><?=$companyData['name']?></a>
+        <a href="<?=base_url()?>" class="fs-4 m-0 text-decoration-none text-white d-flex align-items-center justify-content-between">
+            <img src="<?=media()."/images/uploads/".$companyData['logo']?>" alt="MediaStore Logo" width="50" height="46">
+            <?=$companyData['name']?>
+        </a>
     </div>
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="init">
         <div class="simplebar-wrapper" style="margin: 0px;">

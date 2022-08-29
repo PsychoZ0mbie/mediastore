@@ -38,7 +38,7 @@
                     <a class="header-brand d-md-none" href="#">
                         <i class="" style="width: 118px;height: 46px;"></i>
                         <div class="fw-bold" width="118" height="46" alt="MediaStore Logo">
-                            <?=$companyData['name']?>
+                            <img src="<?=media()."/images/uploads/".$companyData['logo']?>" alt="MediaStore Logo" width="50" height="46">
                         </div>
                     </a>
                     <ul class="header-nav ms-auto">
