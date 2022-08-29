@@ -20,19 +20,19 @@
         public function __construct(){
             parent::__construct();
         }
-        public function insertCustomer(string $strName,string $strLastName, string $strPicture, string $intPhone, string $strEmail, string $strPassword,int $intStatus,int $intRolId){
-
+        public function insertCustomer(string $strName,string $strLastName, string $strPicture, string $intPhone, string $strEmail,string $strAddress, int $intCountry,int $intState,int $intCity,string $strPassword,int $intStatus,int $intRolId){
+            $this->strPicture = $strPicture;
 			$this->strName = $strName;
 			$this->strLastName = $strLastName;
+            $this->strEmail = $strEmail;
 			$this->intPhone = $intPhone;
-			$this->strEmail = $strEmail;
-			$this->strPassword = $strPassword;
-			$this->intRolId = $intRolId;
-            $this->strPicture = $strPicture;
-            $this->intCountryId = 99999;
-            $this->intStateId = 99999;
-            $this->intCityId = 99999;
-			$this->intStatus = $intStatus;
+            $this->strAddress = $strAddress;
+            $this->intCountryId = $intCountry;
+            $this->intStateId = $intState;
+            $this->intCityId = $intCity;
+            $this->strPassword = $strPassword;
+            $this->intStatus = $intStatus;
+            $this->intRolId = $intRolId;
 			$return = 0;
 
 			$sql = "SELECT * FROM person WHERE 
@@ -41,14 +41,15 @@
 
 			if(empty($request))
 			{ 
-				$query_insert  = "INSERT INTO person(image,firstname,lastname,email,phone,countryid,stateid,cityid,password,status,roleid) 
-								  VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+				$query_insert  = "INSERT INTO person(image,firstname,lastname,email,phone,address,countryid,stateid,cityid,password,status,roleid) 
+								  VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 	        	$arrData = array(
                     $this->strPicture,
                     $this->strName,
                     $this->strLastName,
                     $this->strEmail,
                     $this->intPhone,
+                    $this->strAddress,
                     $this->intCountryId,
                     $this->intStateId,
                     $this->intCityId,
@@ -63,23 +64,27 @@
 			}
 	        return $return;
 		}
-        public function updateCustomer(int $idUser, string $strName,string $strLastName, string $strPicture, string $intPhone, string $strEmail, string $strPassword,int $intStatus,int $intRolId){
+        public function updateCustomer(int $idUser, string $strName,string $strLastName, string $strPicture, string $intPhone,string $strEmail, string $strAddress, int $intCountry,int $intState,int $intCity, string $strPassword,int $intStatus,int $intRolId){
             $this->intIdUser = $idUser;
+			$this->strPicture = $strPicture;
 			$this->strName = $strName;
 			$this->strLastName = $strLastName;
+            $this->strEmail = $strEmail;
 			$this->intPhone = $intPhone;
-			$this->strEmail = $strEmail;
-			$this->strPassword = $strPassword;
-			$this->intRolId = $intRolId;
-            $this->strPicture = $strPicture;
+            $this->strAddress = $strAddress;
+            $this->intCountryId = $intCountry;
+            $this->intStateId = $intState;
+            $this->intCityId = $intCity;
+            $this->strPassword = $strPassword;
             $this->intStatus = $intStatus;
+            $this->intRolId = $intRolId;
 
 			$sql = "SELECT * FROM person WHERE email = '{$this->strEmail}' AND phone = '{$this->intPhone}' AND idperson != $this->intIdUser";
 			$request = $this->select_all($sql);
 
 			if(empty($request)){
 				if($this->strPassword  != ""){
-					$sql = "UPDATE person SET image=?, firstname=?, lastname=?,email=?, phone=?, password=?, status=?,roleid=? 
+					$sql = "UPDATE person SET image=?, firstname=?, lastname=?,email=?, phone=?,address=?,countryid=?,stateid=?,cityid=? password=?, status=?,roleid=? 
 							WHERE idperson = $this->intIdUser";
 					$arrData = array(
                         $this->strPicture,
@@ -87,12 +92,16 @@
                         $this->strLastName,
                         $this->strEmail,
                         $this->intPhone,
+                        $this->strAddress,
+                        $this->intCountryId,
+                        $this->intStateId,
+                        $this->intCityId,
                         $this->strPassword,
                         $this->intStatus,
                         $this->intRolId
                     );
 				}else{
-					$sql = "UPDATE person SET image=?, firstname=?, lastname=?,email=?, phone=?, status=?,roleid=? 
+					$sql = "UPDATE person SET image=?, firstname=?, lastname=?,email=?, phone=?,address=?,countryid=?,stateid=?,cityid=?,status=?,roleid=? 
 							WHERE idperson = $this->intIdUser";
 					$arrData = array(
                         $this->strPicture,
@@ -100,6 +109,10 @@
                         $this->strLastName,
                         $this->strEmail,
                         $this->intPhone,
+                        $this->strAddress,
+                        $this->intCountryId,
+                        $this->intStateId,
+                        $this->intCityId,
                         $this->intStatus,
                         $this->intRolId
                     );
@@ -136,6 +149,7 @@
                     p.lastname,
                     p.email,
                     p.phone,
+                    p.address,
                     p.roleid,
                     p.countryid,
                     p.stateid,
@@ -188,6 +202,18 @@
                     $request[$i]['image'] = media()."/images/uploads/".$request[$i]['image'];
                 }
             }
+            return $request;
+        }
+        public function selectCountries(){
+            $request = $this->select_all("SELECT * FROM countries");
+            return $request;
+        }
+        public function selectStates($country){
+            $request = $this->select_all("SELECT * FROM states WHERE country_id = $country");
+            return $request;
+        }
+        public function selectCities($state){
+            $request = $this->select_all("SELECT * FROM cities WHERE state_id = $state");
             return $request;
         }
 

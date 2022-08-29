@@ -83,7 +83,38 @@
                         $request = $this->model->selectCustomer($idUser);
                         if(!empty($request)){
                             $request['image'] = media()."/images/uploads/".$request['image'];
-                            $arrResponse = array("status"=>true,"data"=>$request);
+                            $countries = $this->model->selectCountries();
+                            $states = $this->model->selectStates($request['countryid']);
+                            $cities = $this->model->selectCities($request['stateid']);
+
+                            $countrieshtml="";
+                            $stateshtml="";
+                            $citieshtml="";
+
+                            for ($i=0; $i < count($countries) ; $i++) { 
+                                if($request['countryid'] == $countries[$i]['id']){
+                                    $countrieshtml.='<option value="'.$countries[$i]['id'].'" selected>'.$countries[$i]['name'].'</option>';
+                                    
+                                }else{
+                                    $countrieshtml.='<option value="'.$countries[$i]['id'].'">'.$countries[$i]['name'].'</option>';
+                                }
+                            }
+                            for ($i=0; $i < count($states) ; $i++) { 
+                                if($request['stateid'] == $states[$i]['id']){
+                                    $stateshtml.='<option value="'.$states[$i]['id'].'" selected>'.$states[$i]['name'].'</option>';
+                                    
+                                }else{
+                                    $stateshtml.='<option value="'.$states[$i]['id'].'">'.$states[$i]['name'].'</option>';
+                                }
+                            }
+                            for ($i=0; $i < count($cities) ; $i++) { 
+                                if($request['cityid'] == $cities[$i]['id']){
+                                    $citieshtml.='<option value="'.$cities[$i]['id'].'" selected>'.$cities[$i]['name'].'</option>';
+                                }else{
+                                    $citieshtml.='<option value="'.$cities[$i]['id'].'">'.$cities[$i]['name'].'</option>';
+                                }
+                            }
+                            $arrResponse = array("status"=>true,"data"=>$request,"countries"=>$countrieshtml,"states"=>$stateshtml,"cities"=>$citieshtml);
                         }else{
                             $arrResponse = array("status"=>false,"msg"=>"Error, try again."); 
                         }
@@ -108,6 +139,10 @@
                         $strLastName = ucwords(strClean($_POST['txtLastName']));
                         $intPhone = intval(strClean($_POST['txtPhone']));
                         $strEmail = strtolower(strClean($_POST['txtEmail']));
+                        $strAddress = strClean($_POST['txtAddress']);
+                        $intCountry = intval($_POST['listCountry']) != 0 ? intval($_POST['listCountry']) : 99999;
+                        $intState = intval($_POST['listState']) != 0 ? intval($_POST['listState']) : 99999;
+                        $intCity = intval($_POST['listCity']) != 0 ? intval($_POST['listCity']) : 99999;
                         $strPassword = strClean($_POST['txtPassword']);
                         $intRolId = 2;
                         $intStatus = intval($_POST['statusList']);
@@ -141,6 +176,10 @@
                                     $photoProfile, 
                                     $intPhone, 
                                     $strEmail,
+                                    $strAddress,
+                                    $intCountry,
+                                    $intState,
+                                    $intCity,
                                     $strPassword,
                                     $intStatus,
                                     $intRolId
@@ -173,6 +212,10 @@
                                     $photoProfile, 
                                     $intPhone, 
                                     $strEmail,
+                                    $strAddress,
+                                    $intCountry,
+                                    $intState,
+                                    $intCity,
                                     $strPassword, 
                                     $intStatus,
                                     $intRolId
@@ -341,5 +384,34 @@
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
+        public function getCountries(){
+            $request = $this->model->selectCountries();
+            $html='<option value="0" selected>Select</option>';
+            for ($i=0; $i < count($request) ; $i++) { 
+                $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
+            }
+
+            echo json_encode($html,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function getSelectCountry($id){
+            $request = $this->model->selectStates($id);
+            $html='<option value="0" selected>Select</option>';
+            for ($i=0; $i < count($request) ; $i++) { 
+                $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
+            }
+            echo json_encode($html,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function getSelectState($id){
+            $request = $this->model->selectCities($id);
+            $html='<option value="0" selected>Select</option>';
+            for ($i=0; $i < count($request) ; $i++) { 
+                $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
+            }
+            echo json_encode($html,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
     }
 ?>

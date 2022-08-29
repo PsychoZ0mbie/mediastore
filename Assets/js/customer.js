@@ -62,7 +62,7 @@ function addItem(){
     let modalItem = document.querySelector("#modalItem");
     let modal= `
     <div class="modal fade" id="modalElement">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">New customer</h5>
@@ -105,6 +105,34 @@ function addItem(){
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="txtAddress" class="form-label">Address</label>
+                                    <input type="text" class="form-control" id="txtAddress" name="txtAddress">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="listCountry" class="form-label">Country</label>
+                                    <select class="form-control" aria-label="Default select example" id="listCountry" name="listCountry"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="listState" class="form-label">State</label>
+                                    <select class="form-control" aria-label="Default select example" id="listState" name="listState"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="listCity" class="form-label">City</label>
+                                    <select class="form-control" aria-label="Default select example" id="listCity" name="listCity"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="txtPassword" class="form-label">Password</label>
@@ -135,6 +163,26 @@ function addItem(){
     modalItem.innerHTML = modal;
     let modalView = new bootstrap.Modal(document.querySelector("#modalElement"));
     modalView.show();
+
+    let intCountry = document.querySelector("#listCountry");
+    let intState = document.querySelector("#listState");
+    let intCity = document.querySelector("#listCity");
+
+    request(base_url+"/customer/getCountries","","get").then(function(objData){
+        intCountry.innerHTML = objData;
+    });
+
+    intCountry.addEventListener("change",function(){
+        request(base_url+"/customer/getSelectCountry/"+intCountry.value,"","get").then(function(objData){
+            intState.innerHTML = objData;
+        });
+        intCity.innerHTML = "";
+    });
+    intState.addEventListener("change",function(){
+        request(base_url+"/customer/getSelectState/"+intState.value,"","get").then(function(objData){
+            intCity.innerHTML = objData;
+        });
+    });
 
     let img = document.querySelector("#txtImg");
     let imgLocation = ".uploadImg img";
@@ -290,7 +338,7 @@ function editItem(id){
         let modalItem = document.querySelector("#modalItem");
         let modal= `
         <div class="modal fade" id="modalElement">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">Update user</h5>
@@ -333,6 +381,34 @@ function editItem(id){
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label for="txtAddress" class="form-label">Address</label>
+                                        <input type="text" class="form-control" id="txtAddress" name="txtAddress" value="${objData.data.address}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="listCountry" class="form-label">Country</label>
+                                        <select class="form-control" aria-label="Default select example" id="listCountry" name="listCountry"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="listState" class="form-label">State</label>
+                                        <select class="form-control" aria-label="Default select example" id="listState" name="listState"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="listCity" class="form-label">City</label>
+                                        <select class="form-control" aria-label="Default select example" id="listCity" name="listCity"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="txtPassword" class="form-label">Password</label>
@@ -368,6 +444,25 @@ function editItem(id){
                 status[i].setAttribute("selected",true);
             }
         }
+        let intCountry = document.querySelector("#listCountry");
+        let intState = document.querySelector("#listState");
+        let intCity = document.querySelector("#listCity");
+
+        intCountry.innerHTML = objData.countries;
+        intState.innerHTML = objData.states;
+        intCity.innerHTML = objData.cities;
+
+        intCountry.addEventListener("change",function(){
+            request(base_url+"/customer/getSelectCountry/"+intCountry.value,"","get").then(function(objData){
+                intState.innerHTML = objData;
+            });
+            intCity.innerHTML = "";
+        });
+        intState.addEventListener("change",function(){
+            request(base_url+"/customer/getSelectState/"+intState.value,"","get").then(function(objData){
+                intCity.innerHTML = objData;
+            });
+        });
 
         modalView.show();
 
