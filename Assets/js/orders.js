@@ -1,7 +1,53 @@
 'use strict';
 
+const moneyReceived = document.querySelector("#moneyReceived");
+const btnAddPos = document.querySelector("#btnAddPos");
+
+moneyReceived.addEventListener("input",function(){
+    let total = document.querySelector("#total").getAttribute("data-total");
+    let result = 0;
+    result = moneyReceived.value - total ;
+    if(result < 0){
+        result = 0;
+    }
+
+    document.querySelector("#moneyBack").innerHTML = "Money back: "+MS+formatNum(result,".")+" "+MD;
+});
+btnAddPos.addEventListener("click",function(){
+    let id = document.querySelector("#idCustomer").value;
+    if(id <= 0){
+        Swal.fire("Error","Please add a customer to set the order","error");
+        return false;
+    }else{
+        let products = document.querySelectorAll(".product");
+        let arrProducts = [];
+        for (let i = 0; i < products.length; i++) {
+            let product = {
+                "id":products[i].children[0].getAttribute("data-id"),
+                "qty":products[i].children[1].children[0].children[0].children[1].children[1].getAttribute("data-value")
+            };
+            arrProducts.push(product);
+        }
+        let formData = new FormData();
+        formData.append("id",id);
+        formData.append("products",JSON.stringify(arrProducts));
+        btnAddPos.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Wait...`;
+        btnAddPos.setAttribute("disabled","");
+        request(base_url+"/orders/setOrder",formData,"post").then(function(objData){
+            btnAddPos.removeAttribute("disabled");
+            btnAddPos.innerHTML="Save";
+            if(objData.status){
+                location.reload();
+            }else{
+                Swal.fire("Error",objData.msg,"error");
+            }
+        });
+    }
+});
 if(document.querySelector("#orders")){
     let search = document.querySelector("#search");
+    let searchProducts = document.querySelector("#searchProducts");
+    let searchCustomers = document.querySelector("#searchCustomers");
     let sort = document.querySelector("#sortBy");
     let element = document.querySelector("#listItem");
 
@@ -13,6 +59,28 @@ if(document.querySelector("#orders")){
                 element.innerHTML = objData.msg;
             }
         });
+    });
+    searchProducts.addEventListener('input',function() {
+        request(base_url+"/orders/searchProducts/"+searchProducts.value,"","get").then(function(objData){
+            if(objData.status){
+                document.querySelector("#listProducts").innerHTML = objData.data;
+            }else{
+                document.querySelector("#listProducts").innerHTML = objData.data;
+            }
+        });
+    });
+    searchCustomers.addEventListener('input',function() {
+        if(searchCustomers.value !=""){
+            request(base_url+"/orders/searchCustomers/"+searchCustomers.value,"","get").then(function(objData){
+                if(objData.status){
+                    document.querySelector("#customers").innerHTML = objData.data;
+                }else{
+                    document.querySelector("#customers").innerHTML = objData.data;
+                }
+            });
+        }else{
+            document.querySelector("#customers").innerHTML = "";
+        }
     });
 
     sort.addEventListener("change",function(){
@@ -73,7 +141,7 @@ if(document.querySelector("#orders")){
             }
         });
     }
-
+    
 }
 if(document.querySelector("#btnRefund")){
     let btn = document.querySelector("#btnRefund");
@@ -206,4 +274,112 @@ if(document.querySelector("#btnPrint")){
         printDiv(document.querySelector("#orderInfo"));
     });
 }
+function addProduct(id,btn){
+    btn.setAttribute("disabled","disabled");
+    let formData = new FormData();
+    formData.append("idProduct",id);
+    request(base_url+"/orders/getProduct",formData,"post").then(function(objData){
+        let data = objData.data;
+        let div = document.createElement("div");
+        let html =`
+            <button class="btn text-danger p-0 rounded-circle position-absolute top-0 end-0 fs-5" data-id="${data.idproduct}" onclick="delProduct(this)"><i class="fas fa-times-circle"></i></button>
+            <div class="p-1">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex">
+                        <img src="${data.image}" alt="" class="me-1" height="60px" width="60px">
+                        <div class="text-start">
+                            <div style="height:25px" class="overflow-hidden"><p class="m-0" >${data.name}</p></div>
+                            <p class="m-0 productData" data-value ="1" data-price="${data.price}" id="qty${data.idproduct}"><span id="valQty${data.idproduct}">1</span> x ${data.priceFormat}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <button type="button" class="btn btn-sm btn-secondary p-1 text-white" onclick="decQty(${data.idproduct})"><i class="fas fa-minus"></i></button>
+                        <button type="button" class="btn btn-sm btn-success p-1 text-white" onclick="incQty(${data.idproduct},${data.stock})"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <p class="m-0 mt-1 fw-bold text-end" >$<span id="total${data.idproduct}">${data.price}</span></p>
+                </div>
+            </div>
+        `;
+        div.classList.add("w-100" ,"border" ,"border-primary" ,"position-relative" ,"mb-3","product");
+        div.setAttribute("style","height:100px");
+        div.innerHTML = html;
+        document.querySelector("#posProducts").appendChild(div);
+        calcTotal();
+    });
+}
+function delProduct(element){
+    let id = element.getAttribute("data-id");
+    document.querySelector("#btn"+id).removeAttribute("disabled");
+    element.parentElement.remove();
+    calcTotal();
+}
+function decQty(id){
+    let element = document.querySelector("#qty"+id);
+    let qty = element.getAttribute("data-value");
+    let price = element.getAttribute("data-price");
+    if(qty <= 1){
+        qty = 1;
+    }else{
+        qty--;
+    }
 
+    element.setAttribute("data-value",qty);
+    document.querySelector("#valQty"+id).innerHTML = qty;
+    document.querySelector("#total"+id).innerHTML = `${price*qty}`;
+    calcTotal();
+}
+function incQty(id,stock){
+    let element = document.querySelector("#qty"+id);
+    let qty = element.getAttribute("data-value");
+    let price = element.getAttribute("data-price");
+    if(qty >= stock){
+        qty = stock;
+    }else{
+        qty++;
+    }
+
+    element.setAttribute("data-value",qty);
+    document.querySelector("#valQty"+id).innerHTML = qty;
+    document.querySelector("#total"+id).innerHTML = `${price*qty}`;
+    calcTotal();
+}
+function calcTotal(){
+    let data = document.querySelectorAll(".productData");
+    let total = 0;
+    
+    for (let i = 0; i < data.length; i++) {
+        total+= data[i].getAttribute("data-value")*data[i].getAttribute("data-price");
+    }
+    if(total > 0){
+        document.querySelector("#btnPos").classList.remove("d-none");
+        document.querySelector("#btnPos").removeAttribute("disabled");
+    }else{
+        document.querySelector("#btnPos").classList.add("d-none");
+        document.querySelector("#btnPos").setAttribute("disabled","disabled");
+    }
+    document.querySelector("#total").innerHTML = MS+total+" "+MD;
+    document.querySelector("#total").setAttribute("data-total",total);
+}
+function openModalOrder(){
+    let modal = new bootstrap.Modal(document.querySelector("#modalPos"));
+    moneyReceived.value = document.querySelector("#total").getAttribute("data-total");
+    let total = document.querySelector("#total").getAttribute("data-total");
+    document.querySelector("#saleValue").innerHTML = "Sale value: "+MS+formatNum(total,".")+" "+MD;
+    document.querySelector("#moneyBack").innerHTML = "Money back: "+MS+0+" "+MD;
+    modal.show();
+}
+function addCustom(element){
+    element.setAttribute("onclick","delCustom(this)");
+    element.classList.add("border","border-primary");
+    document.querySelector("#selectedCustomer").appendChild(element);
+    document.querySelector("#customers").innerHTML = "";
+    document.querySelector("#idCustomer").value = element.getAttribute("data-id");
+    searchCustomers.parentElement.classList.add("d-none");
+}
+function delCustom(element){
+    searchCustomers.parentElement.classList.remove("d-none");
+    document.querySelector("#idCustomer").value = 0;
+    element.remove();
+}

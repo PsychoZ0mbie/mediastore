@@ -2,10 +2,14 @@
 headerAdmin($data);
 $order = $data['orderdata'];
 $detail = $data['orderdetail'];
-$amountData = json_decode($order['amountdata'],true);
-$totalInfo = $amountData['totalInfo'];
-$subtotal =$totalInfo['total']['subtotalCoupon'] >0 ? $totalInfo['total']['subtotalCoupon'] : $totalInfo['total']['subtotal'];
-$subtotalCoupon = $totalInfo['total']['subtotal'];
+
+if($order['amountdata'] !=""){
+    $amountData = json_decode($order['amountdata'],true);
+    $totalInfo = $amountData['totalInfo'];
+    $subtotal =$totalInfo['total']['subtotalCoupon'] >0 ? $totalInfo['total']['subtotalCoupon'] : $totalInfo['total']['subtotal'];
+    $subtotalCoupon = $totalInfo['total']['subtotal'];
+}
+
 $total=0;
 $company = $data['company'];
 ?>
@@ -41,8 +45,10 @@ $company = $data['company'];
                             <p class="m-0">Phone: <?=$order['phone']?></p>
                             <p class="m-0">Email: <?=$order['email']?></p>
                             <p class="m-0">Address: <?=$order['address'].", ".$order['country'].", ".$order['state'].", ".$order['city']."  ".$order['postalcode']?></p>
+                            <?php if($order['type'] == "paypal"){?>
                             <p class="m-0 fw-bold mt-3">Order note:</p>
                             <p class="m-0"><?=$order['note']?></p> 
+                            <?php }?>
                         </div>
                     </div>
                     <table class="table items align-middle">
@@ -67,6 +73,7 @@ $company = $data['company'];
                             </tr>
                             <?php }?>
                         </tbody>
+                        <?php if($order['type'] == "paypal"){?>
                         <tfoot >
                         <?php if($totalInfo['total']['subtotalCoupon'] >0) {?>
                             <tr>
@@ -100,6 +107,14 @@ $company = $data['company'];
                                 <td class="text-right"><?= formatNum($order['amount'])?></td>
                             </tr>
                         </tfoot>
+                        <?php }else{ ?>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3" class="text-end">Total:</th>
+                                    <td class="text-right"><?= formatNum($order['amount'])?></td>
+                                </tr>
+                            </tfoot>
+                        <?php }?>
                     </table>
                 </div>
                 <div class="row">

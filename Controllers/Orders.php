@@ -1,6 +1,9 @@
 <?php
+    require_once("Controllers/Product.php");
     class Orders extends Controllers{
+        private $objProduct;
         public function __construct(){
+            
             session_start();
             if(empty($_SESSION['login'])){
                 header("location: ".base_url());
@@ -15,6 +18,8 @@
                 $data['page_tag'] = "Orders";
                 $data['page_title'] = "Orders";
                 $data['page_name'] = "orders";
+                $data['products'] = $this->getProducts();
+                
                 $data['app'] = "orders.js";
                 $this->views->getView($this,"orders",$data);
             }else{
@@ -71,8 +76,12 @@
                     for ($i=0; $i < count($request); $i++) { 
 
                         $btnView='<a href="'.base_url().'/orders/order/'.$request[$i]['idorder'].'" class="btn btn-info text-white m-1" type="button" title="View order" name="btnView"><i class="fas fa-eye"></i></a>';
-                        $btnPaypal='<a href="'.base_url().'/orders/transaction/'.$request[$i]['idtransaction'].'" class="btn btn-info m-1 text-white " type="button" title="View Transaction" name="btnPaypal"><i class="fab fa-paypal"></i></a>';
+                        $btnPaypal='';
                         $btnDelete ="";
+
+                        if($request[$i]['type'] == "paypal"){
+                            $btnPaypal = '<a href="'.base_url().'/orders/transaction/'.$request[$i]['idtransaction'].'" class="btn btn-info m-1 text-white " type="button" title="View Transaction" name="btnPaypal"><i class="fab fa-paypal"></i></a>';
+                        }
 
                         if($_SESSION['permitsModule']['d'] && $_SESSION['userData']['roleid'] == 1){
                             $btnDelete = '<button class="btn btn-danger text-white m-1" type="button" title="Delete" data-id="'.$request[$i]['idorder'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
@@ -85,6 +94,7 @@
                                     <td>'.$request[$i]['idtransaction'].'</td>
                                     <td>'.$request[$i]['date'].'</td>
                                     <td>'.formatNum($request[$i]['amount']).'</td>
+                                    <td>'.$request[$i]['type'].'</td>
                                     <td>'.$request[$i]['status'].'</td>
                                     <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
                                 </tr>
@@ -96,6 +106,7 @@
                                 <td>'.$request[$i]['idtransaction'].'</td>
                                 <td>'.$request[$i]['date'].'</td>
                                 <td>'.formatNum($request[$i]['amount']).'</td>
+                                <td>'.$request[$i]['type'].'</td>
                                 <td>'.$request[$i]['status'].'</td>
                                 <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
                             </tr>
@@ -265,5 +276,143 @@
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
+        public function getProduct(){
+            if($_SESSION['permitsModule']['r']){
+                if($_POST){
+                    if(empty($_POST)){
+                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                    }else{
+                        $id = intval($_POST['idProduct']);
+                        $request = $this->model->selectProduct($id);
+                        if($request['discount']>0){
+                            $request['price'] = $request['price'] - ($request['price'] * ($request['discount']/100));
+                        }
+                        $request['priceFormat'] = formatNum($request['price']);
+                        $arrResponse = array("status"=>true,"data"=>$request);
+                    }
+                    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                }
+            }else{
+                header("location: ".base_url());
+                die();
+            }
+            die();
+        }
+        public function getProducts($option=null,$params=null){
+            if($_SESSION['permitsModule']['r']){
+                $html="";
+                $request="";
+                if($option == 1){
+                    $request = $this->model->searchProducts($params);
+                }else{
+                    $request = $this->model->selectProducts();
+                }
+                if(count($request)>0){
+                    for ($i=0; $i < count($request); $i++) { 
+                        $price = formatNum($request[$i]['price']);
+                        if($request[$i]['discount']>0){
+                            $discount = '<span class="text-success">'.$request[$i]['discount'].'% OFF</span>';
+                        }else{
+                            $discount = '<span class="text-danger">No discount</span>';
+                        }
+                        $html.='
+                            <tr class="item">
+                                <td>
+                                    <img src="'.$request[$i]['image'].'" class="rounded">
+                                </td>
+                                <td>'.$request[$i]['name'].'</td>
+                                <td>'.$price.'</td>
+                                <td>'.$discount.'</td>
+                                <td><button type="button" class="btn btn-primary" id="btn'.$request[$i]['idproduct'].'" onclick="addProduct('.$request[$i]['idproduct'].',this)">Add</button></td>
+                            </tr>
+                        ';
+                    }
+                    $arrResponse = array("status"=>true,"data"=>$html);
+                }else{
+                    $html = '<tr><td colspan="5">No data</td></tr>';
+                    $arrResponse = array("status"=>false,"data"=>$html);
+                }
+            }else{
+                header("location: ".base_url());
+                die();
+            }
+            
+            return $arrResponse;
+        }
+        public function searchProducts($params){
+            if($_SESSION['permitsModule']['r']){
+                $search = strClean($params);
+                $arrResponse = $this->getProducts(1,$params);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+        public function searchCustomers($params){
+            if($_SESSION['permitsModule']['r']){
+                $search = strClean($params);
+                $request = $this->model->searchCustomers($search);
+                $html ="";
+                if(count($request)>0){
+                    for ($i=0; $i < count($request); $i++) { 
+                        $html .='
+                        <button class="p-2 btn w-100 text-start" data-id="'.$request[$i]['idperson'].'" onclick="addCustom(this)">
+                            <p class="m-0 fw-bold">'.$request[$i]['firstname'].' '.$request[$i]['lastname'].'</p>
+                            <p class="m-0">Email: <span>'.$request[$i]['email'].'</span></p>
+                            <p class="m-0">Phone: <span>'.$request[$i]['phone'].'</span></p>
+                        </button>
+                        ';
+                    }
+                    $arrResponse = array("status"=>true,"data"=>$html);
+                }else{
+                    $arrResponse = array("status"=>false,"data"=>$html);
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+        public function setOrder(){
+            //dep($_POST);exit;
+            if($_SESSION['permitsModule']['w']){
+                if($_POST){
+                    if(empty($_POST['id']) || empty($_POST['products'])){
+                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                    }else{
+                        $arrProducts = json_decode($_POST['products'],true);
+                        $orderDetail = [];
+                        $total = 0;
+                        for ($i=0; $i < count($arrProducts) ; $i++) { 
+                            $request = $this->model->selectProduct($arrProducts[$i]['id']);
+                            $request['qty'] = $arrProducts[$i]['qty'];
+                            array_push($orderDetail,$request);
+                        }
+
+                        foreach ($orderDetail as $product) {
+                            if($product['discount']>0){
+                                $total += $product['qty'] * ($product['price'] - ($product['price']*($product['discount']/100)));
+                            }else{
+                                $total += $product['qty'] * $product['price'];
+                            }
+                        }
+                        
+                        $idCustomer = intval($_POST['id']);
+                        $customInfo = $this->model->selectCustomer($idCustomer);
+
+                        $requestOrder = $this->model->insertOrder($idCustomer,$customInfo['firstname'],$customInfo['lastname'],$customInfo['email'],
+                        $customInfo['phone'],$customInfo['country'],$customInfo['state'],$customInfo['city'],$customInfo['address'],$total);
+
+                        if($requestOrder > 0){
+                            $arrData = array("iduser"=>$idCustomer,"idorder"=>$requestOrder,"products"=>$orderDetail);
+                            $requestOrderDetail = $this->model->insertOrderDetail($arrData);
+                            $arrResponse = array("status"=>true,"msg"=>"Data saved");
+                        }else{
+                            $arrResponse = array("status"=>false,"msg"=>"Error, try again");
+                        }
+                    }
+                    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                }
+            }
+            die();
+        }
+        
     }
 ?>
