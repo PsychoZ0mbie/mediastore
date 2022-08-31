@@ -175,7 +175,7 @@ window.addEventListener("load",function(){
     if(document.querySelector("#modalPoup")){
         request(base_url+"/shop/statusCouponSuscriber","","get").then(function(data){
             let discount = data.discount;
-            if(data.status){
+            if(data.status && !checkPopup()){
                 setTimeout(function(){
                     let modal="";
                     let modalPopup = document.querySelector("#modalPoup");
@@ -217,6 +217,9 @@ window.addEventListener("load",function(){
                             window.clearTimeout(timer);
                             modalView.hide();
                             modalPopup.innerHTML = "";
+                            
+                            let key =COMPANY+"popup"; 
+                            localStorage.setItem(key,false);
                         }else{
                             window.clearTimeout(timer);
                             const runTime = function(){
@@ -1232,4 +1235,8 @@ function showMore(elements,max=null,handler){
         }
         
     })
+}
+function checkPopup(){
+    let status = localStorage.getItem(COMPANY+"popup");
+    return status;
 }
