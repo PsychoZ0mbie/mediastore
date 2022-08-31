@@ -47,16 +47,7 @@ checkData.addEventListener("click",function(){
         return false;
     }
     if(!fntEmailValidate(strEmail)){
-        let html = ` Your email is incorrect, it is only allowed:
-        <ul class="m-0 mt-1">
-            <li>@hotmail.com</li>
-            <li>@outlook.com</li>
-            <li>@yahoo.com</li>
-            <li>@live.com</li>
-            <li>@gmail.com</li>
-        </ul>
-        `;
-        alertOrder.innerHTML = html;
+        alertOrder.innerHTML = "Your email is incorrect";
         alertOrder.classList.remove("d-none");
         btnPaypal.classList.add("d-none");
         return false;

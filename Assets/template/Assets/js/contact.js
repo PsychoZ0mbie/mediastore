@@ -14,17 +14,8 @@ formContact.addEventListener("submit",function(e){
         return false;
     }
     if(!fntEmailValidate(strEmail)){
-        let html = ` Your email is incorrect, it is only allowed:
-        <ul class="m-0 mt-1">
-            <li>@hotmail.com</li>
-            <li>@outlook.com</li>
-            <li>@yahoo.com</li>
-            <li>@live.com</li>
-            <li>@gmail.com</li>
-        </ul>
-        `;
         alert.classList.remove("d-none");
-        alert.innerHTML = html;
+        alert.innerHTML = "Your email is incorrect";
         return false;
     }
 

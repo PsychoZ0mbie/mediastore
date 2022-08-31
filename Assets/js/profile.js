@@ -62,16 +62,7 @@ formProfile.addEventListener("submit",function(e){
         }
     }
     if(!fntEmailValidate(strEmail)){
-        let html = `
-        <br>
-        <br>
-        <p>youremail@hotmail.com</p>
-        <p>youremail@outlook.com</p>
-        <p>youremail@yahoo.com</p>
-        <p>youremail@live.com</p>
-        <p>youremail@gmail.com</p>
-        `;
-        Swal.fire("Error","Email is invalid , valid emails are: "+html,"error");
+        Swal.fire("Error","Email is invalid","error");
         return false;
     }
     if(strPhone.length < 9){
