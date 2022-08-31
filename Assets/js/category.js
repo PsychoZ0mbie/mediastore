@@ -207,6 +207,7 @@ function editItem(id){
 
             request(url,formData,"post").then(function(objData){
                 btnAdd.removeAttribute("disabled");
+                btnAdd.innerHTML="Update";
                 if(objData.status){
                     Swal.fire("Updated",objData.msg,"success");
                     modalView.hide();
