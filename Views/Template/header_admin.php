@@ -14,14 +14,16 @@
         <meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
         <title><?=$data['page_title']." | Panel"?></title>
         <link rel ="shortcut icon" href="<?=media()."/images/uploads/".$companyData['logo']?>" sizes="114x114" type="image/png">
-        <script src="<?= media();?>/js/plugins/tinymce/tinymce.min.js"></script>
-        <!-- Font Awesome 5-->
-        <link href="<?=media()?>/css/icons/font-awesome.min.css">
-        <!-- AdminKit CSS file -->
+        
+        
+        <!------------------------------Admin template--------------------------------->
         <link href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/css/style.css" rel="stylesheet">
-        <!-- Datepicker-->
-        <link href="<?= media();?>/js/plugins/datepicker/jquery-ui.min.css" rel="stylesheet">
-        <!-- My Styles -->
+        <!------------------------------Frameworks--------------------------------->
+        <!------------------------------Plugins--------------------------------->
+        <link href="<?=media()?>/plugins/fontawesome/font-awesome.min.css">
+        <script src="<?= media();?>/plugins/tinymce/tinymce.min.js"></script>
+        <link href="<?= media();?>/plugins/datepicker/jquery-ui.min.css" rel="stylesheet">
+        <!------------------------------My styles--------------------------------->
         <link rel="stylesheet" href="<?=media()?>/css/style.css">
     </head>
     <body>

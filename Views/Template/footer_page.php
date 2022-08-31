@@ -66,6 +66,14 @@ for ($i=0; $i < count($social) ; $i++) {
             </div>
         </div>
     </footer>
+    
+    <!------------------------------Frameworks--------------------------------->
+    <script src="<?= media(); ?>/frameworks/bootstrap/popper.min.js?n=1"></script>
+    <script src="<?= media(); ?>/frameworks/bootstrap/bootstrap.min.js?n=1"></script>
+    <!------------------------------Plugins--------------------------------->
+    <script src="<?= media();?>/plugins/fontawesome/fontawesome.js"></script>
+    <script src="<?= media();?>/plugins/sweetalert/sweetalert.js"></script>
+    <!------------------------------My functions--------------------------------->
     <script>
         const base_url = "<?= base_url(); ?>";
         const MS = "<?=$company['currency']['symbol'];?>";
@@ -73,14 +81,7 @@ for ($i=0; $i < count($social) ; $i++) {
         const COMPANY = "<?=$company['name']?>";
         const SHAREDHASH ="<?=strtolower(str_replace(" ","",$company['name']))?>";
     </script>
-    <!------------------------------------Plugins--------------------------->
-    <script src="<?=media();?>/js/plugins/sweetalert.js"></script>
-    <!------------------------------------Framework--------------------------->
-    <script src="<?=media();?>/js/bootstrap/popper.min.js"></script>
-    <script src="<?=media();?>/js/bootstrap/bootstrap.min.js"></script>
-    <!------------------------------------Font Awesome 5--------------------------->
-    <script src="<?=media();?>/js/icons/fontawesome.js"></script>
-    <!------------------------------------Functions--------------------------->
+    
     <script src="<?=media();?>/js/functions.js"></script>
     <script src="<?=media();?>/template/Assets/js/general.js"></script>
     <?php if(isset($data['app'])){?>

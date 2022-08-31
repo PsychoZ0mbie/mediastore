@@ -61,10 +61,10 @@
     <meta name="twitter:creator" content="<?= $company['name']; ?>"></meta>
     <link rel="canonical" href="<?= $urlWeb?>"/>
 
-    <!------------------------------------Frameworks--------------------------->
-    <link rel="stylesheet" href="<?=media();?>/css/bootstrap/bootstrap.min.css">
-    <!------------------------------------Font Awesome 5--------------------------->
-    <link href="<?=media();?>/css/icons/font-awesome.min.css">
+    <!------------------------------Frameworks--------------------------------->
+    <link rel="stylesheet" href="<?=media();?>/frameworks/bootstrap/bootstrap.min.css">
+    <!------------------------------Plugins--------------------------------->
+    <link href="<?=media();?>/plugins/fontawesome/font-awesome.min.css">
     <!------------------------------------Styles--------------------------->
     <link rel="stylesheet" href="<?=media();?>/template/Assets/css/style.css">
 

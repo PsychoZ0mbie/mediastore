@@ -6,27 +6,29 @@
         </footer>
         </div>
         
-        <!-- Essential javascripts for application to work-->
-        <script src="<?= media();?>/js/plugins/jquery/jquery.js"></script>
-        <script src="<?= media(); ?>/js/bootstrap/popper.min.js?n=1"></script>
-        <script src="<?= media(); ?>/js/bootstrap/bootstrap.min.js?n=1"></script>
-        <script src="<?= media();?>/js/icons/fontawesome.js"></script>
-        <script src="<?= media();?>/js/plugins/sweetalert.js"></script>
-        
-        <!-- AdminKit JS file -->
+        <!------------------------------Admin template--------------------------------->
         <script src="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
         <script src="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/simplebar/js/simplebar.min.js"></script>
         <script src="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/utils/js/coreui-utils.js"></script>
+
+        <!------------------------------Frameworks--------------------------------->
+        <script src="<?= media();?>/frameworks/jquery/jquery.js"></script>
+        <script src="<?= media(); ?>/frameworks/bootstrap/popper.min.js?n=1"></script>
+        <script src="<?= media(); ?>/frameworks/bootstrap/bootstrap.min.js?n=1"></script>
         
-        <!-- Hightcharts plugin-->
+        
+        <!------------------------------Plugins--------------------------------->
+        <script src="<?= media();?>/plugins/fontawesome/fontawesome.js"></script>
+        <script src="<?= media();?>/plugins/sweetalert/sweetalert.js"></script>
+
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
         <script src="https://code.highcharts.com/modules/export-data.js"></script>
 
-        <!-- Datepicker plugin-->
-        <script src="<?= media();?>/js/plugins/datepicker/jquery-ui.min.js"></script>
-        <script src="<?= media();?>/js/plugins/sheetjs/sheetjs.js"></script>
-        <!-- My scripts -->
+        <script src="<?= media();?>/plugins/datepicker/jquery-ui.min.js"></script>
+        <script src="<?= media();?>/plugins/sheetjs/sheetjs.js"></script>
+        <!------------------------------My functions--------------------------------->
+
         <script>
           const base_url = "<?= base_url(); ?>";
           const MS = "<?=$companyData['currency']['symbol'];?>";
