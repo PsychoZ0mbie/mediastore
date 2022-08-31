@@ -1307,11 +1307,11 @@ function openLoginModal(){
                                 <form id="formLogin" name="formLogin">
                                     <h2 class="mb-4">Login</h2>
                                     <div class="mb-3 d-flex">
-                                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-envelope"></i></div>
+                                        <div class="d-flex justify-content-center align-items p-3 bg-p text-white"><i class="fas fa-envelope"></i></div>
                                         <input type="email" class="form-control" id="txtLoginEmail" name="txtEmail" placeholder="Email" required>
                                     </div>
                                     <div class="mb-3 d-flex">
-                                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-lock"></i></div>
+                                        <div class="d-flex justify-content-center align-items p-3 bg-p text-white"><i class="fas fa-lock"></i></div>
                                         <input type="password" class="form-control" id="txtLoginPassword" name="txtPassword" placeholder="Password" required></textarea>
                                     </div>
                                     <div class="d-flex justify-content-end mb-3 t-p">
@@ -1325,15 +1325,15 @@ function openLoginModal(){
                                 <form id="formSign" class="d-none">
                                     <h2 class="mb-4">Sign up</h2>
                                     <div class="mb-3 d-flex">
-                                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-user"></i></div>
+                                        <div class="d-flex justify-content-center align-items p-3 bg-p text-white"><i class="fas fa-user"></i></div>
                                         <input type="text" class="form-control" id="txtSignName" name="txtSignName" placeholder="Name" required>
                                     </div>
                                     <div class="mb-3 d-flex">
-                                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-envelope"></i></div>
+                                        <div class="d-flex justify-content-center align-items p-3 bg-p text-white"><i class="fas fa-envelope"></i></div>
                                         <input type="email" class="form-control" id="txtSignEmail" name="txtSignEmail" placeholder="Email" required>
                                     </div>
                                     <div class="mb-3 d-flex">
-                                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-lock"></i></div>
+                                        <div class="d-flex justify-content-center align-items p-3 bg-p text-white"><i class="fas fa-lock"></i></div>
                                         <input type="password" class="form-control" id="txtSignPassword" name="txtSignPassword" placeholder="Password" required></textarea>
                                     </div>
                                     <p>By registering on our website, you agree to our <a href="${base_url}/policies" target="_blank">privacy and use policies</a>.</p>
@@ -1345,7 +1345,7 @@ function openLoginModal(){
                                 <form id="formConfirmSign" class="d-none">
                                     <h2 class="mb-4">Validate data</h2>
                                     <div class="mb-3 d-flex">
-                                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-lock-open"></i></div>
+                                        <div class="d-flex justify-content-center align-items p-3 bg-p text-white"><i class="fas fa-lock-open"></i></div>
                                         <input type="text" class="form-control" id="txtCode" name="txtCode" placeholder="Code" required>
                                     </div>
                                     <p>We have been sent you an email with a code to validate your data.</p>
@@ -1354,7 +1354,7 @@ function openLoginModal(){
                                 <form id="formReset" class="d-none">
                                     <h2 class="mb-4">Forgot my password</h2>
                                     <div class="mb-3 d-flex">
-                                        <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-envelope"></i></div>
+                                        <div class="d-flex justify-content-center align-items p-3 bg-p text-white"><i class="fas fa-envelope"></i></div>
                                         <input type="email" class="form-control" id="txtEmailReset" name="txtEmailReset" placeholder="Email" required>
                                     </div>
                                     <p>We will send you an email with a link to reset your password</p>
