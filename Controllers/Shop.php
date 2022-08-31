@@ -23,6 +23,7 @@
             $data['categories'] = $this->getCategoriesT();
             $data['products'] = $this->getProductsT("");
             $data['popProducts'] = $this->getPopularProductsT(9);
+            $data['app'] = "shop.js";
             $this->views->getView($this,"shop",$data);
         }
         public function category($params){
@@ -46,6 +47,7 @@
             $data['total'] = $this->getTotalProductsT($category,$subcategory);
             $data['products'] = $this->getProductsCategoryT($category,$subcategory,1);
             $data['popProducts'] = $this->getPopularProductsT(9);
+            $data['app'] = "shop.js";
             $this->views->getView($this,"category",$data);
         }
         public function product($params){
@@ -60,6 +62,7 @@
                     $data['reviews'] = $this->getReviews($data['product']['idproduct']);
                     $data['products'] = $this->getProductsRandT(4);
                     $data['page_title'] =$data['product']['name']." | ".$company['name'];
+                    $data['app'] = "product.js";
                     $this->views->getView($this,"product",$data); 
                 }else{
                     header("location: ".base_url()."/error");
@@ -77,7 +80,7 @@
             $data['page_title'] ="My cart | ".$company['name'];
             $data['page_name'] = "cart";
             $data['shipping'] = $this->selectShippingMode();
-            
+            $data['app'] = "cart.js";
             if(isset($_SESSION['couponInfo']) && $_SESSION['couponInfo']['status'] == false){
                 unset($_SESSION['couponInfo']);
             }
@@ -99,7 +102,7 @@
                 $data['page_name'] = "checkout";
                 $data['credentials'] = getCredentials();
                 $data['company'] = getCompanyInfo();
-
+                $data['app'] = "checkout.js";
                 if(isset($_SESSION['arrShipping']) && $_SESSION['arrShipping']['id'] == 3 && empty($_SESSION['arrShipping']['city'])){
                     header("location: ".base_url()."/shop/cart");
                     die(); 
@@ -244,8 +247,10 @@
                 }
                 if(!empty($_SESSION['arrShipping']['city'])){
                     $arrTotal = $this->calculateTotal($_SESSION['arrCart'],$_SESSION['arrShipping'],$_SESSION['arrShipping']['city']['id']);
-                }else{
+                }else if(!empty($_SESSION['arrShipping'])){
                     $arrTotal = $this->calculateTotal($_SESSION['arrCart'],$_SESSION['arrShipping']);
+                }else{
+                    $arrTotal = $this->calculateTotal($_SESSION['arrCart']);
                 }
                 
                 $subtotal = $arrTotal['subtotal'];
@@ -985,7 +990,7 @@
             echo json_encode($html,JSON_UNESCAPED_UNICODE);
             die();
         }
-        public function calculateTotal($arrProducts,$arrShipping,$idCity =null){
+        public function calculateTotal($arrProducts,$arrShipping=null,$idCity =null){
             $subtotal = 0;
             $total=0;
             $subtotalCoupon=0;
@@ -1010,8 +1015,10 @@
                         break;
                     }
                 }
-            }else{
+            }else if($arrShipping!=null){
                 $total = $subtotal+$arrShipping['value'];
+            }else{
+                $total = $subtotal;
             }
             
             $arrTotal = array("subtotal"=>$subtotal,"total"=>$total,"subtotalCoupon" =>$subtotalCoupon);

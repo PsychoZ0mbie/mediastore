@@ -115,6 +115,7 @@
 					$data['company'] = $company;
 					$data['page_name'] = "recovery";
 					$data['idperson'] = $arrResponse['idperson'];
+					$data['app'] = "login.js";
 					$this->views->getView($this,"recovery",$data);
 				}
 			}

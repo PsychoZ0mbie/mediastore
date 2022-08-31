@@ -114,7 +114,7 @@
             $this->strPostalCode = $postalCode;
             $this->strAddress=$address;
 
-            $sql ="INSERT INTO orderdata(personid,idtransaction,paypaldata,amountdata,firstname,lastname,email,phone,address,country,state,city,postalcode,note,amount,status) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sql ="INSERT INTO orderdata(personid,idtransaction,paypaldata,amountdata,firstname,lastname,email,phone,address,country,state,city,postalcode,note,amount,type,status) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $arrData = array(
                 $this->intIdUser, 
                 $this->strIdTransaction,
@@ -131,6 +131,7 @@
                 $this->strPostalCode,
                 $note,
                 $total,
+                "paypal",
                 $status);
             $request = $this->con->insert($sql,$arrData);
             return $request;

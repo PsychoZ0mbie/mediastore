@@ -19,6 +19,7 @@
             $data['page_title'] = "My wishlist | ".$company['name'];;
             $data['page_name'] = "wishlist";
             $data['products'] = $this->getProductsFavorites($_SESSION['idUser']);
+            $data['app'] = "wishlist.js";
             $this->views->getView($this,"wishlist",$data);
         }
     }

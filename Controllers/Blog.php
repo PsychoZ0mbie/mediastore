@@ -20,6 +20,7 @@
             $data['recPosts'] = $this->getRecentPostsT(9);
             $data['posts'] = $this->getArticlesT();
             $data['categories'] = $this->getBlogCategoriesT();
+            $data['app'] = "blog.js";
             $this->views->getView($this,"blog",$data);
         }
         public function category($params){
@@ -44,6 +45,7 @@
             $data['posts'] = $this->getArticlesCategoryT($category,$subcategory,1);
             $data['recPosts'] = $this->getRecentPostsT(9);
             $data['categories'] = $this->getBlogCategoriesT();
+            $data['app'] = "blog.js";
             $this->views->getView($this,"category",$data);
         }
         public function article($params){
@@ -58,7 +60,7 @@
                     $data['recPosts'] = $this->getRecentPostsT(9);
                     $data['categories'] = $this->getBlogCategoriesT();
                     $data['comments'] = $this->getComments($data['article']['idarticle']);
-                    //$data['articles'] = $this->getProductsRandT(4);
+                    $data['app'] = "article.js";
                     $data['page_title'] =$data['article']['name']." | ".$company['name'];
                     $this->views->getView($this,"article",$data);
                 }else{

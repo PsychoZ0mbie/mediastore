@@ -82,6 +82,10 @@ for ($i=0; $i < count($social) ; $i++) {
     <script src="<?=media();?>/js/icons/fontawesome.js"></script>
     <!------------------------------------Functions--------------------------->
     <script src="<?=media();?>/js/functions.js"></script>
-    <script src="<?=media();?>/template/Assets/js/app.js"></script>
+    <script src="<?=media();?>/template/Assets/js/general.js"></script>
+    <?php if(isset($data['app'])){?>
+    <script src="<?=media();?>/template/Assets/js/<?=$data['app']?>"></script>
+    <?php }?>
+    
 </body>
 </html>

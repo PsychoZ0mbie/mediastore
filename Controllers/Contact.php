@@ -12,6 +12,7 @@
             $data['page_tag'] = "Contact | ".$company['name'];
 			$data['page_title'] = "Contact | ".$company['name'];
 			$data['page_name'] = "contact";
+            $data['app'] = "contact.js";
             $this->views->getView($this,"contact",$data);
         }
         public function setContact(){
