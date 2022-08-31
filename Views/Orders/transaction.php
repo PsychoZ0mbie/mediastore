@@ -74,22 +74,22 @@ if(isset($transaction->purchase_units[0]->payments->refunds)){
                             <?php if($_SESSION['userData']['roleid'] == 2){?>
                             <tr>
                                 <td><?=$dateUpdate.' Refund for '.$name?></td>
-                                <td class="text-right"> <?=$grossAmount." ".MD?></td>
-                                <td class="text-right">0 <?=MD?></td>
-                                <td class="text-right"> <?=$grossAmount." ".MD?></td>
+                                <td class="text-right"> <?=formatNum($grossAmount)?></td>
+                                <td class="text-right"><?=formatNum(0)?></td>
+                                <td class="text-right"> <?=formatNum($grossAmount)?></td>
                             </tr>
                             <?php }else{?>
                             <tr>
                                 <td><?=$dateUpdate.' Refund for '.$name?></td>
-                                <td class="text-right">- <?=$grossAmount." ".MD?></td>
-                                <td class="text-right">- <?=$feeAmount." ".MD?></td>
-                                <td class="text-right">- <?=$netAmount." ".MD?></td>
+                                <td class="text-right">- <?=formatNum($grossAmount)?></td>
+                                <td class="text-right">- <?=formatNum($feeAmount)?></td>
+                                <td class="text-right">- <?=formatNum($netAmount)?></td>
                             </tr>
                             <tr>
                                 <td><?=$dateUpdate.' Paypal fee canceled for '.$name?></td>
-                                <td class="text-right"> <?=$feeAmount." ".MD?></td>
-                                <td class="text-right"> 0 <?=MD?></td>
-                                <td class="text-right"> <?=$feeAmount." ".MD?></td>
+                                <td class="text-right"> <?=formatNum($feeAmount)?></td>
+                                <td class="text-right"><?=formatNum(0)?></td>
+                                <td class="text-right"> <?=formatNum($feeAmount)?></td>
                             </tr>
                             <?php }?>
                         </tbody>
@@ -98,9 +98,9 @@ if(isset($transaction->purchase_units[0]->payments->refunds)){
                     <?php if($_SESSION['permitsModule']['r'] && $_SESSION['userData']['roleid'] != 2){?>
                     <div class="row text-start mb-3">
                         <p class="m-0 mb-2 fw-bold">Payment details</p>
-                        <p class="m-0"><span class="fw-bold">Gross amount:</span> <?=$grossAmount." ".MD?></p>
-                        <p class="m-0"><span class="fw-bold">Paypal fee:</span> -<?=$feeAmount." ".MD?></p>
-                        <p class="m-0"><span class="fw-bold">Net amount:</span> <?=$netAmount." ".MD?></p>
+                        <p class="m-0"><span class="fw-bold">Gross amount:</span> <?=formatNum($grossAmount)?></p>
+                        <p class="m-0"><span class="fw-bold">Paypal fee:</span> -<?=formatNum($feeAmount)?></p>
+                        <p class="m-0"><span class="fw-bold">Net amount:</span> <?=formatNum($netAmount)?></p>
                     </div>
                     <?php }?>
                 </div>

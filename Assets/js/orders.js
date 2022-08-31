@@ -1,55 +1,56 @@
 'use strict';
 
-const moneyReceived = document.querySelector("#moneyReceived");
-const btnAddPos = document.querySelector("#btnAddPos");
 
-moneyReceived.addEventListener("input",function(){
-    let total = document.querySelector("#total").getAttribute("data-total");
-    let result = 0;
-    result = moneyReceived.value - total ;
-    if(result < 0){
-        result = 0;
-    }
-
-    document.querySelector("#moneyBack").innerHTML = "Money back: "+MS+formatNum(result,".")+" "+MD;
-});
-btnAddPos.addEventListener("click",function(){
-    let id = document.querySelector("#idCustomer").value;
-    if(id <= 0){
-        Swal.fire("Error","Please add a customer to set the order","error");
-        return false;
-    }else{
-        let products = document.querySelectorAll(".product");
-        let arrProducts = [];
-        for (let i = 0; i < products.length; i++) {
-            let product = {
-                "id":products[i].children[0].getAttribute("data-id"),
-                "qty":products[i].children[1].children[0].children[0].children[1].children[1].getAttribute("data-value")
-            };
-            arrProducts.push(product);
-        }
-        let formData = new FormData();
-        formData.append("id",id);
-        formData.append("products",JSON.stringify(arrProducts));
-        btnAddPos.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Wait...`;
-        btnAddPos.setAttribute("disabled","");
-        request(base_url+"/orders/setOrder",formData,"post").then(function(objData){
-            btnAddPos.removeAttribute("disabled");
-            btnAddPos.innerHTML="Save";
-            if(objData.status){
-                location.reload();
-            }else{
-                Swal.fire("Error",objData.msg,"error");
-            }
-        });
-    }
-});
 if(document.querySelector("#orders")){
     let search = document.querySelector("#search");
     let searchProducts = document.querySelector("#searchProducts");
     let searchCustomers = document.querySelector("#searchCustomers");
     let sort = document.querySelector("#sortBy");
     let element = document.querySelector("#listItem");
+    const moneyReceived = document.querySelector("#moneyReceived");
+    const btnAddPos = document.querySelector("#btnAddPos");
+    
+    moneyReceived.addEventListener("input",function(){
+        let total = document.querySelector("#total").getAttribute("data-total");
+        let result = 0;
+        result = moneyReceived.value - total ;
+        if(result < 0){
+            result = 0;
+        }
+    
+        document.querySelector("#moneyBack").innerHTML = "Money back: "+MS+formatNum(result,".")+" "+MD;
+    });
+    btnAddPos.addEventListener("click",function(){
+        let id = document.querySelector("#idCustomer").value;
+        if(id <= 0){
+            Swal.fire("Error","Please add a customer to set the order","error");
+            return false;
+        }else{
+            let products = document.querySelectorAll(".product");
+            let arrProducts = [];
+            for (let i = 0; i < products.length; i++) {
+                let product = {
+                    "id":products[i].children[0].getAttribute("data-id"),
+                    "qty":products[i].children[1].children[0].children[0].children[1].children[1].getAttribute("data-value")
+                };
+                arrProducts.push(product);
+            }
+            let formData = new FormData();
+            formData.append("id",id);
+            formData.append("products",JSON.stringify(arrProducts));
+            btnAddPos.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Wait...`;
+            btnAddPos.setAttribute("disabled","");
+            request(base_url+"/orders/setOrder",formData,"post").then(function(objData){
+                btnAddPos.removeAttribute("disabled");
+                btnAddPos.innerHTML="Save";
+                if(objData.status){
+                    location.reload();
+                }else{
+                    Swal.fire("Error",objData.msg,"error");
+                }
+            });
+        }
+    });
 
     search.addEventListener('input',function() {
         request(base_url+"/orders/search/"+search.value,"","get").then(function(objData){
@@ -93,10 +94,6 @@ if(document.querySelector("#orders")){
         });
     });
 
-    window.addEventListener("DOMContentLoaded",function() {
-        showItems(element);
-    })
-
     element.addEventListener("click",function(e) {
         let element = e.target;
         let id = element.getAttribute("data-id");
@@ -105,16 +102,6 @@ if(document.querySelector("#orders")){
         }
     });
 
-    function showItems(element){
-        let url = base_url+"/Orders/getOrders";
-        request(url,"","get").then(function(objData){
-            if(objData.status){
-                element.innerHTML = objData.data;
-            }else{
-                element.innerHTML = objData.msg;
-            }
-        })
-    }
     function deleteItem(id){
         Swal.fire({
             title:"Are you sure to delete it?",
@@ -133,7 +120,7 @@ if(document.querySelector("#orders")){
                 request(url,formData,"post").then(function(objData){
                     if(objData.status){
                         Swal.fire("Deleted",objData.msg,"success");
-                        showItems(element);
+                        element.innerHTML = objData.data;
                     }else{
                         Swal.fire("Error",objData.msg,"error");
                     }

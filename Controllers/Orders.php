@@ -18,7 +18,7 @@
                 $data['page_tag'] = "Orders";
                 $data['page_title'] = "Orders";
                 $data['page_name'] = "orders";
-                $data['products'] = $this->getProducts();
+                $data['orders'] = $this->getOrders();
                 
                 $data['app'] = "orders.js";
                 $this->views->getView($this,"orders",$data);
@@ -68,10 +68,17 @@
                 die();
             }
         }
-        public function getOrders(){
+        public function getOrders($option=null,$params=null){
             if($_SESSION['permitsModule']['r']){
                 $html="";
-                $request = $this->model->selectOrders();
+                $request="";
+                if($option == 1){
+                    $request = $this->model->search($params);
+                }else if($option == 2){
+                    $request = $this->model->sort($params);
+                }else{
+                    $request = $this->model->selectOrders();
+                }
                 if(count($request)>0){
                     for ($i=0; $i < count($request); $i++) { 
 
@@ -115,15 +122,14 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"No data");
+                    $html = '<tr><td colspan="7">No data</td></tr>';
+                    $arrResponse = array("status"=>false,"data"=>$html);
                 }
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }else{
                 header("location: ".base_url());
                 die();
             }
-            
-            die();
+            return $arrResponse;
         }
         public function getTransaction(string $idTransaction){
             if($_SESSION['permitsModule']['r'] && $_SESSION['userData']['roleid'] !=2){
@@ -171,7 +177,7 @@
                         $request = $this->model->deleteOrder($id);
 
                         if($request=="ok"){
-                            $arrResponse = array("status"=>true,"msg"=>"It has been deleted");
+                            $arrResponse = $this->getOrders();
                         }else{
                             $arrResponse = array("status"=>false,"msg"=>"It has not been possible to delete, try again.");
                         }
@@ -185,95 +191,19 @@
             die();
         }
         public function search($params){
-            $search = strClean($params);
-            $request = $this->model->search($params);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-
-                    $btnView='<a href="'.base_url().'/orders/order/'.$request[$i]['idorder'].'" class="btn btn-info text-white m-1" type="button" title="View order" name="btnView"><i class="fas fa-eye"></i></a>';
-                    $btnPaypal='<a href="'.base_url().'/orders/transaction/'.$request[$i]['idtransaction'].'" class="btn btn-info m-1 text-white " type="button" title="View Transaction" name="btnPaypal"><i class="fab fa-paypal"></i></a>';
-                    $btnDelete ="";
-
-                    if($_SESSION['permitsModule']['d'] && $_SESSION['userData']['roleid'] == 1){
-                        $btnDelete = '<button class="btn btn-danger text-white m-1" type="button" title="Delete" data-id="'.$request[$i]['idorder'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    }
-                    if($_SESSION['userData']['roleid'] == 1){
-
-                        $html.='
-                            <tr class="item">
-                                <td>'.$request[$i]['idorder'].'</td>
-                                <td>'.$request[$i]['idtransaction'].'</td>
-                                <td>'.$request[$i]['date'].'</td>
-                                <td>'.formatNum($request[$i]['amount']).'</td>
-                                <td>'.$request[$i]['status'].'</td>
-                                <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
-                            </tr>
-                        ';
-                    }elseif($_SESSION['idUser'] == $request[$i]['personid']){
-                        $html.='
-                        <tr class="item">
-                            <td>'.$request[$i]['idorder'].'</td>
-                            <td>'.$request[$i]['idtransaction'].'</td>
-                            <td>'.$request[$i]['date'].'</td>
-                            <td>'.formatNum($request[$i]['amount']).'</td>
-                            <td>'.$request[$i]['status'].'</td>
-                            <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
-                        </tr>
-                    ';
-                    }
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $search = strClean($params);
+                $arrResponse = $this->getOrders(1,$params);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function sort($params){
-            $sort = intval($params);
-            $request = $this->model->sort($sort);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-
-                    $btnView='<a href="'.base_url().'/orders/order/'.$request[$i]['idorder'].'" class="btn btn-info text-white m-1" type="button" title="View order" name="btnView"><i class="fas fa-eye"></i></a>';
-                    $btnPaypal='<a href="'.base_url().'/orders/transaction/'.$request[$i]['idtransaction'].'" class="btn btn-info m-1 text-white " type="button" title="View Transaction" name="btnPaypal"><i class="fab fa-paypal"></i></a>';
-                    $btnDelete ="";
-
-                    if($_SESSION['permitsModule']['d'] && $_SESSION['userData']['roleid'] == 1){
-                        $btnDelete = '<button class="btn btn-danger text-white m-1" type="button" title="Delete" data-id="'.$request[$i]['idorder'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    }
-                    if($_SESSION['userData']['roleid'] == 1){
-
-                        $html.='
-                            <tr class="item">
-                                <td>'.$request[$i]['idorder'].'</td>
-                                <td>'.$request[$i]['idtransaction'].'</td>
-                                <td>'.$request[$i]['date'].'</td>
-                                <td>'.formatNum($request[$i]['amount']).'</td>
-                                <td>'.$request[$i]['status'].'</td>
-                                <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
-                            </tr>
-                        ';
-                    }elseif($_SESSION['idUser'] == $request[$i]['personid']){
-                        $html.='
-                        <tr class="item">
-                            <td>'.$request[$i]['idorder'].'</td>
-                            <td>'.$request[$i]['idtransaction'].'</td>
-                            <td>'.$request[$i]['date'].'</td>
-                            <td>'.formatNum($request[$i]['amount']).'</td>
-                            <td>'.$request[$i]['status'].'</td>
-                            <td class="item-btn">'.$btnView.$btnPaypal.$btnDelete.'</td>
-                        </tr>
-                    ';
-                    }
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $params = intval($params);
+                $arrResponse = $this->getOrders(2,$params);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function getProduct(){

@@ -82,7 +82,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="listItem">
-                                    
+                                <?=$data['orders']['data']?>
                                 </tbody>
                             </table>
                         </div>
