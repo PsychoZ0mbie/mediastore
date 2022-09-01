@@ -40,24 +40,15 @@ window.addEventListener("load",function(){
             let current =e.target.getAttribute("data-page");
             displayList(items,listItems,rows,current,paginationbtns,max);
         }
-        addProduct(document.querySelectorAll(".product-img .product-card-add"));
-        quickModal(document.querySelectorAll(".product-btns .quickView"));
-        addWishList();
         filterPrice();
     });
     start.addEventListener("click",function(){
         displayList(items,listItems,rows,1,paginationbtns,max);
-        addProduct(document.querySelectorAll(".product-img .product-card-add"));
-        quickModal(document.querySelectorAll(".product-btns .quickView"));
-        addWishList();
         filterPrice();
     });
     end.addEventListener("click",function(){
         let end = Math.ceil(items.length/rows);
         displayList(items,listItems,rows,end,paginationbtns,max);
-        addProduct(document.querySelectorAll(".product-img .product-card-add"));
-        quickModal(document.querySelectorAll(".product-btns .quickView"));
-        addWishList();
         filterPrice();
     });
     prev.addEventListener("click",function(){
@@ -68,24 +59,18 @@ window.addEventListener("load",function(){
             current--;
         }
         displayList(items,listItems,rows,current,paginationbtns,max);
-        addProduct(document.querySelectorAll(".product-img .product-card-add"));
-        quickModal(document.querySelectorAll(".product-btns .quickView"));
-        addWishList();
         filterPrice();
     });
     next.addEventListener("click",function(){
         let end = Math.ceil(items.length/rows);
         let current = document.querySelector(".page.active").getAttribute("data-page");
-
+    
         if(end == current){
             current = end;
         }else{
             current++;
         }
         displayList(items,listItems,rows,current,paginationbtns,max);
-        addProduct(document.querySelectorAll(".product-img .product-card-add"));
-        quickModal(document.querySelectorAll(".product-btns .quickView"));
-        addWishList();
         filterPrice();
     });
     
