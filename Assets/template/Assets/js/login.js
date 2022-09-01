@@ -20,19 +20,19 @@ if(document.querySelector("#formRecovery")){
         btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;    
         btn.setAttribute("disabled","");
         if(strPassword == "" || strPasswordConfirm==""){
-            Swal.fire("Error", "Please put your new password.", "error");
+            Swal.fire("Error", "Por favor, pon tu nueva contraseña.", "error");
             return false;
         }else{
             if(strPassword.length < 8){
-                Swal.fire("Error","The password must have at least 8 characters","error");
+                Swal.fire("Error","La contraseña debe tener al menos 8 carácteres","error");
                 return false;
             }if(strPassword != strPasswordConfirm){
-                Swal.fire("Error","The passwords do not match","error");
+                Swal.fire("Error","Las contraseñas no coinciden","error");
             return false;
             }
 
             request(url,formData,"post").then(function(objData){
-                btn.innerHTML="Reset my password";    
+                btn.innerHTML="Actualizar contraseña";    
                 btn.removeAttribute("disabled");
                 if(objData.status){
                     window.location.reload();

@@ -9,11 +9,11 @@
 
         public function about(){
             $company=getCompanyInfo();
-            $data['page_tag'] = "About us | ".$company['name'];
-			$data['page_title'] = "About us | ".$company['name'];
-			$data['page_name'] = "about";
+            $data['page_tag'] = "Nosotros | ".$company['name'];
+			$data['page_title'] = "Nosotros | ".$company['name'];
+			$data['page_name'] = "nosotros";
             $data['page'] = $this->getPage(1);
-            $this->views->getView($this,"about",$data);
+            $this->views->getView($this,"nosotros",$data);
         }
     }
 ?>

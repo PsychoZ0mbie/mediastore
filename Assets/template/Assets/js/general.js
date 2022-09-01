@@ -433,28 +433,28 @@ function openLoginModal(){
                         <div class="d-flex justify-content-center align-items-center">
                             <div class="login">
                                 <form id="formLogin" name="formLogin">
-                                    <h2 class="mb-4">Login</h2>
+                                    <h2 class="mb-4">Iniciar sesión</h2>
                                     <div class="mb-3 d-flex">
                                         <div class="d-flex justify-content-center align-items p-3 bg-p text-white"><i class="fas fa-envelope"></i></div>
                                         <input type="email" class="form-control" id="txtLoginEmail" name="txtEmail" placeholder="Email" required>
                                     </div>
                                     <div class="mb-3 d-flex">
                                         <div class="d-flex justify-content-center align-items p-3 bg-p text-white"><i class="fas fa-lock"></i></div>
-                                        <input type="password" class="form-control" id="txtLoginPassword" name="txtPassword" placeholder="Password" required></textarea>
+                                        <input type="password" class="form-control" id="txtLoginPassword" name="txtPassword" placeholder="Contraseña" required></textarea>
                                     </div>
                                     <div class="d-flex justify-content-end mb-3 t-p">
-                                        <div class="c-p" id="forgotBtn">Forgot password?</div>
+                                        <div class="c-p" id="forgotBtn">¿Olvidaste tu contraseña?</div>
                                     </div>
-                                    <button type="submit" id="loginSubmit" class="btn btnc-primary w-100 mb-4" >Login</button>
+                                    <button type="submit" id="loginSubmit" class="btn btnc-primary w-100 mb-4" >Iniciar sesión</button>
                                     <div class="d-flex justify-content-center mb-3 t-p" >
-                                        <div class="c-p" id="signBtn">Need an account?</div>
+                                        <div class="c-p" id="signBtn">¿Necesitas una cuenta?</div>
                                     </div>
                                 </form>
                                 <form id="formSign" class="d-none">
                                     <h2 class="mb-4">Sign up</h2>
                                     <div class="mb-3 d-flex">
                                         <div class="d-flex justify-content-center align-items p-3 bg-p text-white"><i class="fas fa-user"></i></div>
-                                        <input type="text" class="form-control" id="txtSignName" name="txtSignName" placeholder="Name" required>
+                                        <input type="text" class="form-control" id="txtSignName" name="txtSignName" placeholder="Nombre" required>
                                     </div>
                                     <div class="mb-3 d-flex">
                                         <div class="d-flex justify-content-center align-items p-3 bg-p text-white"><i class="fas fa-envelope"></i></div>
@@ -462,34 +462,34 @@ function openLoginModal(){
                                     </div>
                                     <div class="mb-3 d-flex">
                                         <div class="d-flex justify-content-center align-items p-3 bg-p text-white"><i class="fas fa-lock"></i></div>
-                                        <input type="password" class="form-control" id="txtSignPassword" name="txtSignPassword" placeholder="Password" required></textarea>
+                                        <input type="password" class="form-control" id="txtSignPassword" name="txtSignPassword" placeholder="Contraseña" required></textarea>
                                     </div>
-                                    <p>By registering on our website, you agree to our <a href="${base_url}/policies" target="_blank">privacy and use policies</a>.</p>
+                                    <p>Al registrarse en nuestro sitio web, aceptas <a href="${base_url}/policies" target="_blank">nuestras políticas de uso y de privacidad.</a>.</p>
                                     <div class="d-flex justify-content-end mb-3 t-p" >
-                                        <div class="c-p loginBtn">Already have an account? login</div>
+                                        <div class="c-p loginBtn">¿Ya tienes una cuenta? inicia sesión</div>
                                     </div>
-                                    <button type="submit" id="signSubmit" class="btn btnc-primary w-100 mb-4" >Sign up</button>
+                                    <button type="submit" id="signSubmit" class="btn btnc-primary w-100 mb-4" >Registrarse</button>
                                 </form>
                                 <form id="formConfirmSign" class="d-none">
-                                    <h2 class="mb-4">Validate data</h2>
+                                    <h2 class="mb-4">Verificar correo</h2>
                                     <div class="mb-3 d-flex">
                                         <div class="d-flex justify-content-center align-items p-3 bg-p text-white"><i class="fas fa-lock-open"></i></div>
-                                        <input type="text" class="form-control" id="txtCode" name="txtCode" placeholder="Code" required>
+                                        <input type="text" class="form-control" id="txtCode" name="txtCode" placeholder="Código" required>
                                     </div>
-                                    <p>We have been sent you an email with a code to validate your data.</p>
-                                    <button type="submit" id="confimSignSubmit" class="btn btnc-primary w-100 mb-4" >Validate</button>
+                                    <p>Te hemos enviado un correo electrónico con tu codigo de verificación.</p>
+                                    <button type="submit" id="confimSignSubmit" class="btn btnc-primary w-100 mb-4" >Verificar</button>
                                 </form>
                                 <form id="formReset" class="d-none">
-                                    <h2 class="mb-4">Forgot my password</h2>
+                                    <h2 class="mb-4">Recuperar contraseña</h2>
                                     <div class="mb-3 d-flex">
                                         <div class="d-flex justify-content-center align-items p-3 bg-p text-white"><i class="fas fa-envelope"></i></div>
                                         <input type="email" class="form-control" id="txtEmailReset" name="txtEmailReset" placeholder="Email" required>
                                     </div>
-                                    <p>We will send you an email with a link to reset your password</p>
+                                    <p>Te enviaremos un correo electrónico con las instrucciones a seguir.</p>
                                     <div class="d-flex justify-content-end mb-3 t-p" >
                                         <div class="c-p loginBtn">Login</div>
                                     </div>
-                                    <button type="submit" id="resetSubmit" class="btn btnc-primary w-100 mb-4" >Reset my password</button>
+                                    <button type="submit" id="resetSubmit" class="btn btnc-primary w-100 mb-4" >Recuperar contraseña</button>
                                 </form>
                             </div>
                         </div>
@@ -539,19 +539,16 @@ function openLoginModal(){
         let strPassword = document.querySelector('#txtLoginPassword').value;
         let loginBtn = document.querySelector("#loginSubmit");
         if(strEmail == "" || strPassword ==""){
-            Swal.fire("Error", "Please, fill the fields", "error");
+            Swal.fire("Error", "Por favor, completa los campos", "error");
             return false;
         }else{
 
             let url = base_url+'/Login/loginUser'; 
             let formData = new FormData(formLogin);
-            loginBtn.innerHTML=`
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Wait...
-            `;
+            loginBtn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
             loginBtn.setAttribute("disabled","");
             request(url,formData,"post").then(function(objData){
-                loginBtn.innerHTML=`Login`;
+                loginBtn.innerHTML=`Iniciar sesión`;
                 loginBtn.removeAttribute("disabled");
                 if(objData.status){
                     window.location.reload(false);
@@ -572,22 +569,19 @@ function openLoginModal(){
         let signBtn = document.querySelector("#signSubmit");
 
         if(strEmail == "" || strPassword =="" || strName ==""){
-            Swal.fire("Error", "Please, fill the fields", "error");
+            Swal.fire("Error", "Por favor, completa los campos", "error");
             return false;
         }
         if(strPassword.length < 8){
-            Swal.fire("Error","The password must have at least 8 characters","error");
+            Swal.fire("Error","La contraseña debe tener al menos 8 carácteres","error");
             return false;
         }
         let url = base_url+'/Shop/validCustomer'; 
         let formData = new FormData(formSign);
-        signBtn.innerHTML=`
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Wait...
-        `;
+        signBtn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
         signBtn.setAttribute("disabled","");
         request(url,formData,"post").then(function(objData){
-            signBtn.innerHTML=`Sign up`;
+            signBtn.innerHTML=`Registrarse`;
             signBtn.removeAttribute("disabled");
             if(objData.status){
                 formSign.classList.add("d-none");
@@ -606,7 +600,7 @@ function openLoginModal(){
         let signBtn = document.querySelector("#confimSignSubmit");
 
         if(strCode==""){
-            Swal.fire("Error", "Please, fill the fields", "error");
+            Swal.fire("Error", "Por favor, completa los campos", "error");
             return false;
         }else{
 
@@ -615,10 +609,7 @@ function openLoginModal(){
             formData.append("txtSignName",strName);
             formData.append("txtSignEmail",strEmail);
             formData.append("txtSignPassword",strPassword);
-            signBtn.innerHTML=`
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Wait...
-            `;
+            signBtn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
             signBtn.setAttribute("disabled","");
             request(url,formData,"post").then(function(objData){
                 signBtn.innerHTML=`Validate`;
@@ -641,33 +632,21 @@ function openLoginModal(){
         let url = base_url+'/Login/resetPass'; 
         let formData = new FormData(formReset);
         if(strEmail == ""){
-            Swal.fire("Error", "Please, fill the field", "error");
+            Swal.fire("Error", "Por favor, completa los campos", "error");
             return false;
         }
         if(!fntEmailValidate(strEmail)){
-            let html = `
-            <br>
-            <br>
-            <p>youremail@hotmail.com</p>
-            <p>youremail@outlook.com</p>
-            <p>youremail@yahoo.com</p>
-            <p>youremail@live.com</p>
-            <p>youremail@gmail.com</p>
-            `;
-            Swal.fire("Error","Email is invalid , valid emails are: "+html,"error");
+            Swal.fire("Error","El correo es invalido","error");
             return false;
         }
-        btnReset.innerHTML=`
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Wait...
-        `;
+        btnReset.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
         btnReset.setAttribute("disabled","");
         request(url,formData,"post").then(function(objData){
-            btnReset.innerHTML=`Reset my password`;
+            btnReset.innerHTML=`Recuperar contraseña`;
             btnReset.removeAttribute("disabled");
             if(objData.status){
                 Swal.fire({
-                    title: "Reset my password",
+                    title: "Recuperar contraseña",
                     text: objData.msg,
                     icon: "success",
                     confirmButtonText: 'Ok',
@@ -691,7 +670,7 @@ function quickModal(element){
     element.setAttribute("disabled","disabled");
     request(base_url+"/shop/getProduct",formData,"post").then(function(objData){
         element.removeAttribute("disabled");
-        element.innerHTML = `<i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i>`;
+        element.innerHTML = `<i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Vista rápida"></i>`;
         if(objData.status){
             let product = objData.data;
             let images = product['image'];
@@ -733,12 +712,12 @@ function quickModal(element){
             }
 
             if(product['favorite']==1){
-                favorite = `<button type="button" class="c-p quickModal btn"><i class="fas fa-heart product-addwishlistModal me-1 text-danger active"></i> <a href="${base_url+"/wishlist"}"class="c-p">Check wishlist</a></button>`;
+                favorite = `<button type="button" class="c-p quickModal btn"><i class="fas fa-heart product-addwishlistModal me-1 text-danger active"></i> <a href="${base_url+"/wishlist"}"class="c-p">Mis favoritos</a></button>`;
             }else{
-                favorite = `<button type="button" class="c-p quickModal btn"><i class="far fa-heart product-addwishlistModal me-1"></i> <a class="c-d">Add to wishlist</a></button>`;
+                favorite = `<button type="button" class="c-p quickModal btn"><i class="far fa-heart product-addwishlistModal me-1"></i> <a class="c-d">Agregar a favoritos</a></button>`;
             }
             if(product['status']==1 && product['stock']>0){
-                status =`<p class="text-secondary m-0">Stock: (${product['stock']}) units</p>`;
+                status =`<p class="text-secondary m-0">Stock: (${product['stock']}) unidades</p>`;
                 if(product['discount']>0){
                     discount = `<p class="product-discount">-${product['discount']}%</p>`;
                     price = `
@@ -746,7 +725,7 @@ function quickModal(element){
                     <p class="fs-3"><strong class="t-p">${product['priceDiscount']}</strong></p>`;
                 }
             }else if(product['stock']==0 && product['status']==1){
-                status =`<p class="text-danger fw-bold">Sold out.</p>`;
+                status =`<p class="text-danger fw-bold">Agotado.</p>`;
                 btns="";  
                 price= "";  
             }else{
@@ -790,18 +769,18 @@ function quickModal(element){
                                     <h1><a href="${base_url+"/shop/product/"+product['route']}"><strong>${product['name']}</strong></a></h1>
                                     <a href="${base_url+"/shop/product/"+product['route']}" class="product-rate text-start mb-3">
                                         ${rate}
-                                        (${ratetotal} reviews)
+                                        (${ratetotal} reseñas)
                                     </a>
                                     ${status}
                                     ${price}
                                     <p class="mb-3" id="description">${product['shortdescription']}</p>
                                     <p class="m-0">SKU: <strong>${product['reference']}</strong></p>
-                                    <a href="${base_url+"/shop/category/"+product['routec']}" class="m-0">Category:<strong> ${product['category']}</strong></a>
+                                    <a href="${base_url+"/shop/category/"+product['routec']}" class="m-0">Categoría:<strong> ${product['category']}</strong></a>
                                     <div class="mt-4 mb-4 d-flex align-items-center">
                                         ${btns}
                                     </div>
                                     <div class="alert alert-warning d-none" id="alert" role="alert">
-                                        Oops! Not enought stock, try with less or check your cart if you have added all our units before.
+                                        ¡Ups! No hay suficiente stock, inténtalo con menos o comprueba en tu cesta si has añadido todas nuestras unidades antes.
                                     </div>
                                     <div class="d-flex align-items-center mt-4">
                                         <ul class="product-social">
@@ -854,22 +833,21 @@ function quickModal(element){
                     formData.append("idProduct",idProduct);
                     formData.append("txtQty",cant.value);
                     viewProductAdd.setAttribute("disabled",true);
-                    viewProductAdd.innerHTML = `
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    `;
+                    viewProductAdd.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+
                     request(base_url+"/shop/addCart",formData,"post").then(function(objData){
                         
                         if(objData.status){
-                            viewProductAdd.innerHTML = `<i class="fas fa-check"></i> Added`;
+                            viewProductAdd.innerHTML = `<i class="fas fa-check"></i> Agregado`;
                             setTimeout(function(){
                                 viewProductAdd.removeAttribute("disabled");
-                                viewProductAdd.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Add`;
+                                viewProductAdd.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Agregar`;
                             },1000);
                             document.querySelector("#alert").classList.add("d-none");
                             document.querySelector("#qtyCart").innerHTML=objData.qty;
                         }else{
                             viewProductAdd.removeAttribute("disabled");
-                            viewProductAdd.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Add`;
+                            viewProductAdd.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Agregar`;
                             document.querySelector("#alert").classList.remove("d-none");
                         }
                     });
@@ -919,10 +897,10 @@ function quickModal(element){
                                 btn.classList.add("text-danger");
                                 btn.parentElement.children[1].classList.replace("c-d","c-p");
                                 btn.parentElement.children[1].setAttribute("href",base_url+"/wishlist");
-                                btn.parentElement.children[1].innerHTML="Check wishlist";
+                                btn.parentElement.children[1].innerHTML="Mis favoritos";
                             }else{
                                 openLoginModal();
-                                btn.parentElement.children[1].innerHTML="Add to wishlist";
+                                btn.parentElement.children[1].innerHTML="Agregar a favoritos";
                                 btn.classList.replace("fas","far");
                                 btn.classList.remove("text-danger");
                                 btn.parentElement.children[1].classList.replace("c-p","c-d");
@@ -940,10 +918,10 @@ function quickModal(element){
                                 btn.classList.remove("text-danger");
                                 btn.parentElement.children[1].classList.replace("c-p","c-d");
                                 btn.parentElement.children[1].removeAttribute("href");
-                                btn.parentElement.children[1].innerHTML="Add to wishlist";
+                                btn.parentElement.children[1].innerHTML="Agregar a favoritos";
                             }else{
                                 openLoginModal();
-                                btn.parentElement.children[1].innerHTML="Add to wishlist";
+                                btn.parentElement.children[1].innerHTML="Agregar a favoritos";
                                 btn.classList.replace("fas","far");
                                 btn.classList.remove("text-danger");
                                 btn.parentElement.children[1].classList.replace("c-p","c-d");
@@ -1039,10 +1017,10 @@ function addWishList(element){
         request(base_url+"/shop/addWishList",formData,"post").then(function(objData){
             element.removeAttribute("disabled");
             if(objData.status){
-                element.innerHTML = `<i class="fas fa-heart text-danger " title="Add to wishlist"></i>`;
+                element.innerHTML = `<i class="fas fa-heart text-danger " title="Agregar a favoritos"></i>`;
             }else{
                 openLoginModal();
-                element.innerHTML = `<i class="far fa-heart" title="Add to wishlist"></i>`;
+                element.innerHTML = `<i class="far fa-heart" title="Agregar a favoritos"></i>`;
             }
         });
     }else{
@@ -1051,9 +1029,9 @@ function addWishList(element){
         request(base_url+"/shop/delWishList",formData,"post").then(function(objData){
             element.removeAttribute("disabled");
             if(objData.status){
-                element.innerHTML = `<i class="far fa-heart" title="Add to wishlist"></i>`;
+                element.innerHTML = `<i class="far fa-heart" title="Agregar a favoritos"></i>`;
             }else{
-                element.innerHTML = `<i class="far fa-heart " title="Add to wishlist"></i>`;
+                element.innerHTML = `<i class="far fa-heart " title="Agregar a favoritos"></i>`;
                 openLoginModal();
             }
         });
@@ -1065,8 +1043,8 @@ function editComment(id,element){
     if(document.querySelector("#formReplyComment"))document.querySelector("#formReplyComment").remove();
     let html = `<form id="formReplyComment" class="mt-2 mb-2">
                         <input type="hidden" name="idComment" id="idCommentReply" value="${id}">
-                        <textarea class="form-control" id="txtDescriptionReply" name="txtDescription" rows="3" placeholder="Your comment"></textarea>
-                        <button type="submit" class="btn btnc-primary mt-2" id="editComment">Reply</button>
+                        <textarea class="form-control" id="txtDescriptionReply" name="txtDescription" rows="3" placeholder="Escribe tu comentario"></textarea>
+                        <button type="submit" class="btn btnc-primary mt-2" id="editComment">Actualizar</button>
                     </form>`;
     element.innerHTML=html;
     request(base_url+"/blog/getComment/"+id,"","get").then(function(objData){
@@ -1109,8 +1087,8 @@ function replyComment(id,element){
     if(document.querySelector("#formReplyComment"))document.querySelector("#formReplyComment").remove();
     let html = `<form id="formReplyComment" class="mt-2 mb-2">
                         <input type="hidden" name="idComment" id="idCommentReply" value="${id}">
-                        <textarea class="form-control" id="txtDescriptionReply" name="txtDescription" rows="3" placeholder="Your comment"></textarea>
-                        <button type="submit" class="btn btnc-primary mt-2" id="editComment">Reply</button>
+                        <textarea class="form-control" id="txtDescriptionReply" name="txtDescription" rows="3" placeholder="Escribe tu comentario"></textarea>
+                        <button type="submit" class="btn btnc-primary mt-2" id="editComment">Comentar</button>
                     </form>`;
     element.innerHTML=html;
     let formReplyComment = document.querySelector("#formReplyComment");
@@ -1134,18 +1112,18 @@ function replyComment(id,element){
 function showReplies(btn,element){
     if(element.className.includes("d-none")){
         element.classList.remove("d-none");
-        btn.innerHTML = "Hide replies";
+        btn.innerHTML = "Mostrar menos";
     }else{
         element.classList.add("d-none");
-        btn.innerHTML = "Show replies";
+        btn.innerHTML = "Mostrar más";
     }
 }
 function editReply(id,element){
     if(document.querySelector("#formReplyComment"))document.querySelector("#formReplyComment").remove();
     let html = `<form id="formReplyComment" class="mt-2">
                         <input type="hidden" name="idReply" id="idReply" value="${id}">
-                        <textarea class="form-control" id="txtDescriptionReply" name="txtDescription" rows="3" placeholder="Your comment"></textarea>
-                        <button type="submit" class="btn btnc-primary mt-2" id="editComment">Update</button>
+                        <textarea class="form-control" id="txtDescriptionReply" name="txtDescription" rows="3" placeholder="Escribe tu comentario"></textarea>
+                        <button type="submit" class="btn btnc-primary mt-2" id="editComment">Actualizar</button>
                     </form>`;
     element.innerHTML=html;
     request(base_url+"/blog/getReply/"+id,"","get").then(function(objData){
