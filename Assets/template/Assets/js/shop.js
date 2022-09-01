@@ -152,7 +152,7 @@ function filterPrice(){
                 }else{
                     products[j].classList.add("d-none");
                     if(document.querySelector("#results")){
-                        document.querySelector("#results").innerHTML =`Results: (${products.length-document.querySelectorAll(".product-item.d-none").length})`;
+                        document.querySelector("#results").innerHTML =`Resultados: (${products.length-document.querySelectorAll(".product-item.d-none").length})`;
                     }
                 }
             }

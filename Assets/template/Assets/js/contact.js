@@ -10,7 +10,7 @@ formContact.addEventListener("submit",function(e){
 
     if( strName =="" || strEmail =="" || strMessage == ""){
         alert.classList.remove("d-none");
-        alert.innerHTML="Please fill the fields.";
+        alert.innerHTML="Por favor, completa los campos.";
         return false;
     }
     if(!fntEmailValidate(strEmail)){
@@ -19,11 +19,11 @@ formContact.addEventListener("submit",function(e){
         return false;
     }
 
-    btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Wait...`;    
+    btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;    
     btn.setAttribute("disabled","");
     let formData = new FormData(formContact);
     request(base_url+"/contact/setContact",formData,"post").then(function(objData){
-        btn.innerHTML="Submit";    
+        btn.innerHTML="Enviar";    
         btn.removeAttribute("disabled");
         if(objData.status){
             alert.classList.remove("d-none");

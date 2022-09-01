@@ -9,8 +9,8 @@
         <div class="container">
             <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">About</li>
+                <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Nosotros</li>
                 </ol>
             </nav>
         </div>

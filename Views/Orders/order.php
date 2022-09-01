@@ -40,13 +40,13 @@ $company = $data['company'];
                     </div>
                     <div class="row mb-3">
                         <div class="col-12 mb-3">
-                            <p class="m-0 mb-2 fw-bold">Customer</p>
-                            <p class="m-0">Name: <?=$order['firstname']." ".$order['lastname']?></p>
-                            <p class="m-0">Phone: <?=$order['phone']?></p>
+                            <p class="m-0 mb-2 fw-bold">Cliente</p>
+                            <p class="m-0">Nombre: <?=$order['firstname']." ".$order['lastname']?></p>
+                            <p class="m-0">Teléfono: <?=$order['phone']?></p>
                             <p class="m-0">Email: <?=$order['email']?></p>
-                            <p class="m-0">Address: <?=$order['address'].", ".$order['country'].", ".$order['state'].", ".$order['city']."  ".$order['postalcode']?></p>
+                            <p class="m-0">Dirección: <?=$order['address'].", ".$order['country'].", ".$order['state'].", ".$order['city']."  ".$order['postalcode']?></p>
                             <?php if($order['type'] == "paypal"){?>
-                            <p class="m-0 fw-bold mt-3">Order note:</p>
+                            <p class="m-0 fw-bold mt-3">Notas:</p>
                             <p class="m-0"><?=$order['note']?></p> 
                             <?php }?>
                         </div>
@@ -54,9 +54,9 @@ $company = $data['company'];
                     <table class="table items align-middle">
                         <thead class="text-center">
                             <tr>
-                                <th>Description</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
+                                <th>Descripcion</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
@@ -81,7 +81,7 @@ $company = $data['company'];
                                 <td class="text-right"><?= formatNum($subtotal)?></td>
                             </tr>
                             <tr>
-                                <th colspan="3" class="text-end">Coupon discount:</th>
+                                <th colspan="3" class="text-end">Cupón de descuento:</th>
                                 <td class="text-right"><?=$amountData['couponInfo']['code']." - ".$amountData['couponInfo']['discount']?>%</td>
                             </tr>
                             <tr>
@@ -95,7 +95,7 @@ $company = $data['company'];
                             </tr>
                             <?php }?>
                             <tr>
-                                <th colspan="3" class="text-end">Shipping:</th>
+                                <th colspan="3" class="text-end">Envio:</th>
                                 <?php if($totalInfo['shipping']['id'] == 3){?>
                                 <td class="text-right"><?=formatNum($totalInfo['shipping']['city']['value'])?></td>
                                 <?php }else{ ?>
@@ -119,10 +119,10 @@ $company = $data['company'];
                 </div>
                 <div class="row">
                     <div class="col-6 text-start">
-                        <a href="<?=base_url()?>/Orders" class="btn btn-secondary text-white"><i class="fas fa-arrow-circle-left"></i> Back</a>
+                        <a href="<?=base_url()?>/Orders" class="btn btn-secondary text-white"><i class="fas fa-arrow-circle-left"></i> Regresar</a>
                     </div>
                     <div class="col-6 text-end">
-                        <button type="button" id="btnPrint" class="btn btn-primary"><i class="fas fa-print"></i> Print</button>
+                        <button type="button" id="btnPrint" class="btn btn-primary"><i class="fas fa-print"></i> Imprimir</button>
                     </div>
                 </div>
             </div>

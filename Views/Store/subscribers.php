@@ -14,7 +14,7 @@
                         <thead>
                             <tr>
                                 <th>Email</th>
-                                <th>Date</th>
+                                <th>Fecha</th>
                             </tr>
                         </thead>
                         <tbody id="listItem">
@@ -29,7 +29,7 @@
                                 </tr>
                             <?php } }else{?>
                                 <tr>
-                                    <td colspan=2>No data</td>
+                                    <td colspan=2>No hay datos</td>
                                 </tr>
                             <?php }?>
                         </tbody>

@@ -163,12 +163,6 @@ window.addEventListener("scroll",function(){
 });
 
 window.addEventListener("load",function(){
-    if(document.querySelectorAll(".product-btns")){
-        //addProduct(document.querySelectorAll(".product-img .product-card-add"));
-        //quickModal(document.querySelectorAll(".product-btns .quickView"));
-        //addWishList();
-    }
-    /***************************Popup suscribe********************************/
     if(document.querySelector("#modalPoup")){
         request(base_url+"/shop/statusCouponSuscriber","","get").then(function(data){
             let discount = data.discount;
@@ -187,18 +181,18 @@ window.addEventListener("load",function(){
                                         <div class="container mb-3 p-4 pe-5 ps-5">
                                             <form id="formModalSuscribe" class="mb-3">
                                                 <h2 class="t-p">${COMPANY}</h2>
-                                                <h2 class="fs-5">Subscribe to our newsletter and get a ${discount}% discount coupon</h2>
-                                                <p>Receive updates on new arrivals, special offers and our promotions</p>
+                                                <h2 class="fs-5">Suscríbase a nuestro boletín y reciba un cupón de descuento de ${discount}%</h2>
+                                                <p>Reciba información actualizada sobre novedades, ofertas especiales y nuestras promociones</p>
                                                 <div class="mb-3">
-                                                    <input type="email" class="form-control" id="txtEmailModalSuscribe" name="txtEmailSuscribe" placeholder="Your email" required>
+                                                    <input type="email" class="form-control" id="txtEmailModalSuscribe" name="txtEmailSuscribe" placeholder="Tu correo" required>
                                                 </div>
                                                 <div class="alert alert-danger d-none" id="alertModalSuscribe" role="alert"></div>
-                                                <button type="submit" class="btn btnc-primary" id="btnModalSuscribe">Suscribe</button>
+                                                <button type="submit" class="btn btnc-primary" id="btnModalSuscribe">Suscribirse</button>
                                             </form>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value="" id="delPopup">
                                                 <label class="form-check-label" for="flexCheckDefault">
-                                                    Don't show this popup again
+                                                    No volver a mostrar esta ventana emergente
                                                 </label>
                                             </div>
                                         </div>
@@ -236,28 +230,19 @@ window.addEventListener("load",function(){
                         let alert = document.querySelector("#alertModalSuscribe");
                         if(strEmail ==""){
                             alert.classList.remove("d-none");
-                            alert.innerHTML = "Please, fill the field";
+                            alert.innerHTML = "Por favor, completa el campo";
                             return false;
                         }
                         if(!fntEmailValidate(strEmail)){
-                            let html = ` Your email is incorrect, it is only allowed:
-                            <ul class="m-0 mt-1">
-                                <li>@hotmail.com</li>
-                                <li>@outlook.com</li>
-                                <li>@yahoo.com</li>
-                                <li>@live.com</li>
-                                <li>@gmail.com</li>
-                            </ul>
-                            `;
                             alert.classList.remove("d-none");
-                            alert.innerHTML = html;
+                            alert.innerHTML = "El correo es invalido";
                             return false;
                         }
                         btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;    
                         btn.setAttribute("disabled","");
                         
                         request(base_url+"/shop/setSuscriber",formData,"post").then(function(objData){
-                            btn.innerHTML="Suscribe";    
+                            btn.innerHTML="Suscribirse";    
                             btn.removeAttribute("disabled");
                             if(objData.status){
                                 window.clearTimeout(timer);
@@ -287,28 +272,19 @@ if(document.querySelector("#formSuscriber")){
     let alert = document.querySelector("#alertSuscribe");
     if(strEmail ==""){
         alert.classList.remove("d-none");
-        alert.innerHTML = "Please, fill the field";
+        alert.innerHTML = "Por favor, completa el campo";
         return false;
     }
     if(!fntEmailValidate(strEmail)){
-        let html = ` Your email is incorrect, it is only allowed:
-        <ul class="m-0 mt-1">
-            <li>@hotmail.com</li>
-            <li>@outlook.com</li>
-            <li>@yahoo.com</li>
-            <li>@live.com</li>
-            <li>@gmail.com</li>
-        </ul>
-        `;
         alert.classList.remove("d-none");
-        alert.innerHTML = html;
+        alert.innerHTML = "El correo es invalido";
         return false;
     }
     btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;    
     btn.setAttribute("disabled","");
     
     request(base_url+"/shop/setSuscriber",formData,"post").then(function(objData){
-        btn.innerHTML="Suscribe";    
+        btn.innerHTML="Suscribirse";    
         btn.removeAttribute("disabled");
         if(objData.status){
             alert.classList.add("d-none");
@@ -464,7 +440,7 @@ function openLoginModal(){
                                         <div class="d-flex justify-content-center align-items p-3 bg-p text-white"><i class="fas fa-lock"></i></div>
                                         <input type="password" class="form-control" id="txtSignPassword" name="txtSignPassword" placeholder="Contraseña" required></textarea>
                                     </div>
-                                    <p>Al registrarse en nuestro sitio web, aceptas <a href="${base_url}/policies" target="_blank">nuestras políticas de uso y de privacidad.</a>.</p>
+                                    <p>Al registrarse en nuestro sitio web, aceptas <a href="${base_url}/policies" target="_blank">nuestras políticas de uso y de privacidad</a>.</p>
                                     <div class="d-flex justify-content-end mb-3 t-p" >
                                         <div class="c-p loginBtn">¿Ya tienes una cuenta? inicia sesión</div>
                                     </div>
@@ -487,7 +463,7 @@ function openLoginModal(){
                                     </div>
                                     <p>Te enviaremos un correo electrónico con las instrucciones a seguir.</p>
                                     <div class="d-flex justify-content-end mb-3 t-p" >
-                                        <div class="c-p loginBtn">Login</div>
+                                        <div class="c-p loginBtn">Iniciar sesión</div>
                                     </div>
                                     <button type="submit" id="resetSubmit" class="btn btnc-primary w-100 mb-4" >Recuperar contraseña</button>
                                 </form>
@@ -1038,130 +1014,6 @@ function addWishList(element){
         
     }
     
-}
-function editComment(id,element){
-    if(document.querySelector("#formReplyComment"))document.querySelector("#formReplyComment").remove();
-    let html = `<form id="formReplyComment" class="mt-2 mb-2">
-                        <input type="hidden" name="idComment" id="idCommentReply" value="${id}">
-                        <textarea class="form-control" id="txtDescriptionReply" name="txtDescription" rows="3" placeholder="Escribe tu comentario"></textarea>
-                        <button type="submit" class="btn btnc-primary mt-2" id="editComment">Actualizar</button>
-                    </form>`;
-    element.innerHTML=html;
-    request(base_url+"/blog/getComment/"+id,"","get").then(function(objData){
-        let formEditComment = document.querySelector("#formReplyComment");
-        document.querySelector("#idCommentReply").value=objData.data.idcomment;
-        document.querySelector("#txtDescriptionReply").value=objData.data.description;
-        let idArticle = document.querySelector("#idArticle").value;
-        formEditComment.addEventListener("submit",function(e){
-            e.preventDefault();
-            let strDescription = document.querySelector("#txtDescriptionReply").value;
-            if(strDescription ==""){
-                return false;
-            }
-            let formData = new FormData(formEditComment);
-            formData.append('idArticle',idArticle);
-            request(base_url+"/blog/setComment",formData,"post").then(function(objData){
-                if(objData.status){
-                    document.querySelector(".comment-list").innerHTML = objData.html;
-                    document.querySelector("#totalComments").innerHTML =`Comments (${objData.total})`;
-                }
-            });
-        });
-        
-    });
-}
-function deleteComment(id){
-    let idArticle = document.querySelector("#idArticle").value;
-    let formData = new FormData();
-    formData.append("idArticle",idArticle);
-    formData.append("idComment",id);
-    request(base_url+"/blog/delComment",formData,"post").then(function(objData){
-        if(objData.status){
-            document.querySelector(".comment-list").innerHTML= objData.html;
-            document.querySelector("#totalComments").innerHTML =`Comments (${objData.total})`;
-            //showMore(document.querySelectorAll(".comment-block"),4);
-        }
-    });
-}
-function replyComment(id,element){
-    if(document.querySelector("#formReplyComment"))document.querySelector("#formReplyComment").remove();
-    let html = `<form id="formReplyComment" class="mt-2 mb-2">
-                        <input type="hidden" name="idComment" id="idCommentReply" value="${id}">
-                        <textarea class="form-control" id="txtDescriptionReply" name="txtDescription" rows="3" placeholder="Escribe tu comentario"></textarea>
-                        <button type="submit" class="btn btnc-primary mt-2" id="editComment">Comentar</button>
-                    </form>`;
-    element.innerHTML=html;
-    let formReplyComment = document.querySelector("#formReplyComment");
-    formReplyComment.addEventListener("submit",function(e){
-        e.preventDefault();
-        let strDescription = document.querySelector("#txtDescriptionReply").value;
-        if(strDescription ==""){
-            return false;
-        }
-        let idArticle = document.querySelector("#idArticle").value;
-        let formData = new FormData(formReplyComment);
-        formData.append("idArticle",idArticle);
-        request(base_url+"/blog/setReply",formData,"post").then(function(objData){
-            if(objData.status){
-                document.querySelector(".comment-list").innerHTML= objData.html;
-                document.querySelector("#totalComments").innerHTML =`Comments (${objData.total})`;
-            }
-        });
-    });
-}
-function showReplies(btn,element){
-    if(element.className.includes("d-none")){
-        element.classList.remove("d-none");
-        btn.innerHTML = "Mostrar menos";
-    }else{
-        element.classList.add("d-none");
-        btn.innerHTML = "Mostrar más";
-    }
-}
-function editReply(id,element){
-    if(document.querySelector("#formReplyComment"))document.querySelector("#formReplyComment").remove();
-    let html = `<form id="formReplyComment" class="mt-2">
-                        <input type="hidden" name="idReply" id="idReply" value="${id}">
-                        <textarea class="form-control" id="txtDescriptionReply" name="txtDescription" rows="3" placeholder="Escribe tu comentario"></textarea>
-                        <button type="submit" class="btn btnc-primary mt-2" id="editComment">Actualizar</button>
-                    </form>`;
-    element.innerHTML=html;
-    request(base_url+"/blog/getReply/"+id,"","get").then(function(objData){
-        
-        let formEditComment = document.querySelector("#formReplyComment");
-        let idArticle = document.querySelector("#idArticle").value;
-        document.querySelector("#txtDescriptionReply").value=objData.data.description;
-        
-        formEditComment.addEventListener("submit",function(e){
-            e.preventDefault();
-            let strDescription = document.querySelector("#txtDescriptionReply").value;
-            if(strDescription ==""){
-                return false;
-            }
-            let formData = new FormData(formEditComment);
-            formData.append('idArticle',idArticle);
-            request(base_url+"/blog/setReply",formData,"post").then(function(objData){
-                if(objData.status){
-                    document.querySelector(".comment-list").innerHTML = objData.html;
-                    document.querySelector("#totalComments").innerHTML =`Comments (${objData.total})`;
-                }
-            });
-        });
-        
-    });
-}
-function deleteReply(id){
-    let idArticle = document.querySelector("#idArticle").value;
-    let formData = new FormData();
-    formData.append("idArticle",idArticle);
-    formData.append("idReply",id);
-    request(base_url+"/blog/delReply",formData,"post").then(function(objData){
-        if(objData.status){
-            document.querySelector(".comment-list").innerHTML= objData.html;
-            document.querySelector("#totalComments").innerHTML =`Comments (${objData.total})`;
-            //showMore(document.querySelectorAll(".comment-block"),4);
-        }
-    });
 }
 function showMore(elements,max=null,handler){
     let currentElement = 0;

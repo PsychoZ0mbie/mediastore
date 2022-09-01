@@ -16,13 +16,13 @@
 ?>
     <main id="<?=$data['page_name']?>">
         <div class="cover">
-            <h1>CONTACT US</h1>
+            <h1>CONTACTO</h1>
         </div>
         <div class="container mt-4 mb-4">
             <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Contact</li>
+                  <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Inicio</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Contacto</li>
                 </ol>
             </nav>
             <div class="row contact">
@@ -31,21 +31,21 @@
                         <div class="col-md-6 contact-info">
                             <div class="contact-item">
                                 <i class="fas fa-map-marker-alt fs-1 mb-3 t-p"></i>
-                                <p class="fs-6 fw-bold m-0">Our location</p>
+                                <p class="fs-6 fw-bold m-0">Nuestra dirección</p>
                                 <p class="fs-6"><?=$company['addressfull']?></p>
                             </div>
                         </div>
                         <div class="col-md-6 contact-info">
                             <div class="contact-item">
                                 <i class="fas fa-phone fs-1 mb-3 t-p"></i>
-                                <p class="fs-6 fw-bold m-0">Our phone</p>
+                                <p class="fs-6 fw-bold m-0">Nuestro teléfono</p>
                                 <p class="fs-6">+<?=$company['phonecode'].' '.$company['phone']?></p>
                             </div>
                         </div>
                         <div class="col-md-6 contact-info">
                             <div class="contact-item">
                                 <i class="fas fa-envelope fs-1 mb-3 t-p"></i>
-                                <p class="fs-6 fw-bold m-0">Our email</p>
+                                <p class="fs-6 fw-bold m-0">Nuestro email</p>
                                 <p class="fs-6"><?=$company['email']?></p>
                             </div>
                         </div>
@@ -60,24 +60,24 @@
                 <div class="col-md-6 contact-form">
                     <form id="formContact">
                         <div class="mb-3">
-                            <label for="txtContactName" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="txtContactName" name="txtContactName" placeholder="Your name" required>
+                            <label for="txtContactName" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="txtContactName" name="txtContactName" placeholder="Tu nombre" required>
                         </div>
                         <div class="mb-3">
-                            <label for="txtContactEmail" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="txtContactEmail" name="txtContactEmail" placeholder="Your email" required>
+                            <label for="txtContactEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="txtContactEmail" name="txtContactEmail" placeholder="Tu correo" required>
                         </div>
                         <div class="mb-3">
-                            <label for="txtSubject" class="form-label">Subject</label>
-                            <input type="text" class="form-control" id="txtSubject" name="txtSubject" placeholder="Your subject">
+                            <label for="txtSubject" class="form-label">Asunto</label>
+                            <input type="text" class="form-control" id="txtSubject" name="txtSubject" placeholder="Asunto">
                         </div>
                         <div class="mb-3">
-                            <label for="txtMessageEmail" class="form-label">Message</label>
-                            <textarea class="form-control" id="txtContactMessage" name="txtContactMessage" placeholder="Your message" rows="5" required></textarea>
+                            <label for="txtMessageEmail" class="form-label">Mensaje</label>
+                            <textarea class="form-control" id="txtContactMessage" name="txtContactMessage" placeholder="Tu mensaje" rows="5" required></textarea>
                         </div>
                         <div class="alert alert-danger d-none" id="alertContact" role="alert"></div>
                         <div>
-                            <button type="submit" id="btnMessage" class="btn btnc-primary w-100 mb-2">Submit</button>
+                            <button type="submit" id="btnMessage" class="btn btnc-primary w-100 mb-2">Enviar</button>
                             
                         </div>
                     </form>

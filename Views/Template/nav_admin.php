@@ -36,7 +36,7 @@
                                 <a class="nav-link nav-group-toggle" href="#">
                                     <svg class="nav-icon">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
-                                    </svg> Users
+                                    </svg> Usuarios
                                 </a>
                                 <ul class="nav-group-items">
                                     <?php
@@ -60,7 +60,7 @@
                                     <svg class="nav-icon">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-user-follow"></use>
                                     </svg> 
-                                    Customers<span class="badge badge-sm bg-info ms-auto"></span>
+                                    Clientes<span class="badge badge-sm bg-info ms-auto"></span>
                                 </a>
                             </li>
                             <?php 
@@ -73,12 +73,12 @@
                                 <a class="nav-link nav-group-toggle" href="#">
                                     <svg class="nav-icon">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-inbox"></use>
-                                    </svg> Inventory
+                                    </svg> Inventario
                                 </a>
                                 <ul class="nav-group-items">
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/category"><span class="nav-icon"></span> Categories</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/category/subcategory"><span class="nav-icon"></span> Subcategories</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/product"><span class="nav-icon"></span> Products</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/category"><span class="nav-icon"></span> Categorias</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/category/subcategory"><span class="nav-icon"></span> Subcategorias</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/product"><span class="nav-icon"></span> Productos</a></li>
                                 </ul>
                             </li>
                             <?php 
@@ -92,7 +92,7 @@
                                     <svg class="nav-icon">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-money"></use>
                                     </svg> 
-                                    Orders<span class="badge badge-sm bg-info ms-auto"></span>
+                                    Pedidos<span class="badge badge-sm bg-info ms-auto"></span>
                                 </a>
                             </li>
                             <?php 
@@ -105,7 +105,7 @@
                                 <a class="nav-link nav-group-toggle" href="#">
                                     <svg class="nav-icon">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-cart"></use>
-                                    </svg> Store
+                                    </svg> Tienda
                                 </a>
                                 <ul class="nav-group-items">
                                     <?php 
@@ -116,12 +116,12 @@
                                         $emails = "";
                                     }
                                     ?>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/coupon"><span class="nav-icon"></span> Coupons</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/mailbox"><span class="nav-icon"></span> Mailbox <?=$emails?></a></li>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/subscribers"><span class="nav-icon"></span> Subscribers</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/shipping"><span class="nav-icon"></span> Shipping</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/about"><span class="nav-icon"></span> About us</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/policies"><span class="nav-icon"></span> Policies</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/coupon"><span class="nav-icon"></span> Cupones</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/mailbox"><span class="nav-icon"></span> Correo <?=$emails?></a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/subscribers"><span class="nav-icon"></span> Suscriptores</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/shipping"><span class="nav-icon"></span> Envio</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/about"><span class="nav-icon"></span> Nosotros</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/store/policies"><span class="nav-icon"></span> Politicas</a></li>
                                 </ul>
                             </li>
                             <?php 
@@ -137,9 +137,9 @@
                                     </svg> Blog
                                 </a>
                                 <ul class="nav-group-items">
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/post/category"><span class="nav-icon"></span> Categories</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/post/subcategory"><span class="nav-icon"></span> Subcategories</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/post/articles"><span class="nav-icon"></span> Articles</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/post/category"><span class="nav-icon"></span> Categorias</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/post/subcategory"><span class="nav-icon"></span> Subcategorias</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/post/articles"><span class="nav-icon"></span> Articulos</a></li>
                                 </ul>
                             </li>
                             <?php 
@@ -152,7 +152,7 @@
                                 <a class="nav-link" href="<?=base_url()?>/company">
                                     <svg class="nav-icon">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-storage"></use>
-                                    </svg> Company
+                                    </svg> Empresa
                                 </a>
                             </li>
                             <?php 
@@ -162,14 +162,14 @@
                                 <a class="nav-link" href="<?=base_url()?>/user/profile">
                                     <svg class="nav-icon">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
-                                    </svg> Profile
+                                    </svg> Perfil
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="<?=base_url()?>/logout">
                                     <svg class="nav-icon">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
-                                    </svg> Logout
+                                    </svg> Cerrar sesión
                                 </a>
                             </li>
                         </div>

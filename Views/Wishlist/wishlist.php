@@ -10,26 +10,26 @@
                 <img src="" alt="">
                 <div class="h-100">
                     <a href="product.html">Product 1</a>
-                    <p>Has been added to your cart</p>
+                    <p>Ha sido agregado a tu carrito</p>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-center text-center mt-3">
-                <a href="<?=base_url()?>/shop/cart" class="btnc w-50 p-1 btnc-primary me-4">View Cart</a>
-                <div class="btnc w-50 h-100 p-1 btnc-primary c-p" id="btnCheckOutPopup">Checkout</div>
+                <a href="<?=base_url()?>/shop/cart" class="btnc w-50 p-1 btnc-primary me-4">Mi carrito</a>
+                <div class="btnc w-50 h-100 p-1 btnc-primary c-p" id="btnCheckOutPopup">Pagar</div>
             </div>
         </div>
         <div class="container">
             <?php if(!empty($products)){?>
             <div class="row mt-5 mb-5">
-                <h1 class="text-center">My wishlist</h1>
+                <h1 class="text-center">Mis favoritos</h1>
                 <div class="col-lg-12 mt-5">
                     <table class="table table-borderless text-center table-cart">
                         <thead class="position-relative af-b-line">
                           <tr>
-                            <th scope="col">Product</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Acciones</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -48,7 +48,7 @@
                                         }
                                     }else if($products[$i]['status'] == 1 && $products[$i]['stock']==0){
                                         $btnAdd="";
-                                        $price='<p class="m-0 fs-5 text-danger">Sold out</p>';
+                                        $price='<p class="m-0 fs-5 text-danger">Agotado</p>';
                                     }else{
                                         $btnAdd ="";
                                         $price="";
@@ -68,7 +68,7 @@
                             <td><?=$price?></td>
                             <td>
                                 <div class="wishlist-actions">
-                                    <button type="button" class="btn me-2 quickView border border-dark bg-p text-white" onclick="quickModal(this)" data-id="<?=$idProduct?>"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></button>
+                                    <button type="button" class="btn me-2 quickView border border-dark bg-p text-white" onclick="quickModal(this)" data-id="<?=$idProduct?>"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Vista rápida"></i></button>
                                     <?=$btnAdd?>
                                 </div>
                             </td>
@@ -80,8 +80,8 @@
             </div>
             <?php }else{?>
             <div class="mt-5 mb-5 text-center">
-                <h1 class="mb-3">Oops! You do not have favorite products.</h1>
-                <a class="btn btnc-primary"href="<?=base_url()?>/shop">Go to shopping</a>
+                <h1 class="mb-3">¡Uy! No tienes productos favoritos.</h1>
+                <a class="btn btnc-primary"href="<?=base_url()?>/shop">Comprar ahora</a>
             </div>
             <?php }?>
         </div>

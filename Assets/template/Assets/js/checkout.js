@@ -42,18 +42,18 @@ checkData.addEventListener("click",function(){
         
         alertOrder.classList.remove("d-none");
         btnPaypal.classList.add("d-none");
-        alertOrder.innerHTML =`Please, fill the fields with (<span class="text-danger">*</span>)`;
+        alertOrder.innerHTML =`Por favor, completa los campos con (<span class="text-danger">*</span>)`;
 
         return false;
     }
     if(!fntEmailValidate(strEmail)){
-        alertOrder.innerHTML = "Your email is incorrect";
+        alertOrder.innerHTML = "El correo es invalido";
         alertOrder.classList.remove("d-none");
         btnPaypal.classList.add("d-none");
         return false;
     }
     if(strPhone.length < 9){
-        alertOrder.innerHTML = "Phone number must have at least 9 digits";
+        alertOrder.innerHTML = "El número de teléfono debe tener al menos 9 dígitos ";
         alertOrder.classList.remove("d-none");
         btnPaypal.classList.add("d-none");
         return false;
@@ -65,13 +65,12 @@ checkData.addEventListener("click",function(){
     formData.append("state",stateList.options[stateList.selectedIndex].text);
     formData.append("city",cityList.options[cityList.selectedIndex].text);
 
-    checkData.innerHTML=`
-    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-    Wait...
-    `;
+    checkData.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+    
+    
     checkData.setAttribute("disabled","");
     request(base_url+"/shop/checkData",formData,"post").then(function(objData){
-        checkData.innerHTML = "Pay now";
+        checkData.innerHTML = "Continuar";
         checkData.removeAttribute("disabled","");
         if(objData.status){
             alertOrder.classList.add("d-none");

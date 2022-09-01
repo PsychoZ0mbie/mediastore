@@ -87,11 +87,11 @@
             </div>
             <div class="nav-main">
                 <ul>
-                    <li class="navigation"><a href="<?=base_url()?>/home">Home</a></li>
-                    <li class="navigation"><a href="<?=base_url()?>/shop">Shop</a></li>
+                    <li class="navigation"><a href="<?=base_url()?>/home">Inicio</a></li>
+                    <li class="navigation"><a href="<?=base_url()?>/shop">Tienda</a></li>
                     <li class="navigation"><a href="<?=base_url()?>/blog">Blog</a></li>
-                    <li class="navigation"><a href="<?=base_url()?>/about">About</a></li>
-                    <li class="navigation"><a href="<?=base_url()?>/contact">Contact</a></li>
+                    <li class="navigation"><a href="<?=base_url()?>/about">Nosotros</a></li>
+                    <li class="navigation"><a href="<?=base_url()?>/contact">Contacto</a></li>
                 </ul>
             </div>
             <div class="nav-icons">
@@ -134,11 +134,11 @@
                         <div id="btnCloseNav">X</div>
                     </div>
                     <ul>
-                        <li class="navigation-mobile"><a href="<?=base_url()?>/home">Home</a></li>
-                        <li class="navigation-mobile"><a href="<?=base_url()?>/shop">Shop</a></li>
+                        <li class="navigation-mobile"><a href="<?=base_url()?>/home">Inicio</a></li>
+                        <li class="navigation-mobile"><a href="<?=base_url()?>/shop">Tienda</a></li>
                         <li class="navigation-mobile"><a href="<?=base_url()?>/blog">Blog</a></li>
-                        <li class="navigation-mobile"><a href="<?=base_url()?>/about">About</a></li>
-                        <li class="navigation-mobile"><a href="<?=base_url()?>/contact">Contact</a></li>
+                        <li class="navigation-mobile"><a href="<?=base_url()?>/about">Nosotros</a></li>
+                        <li class="navigation-mobile"><a href="<?=base_url()?>/contact">Contacto</a></li>
                     </ul>
                 </div>
             </div>
@@ -146,7 +146,7 @@
         <div class="cart-panel">
             <div class="container cart-panel-main">
                 <div class="cart-panel-title d-flex justify-content-between align-items m-0">
-                    <strong>YOUR CART</strong>
+                    <strong>MI CARRITO</strong>
                     <div id="btnCloseCart">X</div>
                 </div>
                 <div class="cart-panel-items scroll-y">
@@ -172,8 +172,8 @@
                 </div>
                 <p class="t-p " id="total"><strong>Total: <?=formatNum($total)?></strong></p>
                 <div class="d-none" id="btnsCartPanel">
-                    <a href="<?=base_url()?>/shop/cart" class="btn w-100 btnc-primary mb-2">View Cart</a>
-                    <button type="button" class="mb-3 w-100 btn btnc-primary" id="btnCheckoutCart">Checkout</button>
+                    <a href="<?=base_url()?>/shop/cart" class="btn w-100 btnc-primary mb-2">Mi carrito</a>
+                    <button type="button" class="mb-3 w-100 btn btnc-primary" id="btnCheckoutCart">Pagar</button>
                     <!--<button type="button" onclick="openLoginModal();" class="mb-3 w-100 btn btnc-primary">Checkout</button>-->
                 </div>
             </div>
@@ -181,7 +181,7 @@
     </header>
     <div id="divLoading">
         <div></div>
-        <span>Loading...</span>
+        <span>Cargando...</span>
     </div>
     <div id="modalLogin"></div>
     <a class="text-decoration-none" href="#" id="scrollTop"><i class="fas fa-angle-up"></i></a>

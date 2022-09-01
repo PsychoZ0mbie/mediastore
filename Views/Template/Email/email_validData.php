@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Valid data</title>
+	<title>Confirmar correo</title>
 	<style type="text/css">
 		p{
 			font-family: arial;
@@ -91,9 +91,9 @@
 			<tr>
 				<td>
 					<div class="x_sgwrap">
-						<p>Hello <?= $data['nombreUsuario']; ?></p>
+						<p>Hola <?= $data['nombreUsuario']; ?></p>
 					</div>
-					<p>Please, enter this code to continue with your registration: <strong><?= $data['codigo']; ?></strong></p>
+					<p>Por favor, introduzca este código para continuar con su registro: <strong><?= $data['codigo']; ?></strong></p>
 				</td>
 			</tr>
 		</tbody>

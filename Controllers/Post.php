@@ -13,9 +13,10 @@
         
         public function articles(){
             if($_SESSION['permitsModule']['r']){
-                $data['page_tag'] = "Articles";
-                $data['page_title'] = "Articles";
+                $data['page_tag'] = "Articulos";
+                $data['page_title'] = "Articulos";
                 $data['page_name'] = "articles";
+                $data['data'] = $this->getArticles();
                 $data['app'] = "blog.js";
                 $this->views->getView($this,"articles",$data);
             }else{
@@ -25,10 +26,11 @@
         }
         public function category(){
             if($_SESSION['permitsModule']['r']){
-                $data['page_tag'] = "Category";
-                $data['page_title'] = "Blog Categories";
+                $data['page_tag'] = "Categoría";
+                $data['page_title'] = "Blog Categorias";
                 $data['page_name'] = "blogcategory";
                 $data['app'] = "blogcategory.js";
+                $data['data'] = $this->getCategories();
                 $this->views->getView($this,"category",$data);
             }else{
                 header("location: ".base_url());
@@ -37,10 +39,11 @@
         }
         public function subcategory(){
             if($_SESSION['permitsModule']['r']){
-                $data['page_tag'] = "Subcategory";
-                $data['page_title'] = "Blog Subcategories";
+                $data['page_tag'] = "Subcategoria";
+                $data['page_title'] = "Blog Subcategorias";
                 $data['page_name'] = "blogsubcategory";
                 $data['app'] = "blogsubcategory.js";
+                $data['data'] = $this->getSubCategories();
                 $this->views->getView($this,"subcategory",$data);
             }else{
                 header("location: ".base_url());
@@ -48,10 +51,17 @@
             }
         }
         /*************************Article methods*******************************/
-        public function getArticles(){
+        public function getArticles($option=null,$params=null){
             if($_SESSION['permitsModule']['r']){
                 $html="";
-                $request = $this->model->selectArticles();
+                $request="";
+                if($option == 1){
+                    $request = $this->model->search($params);
+                }else if($option == 2){
+                    $request = $this->model->sort($params);
+                }else{
+                    $request = $this->model->selectArticles();
+                }
                 if(count($request)>0){
                     for ($i=0; $i < count($request); $i++) { 
 
@@ -85,15 +95,14 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"No data");
+                    $arrResponse = array("status"=>false,"data"=>"No hay datos");
                 }
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }else{
                 header("location: ".base_url());
                 die();
             }
             
-            die();
+            return $arrResponse;
         }
         public function getArticle(){
             if($_SESSION['permitsModule']['r']){
@@ -239,94 +248,33 @@
             die();
         }
         public function search($params){
-            $search = strClean($params);
-            $request = $this->model->search($params);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-
-                    $status="";
-                    $btnView = '<button class="btn btn-info m-1 text-white" type="button" title="Watch" data-id="'.$request[$i]['idarticle'].'" name="btnView"><i class="fas fa-eye"></i></button>';
-                    $btnGlobe = '<a href="'.base_url().'/blog/article/'.$request[$i]['route'].'" class="btn btn-primary m-1 text-white" title="Watch on website"><i class="fas fa-globe"></i></a>';
-                    $btnEdit="";
-                    $btnDelete="";
-                    if($_SESSION['permitsModule']['u']){
-                        $btnEdit = '<button class="btn btn-success m-1 text-white" type="button" title="Edit" data-id="'.$request[$i]['idarticle'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
-                    }
-                    if($_SESSION['permitsModule']['d']){
-                        $btnDelete = '<button class="btn btn-danger m-1 text-white" type="button" title="Delete" data-id="'.$request[$i]['idarticle'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    }
-                    if($request[$i]['status']==1){
-                        $status='<span class="badge me-1 bg-success">Active</span>';
-                    }else{
-                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
-                    }
-                    $html.='
-                        <tr class="item">
-                            <td>'.$request[$i]['name'].'</td>
-                            <td>'.$request[$i]['category'].'</td>
-                            <td>'.$request[$i]['subcategory'].'</td>
-                            <td>'.$status.'</td>
-                            <td>'.$request[$i]['date'].'</td>
-                            <td>'.$request[$i]['dateupdated'].'</td>
-                            <td class="item-btn">'.$btnGlobe.$btnView.$btnEdit.$btnDelete.'</td>
-                        </tr>
-                    ';
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $search = strClean($params);
+                $arrResponse = $this->getArticles(1,$search);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function sort($params){
-            $sort = intval($params);
-            $request = $this->model->sort($sort);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-
-                    $status="";
-                    $btnView = '<button class="btn btn-info m-1 text-white" type="button" title="Watch" data-id="'.$request[$i]['idarticle'].'" name="btnView"><i class="fas fa-eye"></i></button>';
-                    $btnGlobe = '<a href="'.base_url().'/blog/article/'.$request[$i]['route'].'" class="btn btn-primary m-1 text-white" title="Watch on website"><i class="fas fa-globe"></i></a>';
-                    $btnEdit="";
-                    $btnDelete="";
-                    if($_SESSION['permitsModule']['u']){
-                        $btnEdit = '<button class="btn btn-success m-1 text-white" type="button" title="Edit" data-id="'.$request[$i]['idarticle'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
-                    }
-                    if($_SESSION['permitsModule']['d']){
-                        $btnDelete = '<button class="btn btn-danger m-1 text-white" type="button" title="Delete" data-id="'.$request[$i]['idarticle'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    }
-                    if($request[$i]['status']==1){
-                        $status='<span class="badge me-1 bg-success">Active</span>';
-                    }else{
-                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
-                    }
-                    $html.='
-                        <tr class="item">
-                            <td>'.$request[$i]['name'].'</td>
-                            <td>'.$request[$i]['category'].'</td>
-                            <td>'.$request[$i]['subcategory'].'</td>
-                            <td>'.$status.'</td>
-                            <td>'.$request[$i]['date'].'</td>
-                            <td>'.$request[$i]['dateupdated'].'</td>
-                            <td class="item-btn">'.$btnGlobe.$btnView.$btnEdit.$btnDelete.'</td>
-                        </tr>
-                    ';
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $sort = intval($params);
+                $arrResponse = $this->getArticles(2,$sort);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         /*************************Category methods*******************************/
-        public function getCategories(){
+        public function getCategories($option=null,$params=null){
             if($_SESSION['permitsModule']['r']){
                 $html="";
-                $request = $this->model->selectCategories();
+                $request="";
+                if($option == 1){
+                    $request = $this->model->searchc($params);
+                }else if($option == 2){
+                    $request = $this->model->sortc($params);
+                }else{
+                    $request = $this->model->selectCategories();
+                }
                 if(count($request)>0){
                     for ($i=0; $i < count($request); $i++) { 
 
@@ -339,7 +287,6 @@
                         if($_SESSION['permitsModule']['d']){
                             $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idcategory'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                         }
-
                         $html.='
                             <tr class="item" data-name="'.$request[$i]['name'].'">
                                 <td>'.$request[$i]['name'].'</td>
@@ -349,15 +296,14 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"No data");
+                    $arrResponse = array("status"=>false,"data"=>"No hay datos");
                 }
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }else{
                 header("location: ".base_url());
                 die();
             }
             
-            die();
+            return $arrResponse;
         }
         public function getCategory(){
             if($_SESSION['permitsModule']['r']){
@@ -455,70 +401,33 @@
             die();
         }
         public function searchc($params){
-            $search = strClean($params);
-            $request = $this->model->searchc($params);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-
-                    $btnEdit="";
-                    $btnDelete="";
-                    
-                    if($_SESSION['permitsModule']['u']){
-                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idcategory'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
-                    }
-                    if($_SESSION['permitsModule']['d']){
-                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idcategory'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    }
-                    $html.='
-                        <tr class="item" data-name="'.$request[$i]['name'].'">
-                            <td>'.$request[$i]['name'].'</td>
-                            <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
-                        </tr>
-                    ';
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $search = strClean($params);
+                $arrResponse = $this->getCategories(1,$search);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function sortc($params){
-            $sort = intval($params);
-            $request = $this->model->sortc($sort);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-
-                    $btnEdit="";
-                    $btnDelete="";
-                    
-                    if($_SESSION['permitsModule']['u']){
-                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idcategory'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
-                    }
-                    if($_SESSION['permitsModule']['d']){
-                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idcategory'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    }
-                    $html.='
-                        <tr class="item" data-name="'.$request[$i]['name'].'">
-                            <td>'.$request[$i]['name'].'</td>
-                            <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
-                        </tr>
-                    ';
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $sort = intval($params);
+                $arrResponse = $this->getCategories(2,$sort);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         /*************************SubCategory methods*******************************/
-        public function getSubCategories(){
+        public function getSubCategories($option=null,$params=null){
             if($_SESSION['permitsModule']['r']){
                 $html="";
-                $request = $this->model->selectSubCategories();
+                $request="";
+                if($option == 1){
+                    $request = $this->model->searchs($params);
+                }else if($option == 2){
+                    $request = $this->model->sorts($params);
+                }else{
+                    $request = $this->model->selectSubCategories();
+                }
                 if(count($request)>0){
                     for ($i=0; $i < count($request); $i++) { 
 
@@ -541,14 +450,13 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"No data");
+                    $arrResponse = array("status"=>false,"data"=>"No hay datos");
                 }
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }else{
                 header("location: ".base_url());
                 die();
             }
-            die();
+            return $arrResponse;
         }
         public function getSubCategory(){
             if($_SESSION['permitsModule']['r']){
@@ -661,65 +569,19 @@
             die();
         }
         public function searchs($params){
-            $search = strClean($params);
-            $request = $this->model->searchs($params);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-
-                    $btnEdit="";
-                    $btnDelete="";
-                    
-                    if($_SESSION['permitsModule']['u']){
-                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idsubcategory'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
-                    }
-                    if($_SESSION['permitsModule']['d']){
-                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idsubcategory'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    }
-                    $html.='
-                        <tr class="item" data-name="'.$request[$i]['name'].'" data-category="'.$request[$i]['category'].'">
-                            <td>'.$request[$i]['name'].'</td>
-                            <td>'.$request[$i]['category'].'</td>
-                            <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
-                        </tr>
-                    ';
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $search = strClean($params);
+                $arrResponse = $this->getSubCategories(1,$search);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function sorts($params){
-            $sort = intval($params);
-            $request = $this->model->sorts($sort);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-
-                    $btnEdit="";
-                    $btnDelete="";
-                    
-                    if($_SESSION['permitsModule']['u']){
-                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idsubcategory'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
-                    }
-                    if($_SESSION['permitsModule']['d']){
-                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idsubcategory'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    }
-                    $html.='
-                        <tr class="item" data-name="'.$request[$i]['name'].'" data-category="'.$request[$i]['category'].'">
-                            <td>'.$request[$i]['name'].'</td>
-                            <td>'.$request[$i]['category'].'</td>
-                            <td class="item-btn">'.$btnEdit.$btnDelete.'</td>
-                        </tr>
-                    ';
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $sort = intval($params);
+                $arrResponse = $this->getSubCategories(2,$sort);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
     }

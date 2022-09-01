@@ -10,12 +10,12 @@
                     <table class="table text-center items align-middle">
                         <thead>
                             <tr>
-                                <th>Code</th>
-                                <th>Discount</th>
-                                <th>Status</th>
-                                <th>Date created</th>
-                                <th>Date updated</th>
-                                <th>Options</th>
+                                <th>Codigo</th>
+                                <th>Descuento</th>
+                                <th>Estado</th>
+                                <th>Fecha de creación</th>
+                                <th>Fecha de actualización</th>
+                                <th>Opciones</th>
                             </tr>
                         </thead>
                         <tbody id="listItem">

@@ -34,7 +34,7 @@ search.addEventListener('input',function() {
         }
 
         document.querySelector(".comment-list").innerHTML= objData.html;
-        document.querySelectorAll(".product-rate")[0].innerHTML= rateStars+` (${rate.total} reviews)`;
+        document.querySelectorAll(".product-rate")[0].innerHTML= rateStars+` (${rate.total} reseñas)`;
         document.querySelectorAll(".product-rate")[1].innerHTML= rateStars;
     });
 });
@@ -59,7 +59,7 @@ sortReview.addEventListener("change",function(){
         }
 
         document.querySelector(".comment-list").innerHTML= objData.html;
-        document.querySelectorAll(".product-rate")[0].innerHTML= rateStars+` (${rate.total} reviews)`;
+        document.querySelectorAll(".product-rate")[0].innerHTML= rateStars+` (${rate.total} reseñas)`;
         document.querySelectorAll(".product-rate")[1].innerHTML= rateStars;
     });
 });
@@ -100,16 +100,16 @@ if(document.querySelector("#addProduct")){
         request(base_url+"/shop/addCart",formData,"post").then(function(objData){
             
             if(objData.status){
-                cartProduct.innerHTML = `<i class="fas fa-check"></i> Added`;
+                cartProduct.innerHTML = `<i class="fas fa-check"></i> Agregado`;
                 setTimeout(function(){
                     cartProduct.removeAttribute("disabled");
-                    cartProduct.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Add`;
+                    cartProduct.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Agregar`;
                 },1000);
                 document.querySelector("#alert").classList.add("d-none");
                 document.querySelector("#qtyCart").innerHTML=objData.qty;
             }else{
                 cartProduct.removeAttribute("disabled");
-                cartProduct.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Add`;
+                cartProduct.innerHTML = `<i class="fas fa-shopping-cart me-2"></i> Agregar`;
                 document.querySelector("#alert").classList.remove("d-none");
             }
         });
@@ -154,10 +154,10 @@ btn.addEventListener("click",function(){
                 btn.classList.add("text-danger");
                 btn.parentElement.children[1].classList.replace("c-d","c-p");
                 btn.parentElement.children[1].setAttribute("href",base_url+"/wishlist");
-                btn.parentElement.children[1].innerHTML="Check wishlist";
+                btn.parentElement.children[1].innerHTML="Mis favoritos";
             }else{
                 openLoginModal();
-                btn.parentElement.children[1].innerHTML="Add to wishlist";
+                btn.parentElement.children[1].innerHTML="Agregar a favoritos";
                 btn.classList.replace("fas","far");
                 btn.classList.remove("text-danger");
                 btn.parentElement.children[1].classList.replace("c-p","c-d");
@@ -175,10 +175,10 @@ btn.addEventListener("click",function(){
                 btn.classList.remove("text-danger");
                 btn.parentElement.children[1].classList.replace("c-p","c-d");
                 btn.parentElement.children[1].removeAttribute("href");
-                btn.parentElement.children[1].innerHTML="Add to wishlist";
+                btn.parentElement.children[1].innerHTML="Agregar a favoritos";
             }else{
                 openLoginModal();
-                btn.parentElement.children[1].innerHTML="Add to wishlist";
+                btn.parentElement.children[1].innerHTML="Agregar a favoritos";
                 btn.classList.replace("fas","far");
                 btn.classList.remove("text-danger");
                 btn.parentElement.children[1].classList.replace("c-p","c-d");
@@ -200,14 +200,14 @@ formReview.addEventListener("submit",function(e){
     if(intRate ==0 || strReview ==""){
         alert.classList.remove("d-none");
         alert.classList.replace("alert-warning","alert-danger");
-        alert.innerHTML = "Please rate it and write your review.";
+        alert.innerHTML = "Por favor, califica y escribe tu reseña";
         return false;
     }
     addReview.setAttribute("disabled","disabled");
     addReview.innerHTML = `<span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>`;
     request(base_url+"/shop/setReview",formData,"post").then(function(objData){
         addReview.removeAttribute("disabled");
-        addReview.innerHTML="Post review";
+        addReview.innerHTML="Publicar reseña";
         if(objData.status){
             let stars = document.querySelectorAll(".starBtn");
             let rate = objData.rate;
@@ -227,9 +227,9 @@ formReview.addEventListener("submit",function(e){
             document.querySelector("#txtReview").value="";
             document.querySelector("#idReview").value="";
             document.querySelector(".comment-list").innerHTML= objData.html;
-            document.querySelectorAll(".product-rate")[0].innerHTML= rateStars+` (${rate.total} reviews)`;
+            document.querySelectorAll(".product-rate")[0].innerHTML= rateStars+` (${rate.total} reseñas)`;
             document.querySelectorAll(".product-rate")[1].innerHTML= rateStars;
-            document.querySelector("#pills-reviews-tab").innerHTML=`Reviews (${rate.total})`;
+            document.querySelector("#pills-reviews-tab").innerHTML=`Reseñas (${rate.total})`;
 
             document.querySelector("#avgRate").innerHTML = `${parseFloat(rate.rate).toFixed(1)}<span class="fs-6">/ 5</span>`;
             document.querySelectorAll(".progress-bar")[0].style.width=`${(rate.five/rate.total)*100}%`;
@@ -321,9 +321,9 @@ function deleteReview(id){
             }
 
             document.querySelector(".comment-list").innerHTML= objData.html;
-            document.querySelectorAll(".product-rate")[0].innerHTML= rateStars+` (${rate.total} reviews)`;
+            document.querySelectorAll(".product-rate")[0].innerHTML= rateStars+` (${rate.total} reseñas)`;
             document.querySelectorAll(".product-rate")[1].innerHTML= rateStars;
-            document.querySelector("#pills-reviews-tab").innerHTML=`Reviews (${rate.total})`;
+            document.querySelector("#pills-reviews-tab").innerHTML=`Reseñas (${rate.total})`;
 
             document.querySelector("#avgRate").innerHTML = `${parseFloat(rate.rate).toFixed(1)}<span class="fs-6">/ 5</span>`;
             document.querySelectorAll(".progress-bar")[0].style.width=`${(rate.total>0 ? rate.five/rate.total : 0)*100}%`;

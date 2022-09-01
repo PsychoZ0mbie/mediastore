@@ -50,12 +50,12 @@
         public function getSalesYear(){
             if($_POST){
                 if(empty($_POST['date'])){
-                    $arrResponse=array("status"=>false,"msg"=>"Data error");
+                    $arrResponse=array("status"=>false,"msg"=>"Error de datos");
                 }else{
                     //$year = intval($_POST['date']);
                     $strYear = strval($_POST['date']);
                     if(strlen($strYear)>4){
-                        $arrResponse=array("status"=>false,"msg"=>"Date is wrong."); 
+                        $arrResponse=array("status"=>false,"msg"=>"La fecha es incorrecta."); 
                     }else{
                         $year = intval($_POST['date']);
                         $request = $this->model->getSalesYear($year);

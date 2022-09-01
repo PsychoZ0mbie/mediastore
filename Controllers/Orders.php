@@ -15,8 +15,8 @@
 
         public function orders(){
             if($_SESSION['permitsModule']['r']){
-                $data['page_tag'] = "Orders";
-                $data['page_title'] = "Orders";
+                $data['page_tag'] = "Pedidos";
+                $data['page_title'] = "Pedidos";
                 $data['page_name'] = "orders";
                 $data['orders'] = $this->getOrders();
                 $data['products'] = $this->getProducts();
@@ -260,7 +260,7 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
-                    $html = '<tr><td colspan="5">No data</td></tr>';
+                    $html = '<tr><td colspan="5">No hay datos</td></tr>';
                     $arrResponse = array("status"=>false,"data"=>$html);
                 }
             }else{

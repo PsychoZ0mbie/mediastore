@@ -10,7 +10,7 @@ search.addEventListener('input',function() {
         if(objData.status){
             element.innerHTML = objData.data;
         }else{
-            element.innerHTML = objData.msg;
+            element.innerHTML = objData.data;
         }
     });
 })
@@ -19,7 +19,7 @@ sort.addEventListener("change",function(){
         if(objData.status){
             element.innerHTML = objData.data;
         }else{
-            element.innerHTML = objData.msg;
+            element.innerHTML = objData.data;
         }
     });
 });
@@ -31,10 +31,6 @@ if(document.querySelector("#btnNew")){
        addItem();
     });
 }
-
-window.addEventListener("DOMContentLoaded",function() {
-    showItems(element);
-})
 
 element.addEventListener("click",function(e) {
     let element = e.target;

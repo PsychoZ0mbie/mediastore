@@ -10,7 +10,7 @@
         public function contact(){
             $company=getCompanyInfo();
             $data['page_tag'] = "Contact | ".$company['name'];
-			$data['page_title'] = "Contact | ".$company['name'];
+			$data['page_title'] = "Contacto | ".$company['name'];
 			$data['page_name'] = "contact";
             $data['app'] = "contact.js";
             $this->views->getView($this,"contact",$data);
@@ -23,7 +23,7 @@
                     $strName = ucwords(strClean($_POST['txtContactName']));
                     $strEmail = strtolower(strClean($_POST['txtContactEmail']));
                     $strMessage = strClean($_POST['txtContactMessage']);
-                    $strSubject = $_POST['txtSubject'] !="" ? strClean(($_POST['txtSubject'])) : "You have sent a new message";
+                    $strSubject = $_POST['txtSubject'] !="" ? strClean(($_POST['txtSubject'])) : "Se ha enviado un nuevo mensaje";
                     $company = getCompanyInfo();
                     $request = $this->setMessage($strName,$strEmail,$strSubject,$strMessage);
                     if($request > 0){
@@ -35,9 +35,9 @@
                                                 "company"=>$company,
                                                 'name'=>$strName);
                         sendEmail($dataEmail,'email_contact');
-                        $arrResponse = array("status"=>true,"msg"=>"We have received your message, we will contact you soon.");
+                        $arrResponse = array("status"=>true,"msg"=>"Recibimos tu mensaje, pronto nos comunicaremos contigo.");
                     }else{
-                        $arrResponse = array("status"=>false,"msg"=>"Oops! an error has ocurred. Try again");
+                        $arrResponse = array("status"=>false,"msg"=>"Error, intenta de nuevo");
                     }
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);

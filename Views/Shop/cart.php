@@ -12,9 +12,9 @@
         <div class="container">
             <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Home</a></li>
-                    <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/shop">Shop</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+                    <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Inicio</a></li>
+                    <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/shop">Tienda</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Mi carrito</li>
                 </ol>
             </nav>
             <?php if(isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){ 
@@ -30,10 +30,10 @@
                     <table class="table table-borderless text-center table-cart">
                         <thead class="position-relative af-b-line">
                           <tr>
-                            <th scope="col">Product</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Cantidad</th>
                             <th scope="col">Subtotal</th>
                           </tr>
                         </thead>
@@ -87,7 +87,7 @@
                         <div class="col-md-6">
                             <form id="formCoupon">
                                 <div class="input-group">
-                                    <input type="text" id="txtCoupon" name="txtCoupon" class="form-control" placeholder="Your coupon code" aria-label="Coupon code" aria-describedby="button-addon2">
+                                    <input type="text" id="txtCoupon" name="txtCoupon" class="form-control" placeholder="Código de descuento" aria-label="Coupon code" aria-describedby="button-addon2">
                                     <button class="btn btnc-primary" type="button" id="btnCoupon">+</button>
                                 </div>
                                 <div class="alert alert-danger mt-3 d-none" id="alertCoupon" role="alert"></div>
@@ -97,7 +97,7 @@
                     <?php }?>
                 </div>
                 <div class="col-lg-4 mt-5 ">
-                    <h3 class="t-p">RESUME</h3>
+                    <h3 class="t-p">RESUMEN</h3>
                     <div class="mb-3 position-relative pb-1 af-b-line">
                         <?php if(isset($_SESSION['couponInfo'])){?>
                         <div class="d-flex justify-content-between mb-3">
@@ -105,12 +105,12 @@
                             <p class="m-0" id="subtotal"><?=formatNum($subtotal)?></p>
                         </div>
                         <div class="mb-3">
-                            <p class="m-0 fw-bold">Coupon:</p>
+                            <p class="m-0 fw-bold">Cupón:</p>
                             <div class="d-flex justify-content-between ">
                                 <p class="m-0"><?=$_SESSION['couponInfo']['code']?></p>
                                 <p class="m-0">-<?=$_SESSION['couponInfo']['discount']?>%</p>
                             </div>
-                            <button type="button" class="btn t-p p-0" id="removeCoupon">Remove coupon</button>
+                            <button type="button" class="btn t-p p-0" id="removeCoupon">Remover cupón</button>
                         </div>
                         <div class="d-flex justify-content-between mb-3">
                             <p class="m-0 fw-bold">Subtotal:</p>
@@ -122,7 +122,7 @@
                             <p class="m-0" id="subtotal"><?=formatNum($subtotal)?></p>
                         </div>
                         <?php }?>
-                        <p class="m-0 fw-bold">Shipping:</p>
+                        <p class="m-0 fw-bold">Envio:</p>
                         <?php if($arrShipping['id']!=3){?>
                         <div class="d-flex justify-content-between mb-3">
                             <p class="m-0"><?=$arrShipping['name']?>:</p>
@@ -131,7 +131,7 @@
                         <?php }else{?>
                             <label for="exampleFormControlInput1" class="form-label"><?=$arrShipping['name']?>:</label>
                             <select class="form-select" aria-label="Default select example" id="selectCity" name="selectCity">
-                                <option value ="0" selected>Select a city</option>
+                                <option value ="0" selected>Seleccionar ciudad</option>
                                 <?php for ($i=0; $i < count($arrShipping['cities']); $i++) { ?>
                                 <option value="<?=$arrShipping['cities'][$i]['id']?>"><?=$arrShipping['cities'][$i]['city']." - ".formatNum($arrShipping['cities'][$i]['value'])?></option>
                                 <?php }?>
@@ -149,22 +149,22 @@
                     <?php if(isset($_SESSION['login']) && isset($_SESSION['arrCart']) && !empty($_SESSION['arrCart'])){ 
                         if($arrShipping['id']!=3){
                     ?>
-                    <a href="<?=base_url()?>/shop/checkout" class="mb-3 w-100 btn btnc-primary">Checkout</a>
+                    <a href="<?=base_url()?>/shop/checkout" class="mb-3 w-100 btn btnc-primary">Pagar</a>
                     <?php }else{ ?>
                         <div class="alert alert-danger d-none" id="alertCity"></div>
-                        <button type="button" id="checkCity" class="mb-3 w-100 btn btnc-primary">Checkout</button>
+                        <button type="button" id="checkCity" class="mb-3 w-100 btn btnc-primary">Pagar</button>
                     <?php }?>
                     <?php }else{ ?>
-                    <button type="button" onclick="openLoginModal();" class="mb-3 w-100 btn btnc-primary">Checkout</button>
+                    <button type="button" onclick="openLoginModal();" class="mb-3 w-100 btn btnc-primary">Pagar</button>
                     <?php }?>
-                    <a href="<?=base_url()?>/shop" class="w-100 btn btn-dark">Continue shopping</a>
+                    <a href="<?=base_url()?>/shop" class="w-100 btn btn-dark">Continuar comprando</a>
                 </div>
             </div>
             <?php }else {?>
                 <div class="d-flex justify-content-center align-items-center p-5 text-center">
                     <div>
-                        <p>No products in your cart.</p>
-                        <a href="<?=base_url()?>/shop" class="btn btnc-primary">Go shopping now</a>
+                        <p>No hay productos en el carrito.</p>
+                        <a href="<?=base_url()?>/shop" class="btn btnc-primary">Comprar ahora</a>
                     </div>
                 </div>
             <?php }?>

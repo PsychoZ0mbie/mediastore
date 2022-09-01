@@ -18,7 +18,7 @@
         public function shop(){
             $company=getCompanyInfo();
             $data['page_tag'] = $company['name'];
-            $data['page_title'] = "Shop | ".$company['name'];
+            $data['page_title'] = "Tienda | ".$company['name'];
             $data['page_name'] = "shop";
             $data['categories'] = $this->getCategoriesT();
             $data['products'] = $this->getProductsT("");
@@ -39,7 +39,7 @@
             }
             $company=getCompanyInfo();
             $data['page_tag'] = $company['name'];
-            $data['page_title'] = "Shop | ".$company['name'];
+            $data['page_title'] = "Tienda | ".$company['name'];
             $data['page_name'] = "category";
             $data['categories'] = $this->getCategoriesT();
             $data['routec'] = $category;
@@ -77,7 +77,7 @@
         public function cart(){
             $company=getCompanyInfo();
             $data['page_tag'] = $company['name'];
-            $data['page_title'] ="My cart | ".$company['name'];
+            $data['page_title'] ="Mi carrito | ".$company['name'];
             $data['page_name'] = "cart";
             $data['shipping'] = $this->selectShippingMode();
             $data['app'] = "cart.js";
@@ -135,7 +135,7 @@
             if(isset($_SESSION['orderData'])){
                 $company=getCompanyInfo();
                 $data['page_tag'] = $company['name'];
-                $data['page_title'] ="Confirm order | ".$company['name'];
+                $data['page_title'] ="Confirmar pedido | ".$company['name'];
                 $data['page_name'] = "confirm";
                 $data['orderData'] = $_SESSION['orderData'];
                 unset($_SESSION['orderData']);
@@ -178,7 +178,7 @@
                                     $arrCart[$i]['qty']+= $qty;
                                     if($arrCart[$i]['qty'] > $request['stock']){
                                         $arrCart[$i]['qty'] = $currentQty;
-                                        $arrResponse = array("status"=>false,"msg"=>"Not enough units","data"=>$data);
+                                        $arrResponse = array("status"=>false,"msg"=>"No hay suficientes unidades","data"=>$data);
                                         $flag = false;
                                         break;
                                     }else{
@@ -186,7 +186,7 @@
                                         foreach ($_SESSION['arrCart'] as $quantity) {
                                             $qtyCart += $quantity['qty'];
                                         }
-                                        $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart,"data"=>$data);
+                                        $arrResponse = array("status"=>true,"msg"=>"Ha sido agregado a tu carrito.","qty"=>$qtyCart,"data"=>$data);
                                     }
                                     $flag =false;
                                     break;
@@ -194,7 +194,7 @@
                             }
                             if($flag){
                                 if($qty > $request['stock']){
-                                    $arrResponse = array("status"=>false,"msg"=>"Not enough units","data"=>$data);
+                                    $arrResponse = array("status"=>false,"msg"=>"No hay suficientes unidades","data"=>$data);
                                     $_SESSION['arrCart'] = $arrCart;
                                 }else{
                                     array_push($arrCart,$arrProduct);
@@ -202,27 +202,27 @@
                                     foreach ($_SESSION['arrCart'] as $quantity) {
                                         $qtyCart += $quantity['qty'];
                                     }
-                                    $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart,"data"=>$data);
+                                    $arrResponse = array("status"=>true,"msg"=>"Ha sido agregado a tu carrito.","qty"=>$qtyCart,"data"=>$data);
                                 }
                             }
                         }else{
                             if($qty > $request['stock']){
-                                $arrResponse = array("status"=>false,"msg"=>"Not enough units","data"=>$data);
+                                $arrResponse = array("status"=>false,"msg"=>"No hay suficientes unidades","data"=>$data);
                             }else{
                                 array_push($arrCart,$arrProduct);
                                 $_SESSION['arrCart'] = $arrCart;
                                 foreach ($_SESSION['arrCart'] as $quantity) {
                                     $qtyCart += $quantity['qty'];
                                 }
-                                $arrResponse = array("status"=>true,"msg"=>"It has been added to your cart.","qty"=>$qtyCart,"data"=>$data);
+                                $arrResponse = array("status"=>true,"msg"=>"Ha sido agregado a tu carrito.","qty"=>$qtyCart,"data"=>$data);
                             } 
                         }
                     }else{
-                        $arrResponse = array("status"=>false,"msg"=>"The product doesn't exists");
+                        $arrResponse = array("status"=>false,"msg"=>"El producto no existe");
                     }
                     
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"Data error");
+                    $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
@@ -343,7 +343,7 @@
                     }
 
                 }else{
-                    $arrResponse = array("status"=>false,"msg" =>"Data error.");
+                    $arrResponse = array("status"=>false,"msg" =>"Error de datos.");
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
@@ -362,7 +362,7 @@
             if(!empty($request)){
                 $arrResponse = array("status"=>true);
             }else{
-                $arrResponse = array("status"=>false,"msg"=>"Please, select a city.");
+                $arrResponse = array("status"=>false,"msg"=>"Por favor, seleccione una ciudad.");
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
@@ -370,7 +370,7 @@
         public function setCouponCode(){
             if($_POST){
                 if(empty($_POST['txtCoupon'])){
-                    $arrResponse = array("status"=>false,"msg"=>"Data error"); 
+                    $arrResponse = array("status"=>false,"msg"=>"Error de datos"); 
                 }else{
                     $strCoupon = strClean(strtoupper($_POST['txtCoupon']));
                     $request = $this->selectCouponCode($strCoupon);
@@ -379,7 +379,7 @@
                         $_SESSION['couponInfo']['status'] = true;
                         $arrResponse = array("status"=>true); 
                     }else{
-                        $arrResponse = array("status"=>false,"msg"=>"Coupon doesn't exists or is inactive."); 
+                        $arrResponse = array("status"=>false,"msg"=>"El cupón no existe o está inactivo."); 
                     }
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -434,7 +434,7 @@
         public function validCustomer(){
             if($_POST){
 				if(empty($_POST['txtSignName']) || empty($_POST['txtSignEmail']) || empty($_POST['txtSignPassword'])){
-                    $arrResponse=array("status" => false, "msg" => "Data error");
+                    $arrResponse=array("status" => false, "msg" => "Error de datos");
                 }else{
                     $strName = ucwords(strClean($_POST['txtSignName']));
                     $strEmail = strtolower(strClean($_POST['txtSignEmail']));
@@ -444,15 +444,15 @@
                                         'email_remitente' => $company['email'], 
                                         'email_usuario'=>$strEmail, 
                                         'company' =>$company,
-                                        'asunto' =>'Verification code - '.$company['name'],
+                                        'asunto' =>'Código de verificación - '.$company['name'],
                                         'codigo' => $code);
                     $_SESSION['code'] = $code;
                     $sendEmail = sendEmail($dataUsuario,'email_validData');
                     if($sendEmail){
-                        $arrResponse = array("status"=>true,"msg"=>" code has been sent to your email to validate your data.");
+                        $arrResponse = array("status"=>true,"msg"=>"Se ha enviado un código a su correo electrónico para validar sus datos.");
                         
                     }else{
-                        $arrResponse = array("status"=>false,"msg"=>"Error, try again.");
+                        $arrResponse = array("status"=>false,"msg"=>"Error, intenta de nuevo.");
                     }
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -463,7 +463,7 @@
 		public function setCustomer(){
 			if($_POST){
 				if(empty($_POST['txtSignName']) || empty($_POST['txtSignEmail']) || empty($_POST['txtSignPassword']) || empty($_POST['txtCode'])){
-                    $arrResponse=array("status" => false, "msg" => "Data error");
+                    $arrResponse=array("status" => false, "msg" => "Error de datos");
                 }else{
                     if($_POST['txtCode'] == $_SESSION['code']){
                         unset($_SESSION['code']);
@@ -482,15 +482,15 @@
                             $arrData = $this->login->sessionLogin($_SESSION['idUser']);
                             sessionUser($_SESSION['idUser']);
     
-                            $arrResponse = array("status" => true,"msg"=>"You have successfully registered.");
+                            $arrResponse = array("status" => true,"msg"=>"Se ha registrado con éxito.");
                         }else if($request =="exist"){
-                            $arrResponse = array("status" => false,"msg"=>"The user already exists, please log in.");
+                            $arrResponse = array("status" => false,"msg"=>"El usuario ya existe, por favor inicie sesión.");
                         }else{
-                            $arrResponse = array("status" => false,"msg"=>"Unable to store data, try later.");
+                            $arrResponse = array("status" => false,"msg"=>"No se pueden almacenar los datos, inténtelo más tarde.");
     
                         }
                     }else{
-                        $arrResponse = array("status" => false,"msg"=>"Incorrect code, try again.");
+                        $arrResponse = array("status" => false,"msg"=>"Código incorrecto, inténtelo de nuevo.");
                     }
 
                 }
@@ -502,7 +502,7 @@
         public function setSuscriber(){
             if($_POST){
                 if(empty($_POST['txtEmailSuscribe'])){
-                    $arrResponse = array("status"=>false,"msg"=>"Data error");
+                    $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                 }else{
                     $strEmail = strClean(strtolower($_POST['txtEmailSuscribe']));
                     $request = $this->setSuscriberT($strEmail);
@@ -511,16 +511,16 @@
                         $request = $this->statusCouponSuscriberT();
                         $dataEmail = array('email_remitente' => $company['email'], 
                                                 'email_usuario'=>$strEmail,
-                                                'asunto' =>'You have subscribed on '.$company['name'],
+                                                'asunto' =>'Te has suscrito a '.$company['name'],
                                                 "code"=>$request['code'],
                                                 'company'=>$company,
                                                 "discount"=>$request['discount']);
                         sendEmail($dataEmail,'email_suscriber');
-                        $arrResponse = array("status"=>true,"msg"=>"Subscribed");
+                        $arrResponse = array("status"=>true,"msg"=>"Suscrito");
                     }else if($request=="exists"){
-                        $arrResponse = array("status"=>false,"msg"=>"You have subscribed before.");
+                        $arrResponse = array("status"=>false,"msg"=>"Ya se ha suscrito antes.");
                     }else{
-                        $arrResponse = array("status"=>false,"msg"=>"Error has ocurred, try again.");
+                        $arrResponse = array("status"=>false,"msg"=>"Error, intenta de nuevo.");
                     }
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -532,7 +532,7 @@
             if(!empty($request)){
                 $arrResponse = array("status"=>true,"discount"=>$request['discount']);
             }else{
-                $arrResponse = array("status"=>false,"msg"=>"Coupon doesn't exists or is inactive");
+                $arrResponse = array("status"=>false,"msg"=>"El cupón no existe o está inactivo");
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
@@ -614,7 +614,7 @@
             if($_POST){
                 if(isset($_SESSION['login'])){
                     if(empty($_POST['intRate']) || empty($_POST['txtReview']) || empty($_POST['idProduct'])){
-                        $arrResponse = array("status"=>false,"msg"=>"Please rate it and write your review.");
+                        $arrResponse = array("status"=>false,"msg"=>"Por favor, califíque y escriba su reseña.");
                         echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                     }else{
                         $idUser = $_SESSION['idUser'];
@@ -637,18 +637,18 @@
                         $reviews = $this->getReviews($idProduct);
                         if($option ==1){
                             if(!is_array($request) && $request>0){
-                                $arrResponse = array("status"=>true,"msg"=>"Your review has been shared.","html"=>$reviews['html'],"rate"=>$reviews['rate']);
+                                $arrResponse = array("status"=>true,"msg"=>"Su reseña ha sido compartida.","html"=>$reviews['html'],"rate"=>$reviews['rate']);
                             }else if(is_array($request)){
-                                $arrResponse = array("status"=>false,"msg"=>"You have already shared your review before. Edit it if you want.","id"=>$request['id']);
+                                $arrResponse = array("status"=>false,"msg"=>"Ya has compartido tu reseña antes. Edítala si quieres.","id"=>$request['id']);
                             }else{
-                                $arrResponse = array("status"=>false,"msg"=>"Error, try again.");
+                                $arrResponse = array("status"=>false,"msg"=>"Error, intenta de nuevo.");
                             }
                         }else{
-                            $arrResponse = array("status"=>true,"msg"=>"Your review has updated.","html"=>$reviews['html'],"rate"=>$reviews['rate']);
+                            $arrResponse = array("status"=>true,"msg"=>"Su reseña se ha actualizado.","html"=>$reviews['html'],"rate"=>$reviews['rate']);
                         }
                     }
                 }else{
-                    $arrResponse = array("login"=>false,"msg"=>"Please login to share you review.");
+                    $arrResponse = array("login"=>false,"msg"=>"Inicie sesión para compartir su reseña.");
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
@@ -660,7 +660,7 @@
                 $idProduct = intval(openssl_decrypt($_POST['idProduct'],METHOD,KEY));
                 $request = $this->deleteReviewT($id); 
                 $reviews = $this->getReviews($idProduct);
-                $arrResponse = array("status"=>true,"msg"=>"Review has been deleted.","html"=>$reviews['html'],"rate"=>$reviews['rate']);
+                $arrResponse = array("status"=>true,"msg"=>"La reseña ha sido eliminada.","html"=>$reviews['html'],"rate"=>$reviews['rate']);
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
@@ -699,7 +699,7 @@
                 if(empty($_POST['txtNameOrder']) || empty($_POST['txtLastNameOrder']) || empty($_POST['txtEmailOrder']) || 
                 empty($_POST['txtPhoneOrder']) || empty($_POST['txtAddressOrder']) || empty($_POST['country'])
                 || empty($_POST['state']) || empty($_POST['city'])){
-                    $arrResponse = array("status"=>false,"msg"=>"Data error");
+                    $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                 }else{
                     $arrData = array(
                         "firstname"=>strClean(ucwords($_POST['txtNameOrder'])),
@@ -714,7 +714,7 @@
                         "note"=>strClean($_POST['txtNote'])
                     );
                     $_SESSION['checkData'] = $arrData;
-                    $arrResponse = array("status"=>true,"msg"=>"Data correct");
+                    $arrResponse = array("status"=>true,"msg"=>"Datos correctos");
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
@@ -781,7 +781,7 @@
                                 $orderInfo['amountData'] = $amountData;
                                 $company = getCompanyInfo();
                                 $dataEmailOrden = array(
-                                    'asunto' => "An order has been generated",
+                                    'asunto' => "Se ha generado un pedido",
                                     'email_usuario' => $_SESSION['userData']['email'], 
                                     'email_remitente'=>$company['email'],
                                     'company'=>$company,
@@ -791,20 +791,20 @@
 								sendEmail($dataEmailOrden,"email_order");
                                 $idOrder = openssl_encrypt($requestOrder,METHOD,KEY);
                                 $idTransaction = openssl_encrypt($orderInfo['order']['idtransaction'],METHOD,KEY);
-                                $arrResponse = array("status"=>true,"order"=>$idOrder,"transaction"=>$idTransaction,"msg"=>"Order placed");
+                                $arrResponse = array("status"=>true,"order"=>$idOrder,"transaction"=>$idTransaction,"msg"=>"Pedido realizado");
                                 $_SESSION['orderData'] = $arrResponse;
 
                                 unset($_SESSION['arrCart']);
                                 
                                 
                             }else{
-                                $arrResponse = array("status"=>false,"msg"=>"The order could not be placed.");
+                                $arrResponse = array("status"=>false,"msg"=>"No se ha podido realizar el pedido.");
                             }
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"An error has occurred in the transaction.");
+                            $arrResponse = array("status"=>false,"msg"=>"Se ha producido un error en la transacción.");
                         }
                     }else{
-                        $arrResponse = array("status"=>false,"msg"=>"An error has occurred in the transaction.");
+                        $arrResponse = array("status"=>false,"msg"=>"Se ha producido un error en la transacción.");
                     }
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -860,7 +860,7 @@
                             }
                         }else if($request[$i]['status'] == 1 && $request[$i]['stock']==0){
                             $btnAdd="";
-                            $price='<p class="m-0 text-danger">Sold out</p>';
+                            $price='<p class="m-0 text-danger">Agotado</p>';
                         }else{
                             $btnAdd ="";
                             $price="";
@@ -898,7 +898,7 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"No results");
+                    $arrResponse = array("status"=>false,"msg"=>"Sin resultados");
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
@@ -920,75 +920,6 @@
             }
             die();
             
-        }
-        public function getProductsPage($page){
-            $page = intval($page);
-            $request = $this->getProductsPageT($page);
-            $request = $request['data'];
-            $html="";
-            for ($i=0; $i < count($request) ; $i++) { 
-                $idProduct = openssl_encrypt($request[$i]['idproduct'],METHOD,KEY);
-                $favorite = '';
-                $routeP = base_url()."/shop/product/".$request[$i]['route'];
-                $routeC = base_url()."/shop/category/".$request[$i]['routec'];
-                $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($request[$i]['price']).'</strong></p>';
-                $btnAdd ='<button type="button" class="btn btn-primary product-card-add" data-id="'.$idProduct.'">Add to cart</a>';
-                $discount="";
-                $rate="";
-                if($request[$i]['favorite']== 0){
-                    $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
-                }else{
-                    $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
-                }
-                if($request[$i]['status'] == 1 && $request[$i]['stock']>0){
-                    if($request[$i]['discount']>0){
-                        $price = '<p class="m-0 fs-5 product-price"><strong>'.formatNum($request[$i]['priceDiscount']).'</strong><span>'.formatNum($request[$i]['price']).'</span></p>';
-                        $discount ='<p class="product-discount">-'.$request[$i]['discount'].'%</p>';
-                    }
-                }else if($request[$i]['status'] == 1 && $request[$i]['stock']==0){
-                    $btnAdd="";
-                    $price='<p class="m-0 fs-5 product-price text-danger">Sold out</p>';
-                }else{
-                    $btnAdd ="";
-                    $price="";
-                }
-                for ($j=0; $j < 5; $j++) { 
-                    if($request[$i]['rate']!=null && $j >= intval($request[$i]['rate'])){
-                        $rate.='<i class="far me-1 fa-star"></i>';
-                    }else if($request[$i]['rate']==null){
-                        $rate.='<i class="far me-1 fa-star"></i>';
-                    }else{
-                        $rate.='<i class="fas me-1 fa-star"></i>';
-                    }
-                }
-                $html .='
-                <div class="col-lg-4 col-md-6 product-item" data-id="'.$idProduct.'" data-price="'.$request[$i]['price'].'" data-rate="'.$request[$i]['rate'].'">
-                    <div class="product-card">
-                        '.$discount.'
-                        <div class="product-img">
-                            <img src="'.$request[$i]['url'].'" alt="'.$request[$i]['name'].'">
-                            '.$btnAdd.'
-                        </div>
-                        <div class="product-info">
-                            <a class="m-0 product-category fw-bold" href="'.$routeC.'">'.$request[$i]['category'].'</a>
-                            <a href="'.$routeP.'">
-                                <h3 class="product-title fw-bold">'.$request[$i]['name'].'</h3>
-                                '.$price.'
-                            </a>
-                        </div>
-                        <div class="product-rate">
-                        '.$rate.'
-                        </div>
-                        <div class="product-btns">
-                        '.$favorite.'
-                            <button type="button" class="btn quickView pe-2 ps-2"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></button>
-                        </div>
-                    </div>
-                </div>
-                ';
-            }
-            echo json_encode($html,JSON_UNESCAPED_UNICODE);
-            die();
         }
         public function calculateTotal($arrProducts,$arrShipping=null,$idCity =null){
             $subtotal = 0;

@@ -12,9 +12,10 @@
         }
         public function customer(){
             if($_SESSION['permitsModule']['r']){
-                $data['page_tag'] = "Customer";
-                $data['page_title'] = "Customers";
+                $data['page_tag'] = "Cliente";
+                $data['page_title'] = "Clientes";
                 $data['page_name'] = "customer";
+                $data['customers'] = $this->getCustomers();
                 $data['app'] = "customer.js";
                 $this->views->getView($this,"customer",$data);
             }else{
@@ -22,10 +23,17 @@
                 die();
             }
         }
-        public function getCustomers(){
+        public function getCustomers($option=null,$params=null){
             if($_SESSION['permitsModule']['r']){
                 $html="";
-                $request = $this->model->selectCustomers();
+                $request="";
+                if($option == 1){
+                    $request = $this->model->search($params);
+                }else if($option == 2){
+                    $request = $this->model->sort($params);
+                }else{
+                    $request = $this->model->selectCustomers();
+                }
                 if(count($request)>0){
                     for ($i=0; $i < count($request); $i++) { 
 
@@ -40,9 +48,9 @@
                             $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idperson'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                         }
                         if($request[$i]['status']==1){
-                            $status='<span class="badge me-1 bg-success">Active</span>';
+                            $status='<span class="badge me-1 bg-success">Activo</span>';
                         }else{
-                            $status='<span class="badge me-1 bg-danger">Inactive</span>';
+                            $status='<span class="badge me-1 bg-danger">Inactivo</span>';
                         }
 
                         $html.='
@@ -62,7 +70,7 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"No hay datos");
+                    $arrResponse = array("status"=>false,"data"=>"No hay datos");
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }else{
@@ -77,7 +85,7 @@
 
                 if($_POST){
                     if(empty($_POST)){
-                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                     }else{
                         $idUser = intval($_POST['idUser']);
                         $request = $this->model->selectCustomer($idUser);
@@ -116,7 +124,7 @@
                             }
                             $arrResponse = array("status"=>true,"data"=>$request,"countries"=>$countrieshtml,"states"=>$stateshtml,"cities"=>$citieshtml);
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"Error, try again."); 
+                            $arrResponse = array("status"=>false,"msg"=>"Error, intenta de nuevo."); 
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -132,7 +140,7 @@
                 if($_POST){
                     if(empty($_POST['txtFirstName']) || empty($_POST['txtLastName']) || empty($_POST['txtPhone']) || empty($_POST['statusList'] )
                     || empty($_POST['txtEmail'])){
-                        $arrResponse = array("status" => false, "msg" => 'Data error');
+                        $arrResponse = array("status" => false, "msg" => 'Error de datos');
                     }else{ 
                         $idUser = intval($_POST['idUser']);
                         $strName = ucwords(strClean($_POST['txtFirstName']));
@@ -236,7 +244,7 @@
                                 $data['password'] = $password;
                                 $data['company'] = $company;
                                 sendEmail($data,"email_credentials");
-                                $arrResponse = array('status' => true, 'msg' => 'Data saved. An e-mail has been sent to the user with the credentials.');
+                                $arrResponse = array('status' => true, 'msg' => 'Datos guardados. Se ha enviado un correo electrónico al usuario con las credenciales.');
                             }else{
                                 if($strPassword!=""){
                                     $data['nombreUsuario'] = $strName." ".$strLastName;
@@ -246,16 +254,16 @@
                                     $data['password'] = $password;
                                     $data['company'] = $company;
                                     sendEmail($data,"email_passwordUpdated");
-                                    $arrResponse = array('status' => true, 'msg' => 'Password has been updated, an email with the new password has been sent.');
+                                    $arrResponse = array('status' => true, 'msg' => 'La contraseña ha sido actualizada, se ha enviado un correo electrónico con la nueva contraseña.');
                                 }else{
                                     $arrResponse = array('status' => true, 'msg' => 'Data saved.');
                                 }
                                 
                             }
                         }else if($request_user == 'exist'){
-                            $arrResponse = array('status' => false, 'msg' => '¡Warning! the email or phone number is already registered, try another one.');		
+                            $arrResponse = array('status' => false, 'msg' => '¡Atención! el correo electrónico o el número de teléfono ya están registrados, pruebe con otro.');		
                         }else{
-                            $arrResponse = array("status" => false, "msg" => 'It is not possible to store the data.');
+                            $arrResponse = array("status" => false, "msg" => 'No es posible guardar los datos.');
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -270,7 +278,7 @@
             if($_SESSION['permitsModule']['d']){
                 if($_POST){
                     if(empty($_POST['idUser'])){
-                        $arrResponse=array("status"=>false,"Data error");
+                        $arrResponse=array("status"=>false,"Error de datos.");
                     }else{
                         $id = intval($_POST['idUser']);
                         
@@ -281,9 +289,9 @@
 
                         $request = $this->model->deleteCustomer($id);
                         if($request=="ok"){
-                            $arrResponse = array("status"=>true,"msg"=>"It has been deleted");
+                            $arrResponse = array("status"=>true,"msg"=>"Se ha eliminado");
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"It has not been possible to delete, try again.");
+                            $arrResponse = array("status"=>false,"msg"=>"No es posible eliminar, intenta de nuevo.");
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -295,98 +303,24 @@
             die();
         }
         public function search($params){
-            $search = strClean($params);
-            $request = $this->model->search($params);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-
-                    $btnEdit="";
-                    $btnDelete="";
-                    $btnView = '<button class="btn btn-info m-1" type="button" title="Watch" data-id="'.$request[$i]['idperson'].'" name="btnView"><i class="fas fa-eye"></i></button>';
-                    
-                    if($_SESSION['permitsModule']['u'] && $request[$i]['roleid'] != 1 || $_SESSION['idUser'] == 1){
-                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idperson'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
-                    }
-                    if($_SESSION['permitsModule']['d'] && $request[$i]['roleid'] != 1 || $_SESSION['idUser'] == 1){
-                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idperson'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    }
-                    if($request[$i]['status']==1){
-                        $status='<span class="badge me-1 bg-success">Active</span>';
-                    }else{
-                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
-                    }
-
-                    $html.='
-                        <tr class="item">
-                            <td>
-                                <img src="'.$request[$i]['image'].'">
-                            </td>
-                            <td>'.$request[$i]['firstname'].'</td>
-                            <td>'.$request[$i]['lastname'].'</td>
-                            <td>'.$request[$i]['email'].'</td>
-                            <td>'.$request[$i]['phone'].'</td>
-                            <td>'.$request[$i]['date'].'</td>
-                            <td>'.$status.'</td>
-                            <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
-                        </tr>
-                    ';
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $search = strClean($params);
+                $arrResponse = $this->getCustomers(1,$search);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function sort($params){
-            $sort = intval($params);
-            $request = $this->model->sort($sort);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-
-                    $btnEdit="";
-                    $btnDelete="";
-                    $btnView = '<button class="btn btn-info m-1" type="button" title="Watch" data-id="'.$request[$i]['idperson'].'" name="btnView"><i class="fas fa-eye"></i></button>';
-                    
-                    if($_SESSION['permitsModule']['u'] && $request[$i]['roleid'] != 1 || $_SESSION['idUser'] == 1){
-                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idperson'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
-                    }
-                    if($_SESSION['permitsModule']['d'] && $request[$i]['roleid'] != 1 || $_SESSION['idUser'] == 1){
-                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idperson'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    }
-                    if($request[$i]['status']==1){
-                        $status='<span class="badge me-1 bg-success">Active</span>';
-                    }else{
-                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
-                    }
-
-                    $html.='
-                        <tr class="item">
-                            <td>
-                                <img src="'.$request[$i]['image'].'">
-                            </td>
-                            <td>'.$request[$i]['firstname'].'</td>
-                            <td>'.$request[$i]['lastname'].'</td>
-                            <td>'.$request[$i]['email'].'</td>
-                            <td>'.$request[$i]['phone'].'</td>
-                            <td>'.$request[$i]['date'].'</td>
-                            <td>'.$status.'</td>
-                            <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
-                        </tr>
-                    ';
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $sort = intval($params);
+                $arrResponse = $this->getCustomers(2,$sort);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function getCountries(){
             $request = $this->model->selectCountries();
-            $html='<option value="0" selected>Select</option>';
+            $html='<option value="0" selected>Seleccione</option>';
             for ($i=0; $i < count($request) ; $i++) { 
                 $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
             }
@@ -396,7 +330,7 @@
         }
         public function getSelectCountry($id){
             $request = $this->model->selectStates($id);
-            $html='<option value="0" selected>Select</option>';
+            $html='<option value="0" selected>Seleccione</option>';
             for ($i=0; $i < count($request) ; $i++) { 
                 $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
             }
@@ -405,7 +339,7 @@
         }
         public function getSelectState($id){
             $request = $this->model->selectCities($id);
-            $html='<option value="0" selected>Select</option>';
+            $html='<option value="0" selected>Seleccione</option>';
             for ($i=0; $i < count($request) ; $i++) { 
                 $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
             }

@@ -47,26 +47,26 @@
     <div class="container">
         <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Home</a></li>
-                <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/shop">Shop</a></li>
-                <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/shop/cart">Shopping cart</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Inicio</a></li>
+                <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/shop">Tienda</a></li>
+                <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/shop/cart">Mi carrito</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Pagar</li>
             </ol>
         </nav>
         <div class="row">
            <div class="col-lg-7 order-lg-1 order-md-5 order-sm-5">
                 <form id="formOrder" name="formOrder" class="p-4">
-                    <h2>Billing details</h2>
+                    <h2>Detalles de facturación</h2>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="txtNameOrder" class="form-label">First name <span class="text-danger">*</span></label>
+                                <label for="txtNameOrder" class="form-label">Nombres <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="txtNameOrder" name="txtNameOrder" value="<?=$_SESSION['userData']['firstname']?>" required="">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="txtLastNameOrder" class="form-label">Last name <span class="text-danger">*</span></label>
+                                <label for="txtLastNameOrder" class="form-label">Apellidos <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="txtLastNameOrder" name="txtLastNameOrder" value="<?=$_SESSION['userData']['lastname']?>" required="">
                             </div>
                         </div>
@@ -78,53 +78,53 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="txtPhoneOrder" class="form-label">Phone <span class="text-danger">*</span></label>
+                                <label for="txtPhoneOrder" class="form-label">Teléfono <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" id="txtPhoneOrder" name="txtPhoneOrder" required="">
                             </div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="txtAddressOrder" class="form-label"> Address<span class="text-danger">*</span></label>
+                        <label for="txtAddressOrder" class="form-label"> Dirección<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="txtAddressOrder" name="txtAddressOrder" required="">
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="listCountry" class="form-label">Country <span class="text-danger">*</span></label>
+                                <label for="listCountry" class="form-label">País <span class="text-danger">*</span></label>
                                 <select class="form-select" id="listCountry" name="listCountry" aria-label="Default select example" required="">
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="listState" class="form-label">State <span class="text-danger">*</span></label>
+                                <label for="listState" class="form-label">Estado <span class="text-danger">*</span></label>
                                 <select class="form-select" id="listState" name="listState" aria-label="Default select example" required="">
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="listCity" class="form-label">City <span class="text-danger">*</span></label>
+                                <label for="listCity" class="form-label">Ciudad <span class="text-danger">*</span></label>
                                 <select class="form-select" id="listCity" name="listCity" aria-label="Default select example" required="">
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="txtPostCodeOrder" class="form-label"> Postcode</label>
+                                <label for="txtPostCodeOrder" class="form-label"> Código postal</label>
                                 <input type="text" class="form-control" id="txtPostCodeOrder" name="txtPostCodeOrder">
                             </div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="txtNote" class="form-label">Order notes</label>
+                        <label for="txtNote" class="form-label">Notas</label>
                         <textarea class="form-control" id="txtNote" name="txtNote" rows="5"></textarea>
                     </div>
                 </form>
             </div>
             <div class="col-lg-5 order-lg-5 order-md-5 order-sm-1 mb-4">
                 <div class="p-4 mb-4">
-                    <h2>Resume</h2>
+                    <h2>Resumen</h2>
                     <?php 
                         $arrProducts = $_SESSION['arrCart'];
                         for ($i=0; $i < count($arrProducts) ; $i++) { 
@@ -147,13 +147,13 @@
                         <p class="m-0" id="subtotalCoupon"><?=formatNum($subtotal)?></p>
                     </div>
                     <div class="mb-3">
-                        <p class="m-0 fw-bold">Coupon:</p>
+                        <p class="m-0 fw-bold">Cupón:</p>
                         <div class="d-flex justify-content-between ">
                             <p class="m-0"><?=$_SESSION['couponInfo']['code']?></p>
                             <p class="m-0">-<?=$_SESSION['couponInfo']['discount']?>%</p>
                         </div>
                         <?php if(!$_SESSION['couponInfo']['status']){?>
-                            <p class="m-0 text-danger">You have used this coupon before.</p>
+                            <p class="m-0 text-danger">Ya has usado este cupón.</p>
                         <?php }?>
                     </div>
                     <div class="d-flex justify-content-between mb-3 position-relative af-b-line">
@@ -166,7 +166,7 @@
                         <p class="m-0"><?=formatNum($subtotal)?></p>
                     </div>
                     <?php }?>
-                    <p class="m-0 fw-bold">Shipping:</p>
+                    <p class="m-0 fw-bold">Envio:</p>
                     <?php if($arrShipping['id']!=3){?>
                     <div class="d-flex justify-content-between mb-3">
                         <p class="m-0"><?=$arrShipping['name']?></p>
@@ -184,7 +184,7 @@
                     </div>
                     <div id="alertCheckData" class="alert alert-danger d-none" role="alert"></div>
                     <div id="paypal-button-container" class="d-none"></div>
-                    <button type="button" class="mb-3 w-100 btn btnc-primary" id="checkData">Pay now</button>
+                    <button type="button" class="mb-3 w-100 btn btnc-primary" id="checkData">Pagar</button>
                 </div>
             </div>
         </div>

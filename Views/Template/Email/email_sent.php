@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>New message</title>
+	<title>Nuevo mensaje</title>
 	<style type="text/css">
 		p{
 			font-family: arial;
@@ -90,7 +90,7 @@
 			</tr>
 			<tr>
 				<td>
-					<p>Message:</p>
+					<p>Mensaje:</p>
 					<p><?= $data['message']; ?></p>
 					<p class="x_title_gray"><a href="<?= BASE_URL; ?>" target="_blanck"><?= BASE_URL; ?></a></p>
 				</td>

@@ -18,12 +18,12 @@
                 <img src="" alt="">
                 <div class="h-100">
                     <a href="product.html">Product 1</a>
-                    <p>Has been added to your cart</p>
+                    <p>Ha sido agregado a tu carrito</p>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-center text-center mt-3">
-                <a href="<?=base_url()?>/shop/cart" class="btnc w-50 p-1 btnc-primary me-4">View Cart</a>
-                <div class="btnc w-50 h-100 p-1 btnc-primary c-p" id="btnCheckOutPopup">Checkout</div>
+                <a href="<?=base_url()?>/shop/cart" class="btnc w-50 p-1 btnc-primary me-4">Mi carrito</a>
+                <div class="btnc w-50 h-100 p-1 btnc-primary c-p" id="btnCheckOutPopup">Pagar</div>
             </div>
         </div>
         <section>
@@ -39,10 +39,10 @@
                 <div class="carousel-item <?=$active?>">
                     <img src="<?=media()."/images/uploads/".$slider[$i]['picture']?>" alt="<?=$slider[$i]['name']?>">
                     <div class="carousel-info">
-                        <span>New Collection</span>
+                        <span>Nueva colección</span>
                         <h2><?=$slider[$i]['name']?></h2>
                         <h3><?=$slider[$i]['description']?></h3>
-                        <a href="<?=base_url()."/shop/category/".$slider[$i]['route']?>" class="btn btnc-primary fs-5">Shop Now</a>
+                        <a href="<?=base_url()."/shop/category/".$slider[$i]['route']?>" class="btn btnc-primary fs-5">Comprar ahora</a>
                     </div>
                 </div>
                 <?php  }?>
@@ -59,7 +59,7 @@
         </section>
         <section>
             <div class="container mt-5 mb-5">
-                <h3 class="t-p"><strong>CATEGORIES</strong></h3>
+                <h3 class="t-p"><strong>CATEGORÍAS</strong></h3>
                 <div class="row">
                     <?php 
                         for ($i=0; $i < count($categories1); $i++) { 
@@ -74,7 +74,7 @@
                                 <div class="category-info">
                                     <h3><strong><?=$categories1[$i]['name']?></strong></h3>
                                 </div>
-                                <a href="<?=$route?>" class="category-btn"><strong>Shop now</strong></a>
+                                <a href="<?=$route?>" class="category-btn"><strong>Comprar ahora</strong></a>
                             </div>
                         </a>
                     </div>
@@ -84,7 +84,7 @@
         </section>
         <section>
             <div class="container">
-                <h3 class="t-p"><strong>NEW PRODUCTS</strong></h3>
+                <h3 class="t-p"><strong>NUEVOS PRODUCTOS</strong></h3>
                 <div class="row mt-5">
                 <?php
                     for ($i=0; $i < count($products) ; $i++) { 
@@ -93,13 +93,13 @@
                         $routeP = base_url()."/shop/product/".$products[$i]['route'];
                         $routeC = base_url()."/shop/category/".$products[$i]['routec'];
                         $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($products[$i]['price']).'</strong></p>';
-                        $btnAdd ='<button type="button" class="btn btn-primary" onclick="addProduct(this)" data-id="'.$idProduct.'">Add</button>';
+                        $btnAdd ='<button type="button" class="btn btn-primary" onclick="addProduct(this)" data-id="'.$idProduct.'">Agregar</button>';
                         $discount="";
                         $rate="";
                         if($products[$i]['favorite']== 0){
-                            $favorite = '<button type="button" onclick="addWishList(this)" data-id="'.$idProduct.'" class="btn pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
+                            $favorite = '<button type="button" onclick="addWishList(this)" data-id="'.$idProduct.'" class="btn pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Agregar a favoritos"></i></button>';
                         }else{
-                            $favorite = '<button type="button" onclick="addWishList(this)" data-id="'.$idProduct.'" class="btn pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
+                            $favorite = '<button type="button" onclick="addWishList(this)" data-id="'.$idProduct.'" class="btn pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Agregar a favoritos"></i></button>';
                         }
                         if($products[$i]['status'] == 1 && $products[$i]['stock']>0){
                             if($products[$i]['discount']>0){
@@ -108,7 +108,7 @@
                             }
                         }else if($products[$i]['status'] == 1 && $products[$i]['stock']==0){
                             $btnAdd="";
-                            $price='<p class="m-0 fs-5 product-price text-danger">Sold out</p>';
+                            $price='<p class="m-0 fs-5 product-price text-danger">Agotado</p>';
                         }else{
                             $btnAdd ="";
                             $price="";
@@ -142,7 +142,7 @@
                         </div>
                         <div class="product-btns">
                             <?=$favorite?>
-                            <button type="button" class="btn pe-2 ps-2" onclick="quickModal(this)" data-id="<?=$idProduct?>"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></button>
+                            <button type="button" class="btn pe-2 ps-2" onclick="quickModal(this)" data-id="<?=$idProduct?>"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Vista rápida"></i></button>
                         </div>
                     </div>
                 </div>
@@ -164,8 +164,8 @@
                             <img src="<?=$url?>" alt="<?=$categories2[$i]['name']?>">
                             <div class="more-category-info">
                                 <a href="<?=$route?>"><h3><strong><?=$categories2[$i]['name']?></strong></h3></a>
-                                <p>Browse all our categories</p>
-                                <a href="<?=$route?>" class="btn">Shop by <?=$categories2[$i]['name']?></a>
+                                <p>Navegue por todas nuestras categorías</p>
+                                <a href="<?=$route?>" class="btn">Comprar por <?=$categories2[$i]['name']?></a>
                                 <div></div>
                             </div>
                         </div>
@@ -177,7 +177,7 @@
         <section>
             <?php if(!empty($popProducts)){?>
             <div class="container">
-                <h3 class="t-p"><strong>TOP RATED</strong></h3>
+                <h3 class="t-p"><strong>DESTACADOS</strong></h3>
                 <div class="row mt-5">
                 <?php
                     for ($i=0; $i < count($popProducts) ; $i++) { 
@@ -186,13 +186,13 @@
                         $routeP = base_url()."/shop/product/".$popProducts[$i]['route'];
                         $routeC = base_url()."/shop/category/".$popProducts[$i]['routec'];
                         $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($popProducts[$i]['price']).'</strong></p>';
-                        $btnAdd ='<button type="button" class="btn btn-primary" onclick="addProduct(this)" data-id="'.$idProduct.'">Add</button>';
+                        $btnAdd ='<button type="button" class="btn btn-primary" onclick="addProduct(this)" data-id="'.$idProduct.'">Agregar</button>';
                         $discount="";
                         $rate="";
                         if($products[$i]['favorite']== 0){
-                            $favorite = '<button type="button" onclick="addWishList(this)" data-id="'.$idProduct.'" class="btn pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
+                            $favorite = '<button type="button" onclick="addWishList(this)" data-id="'.$idProduct.'" class="btn pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Agregar a favoritos"></i></button>';
                         }else{
-                            $favorite = '<button type="button" onclick="addWishList(this)" data-id="'.$idProduct.'" class="btn pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
+                            $favorite = '<button type="button" onclick="addWishList(this)" data-id="'.$idProduct.'" class="btn pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Agregar a favoritos"></i></button>';
                         }
                         if($popProducts[$i]['status'] == 1 && $popProducts[$i]['stock']>0){
                             if($popProducts[$i]['discount']>0){
@@ -201,7 +201,7 @@
                             }
                         }else if($popProducts[$i]['status'] == 1 && $popProducts[$i]['stock']==0){
                             $btnAdd="";
-                            $price='<p class="m-0 fs-5 product-price text-danger">Sold out</p>';
+                            $price='<p class="m-0 fs-5 product-price text-danger">Agotado</p>';
                         }else{
                             $btnAdd ="";
                             $price="";
@@ -235,7 +235,7 @@
                         </div>
                         <div class="product-btns">
                             <?=$favorite?>
-                            <button type="button" class="btn quickView pe-2 ps-2" onclick="quickModal(this)" data-id="<?=$idProduct?>"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></button>
+                            <button type="button" class="btn quickView pe-2 ps-2" onclick="quickModal(this)" data-id="<?=$idProduct?>"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Vista rápida"></i></button>
                         </div>
                     </div>
                 </div>
@@ -247,7 +247,7 @@
         <section class="container mb-5">
             <?php if(!empty($recPosts)){?>
                 <div class="row mt-5">
-                    <h3 class="t-p mb-3"><strong>LATEST POSTS</strong></h3>
+                    <h3 class="t-p mb-3"><strong>NUESTRO BLOG</strong></h3>
                     <?php 
                     for ($i=0; $i < count($recPosts) ; $i++) { 
                         $routePosts = base_url()."/blog/article/".$recPosts[$i]['route'];
@@ -264,7 +264,7 @@
                                 <div class="card-text overflow-hidden">
                                     <?=$recPosts[$i]['description']?>
                                 </div>
-                                <a href="<?=$routePosts?>" class="btn btnc-primary mt-1">Read more</a>
+                                <a href="<?=$routePosts?>" class="btn btnc-primary mt-1">Leer más</a>
                             </div>
                         </div>
                     </div>

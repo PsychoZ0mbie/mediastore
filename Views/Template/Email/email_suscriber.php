@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Welcome User</title>
+	<title>Bienvenido</title>
 	<style type="text/css">
 		p{
 			font-family: arial;
@@ -90,8 +90,8 @@
 			</tr>
 			<tr>
 				<td>
-					<p>Thanks for your subscription. You have got a coupon code: <strong><?=$data['code']?></strong> with <?=$data['discount']?>%</p>
-					<p>Receive updates on new arrivals, special offers and our promotions</p>
+					<p>Gracias por tu suscripción. Tienes un código de cupón: <strong><?=$data['code']?></strong> con <?=$data['discount']?>% de descuento</p>
+					<p>Reciba información actualizada sobre novedades, ofertas especiales y nuestras promociones</p>
 					<p class="x_title_gray"><a href="<?= BASE_URL; ?>" target="_blanck"><?= BASE_URL; ?></a></p>
 				</td>
 			</tr>

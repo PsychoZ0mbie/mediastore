@@ -243,35 +243,6 @@
             for ($i=0; $i < count($arrImages) ; $i++) { 
                 $request = $this->model->insertTmpImage($arrImages[$i]['name'],$arrImages[$i]['rename']);
             }
-            /*
-            if(isset($_SESSION['arrImages'])){
-                $arrImages = $_SESSION['arrImages'];
-                $arrNewImages = orderFiles($_FILES['txtImg']);
-                for ($i=0; $i < count($arrNewImages) ; $i++) { 
-                    array_push($arrImages,$arrNewImages[$i]);
-                }
-                $_SESSION['arrImages'] = $arrImages;
-            }else{
-                if(!empty($_POST['id'])){
-                    $id = intval($_POST['id']);
-                    $images = orderFiles($_FILES['txtImg']);
-                    if(intval($_POST['images'])>1){
-                        $request = $this->model->selectImages($id);
-                        for ($i=0; $i < count($request); $i++) { 
-                            $request[$i]['rename'] = $request[$i]['name'];
-                        }
-                        for ($i=0; $i < count($images); $i++) { 
-                            array_push($request,$images[$i]);
-                        }
-                        $_SESSION['arrImages'] = $request;
-                    }else{
-                        $_SESSION['arrImages'] = $images;
-                    }
-                }else{
-                    $_SESSION['arrImages'] = orderFiles($_FILES['txtImg']);
-                }
-            }
-            */
             $arrResponse = array("msg"=>"Uploaded");
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();

@@ -12,9 +12,10 @@
         }
         public function user(){
             if($_SESSION['permitsModule']['r']){
-                $data['page_tag'] = "User";
-                $data['page_title'] = "Users";
+                $data['page_tag'] = "Usuario";
+                $data['page_title'] = "Usuarios";
                 $data['page_name'] = "user";
+                $data['data'] = $this->getUsers();
                 $data['app'] = "user.js";
                 $this->views->getView($this,"user",$data);
             }else{
@@ -22,10 +23,17 @@
                 die();
             }
         }
-        public function getUsers(){
+        public function getUsers($option=null,$params=null){
             if($_SESSION['permitsModule']['r']){
                 $html="";
-                $request = $this->model->selectUsers();
+                $request="";
+                if($option == 1){
+                    $request = $this->model->search($params);
+                }else if($option == 2){
+                    $request = $this->model->sort($params);
+                }else{
+                    $request = $this->model->selectUsers();
+                }
                 if(count($request)>0){
                     for ($i=0; $i < count($request); $i++) { 
 
@@ -40,9 +48,9 @@
                             $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idperson'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                         }
                         if($request[$i]['status']==1){
-                            $status='<span class="badge me-1 bg-success">Active</span>';
+                            $status='<span class="badge me-1 bg-success">Activo</span>';
                         }else{
-                            $status='<span class="badge me-1 bg-danger">Inactive</span>';
+                            $status='<span class="badge me-1 bg-danger">Inactivo</span>';
                         }
                         if($request[$i]['idperson'] != 1 && $request[$i]['roleid'] != 2){
                             $html.='
@@ -64,22 +72,21 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"No hay datos");
+                    $arrResponse = array("status"=>false,"data"=>"No hay datos");
                 }
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }else{
                 header("location: ".base_url());
                 die();
             }
             
-            die();
+            return $arrResponse;
         }
         public function getUser(){
             if($_SESSION['permitsModule']['r']){
 
                 if($_POST){
                     if(empty($_POST)){
-                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                     }else{
                         $idUser = intval($_POST['idUser']);
                         $request = $this->model->selectUser($idUser);
@@ -87,7 +94,7 @@
                             $request['image'] = media()."/images/uploads/".$request['image'];
                             $arrResponse = array("status"=>true,"data"=>$request);
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"Error, try again."); 
+                            $arrResponse = array("status"=>false,"msg"=>"Error, intenta de nuevo."); 
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -273,101 +280,25 @@
             die();
         }
         public function search($params){
-            $search = strClean($params);
-            $request = $this->model->search($params);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-                    $btnEdit="";
-                    $btnDelete="";
-                    $btnView = '<button class="btn btn-info m-1" type="button" title="Watch" data-id="'.$request[$i]['idperson'].'" name="btnView"><i class="fas fa-eye"></i></button>';
-                    
-                    if($_SESSION['permitsModule']['u'] && $request[$i]['roleid'] != 1 || $_SESSION['idUser'] == 1){
-                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idperson'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
-                    }
-                    if($_SESSION['permitsModule']['d'] && $request[$i]['roleid'] != 1 || $_SESSION['idUser'] == 1){
-                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idperson'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    }
-                    if($request[$i]['status']==1){
-                        $status='<span class="badge me-1 bg-success">Active</span>';
-                    }else{
-                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
-                    }
-                    if($request[$i]['idperson'] != 1 && $request[$i]['roleid'] != 2){
-                        $html.='
-                            <tr class="item" data-name="'.$request[$i]['firstname'].'" data-lastname="'.$request[$i]['lastname'].'" data-email="'.$request[$i]['email'].'" data-phone="'.$request[$i]['phone'].'">
-                                <td>
-                                    <img src="'.$request[$i]['image'].'">
-                                </td>
-                                <td>'.$request[$i]['firstname'].'</td>
-                                <td>'.$request[$i]['lastname'].'</td>
-                                <td>'.$request[$i]['email'].'</td>
-                                <td>'.$request[$i]['phone'].'</td>
-                                <td>'.$request[$i]['date'].'</td>
-                                <td>'.$request[$i]['role'].'</td>
-                                <td>'.$status.'</td>
-                                <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
-                            </tr>
-                        ';
-                    }
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $search = strClean($params);
+                $arrResponse = $this->getUsers(1,$search);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function sort($params){
-            $sort = intval($params);
-            $request = $this->model->sort($sort);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-                    $btnEdit="";
-                    $btnDelete="";
-                    $btnView = '<button class="btn btn-info m-1" type="button" title="Watch" data-id="'.$request[$i]['idperson'].'" name="btnView"><i class="fas fa-eye"></i></button>';
-                    
-                    if($_SESSION['permitsModule']['u'] && $request[$i]['roleid'] != 1 || $_SESSION['idUser'] == 1){
-                        $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idperson'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
-                    }
-                    if($_SESSION['permitsModule']['d'] && $request[$i]['roleid'] != 1 || $_SESSION['idUser'] == 1){
-                        $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idperson'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    }
-                    if($request[$i]['status']==1){
-                        $status='<span class="badge me-1 bg-success">Active</span>';
-                    }else{
-                        $status='<span class="badge me-1 bg-danger">Inactive</span>';
-                    }
-                    if($request[$i]['idperson'] != 1 && $request[$i]['roleid'] != 2){
-                        $html.='
-                            <tr class="item" data-name="'.$request[$i]['firstname'].'" data-lastname="'.$request[$i]['lastname'].'" data-email="'.$request[$i]['email'].'" data-phone="'.$request[$i]['phone'].'">
-                                <td>
-                                    <img src="'.$request[$i]['image'].'">
-                                </td>
-                                <td>'.$request[$i]['firstname'].'</td>
-                                <td>'.$request[$i]['lastname'].'</td>
-                                <td>'.$request[$i]['email'].'</td>
-                                <td>'.$request[$i]['phone'].'</td>
-                                <td>'.$request[$i]['date'].'</td>
-                                <td>'.$request[$i]['role'].'</td>
-                                <td>'.$status.'</td>
-                                <td class="item-btn">'.$btnView.$btnEdit.$btnDelete.'</td>
-                            </tr>
-                        ';
-                    }
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $sort = intval($params);
+                $arrResponse = $this->getUsers(2,$sort);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         /*************************Profile methods*******************************/
         public function profile(){
-            $data['page_tag'] = "Profile";
-            $data['page_title'] = "Profile";
+            $data['page_tag'] = "Perfil";
+            $data['page_title'] = "Perfil";
             $data['page_name'] = "profile";
             $data['app'] = "profile.js";
             $this->views->getView($this,"profile",$data);
@@ -376,7 +307,7 @@
             if($_POST){
                 if(empty($_POST['txtFirstName']) || empty($_POST['txtLastName']) || empty($_POST['txtPhone']) || empty($_POST['countryList'] ) || empty($_POST['stateList'] )
                 || empty($_POST['txtEmail']) || empty($_POST['cityList'] ) || empty($_POST['txtAddress'] )){
-                    $arrResponse = array("status" => false, "msg" => 'Data error');
+                    $arrResponse = array("status" => false, "msg" => 'Error de datos');
                 }else{ 
                     $idUser = intval($_POST['idUser']);
                     $strName = ucwords(strClean($_POST['txtFirstName']));
@@ -428,11 +359,11 @@
                         if($photo!=""){
                             uploadImage($photo,$photoProfile);
                         }
-                        $arrResponse = array('status' => true, 'msg' => 'Data updated');
+                        $arrResponse = array('status' => true, 'msg' => 'Datos actualizados');
                     }else if($request_user == 'exist'){
-                        $arrResponse = array('status' => false, 'msg' => '¡Warning! the email or phone number is already registered, try another one.');		
+                        $arrResponse = array('status' => false, 'msg' => '¡Atención! el correo electrónico o el número de teléfono ya están registrados, pruebe con otro.');		
                     }else{
-                        $arrResponse = array("status" => false, "msg" => 'It is not possible to store the data.');
+                        $arrResponse = array("status" => false, "msg" => 'No es posible guardar los datos');
                     }
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);

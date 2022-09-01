@@ -43,20 +43,20 @@ if(isset($transaction->purchase_units[0]->payments->refunds)){
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4 mb-3">
-                            <p class="m-0 mb-2"><span class="fw-bold">Transaction:</span> <?=$idTransaction?></p>
-                            <p class="m-0"><span class="fw-bold">Date:</span> <?=$date?></p>
-                            <p class="m-0"><span class="fw-bold">Status:</span> <?=$status?></p>
-                            <p class="m-0"><span class="fw-bold">Amount:</span> <?=$amount?></p>
-                            <p class="m-0"><span class="fw-bold">Currency:</span> <?=$currency?></p>
+                            <p class="m-0 mb-2"><span class="fw-bold">Transacción:</span> <?=$idTransaction?></p>
+                            <p class="m-0"><span class="fw-bold">Fecha:</span> <?=$date?></p>
+                            <p class="m-0"><span class="fw-bold">Estado:</span> <?=$status?></p>
+                            <p class="m-0"><span class="fw-bold">Monto:</span> <?=$amount?></p>
+                            <p class="m-0"><span class="fw-bold">Divisa:</span> <?=$currency?></p>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <p class="m-0 mb-2 fw-bold">Payer</p>
-                            <p class="m-0"><span class="fw-bold">Name:</span> <?=$name?></p>
+                            <p class="m-0 mb-2 fw-bold">Pagador</p>
+                            <p class="m-0"><span class="fw-bold">Nombre:</span> <?=$name?></p>
                             <p class="m-0"><span class="fw-bold">Email:</span> <?=$email?></p>
-                            <p class="m-0"><span class="fw-bold">Address:</span> <?=$address?></p>
+                            <p class="m-0"><span class="fw-bold">Dirección:</span> <?=$address?></p>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <p class="m-0 mb-2 fw-bold">Payee</p>
+                            <p class="m-0 mb-2 fw-bold">Beneficiario</p>
                             <p class="m-0"><span class="fw-bold">Email:</span> <?=$payee?></p>
                         </div>
                     </div>
@@ -64,10 +64,10 @@ if(isset($transaction->purchase_units[0]->payments->refunds)){
                     <table class="table items align-middle">
                         <thead class="text-center">
                             <tr>
-                                <th>Movement</th>
-                                <th>Gross amount</th>
-                                <th>Papyal fee</th>
-                                <th>Net amount</th>
+                                <th>Movimiento</th>
+                                <th>Monto bruto</th>
+                                <th>Comisión de paypal</th>
+                                <th>Monto total</th>
                             </tr>
                         </thead>
                         <tbody class="text-center">
@@ -97,19 +97,19 @@ if(isset($transaction->purchase_units[0]->payments->refunds)){
                     <?php }?>
                     <?php if($_SESSION['permitsModule']['r'] && $_SESSION['userData']['roleid'] != 2){?>
                     <div class="row text-start mb-3">
-                        <p class="m-0 mb-2 fw-bold">Payment details</p>
-                        <p class="m-0"><span class="fw-bold">Gross amount:</span> <?=formatNum($grossAmount)?></p>
-                        <p class="m-0"><span class="fw-bold">Paypal fee:</span> -<?=formatNum($feeAmount)?></p>
-                        <p class="m-0"><span class="fw-bold">Net amount:</span> <?=formatNum($netAmount)?></p>
+                        <p class="m-0 mb-2 fw-bold">Detalles de pago</p>
+                        <p class="m-0"><span class="fw-bold">Monto bruto:</span> <?=formatNum($grossAmount)?></p>
+                        <p class="m-0"><span class="fw-bold">Comisión de paypal:</span> -<?=formatNum($feeAmount)?></p>
+                        <p class="m-0"><span class="fw-bold">Monto total:</span> <?=formatNum($netAmount)?></p>
                     </div>
                     <?php }?>
                 </div>
                 <div class="row">
                     <div class="col-6 text-start">
-                        <a href="<?=base_url()?>/Orders" class="btn btn-secondary text-white"><i class="fas fa-arrow-circle-left"></i> Back</a>
+                        <a href="<?=base_url()?>/Orders" class="btn btn-secondary text-white"><i class="fas fa-arrow-circle-left"></i> Regresar</a>
                     </div>
                     <div class="col-6 text-end">
-                        <button type="button" id="btnPrint" class="btn btn-primary"><i class="fas fa-print"></i> Print</button>
+                        <button type="button" id="btnPrint" class="btn btn-primary"><i class="fas fa-print"></i> Imprimir</button>
                     </div>
                 </div>
             </div>

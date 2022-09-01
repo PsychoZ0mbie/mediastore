@@ -11,10 +11,11 @@
         }
         public function role(){
             if($_SESSION['idUser'] == 1){
-                $data['page_tag'] = "Role";
+                $data['page_tag'] = "Rol";
                 $data['page_title'] = "Roles";
                 $data['page_name'] = "role";
                 $data['app'] = "role.js";
+                $data['data'] = $this->getRoles();
                 $this->views->getView($this,"role",$data);
             }else{
                 header("location: ".base_url());
@@ -25,7 +26,7 @@
             if($_SESSION['idUser'] == 1){
                 if($_POST){
                     if(empty($_POST['txtName'])){
-                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                     }else{
     
                         $idRol = intval($_POST['idRol']);
@@ -51,14 +52,14 @@
                         }
                         if($request>0){
                             if($option==1){
-                                $arrResponse = array("status"=>true,"msg"=>"Data saved");
+                                $arrResponse = array("status"=>true,"msg"=>"Datos guardados");
                             }else{
-                                $arrResponse = array("status"=>true,"msg"=>"Data updated");
+                                $arrResponse = array("status"=>true,"msg"=>"Datos actualizados");
                             }
                         }else if ($request=="exist"){
-                            $arrResponse = array("status" =>false,"msg"=>"¡Warning! The role already exists, try another name."); 
+                            $arrResponse = array("status" =>false,"msg"=>"¡Atención! El rol ya existe, intente con otro nombre."); 
                         }else{
-                            $arrResponse = array("status" =>false,"msg"=>"Data error"); 
+                            $arrResponse = array("status" =>false,"msg"=>"No se ha podido guardar los datos"); 
                         }
     
                     }
@@ -70,10 +71,17 @@
             }
             die();
         }
-        public function getRoles(){
+        public function getRoles($option=null,$params=null){
             if($_SESSION['idUser'] == 1){
                 $html="";
-                $request = $this->model->selectRoles();
+                $request="";
+                if($option == 1){
+                    $request = $this->model->search($params);
+                }else if($option == 2){
+                    $request = $this->model->sort($params);
+                }else{
+                    $request = $this->model->selectRoles();
+                }
                 if(count($request)>0){
                     for ($i=0; $i < count($request); $i++) { 
                         $delete = '<button class="btn btn-danger" type="button" title="Delete" data-id="'.$request[$i]['idrole'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
@@ -93,27 +101,26 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"No data");
+                    $arrResponse = array("status"=>false,"data"=>"No hay datos");
                 }
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }else{
                 header("location: ".base_url());
                 die(); 
             }
-            die();
+            return $arrResponse;
         }
         public function getRole(){
             if($_SESSION['idUser'] == 1){
                 if($_POST){
                     if(empty($_POST['idRol'])){
-                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                     }else{
                         $idRol = intval($_POST['idRol']);
                         $request = $this->model->selectRole($idRol);
                         if(!empty($request)){
                             $arrResponse = array("status"=>true,"data"=>$request);
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"Data error");
+                            $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                         }
     
                     }
@@ -134,9 +141,9 @@
                         $id = intval($_POST['idRol']);
                         $request = $this->model->deleteRole($id);
                         if($request=="ok"){
-                            $arrResponse = array("status"=>true,"msg"=>"It has been deleted");
+                            $arrResponse = array("status"=>true,"msg"=>"Se ha eliminado");
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"It has not been possible to delete, try again.");
+                            $arrResponse = array("status"=>false,"msg"=>"No se ha podido eliminar, intenta de nuevo.");
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -182,9 +189,9 @@
                         $request = $this->model->insertPermits($idRole,$idmodule,$r,$w,$u,$d);
                     }
                     if($request>0){
-                        $arrResponse = array("status"=>true,"msg"=>"Permits updated");
+                        $arrResponse = array("status"=>true,"msg"=>"Permisos actualizados");
                     }else{
-                        $arrResponse = array("status"=>false,"msg"=>"Could not update permissions, try again.");
+                        $arrResponse = array("status"=>false,"msg"=>"No es posible actualizar los permisos, intenta de nuevo.");
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 }
@@ -195,59 +202,19 @@
             die();
         }
         public function search($params){
-            $search = strClean($params);
-            $request = $this->model->search($params);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-                    $delete = '<button class="btn btn-danger" type="button" title="Delete" data-id="'.$request[$i]['idrole'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    if($request[$i]['idrole'] == 1 || $request[$i]['idrole']==2){
-                        $delete='';
-                    }
-                    $html.='
-                        <tr class="item" data-name="'.$request[$i]['name'].'">
-                            <td>'.$request[$i]['name'].'</td>
-                            <td class="item-btn">
-                                <button class="btn btn-secondary" type="button" title="Permits" data-id="'.$request[$i]['idrole'].'" name="btnPermit"><i class="fas fa-key"></i></button>
-                                <button class="btn btn-success" type="button" title="Edit" data-id="'.$request[$i]['idrole'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>
-                                '.$delete.' 
-                            </td>
-                        </tr>
-                    ';
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $search = strClean($params);
+                $arrResponse = $this->getRoles(1,$search);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function sort($params){
-            $sort = intval($params);
-            $request = $this->model->sort($sort);
-            if(count($request)>0){
-                $html="";
-                for ($i=0; $i < count($request); $i++) { 
-                    $delete = '<button class="btn btn-danger" type="button" title="Delete" data-id="'.$request[$i]['idrole'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
-                    if($request[$i]['idrole'] == 1 || $request[$i]['idrole']==2){
-                        $delete='';
-                    }
-                    $html.='
-                        <tr class="item" data-name="'.$request[$i]['name'].'">
-                            <td>'.$request[$i]['name'].'</td>
-                            <td class="item-btn">
-                                <button class="btn btn-secondary" type="button" title="Permits" data-id="'.$request[$i]['idrole'].'" name="btnPermit"><i class="fas fa-key"></i></button>
-                                <button class="btn btn-success" type="button" title="Edit" data-id="'.$request[$i]['idrole'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>
-                                '.$delete.' 
-                            </td>
-                        </tr>
-                    ';
-                }
-                $arrResponse = array("status"=>true,"data"=>$html);
-            }else{
-                $arrResponse = array("status"=>false,"msg"=>"No data");
+            if($_SESSION['permitsModule']['r']){
+                $sort = intval($params);
+                $arrResponse = $this->getRoles(2,$sort);
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
     }

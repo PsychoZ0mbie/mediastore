@@ -39,19 +39,19 @@
                 <img src="" alt="">
                 <div class="h-100">
                     <a href="product.html">Product 1</a>
-                    <p>Has been added to your cart</p>
+                    <p>Ha sido agregado a tu carrito</p>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-center text-center mt-3">
-                <a href="<?=base_url()?>/shop/cart" class="btnc w-50 p-1 btnc-primary me-4">View Cart</a>
-                <div class="btnc w-50 h-100 p-1 btnc-primary c-p" id="btnCheckOutPopup">Checkout</div>
+                <a href="<?=base_url()?>/shop/cart" class="btnc w-50 p-1 btnc-primary me-4">Mi carrito</a>
+                <div class="btnc w-50 h-100 p-1 btnc-primary c-p" id="btnCheckOutPopup">Pagar</div>
             </div>
         </div>
         <div class="container-fluid mt-5 mb-3">
             <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Home</a></li>
-                  <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/shop">Shop</a></li>
+                  <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Inicio</a></li>
+                  <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/shop">Tienda</a></li>
                   <?=$breadcrumb?>
                 </ol>
             </nav>
@@ -62,7 +62,7 @@
                             <div class="accordion-item">
                               <h2 class="accordion-header" id="flush-categories">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseCategories" aria-expanded="false" aria-controls="flush-collapseCategories">
-                                  <strong class="fs-5">Categories</strong>
+                                  <strong class="fs-5">Categorias</strong>
                                 </button>
                               </h2>
                               <div id="flush-collapseCategories" class="accordion-collapse collapse show" aria-labelledby="flush-categories" data-bs-parent="#accordionFlushCategories">
@@ -105,7 +105,7 @@
                             <div class="accordion-item">
                               <h2 class="accordion-header" id="flush-price">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsePrice" aria-expanded="false" aria-controls="flush-collapsePrice">
-                                  <strong class="fs-5">Price</strong>
+                                  <strong class="fs-5">Precio</strong>
                                 </button>
                               </h2>
                               <div id="flush-collapsePrice" class="accordion-collapse collapse show" aria-labelledby="flush-price" data-bs-parent="#accordionFlushPrice">
@@ -116,7 +116,7 @@
                                         <input type="range" min="<?=$minPrice?>" value="<?=$maxPrice?>" max="<?=$maxPrice?>">
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center pt-3">
-                                        <span id="filter-price-info">Price: <?=formatNum($minPrice)?> - <?=formatNum($maxPrice)?></span>
+                                        <span id="filter-price-info">Precio: <?=formatNum($minPrice)?> - <?=formatNum($maxPrice)?></span>
                                     </div>
                                 </div>
                               </div>
@@ -125,7 +125,7 @@
                         <?php if(!empty($popProducts)>0){?>
                         <div class="featured">
                             <div class="featured-info">
-                                <h2 class="fs-5"><strong>Featured</strong></h2>
+                                <h2 class="fs-5"><strong>Destacados</strong></h2>
                                 <div class="featured-btns">
                                     <div class="p-2 featured-btn-left c-p"><i class="fas fa-angle-left"></i></div>
                                     <div class="p-2 featured-btn-right c-p"><i class="fas fa-angle-right"></i></div>
@@ -157,7 +157,7 @@
                                                     $discount ='<p class="position-absolute top-0 start-0 rounded t-p pe-1 ps-1 fw-bold text-white bg-d fs-6">-'.$popProducts[$index]['discount'].'%</p>';
                                                 }
                                             }else if($popProducts[$index]['status'] == 1 && $popProducts[$index]['stock']==0){
-                                                $price='<p class="text-danger">Sold out</p>';
+                                                $price='<p class="text-danger">Agotado</p>';
                                             }else{
                                                 $price="";
                                             }
@@ -196,14 +196,14 @@
                 </div>
                 <div class="col-lg-9 col-md-12">
                     <div class="d-flex align-items-center justify-content-between shop-options">
-                        <div class="me-2 c-p" id="filter"><i class="fas fa-filter"></i>Filter</div>
+                        <div class="me-2 c-p" id="filter"><i class="fas fa-filter"></i>Filtro</div>
                         <div class="d-flex align-items-center justify-content-center">
-                            <label for="selectSort" class="form-label m-0 me-4">Sort by:</label>
+                            <label for="selectSort" class="form-label m-0 me-4">Ordenar por:</label>
                             <select class="form-select w-50" aria-label="Default select example" id="selectSort">
-                                <option selected>Sort by</option>
-                                <option value="1">Most relevant</option>
-                                <option value="2">Price hight to low</option>
-                                <option value="3">Price low to hight</option>
+                                <option selected>Ordenar por</option>
+                                <option value="1">Destacados</option>
+                                <option value="2">Precio más alto a más bajo</option>
+                                <option value="3">Precio más bajo a más alto</option>
                             </select>
                         </div>
                     </div>
@@ -215,13 +215,13 @@
                             $routeP = base_url()."/shop/product/".$products[$i]['route'];
                             $routeC = base_url()."/shop/category/".$products[$i]['routec'];
                             $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($products[$i]['price']).'</strong></p>';
-                            $btnAdd ='<button type="button" class="btn btn-primary" onclick="addProduct(this)" data-id="'.$idProduct.'">Add</button>';
+                            $btnAdd ='<button type="button" class="btn btn-primary" onclick="addProduct(this)" data-id="'.$idProduct.'">Agregar</button>';
                             $discount="";
                             $rate="";
                             if($products[$i]['favorite']== 0){
-                                $favorite = '<button type="button" onclick="addWishList(this)" data-id="'.$idProduct.'" class="btn pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
+                                $favorite = '<button type="button" onclick="addWishList(this)" data-id="'.$idProduct.'" class="btn pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Agregar a favoritos"></i></button>';
                             }else{
-                                $favorite = '<button type="button" onclick="addWishList(this)" data-id="'.$idProduct.'" class="btn pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
+                                $favorite = '<button type="button" onclick="addWishList(this)" data-id="'.$idProduct.'" class="btn pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Agregar a favoritos"></i></button>';
                             }
                             if($products[$i]['status'] == 1 && $products[$i]['stock']>0){
                                 if($products[$i]['discount']>0){
@@ -230,7 +230,7 @@
                                 }
                             }else if($products[$i]['status'] == 1 && $products[$i]['stock']==0){
                                 $btnAdd="";
-                                $price='<p class="m-0 fs-5 product-price text-danger">Sold out</p>';
+                                $price='<p class="m-0 fs-5 product-price text-danger">Agotado</p>';
                             }else{
                                 $btnAdd ="";
                                 $price="";
@@ -264,7 +264,7 @@
                             </div>
                             <div class="product-btns">
                                 <?=$favorite?>
-                                <button type="button" class="btn pe-2 ps-2" onclick="quickModal(this)" data-id="<?=$idProduct?>"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></button>
+                                <button type="button" class="btn pe-2 ps-2" onclick="quickModal(this)" data-id="<?=$idProduct?>"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Vista rápida"></i></button>
                             </div>
                         </div>
                     </div>

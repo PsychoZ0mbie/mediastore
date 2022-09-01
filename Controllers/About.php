@@ -13,7 +13,7 @@
 			$data['page_title'] = "Nosotros | ".$company['name'];
 			$data['page_name'] = "nosotros";
             $data['page'] = $this->getPage(1);
-            $this->views->getView($this,"nosotros",$data);
+            $this->views->getView($this,"about",$data);
         }
     }
 ?>

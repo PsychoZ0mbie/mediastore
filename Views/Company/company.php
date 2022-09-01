@@ -41,13 +41,13 @@
             <div class="card-body">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">Company</button>
+                        <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">Empresa</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false">Social media</button>
+                        <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false">Redes sociales</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button" role="tab" aria-controls="payment" aria-selected="true">Payments</button>
+                        <button class="nav-link" id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button" role="tab" aria-controls="payment" aria-selected="true">Pagos</button>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -61,13 +61,13 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtName" class="form-label">Company name <span class="text-danger">*</span></label>
+                                        <label for="txtName" class="form-label">Nombre de empresa <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="txtName" name="txtName" value="<?=$data['company']['name']?>" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="currencyList" class="form-label">Currency <span class="text-danger">*</span></label>
+                                        <label for="currencyList" class="form-label">Divisa <span class="text-danger">*</span></label>
                                         <select class="form-control" aria-label="Default select example" id="currencyList" name="currencyList" required><?=$currencies?></select>
                                     </div>
                                 </div>
@@ -75,19 +75,19 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="txtEmail" class="form-label">Company email <span class="text-danger">*</span></label>
+                                        <label for="txtEmail" class="form-label">Correo empresarial <span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" id="txtCompanyEmail" name="txtCompanyEmail" value="<?=$data['company']['email']?>" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="txtEmail" class="form-label">Secondary email <span class="text-danger">*</span></label>
+                                        <label for="txtEmail" class="form-label">Correo secundario <span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" id="txtEmail" name="txtEmail" value="<?=$data['company']['secondary_email']?>" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="txtPassword" class="form-label">Company email password <span class="text-danger">*</span></label>
+                                        <label for="txtPassword" class="form-label">Contraseña de correo empresarial <span class="text-danger">*</span></label>
                                         <input type="password" class="form-control" id="txtPassword" name="txtPassword" required value="<?=$data['company']['password']?>">
                                     </div>
                                 </div>
@@ -95,20 +95,20 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="countryList" class="form-label">Country <span class="text-danger">*</span></label>
+                                        <label for="countryList" class="form-label">País <span class="text-danger">*</span></label>
                                         <select class="form-control" aria-label="Default select example" id="countryList" name="countryList" required><?=$countries?></select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="stateList" class="form-label">State <span class="text-danger">*</span></label>
+                                        <label for="stateList" class="form-label">Estado/departamento <span class="text-danger">*</span></label>
                                         <select class="form-control" aria-label="Default select example" id="stateList" name="stateList" required><?=$states?></select>
                                         
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="cityList" class="form-label">City <span class="text-danger">*</span></label>
+                                        <label for="cityList" class="form-label">Ciudad <span class="text-danger">*</span></label>
                                         <select class="form-control" aria-label="Default select example" id="cityList" name="cityList" required><?=$cities?></select>
                                     </div>
                                 </div>
@@ -116,33 +116,33 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-3">
-                                        <label for="txtPhone" class="form-label">Phone <span class="text-danger">*</span></label>
+                                        <label for="txtPhone" class="form-label">Teléfono <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" id="txtPhone" name="txtPhone" value="<?=$data['company']['phone']?>" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtAddress" class="form-label">Address <span class="text-danger">*</span></label>
+                                        <label for="txtAddress" class="form-label">Dirección <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="txtAddress" name="txtAddress" value="<?=$data['company']['address']?>" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="txtKeywords" class="form-label">Keywords</label>
+                                <label for="txtKeywords" class="form-label">Palabras clave</label>
                                 <input type="text" class="form-control" id="txtKeywords" name="txtKeywords" placeholder="clothes,shoes" value="<?=$data['company']['keywords']?>"></input>
                             </div>
                             <div class="mb-3">
-                                <label for="txtDescription" class="form-label">Description</label>
+                                <label for="txtDescription" class="form-label">Descripción</label>
                                 <textarea class="form-control" id="txtDescription" name="txtDescription" rows="5" placeholder="E-commerce description"><?=$data['company']['description']?></textarea>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" id="btnCompany"> Save</button>
+                                <button type="submit" class="btn btn-primary" id="btnCompany"> Guardar</button>
                             </div>
                         </form>
                     </div>
                     <div class="tab-pane fade" id="social" role="tabpanel" aria-labelledby="social-tab">
                         <form id="formSocial" class="mt-3">
-                            <h2 class="mb-5">Connect your social media</h2>
+                            <h2 class="mb-5">Conecte sus redes sociales</h2>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3 d-flex">
@@ -182,7 +182,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" id="btnSocial"> Save</button>
+                                <button type="submit" class="btn btn-primary" id="btnSocial"> Guardar</button>
                             </div>
                         </form>
                     </div>
@@ -206,7 +206,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" id="btnPayment"> Save</button>
+                                <button type="submit" class="btn btn-primary" id="btnPayment"> Guardar</button>
                             </div>
                         </form>
                     </div>

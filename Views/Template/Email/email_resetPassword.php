@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Recovery account</title>
+	<title>Recuperar contraseña</title>
 	<style type="text/css">
 		p{
 			font-family: arial;
@@ -91,15 +91,15 @@
 			<tr>
 				<td>
 					<div class="x_sgwrap">
-						<p>Hello <?= $data['nombreUsuario']; ?></p>
+						<p>Hola <?= $data['nombreUsuario']; ?></p>
 					</div>
-					<p>User access request: <strong><?= $data['email_usuario']; ?></strong></p>
-					<p>You have requested to recover your password, access the link below to continue.</p>
+					<p>Solicitud de acceso del usuario: <strong><?= $data['email_usuario']; ?></strong></p>
+					<p>Ha solicitado recuperar su contraseña, acceda al siguiente enlace para continuar.</p>
 					<p class="x_text_white">
 					<a href="<?= $data['url_recovery']; ?>" target="_blank" class="x_button_link x_link_blue">Continue</a>
 					</p>
 					<br>
-					<p>If the button does not work, you can copy and paste the following address in your browser:</p>
+					<p>Si el botón no funciona, puede copiar y pegar la siguiente dirección en su navegador:</p>
 					<span><?= $data['url_recovery']; ?></span>
 					<p class="x_title_gray"><a href="<?= BASE_URL; ?>" target="_blanck"><?= BASE_URL; ?></a></p>
 				</td>

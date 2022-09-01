@@ -13,7 +13,7 @@
         public function company(){
             if($_SESSION['idUser'] == 1){
                 $data['page_tag'] = "Company";
-                $data['page_title'] = "Company";
+                $data['page_title'] = "Compañia";
                 $data['page_name'] = "company";
                 $data['app'] = "company.js";
                 $data['company'] = $this->model->selectCompany();
@@ -35,7 +35,7 @@
                 if($_POST){
                     if(empty($_POST['txtName']) || empty($_POST['currencyList']) || empty($_POST['txtCompanyEmail']) || empty($_POST['txtEmail']) || empty($_POST['txtPhone']) 
                     || empty($_POST['txtAddress']) || empty($_POST['countryList']) || empty($_POST['stateList']) || empty($_POST['cityList']) || empty($_POST['txtPassword'])){
-                        $arrResponse = array("status" => false, "msg" => 'Data error');
+                        $arrResponse = array("status" => false, "msg" => 'Error de datos');
                     }else{ 
                         $strName = strClean($_POST['txtName']);
                         $intCurrency = intval($_POST['currencyList']);
@@ -82,9 +82,9 @@
                             if($photo!=""){
                                 uploadImage($photo,$logo);
                             }
-                            $arrResponse = array("status" => true, "msg" => 'Data saved.');
+                            $arrResponse = array("status" => true, "msg" => 'Datos guardados.');
                         }else{
-                            $arrResponse = array("status" => false, "msg" => 'It is not possible to store the data.');
+                            $arrResponse = array("status" => false, "msg" => 'No es posible guardar los datos.');
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -107,9 +107,9 @@
 
                     $request = $this->model->updateSocial($facebook,$twitter,$youtube,$instagram,$linkedin,$whatsapp);
                     if($request > 0 ){
-                        $arrResponse = array("status" => true, "msg" => 'Data saved.');
+                        $arrResponse = array("status" => true, "msg" => 'Datos guardados.');
                     }else{
-                        $arrResponse = array("status" => false, "msg" => 'It is not possible to store the data.');
+                        $arrResponse = array("status" => false, "msg" => 'No es posible guardar los datos.');
                     }
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -123,7 +123,7 @@
             if($_SESSION['idUser']==1){
                 if($_POST){
                     if(empty($_POST['txtClient']) || empty($_POST['txtSecret'])){
-                        $arrResponse = array("status" => false, "msg" => 'Data error.');
+                        $arrResponse = array("status" => false, "msg" => 'Error de datos.');
                     }else{
 
                         $client = strClean($_POST['txtClient']);
@@ -131,9 +131,9 @@
     
                         $request = $this->model->updateCredentials($client,$secret);
                         if($request > 0 ){
-                            $arrResponse = array("status" => true, "msg" => 'Data saved.');
+                            $arrResponse = array("status" => true, "msg" => 'Datos guardados.');
                         }else{
-                            $arrResponse = array("status" => false, "msg" => 'It is not possible to store the data.');
+                            $arrResponse = array("status" => false, "msg" => 'No es posible guardar los datos.');
                         }
                     }
                 }

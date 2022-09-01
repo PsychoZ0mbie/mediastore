@@ -15,19 +15,19 @@
         <img src="" alt="">
         <div class="h-100">
             <a href="product.html">Product 1</a>
-            <p>Has been added to your cart</p>
+            <p>Ha sido agregado a tu carrito</p>
         </div>
     </div>
     <div class="d-flex justify-content-between align-items-center text-center mt-3">
-        <a href="<?=base_url()?>/shop/cart" class="btnc w-50 p-1 btnc-primary me-4">View Cart</a>
-        <div class="btnc w-50 h-100 p-1 btnc-primary c-p" id="btnCheckOutPopup">Checkout</div>
+        <a href="<?=base_url()?>/shop/cart" class="btnc w-50 p-1 btnc-primary me-4">Mi carrito</a>
+        <div class="btnc w-50 h-100 p-1 btnc-primary c-p" id="btnCheckOutPopup">Pagar</div>
     </div>
 </div>
 <main class="addFilter" id="<?=$data['page_name']?>">
     <div class="container">
         <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Home</a></li>
+                <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Inicio</a></li>
                 <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>/blog">Blog</a></li>
                 <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()."/blog/category/".$article['routec']?>"><?=$article['category']?></a></li>
                 <li class="breadcrumb-item active" aria-current="page"><?=$article['name']?></li>
@@ -40,7 +40,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="flush-categories">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseCategories" aria-expanded="false" aria-controls="flush-collapseCategories">
-                            <strong class="fs-5">Categories</strong>
+                            <strong class="fs-5">Categorias</strong>
                         </button>
                         </h2>
                         <div id="flush-collapseCategories" class="accordion-collapse collapse show" aria-labelledby="flush-categories" data-bs-parent="#accordionFlushCategories">
@@ -82,7 +82,7 @@
                 <?php if(!empty($recPosts)>0){?>
                     <div class="featured">
                         <div class="featured-info">
-                            <h2 class="fs-5"><strong>Recent posts</strong></h2>
+                            <h2 class="fs-5"><strong>Más reciente</strong></h2>
                             <div class="featured-btns">
                                 <div class="p-2 featured-btn-left c-p"><i class="fas fa-angle-left"></i></div>
                                 <div class="p-2 featured-btn-right c-p"><i class="fas fa-angle-right"></i></div>
@@ -136,7 +136,7 @@
             </div>
             <div class="col-lg-9 col-md-12">
                 <div class="d-flex align-items-center justify-content-between shop-options">
-                    <div class="me-2 c-p" id="filter"><i class="fas fa-filter"></i>Filter</div>
+                    <div class="me-2 c-p" id="filter"><i class="fas fa-filter"></i>Filtro</div>
                 </div>
                 <article class="post">
                     <?php
@@ -150,43 +150,43 @@
                         <h1 class="fw-bold t-p"><?=$article['name']?></h1>
                         <div class="d-flex justify-content-between mb-3">
                             <div>
-                                <p class="m-0 text-secondary">Posted on <?=$article['date']?></p>
-                                <p class="m-0 text-secondary">Last updated on <?=$article['dateupdated']?></p>
+                                <p class="m-0 text-secondary">Publicado el <?=$article['date']?></p>
+                                <p class="m-0 text-secondary">Última actualización <?=$article['dateupdated']?></p>
                             </div>
-                            <a class="text-decoration-none t-p" href="#sharePost" id="totalComments">Comments (<?=$data['comments']['total']?>)</a>
+                            <a class="text-decoration-none t-p" href="#sharePost" id="totalComments">Comentarios (<?=$data['comments']['total']?>)</a>
                         </div>
                         <div>
                             <?=$article['description']?>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between position-relative af-t-line mt-4 mb-4" id="sharePost">
-                        <div class="mt-2"><i class="fas fa-share"></i> Share this post</div>
+                        <div class="mt-2"><i class="fas fa-share"></i> Compartir este artículo</div>
                         <div class="mt-2">
-                            <a href="#" onclick="window.open('http://www.facebook.com/sharer.php?u=<?=$urlShare?>&t=<?=$article['name'];?>','share','toolbar=0,status=0,width=650,height=450')" title="Share on facebook" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" onclick="window.open('https://twitter.com/intent/tweet?text=<?=$article['name'];?>&url=<?=$urlShare?>&hashtags=<?=SHAREDHASH?>','share','toolbar=0,status=0,width=650,height=450')" title="Share on linkedin" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-twitter"></i></a>
-                            <a href="#" onclick="window.open('http://www.linkedin.com/shareArticle?url=<?=$urlShare?>','share','toolbar=0,status=0,width=650,height=450')" title="Share on twitter" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" onclick="window.open('https://api.whatsapp.com/send?text=<?=$urlShare?>','share','toolbar=0,status=0,width=650,height=450')" title="Share on whatsapp" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-whatsapp"></i></a>
+                            <a href="#" onclick="window.open('http://www.facebook.com/sharer.php?u=<?=$urlShare?>&t=<?=$article['name'];?>','share','toolbar=0,status=0,width=650,height=450')" title="Compartir en facebook" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" onclick="window.open('https://twitter.com/intent/tweet?text=<?=$article['name'];?>&url=<?=$urlShare?>&hashtags=<?=SHAREDHASH?>','share','toolbar=0,status=0,width=650,height=450')" title="Compartir en linkedin" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-twitter"></i></a>
+                            <a href="#" onclick="window.open('http://www.linkedin.com/shareArticle?url=<?=$urlShare?>','share','toolbar=0,status=0,width=650,height=450')" title="Compartir en twitter" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" onclick="window.open('https://api.whatsapp.com/send?text=<?=$urlShare?>','share','toolbar=0,status=0,width=650,height=450')" title="Compartir en whatsapp" class="me-2 ms-2 text-dark fs-6"><i class="fab fa-whatsapp"></i></a>
                         </div>
                     </div>
                     <ul class="comment-list mt-3">
                         <?=$data['comments']['html']?>
-                        <button type="button" class="btn t-p d-none" id="showMore">More comments +</button>
+                        <button type="button" class="btn t-p d-none" id="showMore">Más comentarios +</button>
                     </ul>
                     <div class="d-flex justify-content-center mb-3">
                         <form action="" id="formComment" class="w-100">
                             <input type="hidden" name="idArticle" id="idArticle" value="<?=$article['idarticle']?>">
                             <input type="hidden" name="idComment" id="idComment" value="">
-                            <h3 class="mb-3 text-center">Add your comment</h3>
+                            <h3 class="mb-3 text-center">Haz un comentario!</h3>
                             <div class="mb-3">
-                                <textarea class="form-control" id="txtDescription" name="txtDescription" rows="5" placeholder="Your comment"></textarea>
+                                <textarea class="form-control" id="txtDescription" name="txtDescription" rows="5" placeholder="Escribe tu comentario"></textarea>
                             </div>
                             <div class="alert alert-danger d-none" id="alertComment" role="alert"></div>
-                            <button type="submit" class="btn btnc-primary" id="addComment">Post comment</button>
+                            <button type="submit" class="btn btnc-primary" id="addComment">Comentar</button>
                         </form>
                     </div>
                     <?php if(!empty($relPosts)){?>
-                    <div class="row mt-5">
-                        <h3 class="t-p mb-3"><strong>RELATED POSTS</strong></h3>
+                    <div class="row mt-5 mb-5">
+                        <h3 class="t-p mb-3"><strong>ARTÍCULOS RELACIONADOS</strong></h3>
                         <?php 
                         for ($i=0; $i < count($relPosts) ; $i++) { 
                             $routePosts = base_url()."/blog/article/".$relPosts[$i]['route'];
@@ -203,7 +203,7 @@
                                     <div class="card-text overflow-hidden">
                                         <?=$relPosts[$i]['description']?>
                                     </div>
-                                    <a href="<?=$routePosts?>" class="btn btnc-primary mt-1">Read more</a>
+                                    <a href="<?=$routePosts?>" class="btn btnc-primary mt-1">Leer más</a>
                                 </div>
                             </div>
                         </article>

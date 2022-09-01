@@ -13,12 +13,12 @@
                     <div class="col-md-6 mt-3">
                         <div class="row">
                             <div class="col-md-3 d-flex align-items-center text-end">
-                                <span>Order by: </span>
+                                <span>Ordenar por: </span>
                             </div>
                             <div class="col-md-9">
                                 <select class="form-control" aria-label="Default select example" id="sortBy" name="sortBy" required>
-                                    <option value="1">Latest</option>
-                                    <option value="2">Oldest</option>
+                                    <option value="1">Más reciente</option>
+                                    <option value="2">Más antiguo</option>
                                 </select>
                             </div>
                         </div>
@@ -28,18 +28,18 @@
                     <table class="table text-center items align-middle" id="table<?=$data['page_title']?>">
                         <thead>
                             <tr>
-                                <th>Cover</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Portada</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
                                 <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Options</th>
+                                <th>Teléfono</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Opciones</th>
                             </tr>
                         </thead>
                         <tbody id="listItem">
-                            
+                            <?=$data['customers']['data']?>
                         </tbody>
                     </table>
                 </div>

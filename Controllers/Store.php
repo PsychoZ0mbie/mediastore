@@ -13,8 +13,8 @@
         /*************************Views*******************************/
         public function coupon(){
             if($_SESSION['permitsModule']['r']){
-                $data['page_tag'] = "Coupons";
-                $data['page_title'] = "Coupons";
+                $data['page_tag'] = "Couponones";
+                $data['page_title'] = "Cupones";
                 $data['page_name'] = "coupon";
                 $data['app'] = "coupon.js";
                 $this->views->getView($this,"coupon",$data);
@@ -27,8 +27,8 @@
             if($_SESSION['permitsModule']['r']){
                 $data['inbox'] = $this->getMails();
                 $data['sent'] = $this->getSentMails();
-                $data['page_tag'] = "Mailbox";
-                $data['page_title'] = "Mailbox";
+                $data['page_tag'] = "Correo";
+                $data['page_title'] = "Correo";
                 $data['page_name'] = "mailbox";
                 $data['app'] = "mailbox.js";
                 $this->views->getView($this,"mailbox",$data);
@@ -42,8 +42,8 @@
                 if(is_numeric($params)){
                     $id = intval($params);
                     $data['message'] = $this->model->selectMail($id);
-                    $data['page_tag'] = "Message";
-                    $data['page_title'] = "Message";
+                    $data['page_tag'] = "Mensaje";
+                    $data['page_title'] = "Mensaje";
                     $data['page_name'] = "message";
                     $data['app'] = "mailbox.js";
                     $this->views->getView($this,"message",$data);
@@ -61,8 +61,8 @@
                 if(is_numeric($params)){
                     $id = intval($params);
                     $data['message'] = $this->model->selectSentMail($id);
-                    $data['page_tag'] = "Sent message";
-                    $data['page_title'] = "Sent message";
+                    $data['page_tag'] = "Mensaje";
+                    $data['page_title'] = "Mensaje";
                     $data['page_name'] = "sent";
                     $this->views->getView($this,"sent",$data);
                 }else{
@@ -76,8 +76,8 @@
         }
         public function subscribers(){
             if($_SESSION['permitsModule']['r']){
-                $data['page_tag'] = "Subscribers";
-                $data['page_title'] = "Subscribers";
+                $data['page_tag'] = "Suscriptores";
+                $data['page_title'] = "Suscriptores";
                 $data['page_name'] = "subscribers";
                 $data['subscribers'] = $this->model->selectSubscribers();
                 $this->views->getView($this,"subscribers",$data);
@@ -88,8 +88,8 @@
         }
         public function shipping(){
             if($_SESSION['permitsModule']['r']){
-                $data['page_tag'] = "Shipping";
-                $data['page_title'] = "Shipping";
+                $data['page_tag'] = "Envio";
+                $data['page_title'] = "Envio";
                 $data['page_name'] = "shipping";
                 $data['countries'] = $this->model->selectCountries();
                 $data['ShippingCities'] = $this->getShippingCities();
@@ -103,8 +103,8 @@
         }
         public function about(){
             if($_SESSION['permitsModule']['r']){
-                $data['page_tag'] = "About";
-                $data['page_title'] = "About us";
+                $data['page_tag'] = "Nosotros";
+                $data['page_title'] = "Nosotros";
                 $data['page_name'] = "page";
                 $data['page'] = $this->model->selectPage(1);
                 $data['app'] = "pages.js";
@@ -116,8 +116,8 @@
         }
         public function policies(){
             if($_SESSION['permitsModule']['r']){
-                $data['page_tag'] = "Policies";
-                $data['page_title'] = "Policies";
+                $data['page_tag'] = "Politicas";
+                $data['page_title'] = "Politicas";
                 $data['page_name'] = "page";
                 $data['page'] = $this->model->selectPage(2);
                 $data['app'] = "pages.js";
@@ -163,7 +163,7 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"No data");
+                    $arrResponse = array("status"=>false,"msg"=>"No hay datos");
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }else{
@@ -178,14 +178,14 @@
 
                 if($_POST){
                     if(empty($_POST)){
-                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                     }else{
                         $idCoupon = intval($_POST['idCoupon']);
                         $request = $this->model->selectCoupon($idCoupon);
                         if(!empty($request)){
                             $arrResponse = array("status"=>true,"data"=>$request);
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"Error, try again."); 
+                            $arrResponse = array("status"=>false,"msg"=>"Error, intenta de nuevo."); 
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -200,7 +200,7 @@
             if($_SESSION['permitsModule']['r']){
                 if($_POST){
                     if(empty($_POST['txtName']) || empty($_POST['statusList']) || empty($_POST['intDiscount'])){
-                        $arrResponse = array("status" => false, "msg" => 'Data error');
+                        $arrResponse = array("status" => false, "msg" => 'Error de datos');
                     }else{ 
                         $idCoupon = intval($_POST['idCoupon']);
                         $strCode = strtoupper(strClean($_POST['txtName']));
@@ -220,14 +220,14 @@
                         }
                         if($request > 0 ){
                             if($option == 1){
-                                $arrResponse = array('status' => true, 'msg' => 'Data saved.');
+                                $arrResponse = array('status' => true, 'msg' => 'Datos guardados.');
                             }else{
-                                $arrResponse = array('status' => true, 'msg' => 'Data updated.');
+                                $arrResponse = array('status' => true, 'msg' => 'Datos actualizados.');
                             }
                         }else if($request == 'exist'){
-                            $arrResponse = array('status' => false, 'msg' => '¡Warning! Coupon already exists, try another code.');		
+                            $arrResponse = array('status' => false, 'msg' => '¡Atención! El cupón ya existe, intente con otro código.');		
                         }else{
-                            $arrResponse = array("status" => false, "msg" => 'It is not possible to store the data.');
+                            $arrResponse = array("status" => false, "msg" => 'No es posible guardar los datos.');
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -243,14 +243,14 @@
 
                 if($_POST){
                     if(empty($_POST['idCoupon'])){
-                        $arrResponse=array("status"=>false,"msg"=>"Data error");
+                        $arrResponse=array("status"=>false,"msg"=>"Error de datos");
                     }else{
                         $id = intval($_POST['idCoupon']);
                         $request = $this->model->deleteCoupon($id);
                         if($request=="ok"){
-                            $arrResponse = array("status"=>true,"msg"=>"It has been delete");
+                            $arrResponse = array("status"=>true,"msg"=>"Se ha eliminado");
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"It has not been possible to delete, try again.");
+                            $arrResponse = array("status"=>false,"msg"=>"No se ha podido eliminar, intenta de nuevo.");
                         }
                         
                     }
@@ -297,7 +297,7 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html,"total"=>$total);
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"No data");
+                    $arrResponse = array("status"=>false,"msg"=>"No hay datos");
                 }
             }
             return $arrResponse;
@@ -306,7 +306,7 @@
             if($_SESSION['permitsModule']['w']){
                 if($_POST){
                     if(empty($_POST['txtMessage']) || empty($_POST['idMessage']) || empty($_POST['txtEmail']) || empty($_POST['txtName'])){
-                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                     }else{
                         $strMessage = strClean($_POST['txtMessage']);
                         $idMessage = intval($_POST['idMessage']);
@@ -317,14 +317,14 @@
                         if($request>0){
                             $dataEmail = array('email_remitente' => $company['email'], 
                                                     'email_usuario'=>$strEmail,
-                                                    'asunto' =>'Replying your message.',
+                                                    'asunto' =>'Respondiendo tu mensaje.',
                                                     "message"=>$strMessage,
                                                     'company'=>$company,
                                                     'name'=>$strName);
                             sendEmail($dataEmail,'email_reply');
-                            $arrResponse = array("status"=>true,"msg"=>"Replied"); 
+                            $arrResponse = array("status"=>true,"msg"=>"Respuesta enviada"); 
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"An error has ocurred, try again.");
+                            $arrResponse = array("status"=>false,"msg"=>"Ha ocurrido un error, intenta de nuevo.");
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -336,12 +336,12 @@
             if($_SESSION['permitsModule']['w']){
                 if($_POST){
                     if(empty($_POST['txtMessage']) ||  empty($_POST['txtEmail'])){
-                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                     }else{
                         $strMessage = strClean($_POST['txtMessage']);
                         $strEmail = strClean(strtolower($_POST['txtEmail']));
                         $strEmailCC = strClean(strtolower($_POST['txtEmailCC']));
-                        $strSubject = $_POST['txtSubject'] !="" ? strClean(($_POST['txtSubject'])) : "You have sent an email.";
+                        $strSubject = $_POST['txtSubject'] !="" ? strClean(($_POST['txtSubject'])) : "Has enviado un correo.";
                         $request = $this->model->insertMessage($strSubject,$strEmail,$strMessage);
                         $company = getCompanyInfo();
                         if($request>0){
@@ -352,9 +352,9 @@
                                                     'company'=>$company,
                                                     "message"=>$strMessage);
                             sendEmail($dataEmail,'email_sent');
-                            $arrResponse = array("status"=>true,"msg"=>"Message has been sent."); 
+                            $arrResponse = array("status"=>true,"msg"=>"Mensaje enviado."); 
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"An error has ocurred, try again.");
+                            $arrResponse = array("status"=>false,"msg"=>"Ha ocurrido un error, intenta de nuevo.");
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -392,7 +392,7 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html,"total"=>$total);
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"No data");
+                    $arrResponse = array("status"=>false,"msg"=>"No hay datos");
                 }
             }
             return $arrResponse;
@@ -421,11 +421,11 @@
                 if($_POST){
                     $idShipping = intval($_POST['idShipping']);
                     if($idShipping == 2 && empty($_POST['intValue'])){
-                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                     }else{
                         $value = !empty($_POST['intValue']) ? intval($_POST['intValue']) : 0;
                         $request = $this->model->setShippingMode($idShipping, $value);
-                        $arrResponse = array("status"=>true,"msg"=>"Shipping config has been saved.");
+                        $arrResponse = array("status"=>true,"msg"=>"Se ha guardado la configuración de envío.");
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 }
@@ -436,7 +436,7 @@
             if($_SESSION['permitsModule']['w']){
                 if($_POST){
                     if(empty($_POST['idCountry']) || empty($_POST['idState']) || empty($_POST['idCity']) || empty($_POST['value'])){
-                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                     }else{
                         $idCountry = intval($_POST['idCountry']);
                         $idState = intval($_POST['idState']);
@@ -447,9 +447,9 @@
                             $html = $this->getShippingCities();
                             $arrResponse = array("status"=>true,"html"=>$html);
                         }else if($request = "exists"){
-                            $arrResponse = array("status"=>false,"msg"=>"It Already exists, try another."); 
+                            $arrResponse = array("status"=>false,"msg"=>"Ya existe, intenta con otro."); 
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"An error has ocurred, try again."); 
+                            $arrResponse = array("status"=>false,"msg"=>"Error, intenta de nuevo."); 
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -514,33 +514,23 @@
             echo json_encode($html,JSON_UNESCAPED_UNICODE);
             die();
         }
-        /*public function getCountries(){
-            $request = $this->selectCountries();
-            $html='<option selected value="0">Select</option>';
-            for ($i=0; $i < count($request) ; $i++) { 
-                $html.='<option value="'.$request[$i]['id'].'">'.$request[$i]['name'].'</option>';
-            }
 
-            echo json_encode($html,JSON_UNESCAPED_UNICODE);
-            die();
-        }*/
         /*************************Pages methods*******************************/
         public function updatePage(){
             if($_SESSION['permitsModule']['u']){
                 if($_POST){
                     if(empty($_POST['txtDescription']) || empty($_POST['txtName'])){
-                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                     }else{
                         $id = intval($_POST['idPage']);
                         $strDescription = $_POST['txtDescription'];
                         $strName = strClean($_POST['txtName']);
                         $request = $this->model->updatePage($id,$strName,$strDescription);
-                        //dep($this->model->selectPage($id));exit;
 
                         if($request>0){
-                            $arrResponse = array("status"=>true,"msg"=>"Page has been updated."); 
+                            $arrResponse = array("status"=>true,"msg"=>"Página actualizada."); 
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"Page cannot be updated, try again.");
+                            $arrResponse = array("status"=>false,"msg"=>"La página no se puede actualizar, inténtelo de nuevo.");
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);

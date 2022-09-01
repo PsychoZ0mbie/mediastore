@@ -5,16 +5,12 @@ let search = document.querySelector("#search");
 let sort = document.querySelector("#sortBy");
 let element = document.querySelector("#listItem");
 
-window.addEventListener("DOMContentLoaded",function() {
-    showItems(element);
-})
-
 search.addEventListener('input',function() {
     request(base_url+"/role/search/"+search.value,"","get").then(function(objData){
         if(objData.status){
             element.innerHTML = objData.data;
         }else{
-            element.innerHTML = objData.msg;
+            element.innerHTML = objData.data;
         }
     });
 })
@@ -23,7 +19,7 @@ sort.addEventListener("change",function(){
         if(objData.status){
             element.innerHTML = objData.data;
         }else{
-            element.innerHTML = objData.msg;
+            element.innerHTML = objData.data;
         }
     });
 });
@@ -54,7 +50,7 @@ function showItems(element){
         if(objData.status){
             element.innerHTML = objData.data;
         }else{
-            element.innerHTML = objData.msg;
+            element.innerHTML = objData.data;
         }
     })
 }

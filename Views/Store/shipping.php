@@ -21,13 +21,13 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane show active" id="free" role="tabpanel" aria-labelledby="free-tab">
                         <div class="mt-3 container">
-                            <h3 class="text-primary">Free shipping</h3>
-                            <p>Give free shipping to your buyers at your own cost. Recommended to gain customer fidelity and increase your sales.</p>
+                            <h3 class="text-primary">Envío gratis</h3>
+                            <p>Ofrezca el envío gratuito a sus compradores a su cargo. Recomendado para fidelizar a los clientes y aumentar sus ventas.</p>
                             <form>
                                 <input type="hidden" class="idShipping" name="idShipping" value="1">
                                 <?php if($_SESSION['permitsModule']['u']){?>
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-primary btnShipping">Save</button>
+                                    <button type="submit" class="btn btn-primary btnShipping">Guardar</button>
                                 </div>
                                 <?php }?>
                             </form>
@@ -35,17 +35,17 @@
                     </div>
                     <div class="tab-pane fade" id="flat" role="tabpanel" aria-labelledby="flat-tab">
                         <div class="mt-3 container">
-                            <h3 class="text-primary">Flat rate</h3>
-                            <p>The shipping value is the same for all cities and countries.</p>
+                            <h3 class="text-primary">Tarifa plana</h3>
+                            <p>El valor del envío es el mismo para todas las ciudades.</p>
                             <form>
                                 <input type="hidden" class="idShipping" name="idShipping" value="2">
                                 <div class="mb-3">
-                                    <label for="intValue" class="form-label">Shipping value</label>
-                                    <input type="number" class="form-control" id="intValue" name="intValue" value="<?=$data['flat']?>" placeholder="<?=MS." 0 ".MD?>">
+                                    <label for="intValue" class="form-label">Valor</label>
+                                    <input type="number" class="form-control" id="intValue" name="intValue" value="<?=$data['flat']?>" placeholder="0">
                                 </div>
                                 <?php if($_SESSION['permitsModule']['u']){?>
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-primary btnShipping">Save</button>
+                                    <button type="submit" class="btn btn-primary btnShipping">Guardar</button>
                                 </div>
                                 <?php }?>
                             </form>
@@ -53,17 +53,17 @@
                     </div>
                     <div class="tab-pane fade" id="city" role="tabpanel" aria-labelledby="city-tab">
                         <div class="mt-3 container">
-                            <h3 class="text-primary">Rate per city</h3>
-                            <p>You can put a shipping cost depending of the country, state and city.</p>
+                            <h3 class="text-primary">Tarifa por ciudad</h3>
+                            <p>Puedes poner un coste de envío dependiendo de la ciudad.</p>
                             <form>
                                 <input type="hidden" class="idShipping" name="idShipping" value="3">
                                 <?php if($_SESSION['permitsModule']['w']){?>
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="mb-3">
-                                            <label for="exampleFormControlInput1" class="form-label">Country</label>
+                                            <label for="exampleFormControlInput1" class="form-label">País</label>
                                             <select class="form-control" aria-label="Default select example" id="countryList" name="countryList" required>
-                                                <option selected value="0">Select</option>
+                                                <option selected value="0">Seleccione</option>
                                                 <?php foreach ($data['countries'] as $countries) {?>
                                                     
                                                 <option value="<?=$countries['id']?>"><?=$countries['name']?></option>
@@ -73,22 +73,22 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="mb-3">
-                                            <label for="exampleFormControlInput1" class="form-label">State</label>
+                                            <label for="exampleFormControlInput1" class="form-label">Estado/departamento</label>
                                             <select class="form-control" aria-label="Default select example" id="stateList" name="stateList" required>
-                                                <option selected value="0">Select</option>
+                                                <option selected value="0">Seleccione</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="mb-3">
-                                            <label for="exampleFormControlInput1" class="form-label">City</label>
+                                            <label for="exampleFormControlInput1" class="form-label">Ciudad</label>
                                             <select class="form-control" aria-label="Default select example" id="cityList" name="cityList" required>
-                                                <option selected value="0">Select</option>
+                                                <option selected value="0">Seleccione</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Value</label>
+                                        <label for="exampleFormControlInput1" class="form-label">Valor</label>
                                         <div class="mb-3 d-flex">
                                             <input type="number" class="form-control" id="valueCity" name="intValue" placeholder="<?=MS." 0 ".MD?>">
                                             <button type="button" class="btn btn-primary" id="addCity">+</button>
@@ -107,7 +107,7 @@
                                 </div>
                                 <?php if($_SESSION['permitsModule']['u']){?>
                                 <div class="text-end mt-3">
-                                    <button type="submit" class="btn btn-primary btnShipping">Save</button>
+                                    <button type="submit" class="btn btn-primary btnShipping">Guardar</button>
                                 </div>
                                 <?php }?>
                             </form>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Welcome</title>
+	<title>Bienvenido</title>
 	<style type="text/css">
 		p{
 			font-family: arial;
@@ -91,14 +91,14 @@
 			<tr>
 				<td>
 					<div class="x_sgwrap">
-						<p>Hello <?= $data['nombreUsuario']; ?></p>
+						<p>Hola <?= $data['nombreUsuario']; ?></p>
 					</div>
 
-                    <p>Welcome to <?= $data['company']['name'] ?></p>
-                    <p>Access your account with your credentials. You will be able to update your data and password in your profile.</p>
-                    <p>User: <strong><?= $data['email_usuario'];?></strong></p>
-                    <p>Password: <strong><?= $data['password'];?></strong></p>
-                    <a href="<?= BASE_URL;?>" target="_blank" class="x_button_link x_link_blue">Go to website</a>
+                    <p>Bienvenido a <?= $data['company']['name'] ?></p>
+                    <p>Acceda a su cuenta con sus credenciales. Podrás actualizar tus datos y contraseña en tu perfil.</p>
+                    <p>Usuario: <strong><?= $data['email_usuario'];?></strong></p>
+                    <p>Contraseña: <strong><?= $data['password'];?></strong></p>
+                    <a href="<?= BASE_URL;?>" target="_blank" class="x_button_link x_link_blue">Ir a la web</a>
 					<p class="x_title_gray"><a href="<?= BASE_URL; ?>" target="_blanck"><?= BASE_URL; ?></a></p>
 				</td>
 			</tr>

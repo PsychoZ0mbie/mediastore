@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Reply message</title>
+	<title>Responder mensaje</title>
 	<style type="text/css">
 		p{
 			font-family: arial;
@@ -90,8 +90,8 @@
 			</tr>
 			<tr>
 				<td>
-					<p style="color:#000;margin-top:10px;"><strong>Hello <?= $data['name'];?></strong> </p>
-					<p>Reply:</p>
+					<p style="color:#000;margin-top:10px;"><strong>Hola <?= $data['name'];?></strong> </p>
+					<p>Respuesta:</p>
 					<p><?= $data['message']; ?></p>
 					<p class="x_title_gray"><a href="<?= BASE_URL; ?>" target="_blanck"><?= BASE_URL; ?></a></p>
 				</td>

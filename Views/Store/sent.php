@@ -11,12 +11,12 @@
                     <p class="m-0"><?=$data['message']['date']?></p>
                 </div>
                 <hr>
-                <label for="" class="fw-bold">Message:</label>
+                <label for="" class="fw-bold">Mensaje:</label>
                 <p><?=$data['message']['message']?></p>
                 <hr>
                 <div class="row">
                     <div class="col-12 text-start">
-                        <a href="<?=base_url()?>/store/mailbox" class="btn btn-secondary text-white mb-4"><i class="fas fa-arrow-circle-left"></i> back</a>   
+                        <a href="<?=base_url()?>/store/mailbox" class="btn btn-secondary text-white mb-4"><i class="fas fa-arrow-circle-left"></i> Regresar</a>   
                     </div>
                 </div>
             </div>

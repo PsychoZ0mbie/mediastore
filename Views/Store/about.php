@@ -10,7 +10,7 @@ headerAdmin($data);
                 <form id="formPage" name="formPage" class="mb-4 mt-4">
                     <input type="hidden" name="idPage" value=<?=$data['page']['id']?>>
                     <div class="mb-3">
-                        <label for="txtName" class="form-label">Title</label>
+                        <label for="txtName" class="form-label">Título</label>
                         <input type="text" class="form-control" id="txtName" name="txtName" value="<?=$data['page']['name']?>">
                     </div>
                     <div class="mb-3">
@@ -18,7 +18,7 @@ headerAdmin($data);
                     </div>
                     <?php if($_SESSION['permitsModule']['u']){?>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="btnSubmit"><i class="far fa-edit"></i> Update</button>
+                        <button type="submit" class="btn btn-primary" id="btnSubmit"><i class="far fa-edit"></i> Actualizar</button>
                     </div>
                     <?php }?>
                 </form>

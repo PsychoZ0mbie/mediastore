@@ -14,19 +14,19 @@
         <img src="" alt="">
         <div class="h-100">
             <a href="product.html">Product 1</a>
-            <p>Has been added to your cart</p>
+            <p>Ha sido agregado a tu carrito</p>
         </div>
     </div>
     <div class="d-flex justify-content-between align-items-center text-center mt-3">
-        <a href="<?=base_url()?>/shop/cart" class="btnc w-50 p-1 btnc-primary me-4">View Cart</a>
-        <div class="btnc w-50 h-100 p-1 btnc-primary c-p" id="btnCheckOutPopup">Checkout</div>
+        <a href="<?=base_url()?>/shop/cart" class="btnc w-50 p-1 btnc-primary me-4">Mi carrito</a>
+        <div class="btnc w-50 h-100 p-1 btnc-primary c-p" id="btnCheckOutPopup">Pagar</div>
     </div>
 </div>
 <main class="addFilter">
     <div class="container">
         <nav class="mt-2 mb-2" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Home</a></li>
+                <li class="breadcrumb-item"><a class="text-decoration-none" href="<?=base_url()?>">Inicio</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Blog</li>
             </ol>
         </nav>
@@ -38,7 +38,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="flush-categories">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseCategories" aria-expanded="false" aria-controls="flush-collapseCategories">
-                            <strong class="fs-5">Categories</strong>
+                            <strong class="fs-5">Categorias</strong>
                         </button>
                         </h2>
                         <div id="flush-collapseCategories" class="accordion-collapse collapse show" aria-labelledby="flush-categories" data-bs-parent="#accordionFlushCategories">
@@ -80,7 +80,7 @@
                 <?php if(!empty($recPosts)>0){?>
                     <div class="featured">
                         <div class="featured-info">
-                            <h2 class="fs-5"><strong>Recent posts</strong></h2>
+                            <h2 class="fs-5"><strong>Más reciente</strong></h2>
                             <div class="featured-btns">
                                 <div class="p-2 featured-btn-left c-p"><i class="fas fa-angle-left"></i></div>
                                 <div class="p-2 featured-btn-right c-p"><i class="fas fa-angle-right"></i></div>
@@ -134,7 +134,7 @@
             </div>
             <div class="col-lg-9 col-md-12">
                 <div class="d-flex align-items-center justify-content-between shop-options">
-                    <div class="me-2 c-p" id="filter"><i class="fas fa-filter"></i>Filter</div>
+                    <div class="me-2 c-p" id="filter"><i class="fas fa-filter"></i>Filtro</div>
                 </div>
                 <div class="row mt-5" id="productItems">
                     <?php 
@@ -153,7 +153,7 @@
                                 <div class="card-text overflow-hidden">
                                     <?=$posts[$i]['description']?>
                                 </div>
-                                <a href="<?=$routePosts?>" class="btn btnc-primary mt-1">Read more</a>
+                                <a href="<?=$routePosts?>" class="btn btnc-primary mt-1">Leer más</a>
                             </div>
                         </div>
                         </article>
@@ -174,7 +174,7 @@
         </div>
         <?php }else{?>
         <div class="p-5 m-5 text-center">
-            <h1>We don't have articles yet :(</h1>
+            <h1>Aún no tenemos articulos :(</h1>
         </div>
         <?php }?>
     </div>

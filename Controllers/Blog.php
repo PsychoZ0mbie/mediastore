@@ -81,20 +81,20 @@
                 $idComment = intval($_POST['idComment']);
                 if($idComment>0){
                     if(empty($_POST['txtDescription']) || empty($_POST['idComment'])){
-                        $arrResponse = array("status"=>false,"msg"=>"Please rate it and write your review.");
+                        $arrResponse = array("status"=>false,"msg"=>"Por favor escribe tu comentario.");
                         echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                     }else{
                         $idArticle = intval($_POST['idArticle']);
                         $strDescription = strClean($_POST['txtDescription']);
                         $request = $this->updateCommentT($idComment,$strDescription); 
                         $comments = $this->getComments($idArticle);
-                        $arrResponse = array("status"=>true,"msg"=>"Your comment has been shared.","html"=>$comments['html'],"total"=>$comments['total']);
+                        $arrResponse = array("status"=>true,"msg"=>"Tu comentario se ha compartido.","html"=>$comments['html'],"total"=>$comments['total']);
                         echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                     }
                     
                 }else{
                     if(!isset($_SESSION['login'])){
-                        $arrResponse = array("login"=>false,"msg"=>"Please login to comment.");
+                        $arrResponse = array("login"=>false,"msg"=>"Por favor inicia sesión para comentar");
                     }else{
                         $idUser = $_SESSION['idUser'];
                         $idArticle = intval($_POST['idArticle']);
@@ -102,9 +102,9 @@
                         $request = $this->setCommentT($idArticle,$idUser,$strDescription);
                         if($request>0){
                             $comments = $this->getComments($idArticle);
-                            $arrResponse = array("status"=>true,"msg"=>"Your comment has been shared.","html"=>$comments['html'],"total"=>$comments['total']);
+                            $arrResponse = array("status"=>true,"msg"=>"Tu comentario se ha compartido.","html"=>$comments['html'],"total"=>$comments['total']);
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"Error, try again.");
+                            $arrResponse = array("status"=>false,"msg"=>"Error, intenta de nuevo.");
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -128,29 +128,29 @@
                 if(isset($_SESSION['login'])){
                     if($_SESSION['idUser'] == $comments[$i]['personid']){
                         $options .= '
-                            <button type="button" class="btn t-p p-0 me-2" onclick="editComment('.$comments[$i]['idcomment'].',comment'.$comments[$i]['idcomment'].')" title="edit">Edit</button>
+                            <button type="button" class="btn t-p p-0 me-2" onclick="editComment('.$comments[$i]['idcomment'].',comment'.$comments[$i]['idcomment'].')" title="edit">Editar</button>
                         ';
                     }
                     if($_SESSION['idUser'] == $comments[$i]['personid'] || $_SESSION['userData']['roleid'] == 1){
                         $options .= '
-                            <button type="button" class="btn t-p p-0 me-2" onclick="deleteComment('.$comments[$i]['idcomment'].')" title="delete">Delete</button>
+                            <button type="button" class="btn t-p p-0 me-2" onclick="deleteComment('.$comments[$i]['idcomment'].')" title="delete">Eliminar</button>
                         ';
                     }
-                    $options.='<button type="button" class="btn t-p p-0" onclick="replyComment('.$comments[$i]['idcomment'].',comment'.$comments[$i]['idcomment'].')">Reply</button>';
+                    $options.='<button type="button" class="btn t-p p-0" onclick="replyComment('.$comments[$i]['idcomment'].',comment'.$comments[$i]['idcomment'].')">Responder</button>';
                 }
                 if(count($comments[$i]['replies'])>0){
                     $replies =$comments[$i]['replies'];
-                    $showReplies ='<button type="button" class="btn t-p p-0" onclick="showReplies(this,replies'.$comments[$i]['idcomment'].')">Hide replies</button>';
+                    $showReplies ='<button type="button" class="btn t-p p-0" onclick="showReplies(this,replies'.$comments[$i]['idcomment'].')">Mostrar menos</button>';
 
                     for ($j=0; $j < count($replies); $j++) { 
                         $nameReply = $replies[$j]['firstname']." ".$replies[$j]['lastname'];
                         $optionsReply="";
                         if(isset($_SESSION['login'])){
                             if($_SESSION['idUser'] == $replies[$j]['personid']){
-                                $optionsReply.='<button type="button" class="btn t-p p-0 me-2" onclick="editReply('.$replies[$j]['idreply'].',reply'.$replies[$j]['idreply'].')" title="edit">Edit</button>';
+                                $optionsReply.='<button type="button" class="btn t-p p-0 me-2" onclick="editReply('.$replies[$j]['idreply'].',reply'.$replies[$j]['idreply'].')" title="edit">Editar</button>';
                             }
                             if($_SESSION['idUser'] == $replies[$j]['personid'] || $_SESSION['userData']['roleid'] == 1){
-                                $optionsReply.='<button type="button" class="btn t-p p-0" onclick="deleteReply('.$replies[$j]['idreply'].')" title="delete">Delete</button>';
+                                $optionsReply.='<button type="button" class="btn t-p p-0" onclick="deleteReply('.$replies[$j]['idreply'].')" title="delete">Eliminar</button>';
                             }
                         }
                         $htmlReplies .= '
@@ -162,7 +162,7 @@
                                             <p class="m-0 text-secondary">'.$replies[$j]['date'].'</p> 
                                         </div>
                                         <div>
-                                            <p class="m-0 text-secondary">Last update</p>
+                                            <p class="m-0 text-secondary">Última actualización</p>
                                             <p class="m-0 text-secondary">'.$replies[$j]['dateupdated'].'</p>
                                         </div>
                                     </div>
@@ -193,7 +193,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="m-0 text-secondary">Last update</p>
+                                    <p class="m-0 text-secondary">Última actualización</p>
                                     <p class="m-0 text-secondary">'.$comments[$i]['dateupdated'].'</p>
                                 </div>
                             </div>
@@ -244,7 +244,7 @@
                 $idArticle = intval($_POST['idArticle']);
                 $request = $this->deleteCommentT($id); 
                 $comments = $this->getComments($idArticle);
-                $arrResponse = array("status"=>true,"msg"=>"Your comment has been shared.","html"=>$comments['html'],"total"=>$comments['total']);
+                $arrResponse = array("status"=>true,"msg"=>"El comentario se ha eliminado.","html"=>$comments['html'],"total"=>$comments['total']);
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
@@ -255,7 +255,7 @@
                 $idArticle = intval($_POST['idArticle']);
                 $request = $this->deleteReplyT($id); 
                 $comments = $this->getComments($idArticle);
-                $arrResponse = array("status"=>true,"msg"=>"Your comment has been shared.","html"=>$comments['html'],"total"=>$comments['total']);
+                $arrResponse = array("status"=>true,"msg"=>"El comentario se ha eliminado.","html"=>$comments['html'],"total"=>$comments['total']);
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
@@ -268,7 +268,7 @@
                     $strDescription = strClean($_POST['txtDescription']);
                     $this->updateReply($idReply,$strDescription);
                     $comments = $this->getComments($idArticle);
-                    $arrResponse = array("status"=>true,"msg"=>"Your comment has been shared.","html"=>$comments['html'],"total"=>$comments['total']);
+                    $arrResponse = array("status"=>true,"msg"=>"Tu comentario se ha compartido.","html"=>$comments['html'],"total"=>$comments['total']);
                 }else{
                     $request="";
                     $arrResponse="";
@@ -279,9 +279,9 @@
                     $request = $this->setReplyT($idComment,$idUser,$strDescription);
                     if($request>0){
                         $comments = $this->getComments($idArticle);
-                        $arrResponse = array("status"=>true,"msg"=>"Your comment has been shared.","html"=>$comments['html'],"total"=>$comments['total']);
+                        $arrResponse = array("status"=>true,"msg"=>"Tu comentario se ha compartido.","html"=>$comments['html'],"total"=>$comments['total']);
                     }else{
-                        $arrResponse = array("status"=>false,"msg"=>"Error, try again.");
+                        $arrResponse = array("status"=>false,"msg"=>"Error, intenta de nuevo.");
                     }
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);

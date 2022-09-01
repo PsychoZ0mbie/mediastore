@@ -32,7 +32,7 @@
                     <div class="card-body row text-center">
                         <div class="col">
                             <div class="fs-5 fw-semibold"><?=$data['totalUsers']?></div>
-                            <div class="text-uppercase text-medium-emphasis small">Users</div>
+                            <div class="text-uppercase text-medium-emphasis small">Usuarios</div>
                         </div>
                     </div>
                     <a href="<?=base_url();?>/user" class="position-absolute w-100 h-100"></a>
@@ -49,7 +49,7 @@
                     <div class="card-body row text-center">
                         <div class="col">
                             <div class="fs-5 fw-semibold"><?=$data['totalCustomers']?></div>
-                            <div class="text-uppercase text-medium-emphasis small">Customers</div>
+                            <div class="text-uppercase text-medium-emphasis small">Clientes</div>
                         </div>
                     </div>
                     <a href="<?=base_url();?>/customer" class="position-absolute w-100 h-100"></a>
@@ -66,7 +66,7 @@
                     <div class="card-body row text-center">
                         <div class="col">
                             <div class="fs-5 fw-semibold"><?=$data['totalSales']?></div>
-                            <div class="text-uppercase text-medium-emphasis small">Sales</div>
+                            <div class="text-uppercase text-medium-emphasis small">Ventas</div>
                         </div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                     <div class="card-body row text-center">
                         <div class="col">
                             <div class="fs-5 fw-semibold"><?=$data['totalOrders']?></div>
-                            <div class="text-uppercase text-medium-emphasis small">Orders</div>
+                            <div class="text-uppercase text-medium-emphasis small">Pedidos</div>
                         </div>
                     </div>
                     <a href="<?=base_url();?>/orders" class="position-absolute w-100 h-100"></a>
@@ -118,14 +118,14 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-6 mb-4">
-                        <h4 class="mb-4">Last orders</h4>
+                        <h4 class="mb-4">Últimos pedidos</h4>
                         <table class="table">
                             <thead>
                                 <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Amount</th>
+                                <th scope="col">Nombres</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Monto</th>
                                 <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -143,20 +143,20 @@
                                 </tr>
                                 <?php } }else{?>
                                 <tr>
-                                    <td colspan="5" class="text-center">No data</td>
+                                    <td colspan="5" class="text-center">No hay datos</td>
                                 </tr>  
                                 <?php }?>
                             </tbody>
                         </table>
                     </div>
                     <div class="col-lg-6 mb-4">
-                        <h4 class="mb-4">Last products</h4>
+                        <h4 class="mb-4">Últimos productos</h4>
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Discount</th>
+                                    <th scope="col">Producto</th>
+                                    <th scope="col">Precio</th>
+                                    <th scope="col">Descuento</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -173,7 +173,7 @@
                                 </tr>
                                 <?php } }else{?>
                                 <tr>
-                                    <td colspan="4" class="text-center">No data</td>
+                                    <td colspan="4" class="text-center">No hay datos</td>
                                 </tr>  
                                 <?php }?>
                             </tbody>
@@ -193,7 +193,7 @@
                 type: 'line'
             },
             title: {
-                text: 'Sales from <?=$data['salesMonth']['month']." ".$data['salesMonth']['year']?>'
+                text: 'Ventas de <?=$data['salesMonth']['month']." ".$data['salesMonth']['year']?>'
             },
             subtitle: {
                 text: 'Total: <?=formatNum($data['salesMonth']['total'])?>'
@@ -238,7 +238,7 @@
                 type: 'column'
             },
             title: {
-                text: 'Sales from <?=$salesYear[0]['year']?>'
+                text: 'Ventas de <?=$salesYear[0]['year']?>'
             },
             subtitle: {
                 text: 'Total: <?=formatNum($data['salesYear']['total'])?>'

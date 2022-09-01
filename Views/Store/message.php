@@ -12,14 +12,14 @@
                     <p class="m-0"><?=$data['message']['date']?></p>
                 </div>
                 <hr>
-                <label for="" class="fw-bold">Message:</label>
+                <label for="" class="fw-bold">Mensaje:</label>
                 <p><?=$data['message']['message']?></p>
                 <hr>
                 <?php
                     if(!empty($data['message']['reply'])){
                         
                 ?>
-                <label for="" class="fw-bold">Reply:</label>
+                <label for="" class="fw-bold">Respuesta:</label>
                 <div class="mb-3">
                     <p class="m-0 mt-2"><?=$data['message']['dateupdated']?></p>
                     <p><?=$data['message']['reply']?></p>
@@ -27,7 +27,7 @@
                 <hr>
                 <div class="row">
                     <div class="col-6 text-start">
-                        <a href="<?=base_url()?>/store/mailbox" class="btn btn-secondary text-white mb-4"><i class="fas fa-arrow-circle-left"></i> back</a>   
+                        <a href="<?=base_url()?>/store/mailbox" class="btn btn-secondary text-white mb-4"><i class="fas fa-arrow-circle-left"></i> Regresar</a>   
                     </div>
                 </div>
                 <?php }else{?>
@@ -40,11 +40,11 @@
                     </div>
                     <div class="row">
                         <div class="col-6 text-start">
-                            <a href="<?=base_url()?>/store/mailbox" class="btn btn-secondary text-white mb-4"><i class="fas fa-arrow-circle-left"></i> back</a>   
+                            <a href="<?=base_url()?>/store/mailbox" class="btn btn-secondary text-white mb-4"><i class="fas fa-arrow-circle-left"></i> Regresar</a>   
                         </div>
                         <?php if($_SESSION['permitsModule']['w']){?>
                         <div class="col-6 text-end">
-                            <button type="submit" id="btnSubmit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Reply</button>
+                            <button type="submit" id="btnSubmit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Responder</button>
                         </div>
                         <?php }?>
                     </div>

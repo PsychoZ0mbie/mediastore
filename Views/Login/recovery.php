@@ -11,16 +11,16 @@
                     <input type="hidden" id="idUser" name="idUser" value="<?= $data['idperson']; ?>" required >
                     <input type="hidden" id="txtEmailRecovery" name="txtEmail" value="<?= $data['email']; ?>" required >
                     <input type="hidden" id="txtToken" name="txtToken" value="<?= $data['token']; ?>" required >
-                    <h2 class="mb-4">Reset my password</h2>
+                    <h2 class="mb-4">Actualizar contraseña</h2>
                     <div class="mb-3 d-flex">
                         <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-lock"></i></div>
-                        <input id="txtPasswordRecovery" name="txtPassword" class="form-control" type="password" placeholder="New password" required >
+                        <input id="txtPasswordRecovery" name="txtPassword" class="form-control" type="password" placeholder="Nueva contraseña" required >
                     </div>
                     <div class="mb-3 d-flex">
                         <div class="d-flex justify-content-center align-items p-3 bg-primary text-white"><i class="fas fa-lock"></i></div>
-                        <input id="txtPasswordConfirmRecovery" name="txtPasswordConfirm" class="form-control" type="password" placeholder="Confirm password" required >
+                        <input id="txtPasswordConfirmRecovery" name="txtPasswordConfirm" class="form-control" type="password" placeholder="Confirmar contraseña" required >
                     </div>
-                    <button type="submit" id="recoverySubmit" class="btn btnc-primary w-100 mb-4" >Reset my password</button>
+                    <button type="submit" id="recoverySubmit" class="btn btnc-primary w-100 mb-4" >Actualizar</button>
                 </form>
             </div>
         </div>
