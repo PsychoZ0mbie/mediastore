@@ -29,7 +29,7 @@
     if($product['status'] == 1 && $product['stock']>0){
         $status ='<p class="text-secondary m-0">Stock: ('.$product['stock'].') units</p>';
         if($product['discount']>0){
-            $price = '<p class="m-0 fs-5 product-price"><strong>'.formatNum($product['priceDiscount']).'</strong><span>'.formatNum($product['price']).'</span></p>';
+            $price = '<p class="m-0 fs-5 product-price"><strong>'.formatNum($product['priceDiscount']).'</strong> <span class="t-p text-decoration-line-through fs-6">'.formatNum($product['price']).'</span></p>';
             $discount ='<p class="product-discount">-'.$product['discount'].'%</p>';
         }
     }else if($product['status'] == 1 && $product['stock']==0){
@@ -280,13 +280,13 @@
                         $routeP = base_url()."/shop/product/".$products[$i]['route'];
                         $routeC = base_url()."/shop/category/".$products[$i]['routec'];
                         $price ='<p class="m-0 fs-5 product-price"><strong>'.formatNum($products[$i]['price']).'</strong></p>';
-                        $btnAdd ='<button type="button" class="btn btn-primary product-card-add" data-id="'.$idProduct.'">Add</a>';
+                        $btnAdd ='<button type="button" class="btn btn-primary" onclick="addProduct(this)" data-id="'.$idProduct.'">Add</button>';
                         $discount="";
                         $rate="";
                         if($products[$i]['favorite']== 0){
-                            $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
+                            $favorite = '<button type="button" onclick="addWishList(this)" data-id="'.$idProduct.'" class="btn pe-2 ps-2 "><i class="far fa-heart " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
                         }else{
-                            $favorite = '<button type="button" class="btn addWishList pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
+                            $favorite = '<button type="button" onclick="addWishList(this)" data-id="'.$idProduct.'" class="btn pe-2 ps-2 active"><i class="fas fa-heart text-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></i></button>';
                         }
                         if($products[$i]['status'] == 1 && $products[$i]['stock']>0){
                             if($products[$i]['discount']>0){
@@ -329,7 +329,7 @@
                         </div>
                         <div class="product-btns">
                             <?=$favorite?>
-                            <button type="button" class="btn quickView pe-2 ps-2" data-id="<?=$idProduct?>"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></button>
+                            <button type="button" class="btn pe-2 ps-2" onclick="quickModal(this)" data-id="<?=$idProduct?>"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></button>
                         </div>
                     </div>
                 </div>

@@ -88,5 +88,6 @@ for ($i=0; $i < count($social) ; $i++) {
     <script src="<?=media();?>/template/Assets/js/<?=$data['app']?>"></script>
     <?php }?>
     
+    
 </body>
 </html>

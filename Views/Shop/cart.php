@@ -53,7 +53,7 @@
                                         $priceHtml = formatNum($arrProducts[$i]['price']);
                                     }
                                     if($arrProducts[$i]['discount']>0){
-                                        $discount ='<div class="position-absolute top-0 end-0 border border-primary t-p pe-1 ps-1 fw-bold bg-w">-'.$arrProducts[$i]['discount'].'%</div>';
+                                        $discount ='<div class="position-absolute top-0 end-0 rounded t-p pe-1 ps-1 fw-bold text-white bg-d">-'.$arrProducts[$i]['discount'].'%</div>';
                                     }
 
                                     $totalPerProduct = formatNum($price*$arrProducts[$i]['qty']);

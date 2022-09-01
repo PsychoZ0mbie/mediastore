@@ -39,7 +39,7 @@
             $request = $this->select($sql);
             return $request;
         }
-        public function updateRole($id,$strName){
+        public function updateRole(int $id, string $strName){
             $this->strName = $strName;
             $this->intIdRole = $id;
             $sql = "SELECT * FROM role WHERE name = '$this->strName' AND idrole != $this->intIdRole";
@@ -55,7 +55,7 @@
             }
             return $request;
         }
-        public function deleteRole($id){
+        public function deleteRole(int $id){
             $this->intIdRole = $id;
             $sql = "DELETE FROM role WHERE idrole = $this->intIdRole;SET @autoid :=0; 
 			UPDATE role SET idrole = @autoid := (@autoid+1);
@@ -94,7 +94,7 @@
             }
             return $request;
         }
-        public function insertPermits($idRole,$idmodule,$r,$w,$u,$d){
+        public function insertPermits(int $idRole,int $idmodule,int $r,int $w,int $u,int $d){
             $this->intIdRole = $idRole;
             $this->intIdModule = $idmodule;
             $this->boolR = $r;

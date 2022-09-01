@@ -1,5 +1,4 @@
 window.addEventListener("load",function(){
-    
     let selectSort = document.querySelector("#selectSort");
     let featured = document.querySelector(".featured-container-items");
     let left = document.querySelector(".featured-btn-left");
@@ -39,9 +38,6 @@ window.addEventListener("load",function(){
                 html+= div.innerHTML;
             }
             document.querySelector("#productItems").innerHTML= html;
-            addProduct(document.querySelectorAll(".product-img .product-card-add"));
-            quickModal(document.querySelectorAll(".product-btns .quickView"));
-            addWishList();
             filterPrice();
     
         }else if(selectSort.value == 2){
@@ -59,9 +55,6 @@ window.addEventListener("load",function(){
                 html+= div.innerHTML;
             }
             document.querySelector("#productItems").innerHTML= html;
-            addProduct(document.querySelectorAll(".product-img .product-card-add"));
-            quickModal(document.querySelectorAll(".product-btns .quickView"));
-            addWishList();
             filterPrice();
         }else if(selectSort.value==3){
             let items = document.querySelectorAll(".product-item");
@@ -78,9 +71,6 @@ window.addEventListener("load",function(){
                 html+= div.innerHTML;
             }
             document.querySelector("#productItems").innerHTML= html;
-            addProduct(document.querySelectorAll(".product-img .product-card-add"));
-            quickModal(document.querySelectorAll(".product-btns .quickView"));
-            addWishList();
             filterPrice();
         }
         

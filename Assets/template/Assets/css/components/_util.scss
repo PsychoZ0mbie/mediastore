@@ -32,6 +32,9 @@
 .bg-w{
     background-color: $third-color;
 }
+.bg-d{
+    background-color: #ff0000;
+}
 .af-b-line{
     &::after{
         content: " ";
@@ -75,4 +78,8 @@
         height: 100%;
         background-color: $first-color;
     }
+}
+
+.text-danger{
+    color:#ff0000 !important;
 }

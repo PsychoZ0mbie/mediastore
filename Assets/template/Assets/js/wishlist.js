@@ -1,4 +1,5 @@
 if(document.querySelectorAll(".btn-del")){
+    
     let btns = document.querySelectorAll(".btn-del");
     for (let i = 0; i < btns.length; i++) {
         let btn = btns[i];
@@ -14,5 +15,3 @@ if(document.querySelectorAll(".btn-del")){
         })
     }
 }
-addProduct(document.querySelectorAll(".wishlist-actions .product-card-add"));
-quickModal(document.querySelectorAll(".wishlist-actions .quickView"));

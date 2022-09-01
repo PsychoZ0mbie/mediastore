@@ -849,7 +849,7 @@
                     for ($i=0; $i < count($request) ; $i++) { 
                         $idProduct = openssl_encrypt($request[$i]['idproduct'],METHOD,KEY);
                         $price ='<p class="m-0 text-dark">'.formatNum($request[$i]['price']).'</p>';
-                        $btnAdd ='<div class="border border-dark product-card-add c-p" data-id="'.$idProduct.'"><i class="fas fa-shopping-cart" aria-hidden="true"></i></div>';
+                        $btnAdd ='<button type="button" class="btn border border-dark" data-id="'.$idProduct.'" onclick="addProduct(this)"><i class="fas fa-shopping-cart" aria-hidden="true"></i></button>';
                         $discount="";
                         $rate="";
                         $route = base_url()."/shop/product/".$request[$i]['route'];
@@ -890,7 +890,7 @@
                                 </div>
                             </div>
                             <div class="search-item-actions">
-                                <div class="border border-dark quickView c-p" data-id="'.$idProduct.'"><i class="fas fa-eye"></i></div>
+                                <button type="button" class="btn me-2 quickView border border-dark" onclick="quickModal(this)" data-id="'.$idProduct.'"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></button>
                                 '.$btnAdd.'
                             </div>
                         </div>

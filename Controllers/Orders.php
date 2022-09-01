@@ -19,6 +19,7 @@
                 $data['page_title'] = "Orders";
                 $data['page_name'] = "orders";
                 $data['orders'] = $this->getOrders();
+                $data['products'] = $this->getProducts();
                 
                 $data['app'] = "orders.js";
                 $this->views->getView($this,"orders",$data);

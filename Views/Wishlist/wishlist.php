@@ -37,14 +37,14 @@
                                 for ($i=0; $i < count($products) ; $i++) { 
                                     $idProduct = openssl_encrypt($products[$i]['idproduct'],METHOD,KEY);
                                     $price ='<p class="m-0 fs-5 t-p"><strong>'.formatNum($products[$i]['price']).'</strong></p>';
-                                    $btnAdd ='<button type="button" class="btn product-card-add border border-dark" data-id="'.$idProduct.'"><i class="fas fa-shopping-cart" aria-hidden="true"></i></button>';
+                                    $btnAdd ='<button type="button" class="btn border border-dark bg-p text-white" data-id="'.$idProduct.'" onclick="addProduct(this)"><i class="fas fa-shopping-cart" aria-hidden="true"></i></button>';
                                     $discount="";
                                     $rate="";
 
                                     if($products[$i]['status'] == 1 && $products[$i]['stock']>0){
                                         if($products[$i]['discount']>0){
                                             $price = '<p class="m-0 fs-5"><strong class="t-p">'.formatNum($products[$i]['priceDiscount']).' </strong><span class="text-decoration-line-through t-s fs-6">'.formatNum($products[$i]['price']).'</span></p>';
-                                            $discount ='<div class="position-absolute top-0 end-0 border border-primary t-p pe-1 ps-1 fw-bold bg-w">-'.$products[$i]['discount'].'%</div>';
+                                            $discount ='<div class="position-absolute top-0 end-0 rounded t-p pe-1 ps-1 fw-bold text-white bg-d fs-6">-'.$products[$i]['discount'].'%</div>';
                                         }
                                     }else if($products[$i]['status'] == 1 && $products[$i]['stock']==0){
                                         $btnAdd="";
@@ -68,7 +68,7 @@
                             <td><?=$price?></td>
                             <td>
                                 <div class="wishlist-actions">
-                                    <button type="button" class="btn me-2 quickView border border-dark" data-id="<?=$idProduct?>"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></button>
+                                    <button type="button" class="btn me-2 quickView border border-dark bg-p text-white" onclick="quickModal(this)" data-id="<?=$idProduct?>"><i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Quick view"></i></button>
                                     <?=$btnAdd?>
                                 </div>
                             </td>
