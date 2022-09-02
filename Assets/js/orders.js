@@ -1,15 +1,10 @@
 'use strict';
 
-
-if(document.querySelector("#orders")){
-    let search = document.querySelector("#search");
-    let searchProducts = document.querySelector("#searchProducts");
-    let searchCustomers = document.querySelector("#searchCustomers");
-    let sort = document.querySelector("#sortBy");
-    let element = document.querySelector("#listItem");
+if(document.querySelector("#quickSale")){
     const moneyReceived = document.querySelector("#moneyReceived");
     const btnAddPos = document.querySelector("#btnAddPos");
-    
+    let searchProducts = document.querySelector("#searchProducts");
+    let searchCustomers = document.querySelector("#searchCustomers");
     moneyReceived.addEventListener("input",function(){
         let total = document.querySelector("#total").getAttribute("data-total");
         let result = 0;
@@ -51,16 +46,6 @@ if(document.querySelector("#orders")){
             });
         }
     });
-
-    search.addEventListener('input',function() {
-        request(base_url+"/orders/search/"+search.value,"","get").then(function(objData){
-            if(objData.status){
-                element.innerHTML = objData.data;
-            }else{
-                element.innerHTML = objData.msg;
-            }
-        });
-    });
     searchProducts.addEventListener('input',function() {
         request(base_url+"/orders/searchProducts/"+searchProducts.value,"","get").then(function(objData){
             if(objData.status){
@@ -83,6 +68,24 @@ if(document.querySelector("#orders")){
             document.querySelector("#customers").innerHTML = "";
         }
     });
+}
+if(document.querySelector("#orders")){
+    let search = document.querySelector("#search");
+    
+    let sort = document.querySelector("#sortBy");
+    let element = document.querySelector("#listItem");
+    
+
+    search.addEventListener('input',function() {
+        request(base_url+"/orders/search/"+search.value,"","get").then(function(objData){
+            if(objData.status){
+                element.innerHTML = objData.data;
+            }else{
+                element.innerHTML = objData.msg;
+            }
+        });
+    });
+    
 
     sort.addEventListener("change",function(){
         request(base_url+"/orders/sort/"+sort.value,"","get").then(function(objData){

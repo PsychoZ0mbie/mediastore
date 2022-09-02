@@ -3,6 +3,7 @@
 ?>
 
 <div class="body flex-grow-1 px-3" id="<?=$data['page_name']?>">
+    <?php if($_SESSION['permitsModule']['w']){?>
     <div class="modal fade" tabindex="-1" id="modalPos">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -35,6 +36,7 @@
             </div>
         </div>
     </div>
+    <?php }?>
     <div class="container-lg">
         <div class="card">
             <div class="card-body">
@@ -42,9 +44,11 @@
                     <li class="nav-item">
                         <button class="nav-link active" id="navOrders-tab" data-bs-toggle="tab" data-bs-target="#navOrders" type="button" role="tab" aria-controls="navOrders" aria-selected="true">Pedidos</button>
                     </li>
+                    <?php if($_SESSION['permitsModule']['w']){?>
                     <li class="nav-item">
                         <button class="nav-link" id="quickSale-tab" data-bs-toggle="tab" data-bs-target="#quickSale" type="button" role="tab" aria-controls="quickSale" aria-selected="true">Punto de venta</button>
                     </li>
+                    <?php }?>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="navOrders">
@@ -87,6 +91,7 @@
                             </table>
                         </div>
                     </div>
+                    <?php if($_SESSION['permitsModule']['w']){?>
                     <div class="tab-pane fade" id="quickSale">
                         <div class="row mt-3">
                             <div class="col-md-8 mb-3">
@@ -116,6 +121,7 @@
                             </div>
                         </div>
                     </div>
+                    <?php }?>
                 </div>
             </div>
         </div>

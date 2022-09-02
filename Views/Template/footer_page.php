@@ -25,7 +25,7 @@ for ($i=0; $i < count($social) ; $i++) {
             </div>
             <div class="row mb-4">
                 <div class="col-md-3 mb-3">
-                    <h4 class="fs-5">Método de pago</h4>
+                    <h4 class="fs-5">METODOS DE PAGO</h4>
                     <div>
                         <i class="fs-3 p-2 fab fa-cc-mastercard"></i>
                         <i class="fs-3 p-2 fab fa-cc-visa"></i>

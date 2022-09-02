@@ -216,7 +216,7 @@ window.addEventListener("load",function(){
                             const runTime = function(){
                                 timer=setInterval(function(){
                                     modalView.show();
-                                },60000);
+                                },30000);
                             }
                             runTime();
                         }
@@ -970,15 +970,25 @@ function addProduct(element){
     });
     if(document.querySelector("#btnCheckOutPopup")){
         let btnCheckoutPop = document.querySelector("#btnCheckOutPopup");
-        btnCheckoutPop.addEventListener("click",function(){
-            request(base_url+"/shop/currentCart","","get").then(function(objData){
-                if(objData.status){
-                    window.location.href=base_url+"/shop/checkout";
-                }else{
-                    openLoginModal();
-                }
+        let flag = true;
+        if(flag === true){
+            btnCheckoutPop.addEventListener("click",function(){
+                btnCheckoutPop.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+                btnCheckoutPop.setAttribute("disabled","");
+                request(base_url+"/shop/currentCart","","get").then(function(objData){
+                    
+                    btnCheckoutPop.innerHTML=`Pagar`;
+                    btnCheckoutPop.removeAttribute("disabled","");
+                    if(objData.status){
+                        window.location.href=base_url+"/shop/checkout";
+                    }else{
+                        openLoginModal();
+                    }
+                });
+                flag = false;
             });
-        });
+        }
+        
     }
 }
 function addWishList(element){
