@@ -51,10 +51,12 @@
                             $request = $this->model->updateRole($idRol,$strName);
                         }
                         if($request>0){
-                            if($option==1){
-                                $arrResponse = array("status"=>true,"msg"=>"Datos guardados");
+                            if($option == 1){
+                                $arrResponse = $this->getRoles();
+                                $arrResponse['msg'] = 'Datos guardados.';
                             }else{
-                                $arrResponse = array("status"=>true,"msg"=>"Datos actualizados");
+                                $arrResponse = $this->getRoles();
+                                $arrResponse['msg'] = 'Datos actualizados.';
                             }
                         }else if ($request=="exist"){
                             $arrResponse = array("status" =>false,"msg"=>"¡Atención! El rol ya existe, intente con otro nombre."); 
@@ -136,12 +138,13 @@
             if($_SESSION['idUser'] == 1){
                 if($_POST){
                     if(empty($_POST['idRol'])){
-                        $arrResponse=array("status"=>false,"Data error");
+                        $arrResponse=array("status"=>false,"Error de datos");
                     }else{
                         $id = intval($_POST['idRol']);
                         $request = $this->model->deleteRole($id);
                         if($request=="ok"){
-                            $arrResponse = array("status"=>true,"msg"=>"Se ha eliminado");
+                            $arrResponse = $this->getRoles();
+                            $arrResponse['msg'] = "Se ha eliminado"; 
                         }else{
                             $arrResponse = array("status"=>false,"msg"=>"No se ha podido eliminar, intenta de nuevo.");
                         }

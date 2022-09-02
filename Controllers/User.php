@@ -110,7 +110,7 @@
                 if($_POST){
                     if(empty($_POST['txtFirstName']) || empty($_POST['txtLastName']) || empty($_POST['txtPhone']) || empty($_POST['typeList'] ) || empty($_POST['statusList'] )
                     || empty($_POST['txtEmail'])){
-                        $arrResponse = array("status" => false, "msg" => 'Data error');
+                        $arrResponse = array("status" => false, "msg" => 'Error de datos');
                     }else{ 
                         $idUser = intval($_POST['idUser']);
                         $strName = ucwords(strClean($_POST['txtFirstName']));
@@ -202,7 +202,8 @@
                                 $data['company'] = $company;
                                 $data['password'] = $password;
                                 sendEmail($data,"email_credentials");
-                                $arrResponse = array('status' => true, 'msg' => 'Data saved. An e-mail has been sent to the user with the credentials.');
+                                $arrResponse = $this->getUsers();
+                                $arrResponse['msg'] = 'Datos guardados. Se ha enviado un correo electrónico al usuario con las credenciales.';
                             }else{
                                 if($strPassword!=""){
                                     $data['nombreUsuario'] = $strName." ".$strLastName;
@@ -212,16 +213,18 @@
                                     $data['company'] = $company;
                                     $data['password'] = $password;
                                     sendEmail($data,"email_passwordUpdated");
-                                    $arrResponse = array('status' => true, 'msg' => 'Password has been updated, an email with the new password has been sent.');
+                                    $arrResponse = $this->getUsers();
+                                    $arrResponse['msg'] = 'La contraseña ha sido actualizada, se ha enviado un correo electrónico con la nueva contraseña.';
                                 }else{
-                                    $arrResponse = array('status' => true, 'msg' => 'Data saved.');
+                                    $arrResponse = $this->getUsers();
+                                    $arrResponse['msg'] = 'Datos actualizados';
                                 }
                                 
                             }
                         }else if($request_user == 'exist'){
-                            $arrResponse = array('status' => false, 'msg' => '¡Warning! the email or phone number is already registered, try another one.');		
+                            $arrResponse = array('status' => false, 'msg' => '¡Atención! el correo electrónico o el número de teléfono ya están registrados, pruebe con otro.');		
                         }else{
-                            $arrResponse = array("status" => false, "msg" => 'It is not possible to store the data.');
+                            $arrResponse = array("status" => false, "msg" => 'No es posible guardar los datos');
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -255,7 +258,7 @@
 
                 if($_POST){
                     if(empty($_POST['idUser'])){
-                        $arrResponse=array("status"=>false,"Data error");
+                        $arrResponse=array("status"=>false,"Error de datos");
                     }else{
                         $id = intval($_POST['idUser']);
                         
@@ -266,9 +269,10 @@
 
                         $request = $this->model->deleteUser($id);
                         if($request=="ok"){
-                            $arrResponse = array("status"=>true,"msg"=>"It has been deleted");
+                            $arrResponse = $this->getUsers();
+                            $arrResponse['msg'] = "Se ha eliminado";
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"It has not been possible to delete, try again.");
+                            $arrResponse = array("status"=>false,"msg"=>"No es posible eliminar, intenta de nuevo");
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);

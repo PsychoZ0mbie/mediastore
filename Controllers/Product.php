@@ -47,7 +47,7 @@
                         if($request[$i]['discount']>0){
                             $discount = '<span class="text-success">'.$request[$i]['discount'].'% OFF</span>';
                         }else{
-                            $discount = '<span class="text-danger">No discount</span>';
+                            $discount = '<span class="text-danger">0%</span>';
                         }
                         if($_SESSION['permitsModule']['u']){
                             $btnEdit = '<button class="btn btn-success m-1" type="button" title="Edit" data-id="'.$request[$i]['idproduct'].'" name="btnEdit"><i class="fas fa-pencil-alt"></i></button>';
@@ -56,11 +56,11 @@
                             $btnDelete = '<button class="btn btn-danger m-1" type="button" title="Delete" data-id="'.$request[$i]['idproduct'].'" name="btnDelete"><i class="fas fa-trash-alt"></i></button>';
                         }
                         if($request[$i]['status']==1 && $request[$i]['stock']>0){
-                            $status='<span class="badge me-1 bg-success">Active</span>';
+                            $status='<span class="badge me-1 bg-success">Activo</span>';
                         }else if($request[$i]['status']==2){
-                            $status='<span class="badge me-1 bg-danger">Inactive</span>';
+                            $status='<span class="badge me-1 bg-danger">Inactivo</span>';
                         }else{
-                            $status='<span class="badge me-1 bg-warning">Sold out</span>';
+                            $status='<span class="badge me-1 bg-warning">Agotado</span>';
                         }
                         $html.='
                             <tr class="item">
@@ -82,7 +82,7 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
-                    $html = '<tr><td colspan="11">No data</td></tr>';
+                    $html = '<tr><td colspan="11">No hay datos</td></tr>';
                     $arrResponse = array("status"=>false,"data"=>$html);
                 }
             }else{
@@ -97,7 +97,7 @@
                 if($_POST){
                     unset($_SESSION['filesInfo']);
                     if(empty($_POST)){
-                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                     }else{
                         $id = intval($_POST['idProduct']);
                         $request = $this->model->selectProduct($id);
@@ -111,7 +111,7 @@
                             }
                             $arrResponse = array("status"=>true,"data"=>$request);
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"No data"); 
+                            $arrResponse = array("status"=>false,"msg"=>"No hay datos"); 
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -128,7 +128,7 @@
                 if($_POST){
                     if(empty($_POST['txtName']) || empty($_POST['statusList']) || empty($_POST['categoryList'])
                     || empty($_POST['subcategoryList']) || empty($_POST['txtPrice']) || empty($_POST['txtStock']) || empty($_POST['txtShortDescription'])){
-                        $arrResponse = array("status" => false, "msg" => 'Data error');
+                        $arrResponse = array("status" => false, "msg" => 'Error de datos');
                     }else{ 
                         $idProduct = intval($_POST['idProduct']);
                         $strReference = strtoupper(strClean($_POST['txtReference']));
@@ -164,15 +164,15 @@
                             $this->model->deleteTmpImage();
                             if($option == 1){
                                 $arrResponse = $this->getProducts();
-                                $arrResponse['msg'] = 'Data saved.';
+                                $arrResponse['msg'] = 'Datos guardados.';
                             }else{
                                 $arrResponse = $this->getProducts();
-                                $arrResponse['msg'] = 'Data updated';
+                                $arrResponse['msg'] = 'Datos actualizados';
                             }
                         }else if($request == 'exist'){
-                            $arrResponse = array('status' => false, 'msg' => '¡Warning! The product already exists, try another name and reference.');		
+                            $arrResponse = array('status' => false, 'msg' => '¡Atención! El producto ya existe, pruebe con otro nombre y referencia.');		
                         }else{
-                            $arrResponse = array("status" => false, "msg" => 'It is not possible to store the data.');
+                            $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -187,16 +187,16 @@
             if($_SESSION['permitsModule']['d']){
                 if($_POST){
                     if(empty($_POST['idProduct'])){
-                        $arrResponse=array("status"=>false,"msg"=>"Data error");
+                        $arrResponse=array("status"=>false,"msg"=>"Error de datos");
                     }else{
                         $id = intval($_POST['idProduct']);
                         $request = $this->model->deleteProduct($id);
                         if($request=="ok"){
                             $this->model->deleteTmpImage();
                             $arrResponse = $this->getProducts();
-                            $arrResponse['msg'] = 'It has been deleted.';
+                            $arrResponse['msg'] = 'Se ha eliminado.';
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"It has not been possible to delete, try again.");
+                            $arrResponse = array("status"=>false,"msg"=>"No se ha podido eliminatar, inténta de nuevo.");
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);

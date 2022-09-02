@@ -123,7 +123,7 @@
                     }
                     $arrResponse = array("status"=>true,"data"=>$html);
                 }else{
-                    $html = '<tr><td colspan="7">No data</td></tr>';
+                    $html = '<tr><td colspan="7">No hay datos</td></tr>';
                     $arrResponse = array("status"=>false,"data"=>$html);
                 }
             }else{
@@ -139,7 +139,7 @@
                 if(!empty($request)){
                     $arrResponse = array("status"=>true,"data"=>$request);
                 }else{
-                    $arrResponse = array("status"=>false,"msg"=>"Data no found.");
+                    $arrResponse = array("status"=>false,"msg"=>"Datos no encontrados.");
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
@@ -148,19 +148,19 @@
         public function setRefund(){
             if($_POST){
                 if(empty($_POST['idTransaction']) || empty($_POST['txtDescription'])){
-                    $arrResponse = array("status"=>false,"msg"=>"Data error.");
+                    $arrResponse = array("status"=>false,"msg"=>"Error de datos.");
                 }else{
                     if($_SESSION['permitsModule']['u'] && $_SESSION['userData']['roleid'] !=2){
                         $idTransaction = strClean($_POST['idTransaction']);
                         $strDescription = strClean($_POST['txtDescription']);
                         $request = $this->model->insertRefund($idTransaction,$strDescription);
                         if($request){
-                            $arrResponse = array("status"=>true,"msg"=>"Order has been refunded.");
+                            $arrResponse = array("status"=>true,"msg"=>"El pedido ha sido reembolsado.");
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"Order can't be refunded.");
+                            $arrResponse = array("status"=>false,"msg"=>"El pedido no puede ser reembolsado.");
                         }
                     }else{
-                        $arrResponse = array("status"=>false,"msg"=>"You can't refund it, please contact with your admin.");
+                        $arrResponse = array("status"=>false,"msg"=>"No se puede reembolsar, por favor, póngase en contacto con su administrador.");
                     }
                 }
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -172,7 +172,7 @@
 
                 if($_POST){
                     if(empty($_POST['idOrder'])){
-                        $arrResponse=array("status"=>false,"msg"=>"Data error");
+                        $arrResponse=array("status"=>false,"msg"=>"Error de datos");
                     }else{
                         $id = intval($_POST['idOrder']);
                         $request = $this->model->deleteOrder($id);
@@ -180,7 +180,7 @@
                         if($request=="ok"){
                             $arrResponse = $this->getOrders();
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"It has not been possible to delete, try again.");
+                            $arrResponse = array("status"=>false,"msg"=>"No se ha podido eliminar, intenta de nuevo.");
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -306,7 +306,7 @@
             if($_SESSION['permitsModule']['w']){
                 if($_POST){
                     if(empty($_POST['id']) || empty($_POST['products'])){
-                        $arrResponse = array("status"=>false,"msg"=>"Data error");
+                        $arrResponse = array("status"=>false,"msg"=>"Error de datos");
                     }else{
                         $arrProducts = json_decode($_POST['products'],true);
                         $orderDetail = [];
@@ -334,9 +334,9 @@
                         if($requestOrder > 0){
                             $arrData = array("iduser"=>$idCustomer,"idorder"=>$requestOrder,"products"=>$orderDetail);
                             $requestOrderDetail = $this->model->insertOrderDetail($arrData);
-                            $arrResponse = array("status"=>true,"msg"=>"Data saved");
+                            $arrResponse = array("status"=>true,"msg"=>"Datos guardados");
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"Error, try again");
+                            $arrResponse = array("status"=>false,"msg"=>"Error, intenta de nuevo");
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);

@@ -164,9 +164,11 @@
                                 uploadImage($photo,$photoCategory);
                             }
                             if($option == 1){
-                                $arrResponse = array('status' => true, 'msg' => 'Datos guardados.');
+                                $arrResponse = $this->getCategories();
+                                $arrResponse['msg'] = 'Datos guardados.';
                             }else{
-                                $arrResponse = array('status' => true, 'msg' => 'Datos actualizados.');
+                                $arrResponse = $this->getCategories();
+                                $arrResponse['msg'] = 'Datos actualizados.';
                             }
                         }else if($request == 'exist'){
                             $arrResponse = array('status' => false, 'msg' => 'La categoría ya existe, prueba con otro nombre.');		
@@ -199,11 +201,12 @@
                         $request = $this->model->deleteCategory($id);
 
                         if($request=="ok"){
-                            $arrResponse = array("status"=>true,"msg"=>"Ha sido eliminado");
+                            $arrResponse = $this->getCategories();
+                            $arrResponse['msg'] = "Se ha eliminado";
                         }else if($request =="exist"){
                             $arrResponse = array("status"=>false,"msg"=>"La categoría tiene al menos una subcategoría asignada, no puede ser eliminada.");
                         }else{
-                            $arrResponse = array("status"=>false,"msg"=>"No es posible eleiminar, intenta de nuevo.");
+                            $arrResponse = array("status"=>false,"msg"=>"No es posible eliminar, intenta de nuevo.");
                         }
                     }
                     echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -323,9 +326,11 @@
                         }
                         if($request > 0 ){
                             if($option == 1){
-                                $arrResponse = array('status' => true, 'msg' => 'Datos guardados.');
+                                $arrResponse = $this->getSubCategories();
+                                $arrResponse['msg'] = 'Datos guardados.';
                             }else{
-                                $arrResponse = array('status' => true, 'msg' => 'Datos actualizados.');
+                                $arrResponse = $this->getSubCategories();
+                                $arrResponse['msg'] = 'Datos actualizados.';
                             }
                         }else if($request == 'exist'){
                             $arrResponse = array('status' => false, 'msg' => 'La subcategoría ya existe, intenta con otro nombre.');		
@@ -351,7 +356,8 @@
                         $id = intval($_POST['idSubCategory']);
                         $request = $this->model->deleteSubCategory($id);
                         if($request=="ok"){
-                            $arrResponse = array("status"=>true,"msg"=>"Ha sido eliminado");
+                            $arrResponse = $this->getSubCategories();
+                            $arrResponse['msg'] = "Se ha eliminado"; 
                         }else if($request=="exist"){
                             $arrResponse = array("status"=>false,"msg"=>"La subcategoría tiene al menos un producto asignado, no puede ser eliminado.");
                         }

@@ -42,16 +42,6 @@ element.addEventListener("click",function(e) {
     }
 });
 
-function showItems(element){
-    let url = base_url+"/post/getSubCategories";
-    request(url,"","get").then(function(objData){
-        if(objData.status){
-            element.innerHTML = objData.data;
-        }else{
-            element.innerHTML = objData.data;
-        }
-    })
-}
 function addItem(){
     let modalItem = document.querySelector("#modalItem");
     let modal= `
@@ -122,8 +112,8 @@ function addItem(){
             btnAdd.removeAttribute("disabled");
             if(objData.status){
                 Swal.fire("Agregado",objData.msg,"success");
-                //modalView.hide();
-                showItems(element);
+                form.reset();
+                element.innerHTML = objData.data;
             }else{
                 Swal.fire("Error",objData.msg,"error");
             }
@@ -210,7 +200,7 @@ function editItem(id){
                 if(objData.status){
                     Swal.fire("Actualizado",objData.msg,"success");
                     modalView.hide();
-                    showItems(element);
+                    element.innerHTML = objData.data;
                 }else{
                     Swal.fire("Error",objData.msg,"error");
                 }
@@ -236,7 +226,7 @@ function deleteItem(id){
             request(url,formData,"post").then(function(objData){
                 if(objData.status){
                     Swal.fire("Eliminado",objData.msg,"success");
-                    showItems(element);
+                    element.innerHTML = objData.data;
                 }else{
                     Swal.fire("Error",objData.msg,"error");
                 }

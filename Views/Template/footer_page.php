@@ -29,6 +29,7 @@ for ($i=0; $i < count($social) ; $i++) {
                     <div>
                         <i class="fs-3 p-2 fab fa-cc-mastercard"></i>
                         <i class="fs-3 p-2 fab fa-cc-visa"></i>
+                        <i class="fs-3 p-2 fa fa-cc-paypal"></i>
                     </div>
                 </div>
                 <div class="col-md-3 mb-3">

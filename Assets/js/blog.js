@@ -42,16 +42,6 @@ element.addEventListener("click",function(e) {
     }
 });
 
-function showItems(element){
-    let url = base_url+"/post/getArticles";
-    request(url,"","get").then(function(objData){
-        if(objData.status){
-            element.innerHTML = objData.data;
-        }else{
-            element.innerHTML = objData.data;
-        }
-    })
-}
 function addItem(){
     let modalItem = document.querySelector("#modalItem");
     let modal = `
@@ -165,7 +155,7 @@ function addItem(){
                 Swal.fire("Agregado",objData.msg,"success");
                 modalView.hide();
                 modalItem.innerHTML="";
-                showItems(element);
+                element.innerHTML = objData.data;
             }else{
                 Swal.fire("Error",objData.msg,"error");
             }
@@ -205,27 +195,27 @@ function viewItem(id){
                                 <tbody id="listItem">
                                     ${img}
                                     <tr>
-                                        <td><strong>Title: </strong></td>
+                                        <td><strong>Titulo: </strong></td>
                                         <td>${objData.data.name}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Category: </strong></td>
+                                        <td><strong>Categoria: </strong></td>
                                         <td>${objData.data.category}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Subcategory: </strong></td>
+                                        <td><strong>Subcategoria: </strong></td>
                                         <td>${objData.data.subcategory}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Date created: </strong></td>
+                                        <td><strong>Fecha de creacion: </strong></td>
                                         <td>${objData.data.date}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Date updated: </strong></td>
+                                        <td><strong>Fecha de actualización: </strong></td>
                                         <td>${objData.data.dateupdated}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Status: </strong></td>
+                                        <td><strong>Estado: </strong></td>
                                         <td>${status}</td>
                                     </tr>
                                 </tbody>
@@ -380,7 +370,7 @@ function editItem(id){
                     Swal.fire("Actualizado",objData.msg,"success");
                     modalView.hide();
                     modalItem.innerHTML="";
-                    showItems(element);
+                    element.innerHTML = objData.data;
                 }else{
                     Swal.fire("Error",objData.msg,"error");
                 }
@@ -405,7 +395,7 @@ function deleteItem(id){
             request(base_url+"/post/delArticle",formData,"post").then(function(objData){
                 if(objData.status){
                     Swal.fire("Eliminado",objData.msg,"success");
-                    showItems(element);
+                    element.innerHTML = objData.data;
                 }else{
                     Swal.fire("Error",objData.msg,"error");
                 }

@@ -36,7 +36,7 @@
     }
     .main-carousel{
         .carousel-item{
-            height: 400px;
+            height: 600px;
             .carousel-info{
                 //min-width: 350px;
                 h2{
@@ -64,7 +64,16 @@
         height: 250px;
     }
     .more-category{
-        height: 400px;
+        height: 350px;
+        .more-category-info{
+            padding-left:10px;
+            a{
+                font-size: 15px;
+                h3{
+                    font-size: 18px;
+                }
+            }
+        }
     }
     .product-card{
         height: 400px;
@@ -87,7 +96,11 @@
     }
 }
 @media screen and (max-width: 768px){
-    
+    .main-carousel{
+        .carousel-item{
+            height: 400px;
+        }
+    }
     .filter-options{
         width: 80%;
     }
@@ -103,7 +116,6 @@
             }
         }
     }
-    
 }
 @media screen and (max-width: 576px){
     .product-card{

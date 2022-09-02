@@ -243,7 +243,8 @@
                                 $data['password'] = $password;
                                 $data['company'] = $company;
                                 sendEmail($data,"email_credentials");
-                                $arrResponse = array('status' => true, 'msg' => 'Datos guardados. Se ha enviado un correo electrónico al usuario con las credenciales.');
+                                $arrResponse = $this->getCustomers();
+                                $arrResponse['msg'] = 'Datos guardados. Se ha enviado un correo electrónico al usuario con las credenciales.';
                             }else{
                                 if($strPassword!=""){
                                     $data['nombreUsuario'] = $strName." ".$strLastName;
@@ -253,9 +254,11 @@
                                     $data['password'] = $password;
                                     $data['company'] = $company;
                                     sendEmail($data,"email_passwordUpdated");
-                                    $arrResponse = array('status' => true, 'msg' => 'La contraseña ha sido actualizada, se ha enviado un correo electrónico con la nueva contraseña.');
+                                    $arrResponse = $this->getCustomers();
+                                    $arrResponse['msg'] = 'La contraseña ha sido actualizada, se ha enviado un correo electrónico con la nueva contraseña.';
                                 }else{
-                                    $arrResponse = array('status' => true, 'msg' => 'Data saved.');
+                                    $arrResponse = $this->getCustomers();
+                                    $arrResponse['msg'] = 'Datos actualizados.';
                                 }
                                 
                             }
@@ -288,7 +291,8 @@
 
                         $request = $this->model->deleteCustomer($id);
                         if($request=="ok"){
-                            $arrResponse = array("status"=>true,"msg"=>"Se ha eliminado");
+                            $arrResponse = $this->getCustomers();
+                            $arrResponse['msg'] = "Se ha eliminado";
                         }else{
                             $arrResponse = array("status"=>false,"msg"=>"No es posible eliminar, intenta de nuevo.");
                         }

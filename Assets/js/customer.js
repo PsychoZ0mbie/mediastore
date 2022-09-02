@@ -44,16 +44,6 @@ element.addEventListener("click",function(e) {
     }
 });
 
-function showItems(element){
-    let url = base_url+"/Customer/getCustomers";
-    request(url,"","get").then(function(objData){
-        if(objData.status){
-            element.innerHTML = objData.data;
-        }else{
-            element.innerHTML = objData.msg;
-        }
-    })
-}
 function addItem(){
     let modalItem = document.querySelector("#modalItem");
     let modal= `
@@ -227,7 +217,7 @@ function addItem(){
                 Swal.fire("Agregado",objData.msg,"success");
                 //modalView.hide();
                 form.reset();
-                showItems(element);
+                element.innerHTML = objData.data;
             }else{
                 Swal.fire("Error",objData.msg,"error");
             }
@@ -500,7 +490,7 @@ function editItem(id){
                 if(objData.status){
                     Swal.fire("Actualizado",objData.msg,"success");
                     modalView.hide();
-                    showItems(element);
+                    element.innerHTML = objData.data;
                 }else{
                     Swal.fire("Error",objData.msg,"error");
                 }
@@ -527,7 +517,7 @@ function deleteItem(id){
             request(url,formData,"post").then(function(objData){
                 if(objData.status){
                     Swal.fire("Eliminado",objData.msg,"success");
-                    showItems(element);
+                    element.innerHTML = objData.data;
                 }else{
                     Swal.fire("Error",objData.msg,"error");
                 }

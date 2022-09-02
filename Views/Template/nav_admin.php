@@ -46,7 +46,7 @@
                                     <?php
                                         }
                                     ?>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/user"><span class="nav-icon"></span> Users</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?>/user"><span class="nav-icon"></span> Usuarios</a></li>
                                 </ul>
                             </li>
                             <?php
