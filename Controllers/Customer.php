@@ -72,13 +72,12 @@
                 }else{
                     $arrResponse = array("status"=>false,"data"=>"No hay datos");
                 }
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }else{
                 header("location: ".base_url());
                 die();
             }
             
-            die();
+            return $arrResponse;
         }
         public function getCustomer(){
             if($_SESSION['permitsModule']['r']){

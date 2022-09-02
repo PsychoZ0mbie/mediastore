@@ -61,7 +61,7 @@ function addItem(){
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">New customer</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Nuevo cliente</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -75,13 +75,13 @@ function addItem(){
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="txtFirstName" class="form-label">First name <span class="text-danger">*</span></label>
+                                    <label for="txtFirstName" class="form-label">Nombres <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="txtFirstName" name="txtFirstName" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="txtLastName" class="form-label">Last name <span class="text-danger">*</span></label>
+                                    <label for="txtLastName" class="form-label">Apellidos <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="txtLastName" name="txtLastName" required>
                                 </div>
                             </div>
@@ -95,7 +95,7 @@ function addItem(){
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="txtPhone" class="form-label">Phone <span class="text-danger">*</span></label>
+                                    <label for="txtPhone" class="form-label">Teléfono <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="txtPhone" name="txtPhone" required>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@ function addItem(){
                         <div class="row">
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label for="txtAddress" class="form-label">Address</label>
+                                    <label for="txtAddress" class="form-label">Dirección</label>
                                     <input type="text" class="form-control" id="txtAddress" name="txtAddress">
                                 </div>
                             </div>
@@ -111,19 +111,19 @@ function addItem(){
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label for="listCountry" class="form-label">Country</label>
+                                    <label for="listCountry" class="form-label">País</label>
                                     <select class="form-control" aria-label="Default select example" id="listCountry" name="listCountry"></select>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label for="listState" class="form-label">State</label>
+                                    <label for="listState" class="form-label">Estado/departamento</label>
                                     <select class="form-control" aria-label="Default select example" id="listState" name="listState"></select>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label for="listCity" class="form-label">City</label>
+                                    <label for="listCity" class="form-label">Ciudad</label>
                                     <select class="form-control" aria-label="Default select example" id="listCity" name="listCity"></select>
                                 </div>
                             </div>
@@ -131,23 +131,23 @@ function addItem(){
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="txtPassword" class="form-label">Password</label>
+                                    <label for="txtPassword" class="form-label">Contraseña</label>
                                     <input type="password" class="form-control" id="txtPassword" name="txtPassword">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="statusList" class="form-label">Status <span class="text-danger">*</span></label>
+                                    <label for="statusList" class="form-label">Estado <span class="text-danger">*</span></label>
                                     <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
-                                        <option value="1">Active</option>
-                                        <option value="2">Inactive</option>
+                                        <option value="1">Activo</option>
+                                        <option value="2">Inactivo</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Add</button>
-                            <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Agregar</button>
+                            <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </form>
                 </div>
@@ -198,33 +198,33 @@ function addItem(){
         let idUser = document.querySelector("#idUser").value;
 
         if(strFirstName == "" || strLastName == "" || strEmail == "" || strPhone == "" || statusList == ""){
-            Swal.fire("Error","All fields marked with (*) are required","error");
+            Swal.fire("Error","Todos los campos marcados con (*) son obligatorios","error");
             return false;
         }
         if(strPassword.length < 8 && strPassword!=""){
-            Swal.fire("Error","The password must have at least 8 characters","error");
+            Swal.fire("Error","La contraseña debe tener al menos 8 caracteres","error");
             return false;
         }
         if(!fntEmailValidate(strEmail)){
-            Swal.fire("Error","Email is invalid","error");
+            Swal.fire("Error","El email es invalido","error");
             return false;
         }
         if(strPhone.length < 9){
-            Swal.fire("Error","Phone number must have at least 9 digits","error");
+            Swal.fire("Error","El número de teléfono debe tener al menos 9 dígitos","error");
             return false;
         }
         
         let formData = new FormData(form);
         let btnAdd = document.querySelector("#btnAdd");
 
-        btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Wait...`;
+        btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
         btnAdd.setAttribute("disabled","");
 
         request(base_url+"/Customer/setCustomer",formData,"post").then(function(objData){
-            btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Add`;
+            btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Agregar`;
             btnAdd.removeAttribute("disabled");
             if(objData.status){
-                Swal.fire("Added",objData.msg,"success");
+                Swal.fire("Agregado",objData.msg,"success");
                 //modalView.hide();
                 form.reset();
                 showItems(element);
@@ -243,9 +243,9 @@ function viewItem(id){
         if(objData.status){
             let status = objData.data.status;
             if(status==1){
-                status='<span class="badge me-1 bg-success">Active</span>';
+                status='<span class="badge me-1 bg-success">Activo</span>';
             }else{
-                status='<span class="badge me-1 bg-danger">Inactive</span>';
+                status='<span class="badge me-1 bg-danger">Inactivo</span>';
             }
             let modalItem = document.querySelector("#modalItem");
             let modal= `
@@ -253,7 +253,7 @@ function viewItem(id){
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">User data</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Datos de cliente</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -263,11 +263,11 @@ function viewItem(id){
                                         <td><img src="${objData.data.image}" class="rounded-circle" style="height:100px;width:100px;"></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>First name: </strong></td>
+                                        <td><strong>Nombres: </strong></td>
                                         <td>${objData.data.firstname}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Last name: </strong></td>
+                                        <td><strong>Apellidos: </strong></td>
                                         <td>${objData.data.lastname}</td>
                                     </tr>
                                     <tr>
@@ -275,27 +275,27 @@ function viewItem(id){
                                         <td>${objData.data.email}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Phone: </strong></td>
+                                        <td><strong>Teléfono: </strong></td>
                                         <td>${objData.data.phone}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Country: </strong></td>
+                                        <td><strong>País: </strong></td>
                                         <td>${objData.data.country}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>State: </strong></td>
+                                        <td><strong>Estado/departamento: </strong></td>
                                         <td>${objData.data.state}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>City: </strong></td>
+                                        <td><strong>Ciudad: </strong></td>
                                         <td>${objData.data.city}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Date: </strong></td>
+                                        <td><strong>Fecha: </strong></td>
                                         <td>${objData.data.date}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Status: </strong></td>
+                                        <td><strong>Estado: </strong></td>
                                         <td>${status}</td>
                                     </tr>
                                 </tbody>
@@ -328,7 +328,7 @@ function editItem(id){
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Update user</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel">Actualizar usuario</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -342,13 +342,13 @@ function editItem(id){
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtFirstName" class="form-label">First name <span class="text-danger">*</span></label>
+                                        <label for="txtFirstName" class="form-label">Nombres <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="txtFirstName" name="txtFirstName" value="${objData.data.firstname}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtLastName" class="form-label">Last name <span class="text-danger">*</span></label>
+                                        <label for="txtLastName" class="form-label">Apellidos <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="txtLastName" name="txtLastName" value="${objData.data.lastname}" required>
                                     </div>
                                 </div>
@@ -362,7 +362,7 @@ function editItem(id){
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtPhone" class="form-label">Phone <span class="text-danger">*</span></label>
+                                        <label for="txtPhone" class="form-label">Teléfono <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" id="txtPhone" name="txtPhone" value="${objData.data.phone}" required>
                                     </div>
                                 </div>
@@ -370,7 +370,7 @@ function editItem(id){
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-3">
-                                        <label for="txtAddress" class="form-label">Address</label>
+                                        <label for="txtAddress" class="form-label">Dirección</label>
                                         <input type="text" class="form-control" id="txtAddress" name="txtAddress" value="${objData.data.address}">
                                     </div>
                                 </div>
@@ -378,19 +378,19 @@ function editItem(id){
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="listCountry" class="form-label">Country</label>
+                                        <label for="listCountry" class="form-label">País</label>
                                         <select class="form-control" aria-label="Default select example" id="listCountry" name="listCountry"></select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="listState" class="form-label">State</label>
+                                        <label for="listState" class="form-label">Estado/departamento</label>
                                         <select class="form-control" aria-label="Default select example" id="listState" name="listState"></select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="listCity" class="form-label">City</label>
+                                        <label for="listCity" class="form-label">Ciudad</label>
                                         <select class="form-control" aria-label="Default select example" id="listCity" name="listCity"></select>
                                     </div>
                                 </div>
@@ -398,22 +398,22 @@ function editItem(id){
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="txtPassword" class="form-label">Password</label>
+                                        <label for="txtPassword" class="form-label">Contraseña</label>
                                         <input type="password" class="form-control" id="txtPassword" name="txtPassword">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="statusList" class="form-label">Status <span class="text-danger">*</span></label>
+                                        <label for="statusList" class="form-label">Estado <span class="text-danger">*</span></label>
                                         <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
-                                            <option value="1">Active</option>
-                                            <option value="2">Inactive</option>
+                                            <option value="1">Activo</option>
+                                            <option value="2">Inactivo</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" id="btnAdd">Update</button>
+                                <button type="submit" class="btn btn-primary" id="btnAdd">Actualizar</button>
                                 <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </form>
@@ -471,19 +471,19 @@ function editItem(id){
             let idUser = document.querySelector("#idUser").value;
 
             if(strFirstName == "" || strLastName == "" || strEmail == "" || strPhone == "" || statusList == ""){
-                Swal.fire("Error","All fields marked with (*) are required","error");
+                Swal.fire("Error","Todos los campos marcados con (*) son obligatorios","error");
                 return false;
             }
             if(strPassword.length < 8 && strPassword!=""){
-                Swal.fire("Error","The password must have at least 8 characters","error");
+                Swal.fire("Error","La contraseña debe tener al menos 8 caracteres","error");
                 return false;
             }
             if(!fntEmailValidate(strEmail)){
-                Swal.fire("Error","Email is invalid","error");
+                Swal.fire("Error","El email es invalido","error");
                 return false;
             }
             if(strPhone.length < 9){
-                Swal.fire("Error","Phone number must have at least 9 digits","error");
+                Swal.fire("Error","El número de teléfono debe tener al menos 9 dígitos","error");
                 return false;
             }
             
@@ -491,14 +491,14 @@ function editItem(id){
             let formData = new FormData(form);
             let btnAdd = document.querySelector("#btnAdd");
 
-            btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Wait...`;
+            btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
             btnAdd.setAttribute("disabled","");
 
             request(url,formData,"post").then(function(objData){
-                btnAdd.innerHTML=`Update`;
+                btnAdd.innerHTML=`Actualizar`;
                 btnAdd.removeAttribute("disabled");
                 if(objData.status){
-                    Swal.fire("Updated",objData.msg,"success");
+                    Swal.fire("Actualizado",objData.msg,"success");
                     modalView.hide();
                     showItems(element);
                 }else{
@@ -511,14 +511,14 @@ function editItem(id){
 }
 function deleteItem(id){
     Swal.fire({
-        title:"Are you sure to delete it?",
-        text:"It will delete for ever",
+        title:"¿Estás seguro de eliminarlo?",
+        text:"Se eliminará para siempre...",
         icon: 'warning',
         showCancelButton:true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText:"Yes, delete",
-        cancelButtonText:"No, cancel"
+        confirmButtonText:"Sí, eliminar",
+        cancelButtonText:"No, cancelar"
     }).then(function(result){
         if(result.isConfirmed){
             let url = base_url+"/Customer/delCustomer"
@@ -526,7 +526,7 @@ function deleteItem(id){
             formData.append("idUser",id);
             request(url,formData,"post").then(function(objData){
                 if(objData.status){
-                    Swal.fire("Deleted",objData.msg,"success");
+                    Swal.fire("Eliminado",objData.msg,"success");
                     showItems(element);
                 }else{
                     Swal.fire("Error",objData.msg,"error");

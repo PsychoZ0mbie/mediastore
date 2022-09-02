@@ -53,7 +53,7 @@ function addItem(){
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">New product</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Nuevo producto</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -64,7 +64,7 @@ function addItem(){
                                     <label for="txtImg" class="text-primary text-center d-flex justify-content-center align-items-center">
                                         <div>
                                             <i class="far fa-images fs-1"></i>
-                                            <p class="m-0">Upload image</p>
+                                            <p class="m-0">Subir imágen</p>
                                         </div>
                                     </label>
                                     <input class="d-none" type="file" id="txtImg" name="txtImg[]" multiple accept="image/*"> 
@@ -77,13 +77,13 @@ function addItem(){
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="txtReference" class="form-label">Reference</label>
+                                    <label for="txtReference" class="form-label">Referencia</label>
                                     <input type="text" class="form-control" id="txtReference" name="txtReference" placeholder="SKU">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="txtName" class="form-label">Name <span class="text-danger">*</span></label>
+                                    <label for="txtName" class="form-label">Nombre <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="txtName" name="txtName" required>
                                 </div>
                             </div>
@@ -91,13 +91,13 @@ function addItem(){
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="categoryList" class="form-label">Category <span class="text-danger">*</span></label>
+                                    <label for="categoryList" class="form-label">Categoria <span class="text-danger">*</span></label>
                                     <select class="form-control" aria-label="Default select example" id="categoryList" name="categoryList" required></select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="subcategoryList" class="form-label">Subcategory <span class="text-danger">*</span></label>
+                                    <label for="subcategoryList" class="form-label">Subcategoria <span class="text-danger">*</span></label>
                                     <select class="form-control" aria-label="Default select example" id="subcategoryList" name="subcategoryList" required></select>
                                 </div>
                             </div>
@@ -105,13 +105,13 @@ function addItem(){
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="txtDiscount" class="form-label">Discount</label>
+                                    <label for="txtDiscount" class="form-label">Descuento</label>
                                     <input type="number" class="form-control"  max="99" id="txtDiscount" name="txtDiscount">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="txtPrice" class="form-label">Price <span class="text-danger">*</span></label>
+                                    <label for="txtPrice" class="form-label">Precio <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" min ="1" id="txtPrice" name="txtPrice">
                                 </div>
                             </div>
@@ -119,31 +119,31 @@ function addItem(){
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="txtStock" class="form-label">Quantity <span class="text-danger">*</span></label>
+                                    <label for="txtStock" class="form-label">Cantidad <span class="text-danger">*</span></label>
                                     <input type="number" value="1" min="0" class="form-control" id="txtStock" name="txtStock">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="statusList" class="form-label">Status <span class="text-danger">*</span></label>
+                                    <label for="statusList" class="form-label">Estado <span class="text-danger">*</span></label>
                                     <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
-                                        <option value="1">Active</option>
-                                        <option value="2">Inactive</option>
+                                        <option value="1">Activo</option>
+                                        <option value="2">Inactivo</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="txtShortDescription" class="form-label">Short description <span class="text-danger">*</span></label>
+                            <label for="txtShortDescription" class="form-label">Descripción corta <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="txtShortDescription" name="txtShortDescription" placeholder="Max 140 characters" required></input>
                         </div>
                         <div class="mb-3">
-                            <label for="txtDescription" class="form-label">Description </label>
+                            <label for="txtDescription" class="form-label">Descripción </label>
                             <textarea class="form-control" id="txtDescription" name="txtDescription" rows="5"></textarea>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Add</button>
-                            <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Agregar</button>
+                            <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </form>
                 </div>
@@ -207,32 +207,32 @@ function addItem(){
         let images = document.querySelectorAll(".upload-image");
 
         if(strName == "" || intStatus == "" || intCategory == 0 || intSubCategory==0 || intPrice=="" || intStock=="" || strShortDescription==""){
-            Swal.fire("Error","All fields marked with (*) are required","error");
+            Swal.fire("Error","Todos los campos marcados con (*) son obligatorios","error");
             return false;
         }
         if(strShortDescription.length >140){
-            Swal.fire("Error","Short description must be max 140 characters","error");
+            Swal.fire("Error","La descripción corta debe tener un máximo de 140 caracteres","error");
             return false;
         }
         if(images.length < 1){
-            Swal.fire("Error","You must upload at least one image","error");
+            Swal.fire("Error","Debe subir al menos una imagen","error");
             return false;
         }
         if(intPrice <= 0){
-            Swal.fire("Error","The price can´t be less or equal than 0 ","error");
+            Swal.fire("Error","El precio no puede ser menor o igual que 0 ","error");
             return false;
         }
         if(intStock <= 0){
-            Swal.fire("Error","The stock can´t be less or equal than 0 ","error");
+            Swal.fire("Error","La cantidad no puede ser menor o igual a 0 ","error");
             return false;
         }
         if(intDiscount !=""){
             if(intDiscount < 0){
-                Swal.fire("Error","The discount can't be less than 0","error");
+                Swal.fire("Error","El descuento no puede ser inferior a 0","error");
                 document.querySelector("#txtDiscount").value="";
                 return false;
             }else if(intDiscount > 90){
-                Swal.fire("Error","The discount can't be more than 90%","error");
+                Swal.fire("Error","El descuento no puede ser superior al 90%.","error");
                 document.querySelector("#txtDiscount").value="";
                 return false;
             }
@@ -243,7 +243,7 @@ function addItem(){
         
         if(flag === true){
 
-            btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Wait...`;
+            btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
             btnAdd.setAttribute("disabled","");
 
             request(base_url+"/Product/setProduct",data,"post").then(function(objData){
@@ -263,7 +263,7 @@ function addItem(){
                 }
             });
             modalItem.innerHTML="";
-            btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Add`;
+            btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Agregar`;
             btnAdd.removeAttribute("disabled");
             flag = false;
         }
@@ -289,12 +289,12 @@ function viewItem(id){
             if(discount>0){
                 discount = `<span class="text-success">${discount}% OFF</span>`
             }else{
-                discount = `<span class="text-danger">No discount</span>`
+                discount = `<span class="text-danger">0%</span>`
             }
             if(status==1){
-                status='<span class="badge me-1 bg-success">Active</span>';
+                status='<span class="badge me-1 bg-success">Activo</span>';
             }else{
-                status='<span class="badge me-1 bg-danger">Inactive</span>';
+                status='<span class="badge me-1 bg-danger">Inactivo</span>';
             }
             let modalItem = document.querySelector("#modalItem");
             let modal= `
@@ -302,7 +302,7 @@ function viewItem(id){
                 <div class="modal-dialog modal-dialog-centered modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Product data</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Datos de producto</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -312,49 +312,49 @@ function viewItem(id){
                             <table class="table align-middle text-break">
                                 <tbody id="listItem">
                                     <tr>
-                                        <td><strong>Reference:</strong></td>
+                                        <td><strong>Referencia:</strong></td>
                                         <td>${objData.data.reference}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Name: </strong></td>
+                                        <td><strong>Nombre: </strong></td>
                                         <td>${objData.data.name}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Category: </strong></td>
+                                        <td><strong>Categoria: </strong></td>
                                         <td>${objData.data.category}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Subcategory: </strong></td>
+                                        <td><strong>Subcategoria: </strong></td>
                                         <td>${objData.data.subcategory}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Price: </strong></td>
+                                        <td><strong>Precio: </strong></td>
                                         <td>${objData.data.priceFormat}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Discount: </strong></td>
+                                        <td><strong>Descuento: </strong></td>
                                         <td>${discount}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Quantity: </strong></td>
+                                        <td><strong>Cantidad: </strong></td>
                                         <td>${objData.data.stock}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Date: </strong></td>
+                                        <td><strong>Fecha: </strong></td>
                                         <td>${objData.data.date}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Status: </strong></td>
+                                        <td><strong>Estado: </strong></td>
                                         <td>${status}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Short description: </strong></td>
+                                        <td><strong>Descripción: </strong></td>
                                         <td>${objData.data.shortdescription}</td>
                                     </tr>
                                 </tbody>
                             </table>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                     </div>
@@ -378,7 +378,7 @@ function editItem(id){
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Update product</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Actualizar producto</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -389,7 +389,7 @@ function editItem(id){
                                     <label for="txtImg" class="text-primary text-center d-flex justify-content-center align-items-center">
                                         <div>
                                             <i class="far fa-images fs-1"></i>
-                                            <p class="m-0">Upload image</p>
+                                            <p class="m-0">Subir imágen</p>
                                         </div>
                                     </label>
                                     <input class="d-none" type="file" id="txtImg" name="txtImg[]" multiple accept="image/*"> 
@@ -402,13 +402,13 @@ function editItem(id){
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="txtReference" class="form-label">Reference</label>
+                                    <label for="txtReference" class="form-label">Referencia</label>
                                     <input type="text" class="form-control" id="txtReference" name="txtReference" placeholder="SKU">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="txtName" class="form-label">Name <span class="text-danger">*</span></label>
+                                    <label for="txtName" class="form-label">Nombre <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="txtName" name="txtName" required>
                                 </div>
                             </div>
@@ -416,13 +416,13 @@ function editItem(id){
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="categoryList" class="form-label">Category <span class="text-danger">*</span></label>
+                                    <label for="categoryList" class="form-label">Categoria <span class="text-danger">*</span></label>
                                     <select class="form-control" aria-label="Default select example" id="categoryList" name="categoryList" required></select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="subcategoryList" class="form-label">SubCategory <span class="text-danger">*</span></label>
+                                    <label for="subcategoryList" class="form-label">Subcategoria <span class="text-danger">*</span></label>
                                     <select class="form-control" aria-label="Default select example" id="subcategoryList" name="subcategoryList" required></select>
                                 </div>
                             </div>
@@ -430,13 +430,13 @@ function editItem(id){
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="txtDiscount" class="form-label">Discount</label>
+                                    <label for="txtDiscount" class="form-label">Descuento</label>
                                     <input type="number" class="form-control"  max="99" id="txtDiscount" name="txtDiscount">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="txtPrice" class="form-label">Price <span class="text-danger">*</span></label>
+                                    <label for="txtPrice" class="form-label">Precio <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" min ="1" id="txtPrice" name="txtPrice">
                                 </div>
                             </div>
@@ -444,31 +444,31 @@ function editItem(id){
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="txtStock" class="form-label">Quantity <span class="text-danger">*</span></label>
+                                    <label for="txtStock" class="form-label">Cantidad <span class="text-danger">*</span></label>
                                     <input type="number" value="1" min="0" class="form-control" id="txtStock" name="txtStock">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="statusList" class="form-label">Status <span class="text-danger">*</span></label>
+                                    <label for="statusList" class="form-label">Estado <span class="text-danger">*</span></label>
                                     <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
-                                        <option value="1">Active</option>
-                                        <option value="2">Inactive</option>
+                                        <option value="1">Activo</option>
+                                        <option value="2">Inactivo</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="txtShortDescription" class="form-label">Short description <span class="text-danger">*</span></label>
+                            <label for="txtShortDescription" class="form-label">Descripción corta <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="txtShortDescription" name="txtShortDescription" placeholder="Max 140 characters" required></input>
                         </div>
                         <div class="mb-3">
-                            <label for="txtDescription" class="form-label">Description</label>
+                            <label for="txtDescription" class="form-label">Descripcion</label>
                             <textarea class="form-control" id="txtDescription" name="txtDescription" rows="5"></textarea>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="btnAdd">Update</button>
-                            <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="btnAdd">Actualizar</button>
+                            <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </form>
                 </div>
@@ -579,35 +579,35 @@ function editItem(id){
 
         
         if(strName == "" || intStatus == "" || intCategory == 0 || intSubCategory==0 || intPrice=="" || intStock==""){
-            Swal.fire("Error","All fields marked with (*) are required","error");
+            Swal.fire("Error","Todos los campos marcados con (*) son obligatorios","error");
             return false;
         }
         if(images.length < 1){
-            Swal.fire("Error","You must upload one image","error");
+            Swal.fire("Error","Debe subir una imagen","error");
             return false;
         }
         if(intPrice <= 0){
-            Swal.fire("Error","The price can't be less or equal than 0","error");
+            Swal.fire("Error","El precio no puede ser menor o igual que 0","error");
             return false;
         }
         if(intStock <= 0){
-            Swal.fire("Error","The stock can't be less or equal than 0","error");
+            Swal.fire("Error","La cantidad no puede ser menor o igual a 0","error");
             return false;
         }
         if(intDiscount !=""){
             if(intDiscount < 0){
-                Swal.fire("Error","The discount can't be less than 0","error");
+                Swal.fire("Error","El descuento no puede ser inferior a 0","error");
                 document.querySelector("#txtDiscount").value="";
                 return false;
             }else if(intDiscount > 90){
-                Swal.fire("Error","The discount can't be more than 90%","error");
+                Swal.fire("Error","El descuento no puede ser superior al 90%.","error");
                 document.querySelector("#txtDiscount").value="";
                 return false;
             }
         }
         
         let data = new FormData(form);
-        btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Wait...`;  
+        btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;  
         btnAdd.setAttribute("disabled","");
 
         if(flag === true){
@@ -615,7 +615,7 @@ function editItem(id){
                 form.reset();
                 formFile.reset();
                 if(objData.status){
-                    Swal.fire("Updated",objData.msg,"success");
+                    Swal.fire("Actualizado",objData.msg,"success");
                     modalView.hide();
                     modalItem.innerHTML="";
                     let divImg = document.querySelectorAll(".upload-image");
@@ -629,7 +629,7 @@ function editItem(id){
                     Swal.fire("Error",objData.msg,"error");
                 }
             });
-            btnAdd.innerHTML=`Update`;
+            btnAdd.innerHTML=`Actualizar`;
             btnAdd.removeAttribute("disabled");
             flag = false;
         }
@@ -638,21 +638,21 @@ function editItem(id){
 }
 function deleteItem(id){
     Swal.fire({
-        title:"Are you sure to delete it?",
-        text:"It will delete for ever...",
+        title:"¿Estás seguro de eliminarlo?",
+        text:"Se eliminará para siempre...",
         icon: 'warning',
         showCancelButton:true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText:"Yes, delete",
-        cancelButtonText:"No, cancel"
+        confirmButtonText:"Sí, eliminar",
+        cancelButtonText:"No, cancelar"
     }).then(function(result){
         if(result.isConfirmed){
             let formData = new FormData();
             formData.append("idProduct",id);
             request(base_url+"/Product/delProduct",formData,"post").then(function(objData){
                 if(objData.status){
-                    Swal.fire("Deleted",objData.msg,"success");
+                    Swal.fire("Eliminado",objData.msg,"success");
                     element.innerHTML = objData.data;
                 }else{
                     Swal.fire("Error",objData.msg,"error");

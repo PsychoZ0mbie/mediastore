@@ -18,7 +18,7 @@ function uploadImg(img,location){
     let type = fileUpload[0].type;
     if(type != "image/png" && type != "image/jpg" && type != "image/jpeg" && type != "image/gif"){
         imgUpload ="";
-        Swal.fire("Error","wrong file.","error");
+        Swal.fire("Error","Solo se permite imágenes.","error");
     }else{
         let objectUrl = window.URL || window.webkitURL;
         let route = objectUrl.createObjectURL(fileUpload[0]);
@@ -63,7 +63,7 @@ function uploadMultipleImg(img,parent){
     let files = img.files;
     for (let i = 0; i < files.length; i++) {
         if(files[i].type != "image/png" && files[i].type != "image/jpg" && files[i].type != "image/jpeg" && files[i].type != "image/gif"){
-            Swal.fire("Error","Only images are allowed","error");
+            Swal.fire("Error","Solo se permite imágenes","error");
             value ="";
         }else{
             let div = document.createElement("div");

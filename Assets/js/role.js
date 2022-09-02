@@ -61,19 +61,19 @@ function addItem(){
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">New role</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Nuevo rol</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="formItem" name="formItem" class="mb-4">
                         <input type="hidden" id="idRol" name="idRol" value="">
                         <div class="mb-3">
-                            <label for="txtName" class="form-label">Name</label>
+                            <label for="txtName" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="txtName" name="txtName">
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Add</button>
-                            <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Agregar</button>
+                            <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </form>
                 </div>
@@ -93,23 +93,20 @@ function addItem(){
         let strName = document.querySelector("#txtName").value;
 
         if(strName ==""){
-            Swal.fire("Error","The fields can't be empty","error");
+            Swal.fire("Error","Los campos no pueden estar vacíos","error");
             return false;
         }
         
         let url = base_url+"/Role/setRole";
         let formData = new FormData(form);
         let btnAdd = document.querySelector("#btnAdd");
-        btnAdd.innerHTML=`
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Wait...
-        `;
+        btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
         btnAdd.setAttribute("disabled","");
         request(url,formData,"post").then(function(objData){
-            btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Add`;
+            btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Agregar`;
             btnAdd.removeAttribute("disabled");
             if(objData.status){
-                Swal.fire("Add",objData.msg,"success");
+                Swal.fire("Agregado",objData.msg,"success");
                 modalView.hide();
                 showItems(element);
             }else{
@@ -172,11 +169,11 @@ function permitItem(id){
                             <table class="table text-center align-middle">
                                 <thead>
                                     <tr>
-                                        <th class="text-start">Module</th>
-                                        <th>Read</th>
-                                        <th>Create</th>
-                                        <th>Update</th>
-                                        <th>Delete</th>
+                                        <th class="text-start">Modulo</th>
+                                        <th>Leer</th>
+                                        <th>Crear</th>
+                                        <th>Actualizar</th>
+                                        <th>Eliminar</th>
                                     </tr>
                                 </thead>
                                 <tbody id="modules">
@@ -185,8 +182,8 @@ function permitItem(id){
                             </table>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="btnAdd">Save</button>
-                            <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="btnAdd">Guardar</button>
+                            <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
                 </div>
@@ -225,7 +222,7 @@ function permitItem(id){
                     }
                 }
             }
-            btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Wait...`;  
+            btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;  
             btnAdd.setAttribute("disabled","");
 
             url = base_url+"/Role/setPermits";
@@ -233,13 +230,13 @@ function permitItem(id){
             permits.append("permits",JSON.stringify(data));
             permits.append("idRol",id);
             request(url,permits,"post").then(function(objData){
-                btnAdd.innerHTML=`Save`;
+                btnAdd.innerHTML=`Guardar`;
                 btnAdd.removeAttribute("disabled");
                 if(objData.status){
                     modalView.hide();
-                    Swal.fire("Permits",objData.msg,"success");
+                    Swal.fire("Permisos",objData.msg,"success");
                 }else{
-                    Swal.fire("Permits",objData.msg,"error");
+                    Swal.fire("Permisos",objData.msg,"error");
                 }
             });
         })
@@ -259,19 +256,19 @@ function editItem(id){
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Update role</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Actualizar rol</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form id="formItem" name="formItem" class="mb-4">
                                 <input type="hidden" id="idRol" name="idRol" value="${objData.data.idrole}">
                                 <div class="mb-3">
-                                    <label for="txtName" class="form-label">Name</label>
+                                    <label for="txtName" class="form-label">Nombre</label>
                                     <input type="text" class="form-control" id="txtName" name="txtName" value="${objData.data.name}">
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-info text-white" id="btnAdd">Update</button>
-                                    <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-info text-white" id="btnAdd">Actualizar</button>
+                                    <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
                                 </div>
                             </form>
                         </div>
@@ -291,23 +288,20 @@ function editItem(id){
                 let strName = document.querySelector("#txtName").value;
 
                 if(strName ==""){
-                    Swal.fire("Error","The fields can't be empty","error");
+                    Swal.fire("Error","Los campos no pueden estar vacíos","error");
                     return false;
                 }
 
                 let url = base_url+"/Role/setRole";
                 let formData = new FormData(form);
                 let btnAdd = document.querySelector("#btnAdd");
-                btnAdd.innerHTML=`
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Wait...
-                `;
+                btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
                 btnAdd.setAttribute("disabled","");
                 request(url,formData,"post").then(function(objData){
-                    btnAdd.innerHTML=`Update`;
+                    btnAdd.innerHTML=`Actualizar`;
                     btnAdd.removeAttribute("disabled");
                     if(objData.status){
-                        Swal.fire("Update",objData.msg,"success");
+                        Swal.fire("Actualizado",objData.msg,"success");
                         modalView.hide();
                         showItems(element);
                     }else{
@@ -322,21 +316,21 @@ function editItem(id){
 }
 function deleteItem(id){
     Swal.fire({
-        title:"Are you sure to delete it?",
-        text:"It will delete for ever",
+        title:"¿Estás seguro de eliminarlo?",
+        text:"Se eliminará para siempre...",
         icon: 'warning',
         showCancelButton:true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText:"Yes, delete",
-        cancelButtonText:"No, cancel"
+        confirmButtonText:"Sí, eliminar",
+        cancelButtonText:"No, cancelar"
     }).then(function(result){
         if(result.isConfirmed){
             let url = base_url+"/Role/delRole"
             let formData = new FormData();
             formData.append("idRol",id);
             request(url,formData,"post").then(function(objData){
-                Swal.fire("Deleted",objData.msg,"success");
+                Swal.fire("Eliminado",objData.msg,"success");
                 showItems(element);
             });
         }

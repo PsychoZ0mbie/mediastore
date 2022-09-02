@@ -48,34 +48,31 @@ formProfile.addEventListener("submit",function(e){
 
     if(strFirstName == "" || strLastName == "" || strEmail == "" || strPhone == "" || intCountry == "" || intState == ""
     || intCity == "" || strAddress ==""){
-        Swal.fire("Error","All fields marked with (*) are required","error");
+        Swal.fire("Error","Todos los campos marcados con (*) son obligatorios","error");
         return false;
     }
     if(strPassword!=""){
         if(strPassword.length < 8){
-            Swal.fire("Error","The password must have at least 8 characters","error");
+            Swal.fire("Error","La contraseña debe tener al menos 8 caracteres","error");
             return false;
         }
         if(strPassword != strConfirmPassword){
-            Swal.fire("Error","The passwords do not match","error");
+            Swal.fire("Error","Las contraseñas no coinciden","error");
             return false;
         }
     }
     if(!fntEmailValidate(strEmail)){
-        Swal.fire("Error","Email is invalid","error");
+        Swal.fire("Error","El correo electrónico no es válido","error");
         return false;
     }
     if(strPhone.length < 9){
-        Swal.fire("Error","Phone number must have at least 9 digits","error");
+        Swal.fire("Error","El número de teléfono debe tener al menos 9 dígitos","error");
         return false;
     }
 
     let formData = new FormData(formProfile);
     let btnAdd = document.querySelector("#btnAdd");
-    btnAdd.innerHTML=`
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Wait...
-    `;
+    btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
     btnAdd.setAttribute("disabled","");
     request(url,formData,"post").then(function(objData){
         if(objData.status){
@@ -83,7 +80,7 @@ formProfile.addEventListener("submit",function(e){
         }else{
             Swal.fire("Error",objData.msg,"error");
         }
-        btnAdd.innerHTML="Update";
+        btnAdd.innerHTML="Actualizar";
         btnAdd.removeAttribute("disabled");
     })
 })

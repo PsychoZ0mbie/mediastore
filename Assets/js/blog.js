@@ -59,7 +59,7 @@ function addItem(){
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">New article</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Nuevo artículo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -71,37 +71,37 @@ function addItem(){
                             <input class="d-none" type="file" id="txtImg" name="txtImg" accept="image/*"> 
                         </div>
                         <div class="mb-3">
-                            <label for="txtName" class="form-label">Title <span class="text-danger">*</span></label>
+                            <label for="txtName" class="form-label">Título <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="txtName" name="txtName" required>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="categoryList" class="form-label">Category <span class="text-danger">*</span></label>
+                                    <label for="categoryList" class="form-label">Categoría <span class="text-danger">*</span></label>
                                     <select class="form-control" aria-label="Default select example" id="categoryList" name="categoryList" required></select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="subcategoryList" class="form-label">Subcategory <span class="text-danger">*</span></label>
+                                    <label for="subcategoryList" class="form-label">Subcategoria <span class="text-danger">*</span></label>
                                     <select class="form-control" aria-label="Default select example" id="subcategoryList" name="subcategoryList" required></select>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="statusList" class="form-label">Status <span class="text-danger">*</span></label>
+                            <label for="statusList" class="form-label">Estado <span class="text-danger">*</span></label>
                             <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
-                                <option value="1">Active</option>
-                                <option value="2">Inactive</option>
+                                <option value="1">Activo</option>
+                                <option value="2">Inactivo</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="txtDescription" class="form-label">Description <span class="text-danger">*</span></label>
+                            <label for="txtDescription" class="form-label">Descripcion <span class="text-danger">*</span></label>
                             <textarea class="form-control" id="txtDescription" name="txtDescription" rows="5"></textarea>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Add</button>
-                            <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="btnAdd"><i class="fas fa-plus-circle"></i> Agregar</button>
+                            <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </form>
                 </div>
@@ -149,20 +149,20 @@ function addItem(){
         let intCategory = categoryList.value;
 
         if(strName == "" || intStatus == "" || intCategory == 0 || intSubCategory==0 || strDescription==""){
-            Swal.fire("Error","All fields marked with (*) are required","error");
+            Swal.fire("Error","Todos los campos marcados con (*) son obligatorios","error");
             return false;
         }
 
         let data = new FormData(form);
         
-        btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Wait...`;
+        btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
         btnAdd.setAttribute("disabled","");
 
         request(base_url+"/post/setArticle",data,"post").then(function(objData){
-            btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Add`;
+            btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Agregar`;
             btnAdd.removeAttribute("disabled");
             if(objData.status){
-                Swal.fire("Added",objData.msg,"success");
+                Swal.fire("Agregado",objData.msg,"success");
                 modalView.hide();
                 modalItem.innerHTML="";
                 showItems(element);
@@ -182,9 +182,9 @@ function viewItem(id){
             let status = objData.data.status;
             let img="";
             if(status==1){
-                status='<span class="badge me-1 bg-success">Active</span>';
+                status='<span class="badge me-1 bg-success">Activo</span>';
             }else{
-                status='<span class="badge me-1 bg-danger">Inactive</span>';
+                status='<span class="badge me-1 bg-danger">Inactivo</span>';
             }
             if(objData.data.picture!=""){
                 img= `<tr>
@@ -197,7 +197,7 @@ function viewItem(id){
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Article data</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Datos</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -262,7 +262,7 @@ function editItem(id){
                 <div class="modal-dialog modal-dialog-centered modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">New article</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Editar articulo</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -274,37 +274,37 @@ function editItem(id){
                                     <input class="d-none" type="file" id="txtImg" name="txtImg" accept="image/*"> 
                                 </div>
                                 <div class="mb-3">
-                                    <label for="txtName" class="form-label">Title <span class="text-danger">*</span></label>
+                                    <label for="txtName" class="form-label">Titulo <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="txtName" name="txtName" value="${objData.data.name}" required>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="categoryList" class="form-label">Category <span class="text-danger">*</span></label>
+                                            <label for="categoryList" class="form-label">Categoria <span class="text-danger">*</span></label>
                                             <select class="form-control" aria-label="Default select example" id="categoryList" name="categoryList" required></select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="subcategoryList" class="form-label">Subcategory <span class="text-danger">*</span></label>
+                                            <label for="subcategoryList" class="form-label">Subcategoria <span class="text-danger">*</span></label>
                                             <select class="form-control" aria-label="Default select example" id="subcategoryList" name="subcategoryList" required></select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="statusList" class="form-label">Status <span class="text-danger">*</span></label>
+                                    <label for="statusList" class="form-label">Estado <span class="text-danger">*</span></label>
                                     <select class="form-control" aria-label="Default select example" id="statusList" name="statusList" required>
-                                        <option value="1">Active</option>
-                                        <option value="2">Inactive</option>
+                                        <option value="1">Activo</option>
+                                        <option value="2">Inactivo</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="txtDescription" class="form-label">Description <span class="text-danger">*</span></label>
+                                    <label for="txtDescription" class="form-label">Descripcion <span class="text-danger">*</span></label>
                                     <textarea class="form-control" id="txtDescription" name="txtDescription" rows="5" value=""></textarea>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary" id="btnAdd">Update</button>
-                                    <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary" id="btnAdd">Actualizar</button>
+                                    <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
                                 </div>
                             </form>
                         </div>
@@ -364,20 +364,20 @@ function editItem(id){
             let intCategory = categoryList.value;
 
             if(strName == "" || intStatus == "" || intCategory == 0 || intSubCategory==0 || strDescription==""){
-                Swal.fire("Error","All fields marked with (*) are required","error");
+                Swal.fire("Error","Todos los campos marcados con (*) son obligatorios","error");
                 return false;
             }
 
             let data = new FormData(form);
             
-            btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Wait...`;
+            btnAdd.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
             btnAdd.setAttribute("disabled","");
 
             request(base_url+"/post/setArticle",data,"post").then(function(objData){
-                btnAdd.innerHTML=`<i class="fas fa-plus-circle"></i> Add`;
+                btnAdd.innerHTML=`Actualizar`;
                 btnAdd.removeAttribute("disabled");
                 if(objData.status){
-                    Swal.fire("Added",objData.msg,"success");
+                    Swal.fire("Actualizado",objData.msg,"success");
                     modalView.hide();
                     modalItem.innerHTML="";
                     showItems(element);
@@ -390,21 +390,21 @@ function editItem(id){
 }
 function deleteItem(id){
     Swal.fire({
-        title:"Are you sure to delete it?",
-        text:"It will delete for ever...",
+        title:"¿Estás seguro de eliminarlo?",
+        text:"Se eliminará para siempre...",
         icon: 'warning',
         showCancelButton:true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText:"Yes, delete",
-        cancelButtonText:"No, cancel"
+        confirmButtonText:"Sí, eliminar",
+        cancelButtonText:"No, cancelar"
     }).then(function(result){
         if(result.isConfirmed){
             let formData = new FormData();
             formData.append("idArticle",id);
             request(base_url+"/post/delArticle",formData,"post").then(function(objData){
                 if(objData.status){
-                    Swal.fire("Deleted",objData.msg,"success");
+                    Swal.fire("Eliminado",objData.msg,"success");
                     showItems(element);
                 }else{
                     Swal.fire("Error",objData.msg,"error");

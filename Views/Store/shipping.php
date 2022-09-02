@@ -90,7 +90,7 @@
                                     <div class="col-md-3">
                                         <label for="exampleFormControlInput1" class="form-label">Valor</label>
                                         <div class="mb-3 d-flex">
-                                            <input type="number" class="form-control" id="valueCity" name="intValue" placeholder="<?=MS." 0 ".MD?>">
+                                            <input type="number" class="form-control" id="valueCity" name="intValue" placeholder="0">
                                             <button type="button" class="btn btn-primary" id="addCity">+</button>
                                         </div>
                                     </div>

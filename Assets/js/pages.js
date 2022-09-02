@@ -7,7 +7,7 @@ formPage.addEventListener("submit",function(e){
     let strName = document.querySelector("#txtName").value;
     let strDescription = document.querySelector("#txtDescription").value;
     if(strDescription =="" || strName==""){
-        Swal.fire("Error","Please, fill the fields","error");
+        Swal.fire("Error","Por favor, rellene los campos","error");
         return false;
     }
 

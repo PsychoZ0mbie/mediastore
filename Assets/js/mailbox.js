@@ -11,14 +11,14 @@ if(document.querySelector("#mailbox")){
         let strMessage = document.querySelector("#txtMessage");
         let btn = document.querySelector("#btnSubmit");
         if(strEmail == "" || strMessage ==""){
-            Swal.fire("Error", "Please fill the fields with (*)", "error");
+            Swal.fire("Error", "Por favor, rellene los campos con (*)", "error");
             return false;
         }
         let formData = new FormData(formEmail);
-        btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Wait...`;
+        btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> `;
         btn.setAttribute("disabled","");
         request(base_url+"/store/sendEmail",formData,"post").then(function(objData){
-            btn.innerHTML=`<i class="fas fa-paper-plane"></i> Reply`;
+            btn.innerHTML=`<i class="fas fa-paper-plane"></i> Responder`;
             btn.removeAttribute("disabled");
             if(objData.status){
                 window.location.reload();
@@ -42,10 +42,10 @@ if(document.querySelector("#message") && document.querySelector("#formReply")){
             return false;
         }
         let formData = new FormData(formReply);
-        btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Wait...`;
+        btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> `;
         btn.setAttribute("disabled","");
         request(base_url+"/store/setReply",formData,"post").then(function(objData){
-            btn.innerHTML=`<i class="fas fa-paper-plane"></i> Reply`;
+            btn.innerHTML=`<i class="fas fa-paper-plane"></i> Responder`;
             btn.removeAttribute("disabled");
             if(objData.status){
                 window.location.reload();
@@ -58,14 +58,14 @@ if(document.querySelector("#message") && document.querySelector("#formReply")){
 }
 function delMail(id,option){
     Swal.fire({
-        title:"Are you sure to delete it?",
-        text:"It will delete for ever...",
+        title:"¿Estás seguro de eliminarlo?",
+        text:"Se eliminará para siempre...",
         icon: 'warning',
         showCancelButton:true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText:"Yes, delete",
-        cancelButtonText:"No, cancel"
+        confirmButtonText:"Sí, eliminar",
+        cancelButtonText:"No, cancelar"
     }).then(function(result){
         if(result.isConfirmed){
             let formData = new FormData();

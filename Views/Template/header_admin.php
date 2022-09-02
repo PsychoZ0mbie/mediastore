@@ -70,13 +70,13 @@
                                 <a class="dropdown-item" href="<?=base_url()?>/user/profile">
                                     <svg class="icon me-2">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
-                                    </svg> Profile
+                                    </svg> Perfil
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="<?=base_url()?>/logout">
                                     <svg class="icon me-2">
                                         <use xlink:href="<?=media()?>/coreui/coreui-free-bootstrap-admin-template/dist/vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
-                                    </svg> Logout
+                                    </svg> Cerrar sesión
                                 </a>
                             </div>
                         </li>
@@ -89,7 +89,7 @@
                     
                 ?>
                 <div class="container-fluid">
-                    <button class="btn btn-primary d-none" type="button" id="btnNew">Add <?= $data['page_tag']?> <i class="fas fa-plus"></i></button>
+                    <button class="btn btn-primary d-none" type="button" id="btnNew">Agregar <?= $data['page_tag']?> <i class="fas fa-plus"></i></button>
                 </div>
                 <?php
                     }

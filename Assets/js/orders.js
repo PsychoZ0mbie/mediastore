@@ -23,7 +23,7 @@ if(document.querySelector("#orders")){
     btnAddPos.addEventListener("click",function(){
         let id = document.querySelector("#idCustomer").value;
         if(id <= 0){
-            Swal.fire("Error","Please add a customer to set the order","error");
+            Swal.fire("Error","Por favor, añada un cliente para establecer el pedido","error");
             return false;
         }else{
             let products = document.querySelectorAll(".product");
@@ -38,11 +38,11 @@ if(document.querySelector("#orders")){
             let formData = new FormData();
             formData.append("id",id);
             formData.append("products",JSON.stringify(arrProducts));
-            btnAddPos.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Wait...`;
+            btnAddPos.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
             btnAddPos.setAttribute("disabled","");
             request(base_url+"/orders/setOrder",formData,"post").then(function(objData){
                 btnAddPos.removeAttribute("disabled");
-                btnAddPos.innerHTML="Save";
+                btnAddPos.innerHTML="Guardar";
                 if(objData.status){
                     location.reload();
                 }else{
@@ -104,14 +104,14 @@ if(document.querySelector("#orders")){
 
     function deleteItem(id){
         Swal.fire({
-            title:"Are you sure to delete it?",
-            text:"It will delete for ever...",
+            title:"¿Estás seguro de eliminarlo?",
+            text:"Se eliminará para siempre...",
             icon: 'warning',
             showCancelButton:true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText:"Yes, delete",
-            cancelButtonText:"No, cancel"
+            confirmButtonText:"Sí, eliminar",
+            cancelButtonText:"No, cancelar"
         }).then(function(result){
             if(result.isConfirmed){
                 let url = base_url+"/Orders/delOrder"
@@ -119,7 +119,7 @@ if(document.querySelector("#orders")){
                 formData.append("idOrder",id);
                 request(url,formData,"post").then(function(objData){
                     if(objData.status){
-                        Swal.fire("Deleted",objData.msg,"success");
+                        Swal.fire("Eliminado",objData.msg,"success");
                         element.innerHTML = objData.data;
                     }else{
                         Swal.fire("Error",objData.msg,"error");
@@ -137,12 +137,12 @@ if(document.querySelector("#btnRefund")){
     });
     function refund(id){
         let btn = document.querySelector("#btnRefund");
-        btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Wait...`;
+        btn.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
         btn.setAttribute("disabled","");
     
         request(base_url+"/Orders/getTransaction/"+id,"","get").then(function(objData){
             btn.removeAttribute("disabled");
-            btn.innerHTML=`<i class="fas fa-undo"></i> Refund`;
+            btn.innerHTML=`<i class="fas fa-undo"></i> Reembolsar`;
     
             if(objData.status){
                 
@@ -158,7 +158,7 @@ if(document.querySelector("#btnRefund")){
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">Refund</h5>
+                                <h5 class="modal-title" id="staticBackdropLabel">Reembolsar</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -167,34 +167,34 @@ if(document.querySelector("#btnRefund")){
                                     <table class="table align-middle text-break">
                                         <tbody id="listItem">
                                             <tr>
-                                                <td>Transaction: </td>
+                                                <td>Transaccion: </td>
                                                 <td>${idTransaction}</td>
                                             </tr>
                                             <tr>
-                                                <td>Payer: </td>
+                                                <td>Pagador: </td>
                                                 <td>${payer}</td>
                                             </tr>
                                             <tr>
-                                                <td>Gross refund: </td>
+                                                <td>Reembolso bruto: </td>
                                                 <td>${grossAmount+" "+MD}</td>
                                             </tr>
                                             <tr>
-                                                <td>Paypal fee: </td>
+                                                <td>Comisión de paypal: </td>
                                                 <td>${feeAmount+" "+MD}</td>
                                             </tr>
                                             <tr>
-                                                <td>Net refund: </td>
+                                                <td>Reembolso neto: </td>
                                                 <td>${netAmount+" "+MD}</td>
                                             </tr>
                                             <tr>
-                                                <td>observaction: </td>
+                                                <td>Observación: </td>
                                                 <td><textarea name="txtDescription" id="txtDescription" rows="3" class="w-100 form-control"></textarea></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-success text-white" id="btnRefundConfirm"><i class="fas fa-undo"></i> Refund</a>
-                                        <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-success text-white" id="btnRefundConfirm"><i class="fas fa-undo"></i> Reembolsar</a>
+                                        <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cerrar</button>
                                     </div>
                                 </form>
                             </div>
@@ -216,25 +216,25 @@ if(document.querySelector("#btnRefund")){
                     let btnRefundConfirm = document.querySelector("#btnRefundConfirm");
                     
                     if(idTransaction == "" || strDescription == ""){
-                        Swal.fire("Error","Please fill the fields ","error");
+                        Swal.fire("Error","Por favor, rellene los campos ","error");
                         return false;
                     }
-                    btnRefundConfirm.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Wait...`;
+                    btnRefundConfirm.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
                     btnRefundConfirm.setAttribute("disabled","");
                     Swal.fire({
-                        title:"Are you sure to refund it?",
+                        title:"Está seguro de hacer el reembolso?",
                         icon: 'warning',
                         showCancelButton:true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText:"Yes, refund",
-                        cancelButtonText:"No, cancel"
+                        confirmButtonText:"Sí, reembolsar",
+                        cancelButtonText:"No, cancelar"
                     }).then(function(result){
                         
                         let formData = new FormData(form);
                         if(result.isConfirmed){
                             request(base_url+"/Orders/setRefund",formData,"post").then(function(objData){
-                                btnRefundConfirm.innerHTML=`<i class="fas fa-undo"></i> Refund`;
+                                btnRefundConfirm.innerHTML=`<i class="fas fa-undo"></i> Reembolsar`;
                                 btnRefundConfirm.removeAttribute("disabled");
                                 if(objData.status){
                                     window.location.reload();
@@ -243,7 +243,7 @@ if(document.querySelector("#btnRefund")){
                                 }
                             });
                         }else{
-                            btnRefundConfirm.innerHTML=`<i class="fas fa-undo"></i> Refund`;
+                            btnRefundConfirm.innerHTML=`<i class="fas fa-undo"></i> Reembolsar`;
                             btnRefundConfirm.removeAttribute("disabled");
                         }
                     });
@@ -353,8 +353,8 @@ function openModalOrder(){
     let modal = new bootstrap.Modal(document.querySelector("#modalPos"));
     moneyReceived.value = document.querySelector("#total").getAttribute("data-total");
     let total = document.querySelector("#total").getAttribute("data-total");
-    document.querySelector("#saleValue").innerHTML = "Sale value: "+MS+formatNum(total,".")+" "+MD;
-    document.querySelector("#moneyBack").innerHTML = "Money back: "+MS+0+" "+MD;
+    document.querySelector("#saleValue").innerHTML = "Valor de venta: "+MS+formatNum(total,".")+" "+MD;
+    document.querySelector("#moneyBack").innerHTML = "Dinero a devolver: "+MS+0+" "+MD;
     modal.show();
 }
 function addCustom(element){

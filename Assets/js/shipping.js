@@ -14,22 +14,22 @@ for (let i = 0; i < forms.length; i++) {
         let idShipping = document.querySelectorAll(".idShipping")[i].value;
         if(idShipping == 2){
             if(document.querySelector("#intValue").value==""){
-                Swal.fire("Error","Please set a shipping value.","error");
+                Swal.fire("Error","Por favor, establezca un valor de envío.","error");
                 return false;
             }
         }
         if(idShipping == 3 && document.querySelectorAll("tr").length == 0){
-            Swal.fire("Error","Please, add a city.","error");
+            Swal.fire("Error","Por favor, agregue una ciudad.","error");
             return false;
         }
         let formData = new FormData(form);
         btnShipping[i].innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
         btnShipping[i].setAttribute("disabled","");
         request(base_url+"/store/setShippingMode",formData,"post").then(function(objData){
-            btnShipping[i].innerHTML=`Save`;
+            btnShipping[i].innerHTML=`Guardar`;
             btnShipping[i].removeAttribute("disabled");
             if(objData.status){
-                Swal.fire("Shipping",objData.msg,"success");
+                Swal.fire("Envio",objData.msg,"success");
             }else{
                 Swal.fire("Error",objData.msg,"error");
             }
@@ -54,7 +54,7 @@ if(document.querySelector("#addCity")){
         let idCity = intCity.value;
         let value = document.querySelector("#valueCity").value;
         if(idCountry == 0 || idState == 0 || idCity == 0 || value ==""){
-            Swal.fire("Error","Please fill the fields.","error");
+            Swal.fire("Error","Por favor, rellene los campos.","error");
             return false;
         }
         let formData = new FormData();

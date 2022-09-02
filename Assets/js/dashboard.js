@@ -1,12 +1,12 @@
 'use strict';
 
 $('.date-picker').datepicker( {
-    closeText: 'Close',
-    prevText: 'back',
-    nextText: 'next',
-    currentText: 'Today',
+    closeText: 'Cerrar',
+    prevText: 'atrás',
+    nextText: 'siguiente',
+    currentText: 'Hoy',
     monthNames: ['1 -', '2 -', '3 -', '4 -', '5 -', '6 -', '7 -', '8 -', '9 -', '10 -', '11 -', '12 -'],
-    monthNamesShort: ['January','February','March','April', 'May','June','July','August','September', 'October','November','Dicember'],
+    monthNamesShort: ['Enero','Febrero','Marzo','Abril', 'Mayo','Junio','Julio','Agosto','Septiembre', 'Octubre','Noviembre','Diciembre'],
     changeMonth: true,
     changeYear: true,
     showButtonPanel: true,
@@ -22,7 +22,7 @@ let btnSalesYear = document.querySelector("#btnSalesYear");
 btnSalesMonth.addEventListener("click",function(){
     let salesMonth = document.querySelector(".salesMonth").value;
     if(salesMonth==""){
-        Swal.fire("Error", "Please choose a date", "error");
+        Swal.fire("Error", "Elija una fecha", "error");
         return false;
     }
     btnSalesMonth.innerHTML=`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
@@ -41,12 +41,12 @@ btnSalesYear.addEventListener("click",function(){
     let strYear = salesYear.toString();
 
     if(salesYear==""){
-        Swal.fire("Error", "Please put a year", "error");
+        Swal.fire("Error", "Por favor, ponga un año", "error");
         document.querySelector("#sYear").value ="";
         return false;
     }
     if(strYear.length>4){
-        Swal.fire("Error", "Date is wrong.", "error");
+        Swal.fire("Error", "La fecha es incorrecta.", "error");
         document.querySelector("#sYear").value ="";
         return false;
     }
