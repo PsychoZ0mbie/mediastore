@@ -32,10 +32,10 @@ $company = $data['company'];
                             </div>
                         </div>
                         <div class="text-start">
-                            <p class="m-0"><span class="fw-bold">Date: </span><?=$order['date']?></p>
-                            <p class="m-0"><span class="fw-bold">Order: </span>#<?=$order['idorder']?></p>
-                            <p class="m-0"><span class="fw-bold">Transaction: </span><?=$order['idtransaction']?></p>
-                            <p class="m-0"><span class="fw-bold">Status: </span><?=$order['status']?></p>
+                            <p class="m-0"><span class="fw-bold">Fecha: </span><?=$order['date']?></p>
+                            <p class="m-0"><span class="fw-bold">Pedido: </span>#<?=$order['idorder']?></p>
+                            <p class="m-0"><span class="fw-bold">Transaccion: </span><?=$order['idtransaction']?></p>
+                            <p class="m-0"><span class="fw-bold">Estado: </span><?=$order['status']?></p>
                         </div>
                     </div>
                     <div class="row mb-3">
