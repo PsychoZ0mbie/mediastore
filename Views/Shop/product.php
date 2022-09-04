@@ -143,12 +143,12 @@
                     <div class="review-general">
                         <div class="row mb-3">
                             <div class="col-md-3 text-center">
-                                <h2 class="fs-5"><strong>Reviews for <?=$product['name']?></strong></h2>
+                                <h2 class="fs-5"><strong>Reseñas de <?=$product['name']?></strong></h2>
                                 <p class="fs-1 fw-bold t-p" id="avgRate"><?=$product['rate']?><span class="fs-6">/ 5</span></p>
                                 <div class="product-rate mb-3">
                                     <?=$rate?>
                                 </div>
-                                <p class="fw-bold">Raiting medio</p>
+                                <p class="fw-bold">Raiting promedio</p>
                             </div>
                             <div class="col-md-9">
                                 <div class="row h-75 mb-4 mt-4">
@@ -255,7 +255,7 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <textarea class="form-control" id="txtReview" name="txtReview" rows="5" placeholder="Your review"></textarea>
+                                <textarea class="form-control" id="txtReview" name="txtReview" rows="5" placeholder="Escribe tu reseña"></textarea>
                             </div>
                             <div class="alert alert-danger d-none" id="alertReview" role="alert"></div>
                             <button type="submit" class="btn btnc-primary" id="addReview">compartir</button>

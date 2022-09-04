@@ -663,7 +663,7 @@ function quickModal(element){
                 <div class="decrement"><i class="fas fa-minus"></i></div>
                 <input class="cant me-2 ms-2" type="number" min="1" max="${product['stock']}" value="1">
                 <div class="increment"><i class="fas fa-plus"></i></div>
-                <button type="button" class="ms-3" data-id="${product['idproduct']}" id="viewProductAddModal"><i class="fas fa-shopping-cart me-2"></i> Add</button>
+                <button type="button" class="ms-3" data-id="${product['idproduct']}" id="viewProductAddModal"><i class="fas fa-shopping-cart me-2"></i> Agregar</button>
             </div>
             `;
 
@@ -704,10 +704,6 @@ function quickModal(element){
                 status =`<p class="text-danger fw-bold">Agotado.</p>`;
                 btns="";  
                 price= "";  
-            }else{
-                status =`<p class="text-danger fw-bold">Currently unavailable.</p>`;
-                price= "";
-                btns=""; 
             }
 
             for (let i = 0; i < images.length; i++) {

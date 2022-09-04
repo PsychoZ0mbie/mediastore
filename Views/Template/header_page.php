@@ -66,7 +66,7 @@
     <!------------------------------Plugins--------------------------------->
     <link href="<?=media();?>/plugins/fontawesome/font-awesome.min.css">
     <!------------------------------------Styles--------------------------->
-    <link rel="stylesheet" href="<?=media();?>/template/Assets/css/style.css">
+    <link rel="stylesheet" href="<?=media()."/template/Assets/css/style.css?v=".rand()?>">
 
 </head>
 <body>
@@ -80,7 +80,7 @@
             </div>
             <div class="nav-search d-none d-flex">
                 <div class="w-100">
-                    <input type="text" id="txtSearch" name="txtSearch" placeholder="search something">
+                    <input type="text" id="txtSearch" name="txtSearch" placeholder="Busca algo...">
                     <div class="search-items d-none"></div>
                 </div>
                 <div id="btnCloseSearch">X</div>
@@ -100,7 +100,7 @@
                     <?php
                         if(isset($_SESSION['login'])){
                     ?>
-                    <li title="Wishlist" ><a href="<?=base_url()?>/wishlist"><i class="fas fa-heart"></i></a></li>
+                    <li title="Wishlist"><a href="<?=base_url()?>/wishlist"><i class="fas fa-heart"></i></a></li>
                     <?php  }else{ ?>
                     <li onclick="openLoginModal();" title="Wishlist" class="c-p"><a><i class="fas fa-heart"></i></a></li>
                     <?php }?>
@@ -116,8 +116,8 @@
                             <i class="fas fa-user"></i>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item " href="<?=base_url()?>/user/profile" target="__blank">Profile</a></li>
-                            <li id="logout"><a href="#" class="dropdown-item">Logout</a></li>
+                            <li><a class="dropdown-item " href="<?=base_url()?>/user/profile" target="__blank">Perfil</a></li>
+                            <li id="logout"><a href="#" class="dropdown-item">Cerrar sesión</a></li>
                         </ul>
                     </div>
                     <?php }else{ ?>

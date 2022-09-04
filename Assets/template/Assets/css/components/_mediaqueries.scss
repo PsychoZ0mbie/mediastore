@@ -95,6 +95,21 @@
         }
     }
 }
+@media screen and (max-width: 992px){
+    .nav-logo{
+        a{
+            strong{
+              display: none;
+            }
+        }
+    }
+    .nav-main{
+        display: none;
+    }
+    #btnToggleNav{
+        display: flex;
+    }
+}
 @media screen and (max-width: 768px){
     .main-carousel{
         .carousel-item{
@@ -116,8 +131,17 @@
             }
         }
     }
+    
 }
 @media screen and (max-width: 576px){
+    
+    .nav-icons{
+        .nav-icons-btns{
+            li{
+                font-size: 18px;  
+            }
+        }
+    }
     .product-card{
         height: 450px;
         .product-price{
@@ -160,18 +184,6 @@
             }
         }
     }
-    .nav-logo{
-        a{
-            strong{
-              display: none;
-            }
-        }
-    }
-    .nav-main{
-        display: none;
-    }
-    #btnToggleNav{
-        display: flex;
-    }
+    
     
 }

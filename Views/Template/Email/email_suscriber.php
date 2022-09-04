@@ -90,7 +90,7 @@
 			</tr>
 			<tr>
 				<td>
-					<p>Gracias por tu suscripción. Tienes un código de cupón: <strong><?=$data['code']?></strong> con <?=$data['discount']?>% de descuento</p>
+					<p>Gracias por tu suscripción.<br>Tu código de descuento del <?=$data['discount']?>% es: <strong><?=$data['code']?></strong></p>
 					<p>Reciba información actualizada sobre novedades, ofertas especiales y nuestras promociones</p>
 					<p class="x_title_gray"><a href="<?= BASE_URL; ?>" target="_blanck"><?= BASE_URL; ?></a></p>
 				</td>
